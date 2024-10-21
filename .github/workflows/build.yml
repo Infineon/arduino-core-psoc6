@@ -44,26 +44,30 @@ jobs:
     # These are the steps which should run for each combination of fqbn and example code
     steps:
 
-      - name: Install/Update Arduino Platform
-        run: |
-          arduino-cli core update-index
-          arduino-cli core install ${{ matrix.platform }} --additional-urls https://github.com/Infineon/arduino-core-psoc/releases/latest/download/package_psoc_index.json 
-          arduino-cli core list
-
-      - name: Remove latest installed platform version
-        run: |
-          cd ~/.arduino15/packages/infineon/hardware/psoc
-          rm -rf *
-
       - name: Checkout repository 
         uses: actions/checkout@v4
         with:
           submodules: true
+
+      - name: Generate package json
+        run: |
+          python ./tools/release.py build-local
+
+      - name: copy package json
+        run: |
+          cp -af ~/actions-runner/_work/arduino-core-psoc/arduino-core-psoc/pkg_build/package_psoc_index.json ~/.arduino15
+  
+
+      - name: Install/Update Arduino Platform
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install ${{ matrix.platform }}
+          arduino-cli core list
       
-      # - name: Setup environment
-      #   run: |
-      #     export REPO="$(basename "$GITHUB_REPOSITORY")"
-      #     bash ./tools/dev-setup.sh git_submodule_setup
+      - name: Remove latest installed platform version
+        run: |
+          cd ~/.arduino15/packages/infineon/hardware/psoc
+          rm -rf *
 
       - name: copy/link repository to arduino path
         run: |
