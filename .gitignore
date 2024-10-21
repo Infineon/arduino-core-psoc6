@@ -7,6 +7,7 @@
 
 # Ignore build folder
 /build
+/pkg_build
 
 # Ignore mtb build folder
 /mtb-libs/build
@@ -38,3 +39,4 @@ debug_custom.json
 
 # Arduino core api symlinked
 cores/psoc/api
+
