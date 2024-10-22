@@ -7,15 +7,14 @@ import re
 import requests
 import shutil
 
-version = "0.1.0"
-
+version = "0.0.0"
 psoc_ino_root_path = os.path.relpath(os.getcwd())
 build_dir_name = "pkg_build"
 pkg_assets_build_path = os.path.join(psoc_ino_root_path, build_dir_name)
 
 
-# Utility Functions
 def strip_prefix_from_version(version):
+    """Strips 'v' or 'V' prefix from version."""
     return re.sub(r"[vV]", "", version)
 
 
@@ -40,17 +39,14 @@ def get_package_sha256(pkg):
     return hash
 
 
-# Package Building Functions
 def build_package(pkg_name):
     pkg_build_path = os.path.join(pkg_assets_build_path, pkg_name)
     dirs_to_copy = ["cores", "tools", "mtb-libs", "examples"]
     files_to_copy = ["boards.txt", "platform.txt", "LICENSE.md", "README.md"]
-
     for dir in dirs_to_copy:
         shutil.copytree(
             os.path.join(psoc_ino_root_path, dir), os.path.join(pkg_build_path, dir)
         )
-
     for file in files_to_copy:
         shutil.copyfile(
             os.path.join(psoc_ino_root_path, file), os.path.join(pkg_build_path, file)
@@ -62,11 +58,11 @@ def zip_package(pkg_name):
     shutil.make_archive(pkg_build_path, "zip", pkg_assets_build_path, pkg_name)
 
 
-# Package Index Management Functions
 def get_latest_package_index_json():
-    return requests.get(
+    response = requests.get(
         "https://github.com/Infineon/arduino-core-psoc/releases/download/0.1.0/package_psoc_index.json"
-    ).json()
+    )
+    return response.json()
 
 
 def get_local_package_index_json():
@@ -90,9 +86,7 @@ def set_new_platform_data_fields(platform_data_index, pkg_name, version, reposit
     platform_data["archiveFileName"] = archive_file_name
 
     if repository == "":
-        platform_data["url"] = (
-            os.path.join(os.getcwd(), build_dir_name) + "/" + str(archive_file_name)
-        )
+        platform_data["url"] = "http://localhost:8000/PSOC_IFX_0.0.0.zip"
     else:
         platform_data["url"] = (
             "https://github.com/"
@@ -134,7 +128,6 @@ def build_package_index_json(pkg_name, version, repository, release=True):
     make_package_index_file(local_package_index)
 
 
-# Release Asset Management
 def build_release_assets(pkg_name):
     if os.path.exists(pkg_assets_build_path):
         shutil.rmtree(pkg_assets_build_path)
@@ -143,7 +136,6 @@ def build_release_assets(pkg_name):
     zip_package(pkg_name)
 
 
-# Argument Parsing Functions
 def main_parser_func(args):
     parser.print_help()
 
@@ -170,27 +162,28 @@ class ver_action(argparse.Action):
             option_strings, dest, nargs=0, default=argparse.SUPPRESS, **kwargs
         )
 
-    def __call__(self, parser, namespace, values, option_string, **kwargs):
+    def __call__(self, parser, namespace, values, option_string=None):
         print("psoc-release version: " + version)
         parser.exit()
 
 
-def parser():
-    # General parser
+def setup_parser():
     parser = argparse.ArgumentParser(description="psoc-release tool")
     parser.add_argument(
         "-v", "--version", action=ver_action, help="psoc-release version"
     )
-    subparser = parser.add_subparsers()
+    subparsers = parser.add_subparsers()
     parser.set_defaults(func=main_parser_func)
 
-    # Release parser
-    parser_release = subparser.add_parser(
+    parser_release = subparsers.add_parser(
         "build-release", description="Build package release assets"
     )
     parser_release.add_argument("repository", type=str, help="Repository name")
     parser_release.add_argument(
-        "version", type=str, help="Package release version (format: Vx.y.z)"
+        "version",
+        type=str,
+        default=version,
+        help="Package release version (format: Vx.y.z)",
     )
     parser_release.add_argument(
         "-r",
@@ -208,15 +201,15 @@ def parser():
     )
     parser_release.set_defaults(func=parser_build_release_assets_func)
 
-    # Local parser
-    parser_local = subparser.add_parser(
+    parser_local = subparsers.add_parser(
         "build-local", description="Build package locally"
     )
     parser_local.set_defaults(func=parser_build_local_assets_func)
 
-    args = parser.parse_args()
-    args.func(args)
+    return parser
 
 
 if __name__ == "__main__":
-    parser()
+    parser = setup_parser()
+    args = parser.parse_args()
+    args.func(args)
