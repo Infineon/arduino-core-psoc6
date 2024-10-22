@@ -52,18 +52,24 @@ jobs:
       - name: Generate package json
         run: |
           python ./tools/release.py build-local
-
-      - name: copy package json
-        run: |
-          cp -af ~/actions-runner/_work/arduino-core-psoc/arduino-core-psoc/pkg_build/package_psoc_index.json ~/.arduino15
   
-
+      - name: Start local HTTP server
+        run: |
+          cd pkg_build
+          nohup python -m http.server 8000 & echo $! > server.pid
+        
       - name: Install/Update Arduino Platform
         run: |
           arduino-cli core update-index
-          arduino-cli core install ${{ matrix.platform }}
+          arduino-cli core install ${{ matrix.platform }} --additional-urls http://localhost:8000/package_psoc_index.json
           arduino-cli core list
       
+      - name: Kill local HTTP server
+        run: |
+          cd pkg_build
+          kill $(cat server.pid)
+          rm server.pid
+
       - name: Remove latest installed platform version
         run: |
           cd ~/.arduino15/packages/infineon/hardware/psoc
@@ -71,14 +77,14 @@ jobs:
 
       - name: copy/link repository to arduino path
         run: |
-          mkdir ~/.arduino15/packages/infineon/hardware/psoc/0.1.0-build
-          cp -a ~/actions-runner/_work/arduino-core-psoc/arduino-core-psoc/* ~/.arduino15/packages/infineon/hardware/psoc/0.1.0-build
-          cd ~/.arduino15/packages/infineon/hardware/psoc/0.1.0-build
+          mkdir ~/.arduino15/packages/infineon/hardware/psoc/0.0.0
+          cp -a ./* ~/.arduino15/packages/infineon/hardware/psoc/0.0.0
+          cd ~/.arduino15/packages/infineon/hardware/psoc/0.0.0
 
       - name: copy/link arduino core api path
         run: |
-          mkdir ~/.arduino15/packages/infineon/hardware/psoc/0.1.0-build/cores/psoc/api
-          cp -a ~/.arduino15/packages/infineon/hardware/psoc/0.1.0-build/extras/arduino-core-api/api/* ~/.arduino15/packages/infineon/hardware/psoc/0.1.0-build/cores/psoc/api
+          mkdir ~/.arduino15/packages/infineon/hardware/psoc/0.0.0/cores/psoc/api
+          cp -a ~/.arduino15/packages/infineon/hardware/psoc/0.0.0/extras/arduino-core-api/api/* ~/.arduino15/packages/infineon/hardware/psoc/0.0.0/cores/psoc/api
 
       # Compile the sample code for the selected board and board support package with the arduino compiler
       - name: Compile Sketch
