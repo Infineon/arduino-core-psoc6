@@ -26,16 +26,16 @@
                     "toolsDependencies": [
                         {
                             "packager": "infineon",
-                            "name": "mtb-tools",
-                            "version": "3.2.0.16028"
+                            "name": "ModusToolbox",
+                            "version": "tools_3.2.0.16028"
                         }
                     ]
                 }
             ],
             "tools": [
                 {
-                    "name": "mtb-tools",
-                    "version": "3.2.0.16028",
+                    "name": "ModusToolbox",
+                    "version": "tools_3.2.0.16028",
                     "systems": [
                         {
                             "host": "i686-mingw32",
