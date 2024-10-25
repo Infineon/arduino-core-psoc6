@@ -1,0 +1,9 @@
+### Build commands
+
+#################################################################### Arduino Unit tests ####################################################################
+
+######################### tests runnable with a single board "talking to itself" #########################
+
+make -f Makefile.arduino.mk FQBN=infineon:psoc:cy8ckit_062s2_ai PORT=COM8 single_hardware_connected monitor
+
+######################### tests runnable with 2 boards and some wires #########################
