@@ -24,4 +24,4 @@ set "mtb_tools_path=!mtb_tools_path:\=/!"
 set "platform_path=!platform_path:\=/!"
 set "build_path=!build_path:\=/!"
 
-%mtb_tools_path%/modus-shell/bin/bash -i -l -c "bash %platform_path%/tools/mtb-lib.sh %upload_cmd% %mtb_tools_path% %platform_path% %build_path% %board_variant% %board_version% %verbose_flag%"
+%mtb_tools_path%/modus-shell/bin/bash -i -l -c "bash %platform_path%/tools/mtb-lib.sh %cmd% %mtb_tools_path% %platform_path% %build_path% %board_variant% %board_version% %verbose_flag%"
