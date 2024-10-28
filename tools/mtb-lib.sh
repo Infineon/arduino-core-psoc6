@@ -123,6 +123,122 @@ function build_bsp {
     cd ${platform_path}/mtb-libs && make build BOARD=${board_variant} CY_TOOLS_PATHS=${mtb_tools_path}
 }
 
+function get_ccxx_build_flags {
+    # This function extracts the compiler flags from the cycompiler file
+    # resulting from the mtb-lib build process
+    cycompiler_file=${platform_path}/mtb-libs/build/APP_${board_variant}/Debug/.cycompiler
+
+    # Read the content of the cycompiler_file
+    build_cmd=$(<"${cycompiler_file}")
+
+    # Split the content into an array of words
+    IFS=' ' read -r -a build_cmd_list <<< "${build_cmd}"
+
+    # Find the start index of the flags (after -c)
+    local start_idx=0
+    for i in "${!build_cmd_list[@]}"; do
+        if [ "${build_cmd_list[$i]}" == "-c" ]; then
+            start_idx=$((i + 1))
+            break
+        fi
+    done
+
+    # Find the end index of the flags (before the first response file starting with @)
+    end_idx=${#build_cmd_list[@]}
+    for i in "${!build_cmd_list[@]}"; do
+        if [[ "${build_cmd_list[$i]}" == @* ]]; then
+            end_idx=$i
+            break
+        fi
+    done
+
+    # Extract the flags
+    ccxx_flags=("${build_cmd_list[@]:$start_idx:$((end_idx - start_idx))}")
+
+    # Join the flags into a single string
+    joined_flags=$(IFS=' '; echo "${ccxx_flags[*]}")
+
+    # Write the flags to a file in the build directory
+    echo "${joined_flags}" > "${build_path}/mtb-lib-cxx-flags.txt"
+}
+
+function get_ld_linker_flags {
+    cylinker_file=${platform_path}/mtb-libs/build/APP_${board_variant}/Debug/.cylinker
+
+    # Read the content of the cylinker_file
+    link_cmd=$(<"$cylinker_file")
+
+    # Split the content into an array of words
+    IFS=' ' read -r -a link_cmd_list <<< "$link_cmd"
+
+    # Find the start index of the flags (after arm-none-eabi-g++)
+    start_idx=0
+    for i in "${!link_cmd_list[@]}"; do
+        if [[ "${link_cmd_list[$i]}" == *"arm-none-eabi-g++" ]]; then
+            start_idx=$((i + 1))
+            break
+        fi
+    done
+
+    # Find the end index of the flags (after the -T linker script argument)
+    end_idx=${#link_cmd_list[@]}
+    for i in "${!link_cmd_list[@]}"; do
+        if [[ "${link_cmd_list[$i]}" == -T* ]]; then
+            end_idx=$((i + 1))
+            break
+        fi
+    done
+
+    # Set the path of the linker script
+    linker_script_param_index=$((end_idx - 1))
+    link_cmd_list[$linker_script_param_index]="-T ${platform_path}/mtb-libs/${link_cmd_list[$linker_script_param_index]:2}"
+
+    # Extract the flags
+    ld_flags=("${link_cmd_list[@]:$start_idx:$((end_idx - start_idx))}")
+
+    # Join the flags into a single string
+    joined_flags=$(IFS=' '; echo "${ld_flags[*]}")
+
+    # Write the flags to a file in the out_path
+    echo "${joined_flags}" > "${build_path}/mtb-lib-linker-flags.txt"
+}
+
+function get_inc_dirs {
+    inc_dirs_file=${platform_path}/mtb-libs/build/APP_${board_variant}/Debug/inclist.rsp
+    mtb_libs_path=${platform_path}/mtb-libs
+
+    # Read the content of the inc_dirs_file
+    inc_list=$(<"${inc_dirs_file}")
+
+    # Split the content into an array of words
+    IFS=' ' read -r -a inc_list_list <<< "${inc_list}"
+
+    # Add the mtb-libs path to the include directories
+    inc_list_with_updated_path=()
+    for inc_dir in "${inc_list_list[@]}"; do
+        inc_list_with_updated_path+=("${inc_dir/-I/-I${mtb_libs_path}/}")
+    done
+
+    # If windows path, replace backslashes with forward slashes
+    for i in "${!inc_list_with_updated_path[@]}"; do
+        inc_list_with_updated_path[$i]="${inc_list_with_updated_path[$i]//\\//}"
+    done
+
+    # Join the list into a single string
+    local joined_inc_dirs=$(IFS=' '; echo "${inc_list_with_updated_path[*]}")
+
+    # Write the include directories to a file in the out_path
+    echo "${joined_inc_dirs}" > "${build_path}/mtb-lib-inc-dirs.txt"
+}
+
+function get_build_flags {
+    # All the building flags, linking flags, and include directories are retrieved
+    # to be used to compile the Arduino core sources and the user application sources
+    get_ccxx_build_flags
+    get_ld_linker_flags
+    get_inc_dirs
+}
+
 function build {
     if [[ ${verbose_flag} == "-v" ]]; then
         print_args
@@ -142,7 +258,7 @@ function build {
 
     build_bsp
 
-    #get_build_flags
+    get_build_flags
 
     exit 0
 }
