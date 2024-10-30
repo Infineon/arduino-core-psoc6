@@ -24,7 +24,7 @@ Linux*)
   fi
 
     # The mtb-tools directory is located two levels above the hardware directory
-    mtb_tools_path="${PWD}/../../../tools/ModusToolbox/"
+    mtb_tools_path="${PWD}/../../../tools/mtb-tools/"
     mtb_tools_path=$(realpath "${mtb_tools_path}")
 
     # List directories inside the mtb-tools directory and store them in an array
