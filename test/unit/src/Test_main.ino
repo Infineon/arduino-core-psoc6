@@ -11,25 +11,26 @@ void RunAllTests(void)
 {
 
     RUN_TEST_GROUP(serial_uart);
+    RUN_TEST_GROUP(math);
 
 }
 
 
 //
 void setup() {
-    Serial.begin(115200);
-
-    Serial.println("setup done.");
+    // Serial.begin(115200);
+    // Serial.println("setup done.");
+    printf("setup done.");
 }
 
 
 //
 void loop() {
-    Serial.println("\n");
+    // Serial.println("\n");
+    printf("\n");
 
     const int   argc       = 2;
     const char *argv[argc] = { "", "-v" };
 
     (void) UnityMain(argc, argv, RunAllTests);
-    delay(3000);
 }
