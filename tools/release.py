@@ -12,6 +12,8 @@ psoc_ino_root_path = os.path.relpath(os.getcwd())
 build_dir_name = "pkg_build"
 pkg_assets_build_path = os.path.join(psoc_ino_root_path, build_dir_name)
 
+package_name = "arduino-core-psoc"
+
 
 def strip_prefix_from_version(version):
     """Strips 'v' or 'V' prefix from version."""
@@ -20,7 +22,7 @@ def strip_prefix_from_version(version):
 
 def mkdir_package_dir(version):
     semver = strip_prefix_from_version(version)
-    pkg_name = "PSOC_IFX_" + semver
+    pkg_name = package_name + "-" + semver
     pkg_build_path = os.path.join(pkg_assets_build_path, pkg_name)
     if os.path.exists(pkg_build_path):
         shutil.rmtree(pkg_build_path)
@@ -60,8 +62,18 @@ def zip_package(pkg_name):
 
 def get_latest_package_index_json():
     response = requests.get(
-        "https://github.com/Infineon/arduino-core-psoc/releases/download/0.1.0/package_psoc_index.json"
+        "https://github.com/Infineon/arduino-core-psoc/releases/latest/download/package_psoc_index.json"
     )
+
+    # If the file does not exist
+    # this is the first release
+    if response.status_code == 404:
+        # We return an empty index, as the platforms will be
+        # appended to the new created package index, it will
+        # not add any modifications to the new created index
+        empty_index = {"packages": [{"platforms": []}]}
+        return empty_index
+
     return response.json()
 
 
@@ -86,7 +98,7 @@ def set_new_platform_data_fields(platform_data_index, pkg_name, version, reposit
     platform_data["archiveFileName"] = archive_file_name
 
     if repository == "":
-        platform_data["url"] = "http://localhost:8000/PSOC_IFX_0.0.0.zip"
+        platform_data["url"] = "http://localhost:8000/" + str(archive_file_name)
     else:
         platform_data["url"] = (
             "https://github.com/"
