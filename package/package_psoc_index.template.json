@@ -39,17 +39,17 @@
                     "systems": [
                         {
                             "host": "i686-mingw32",
-                            "archiveFileName": "mtb-tools-3.2.zip",
-                            "url": "https://github.com/Infineon/arduino-core-psoc/releases/download/v3.2.0.16028-mtb-tools/mtb-tools-3.2.zip",
-                            "checksum": "SHA-256:dc32d16cd2f1558bde2f8750f397b03ff47864fdfc905974acc344a3d1304354",
-                            "size": "1270565051"
+                            "archiveFileName": "mtb-tools-3.2.0.16028-windows.zip",
+                            "url": "https://github.com/Infineon/arduino-core-psoc/releases/download/0.0.0/mtb-tools-3.2.0.16028-windows.zip",
+                            "checksum": "SHA-256:caf64a83a04721b8970c9c0c8f44342194b16ee43362025ff710ea60ff5249ae",
+                            "size": "1115355388"
                         },
                         {
                             "host": "x86_64-pc-linux-gnu",
-							"archiveFileName": "mtb-tools-3.2-linux.tar.gz",
-                            "url": "https://github.com/Infineon/arduino-core-psoc/releases/download/v3.2.0.16028-mtb-tools/mtb-tools-3.2-linux.tar.gz",
-                            "checksum": "SHA-256:fd6539ba58a5034b4585bb2963762d8cbeb050e19313c04a95b4a392f4d257ae",
-                            "size": "617724007"
+							"archiveFileName": "mtb-tools-3.2.0.16028-linux.tar.gz",
+                            "url": "https://github.com/Infineon/arduino-core-psoc/releases/download/0.0.0/mtb-tools-3.2.0.16028-linux.tar.gz",
+                            "checksum": "SHA-256:ceaefdd33857fa2bd06ab65216dfd6940c22900684e74d25b155366c094c6285",
+                            "size": "1068226010"
                         }
                     ]
                 }
