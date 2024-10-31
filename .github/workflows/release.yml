@@ -5,13 +5,14 @@ on:
     types: published
   push:
     tags: 
-      - 'v*.*.*'
-      - 'V*.*.*'
+      #https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+      - ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+
 jobs:
   release:
     runs-on: ubuntu-latest
 
-    if: startsWith(github.ref, 'refs/tags/V')
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
     - name: Checkout actions
       uses: actions/checkout@v4
