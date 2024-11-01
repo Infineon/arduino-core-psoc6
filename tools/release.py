@@ -44,7 +44,12 @@ def get_package_sha256(pkg):
 def build_package(pkg_name):
     pkg_build_path = os.path.join(pkg_assets_build_path, pkg_name)
     dirs_to_copy = ["cores", "tools", "mtb-libs", "examples", "variants"]
-    files_to_copy = ["boards.txt", "platform.txt", "LICENSE.md", "README.md"]
+    files_to_copy = [
+        "boards.txt",
+        "platform.txt",
+        "LICENSE.md",
+        "README.md, post_install.sh, post_install.bat",
+    ]
     for dir in dirs_to_copy:
         shutil.copytree(
             os.path.join(psoc_ino_root_path, dir), os.path.join(pkg_build_path, dir)
