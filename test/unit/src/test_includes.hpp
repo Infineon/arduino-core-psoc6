@@ -1,6 +1,12 @@
-#ifndef TEST_COMMON_INCLUDES_H
-#define TEST_COMMON_INCLUDES_H
+#ifndef TEST_INCLUDES_HPP
+#define TEST_INCLUDES_HPP
 
+
+// Arduino includes
+#include <Arduino.h>
+
+// project cpp includes
+#include "utilities.hpp"
 
 // std includes
 #include <stdbool.h>
@@ -17,5 +23,4 @@
 // IFX Unity addons
 #include "unity_ifx.h"
 
-
-#endif // TEST_COMMON_INCLUDES_H
+#endif // TEST_INCLUDES_HPP
