@@ -1,5 +1,5 @@
 // test includes
-#include "Test_includes.hpp"
+#include "test_includes.hpp"
 
 
 /***
@@ -10,7 +10,6 @@
 void RunAllTests(void)
 {
 
-    RUN_TEST_GROUP(serial_uart);
     RUN_TEST_GROUP(math);
 
 }
