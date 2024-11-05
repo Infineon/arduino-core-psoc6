@@ -36,7 +36,7 @@ jobs:
     - name: Upload assets
       uses: softprops/action-gh-release@v1
       with:
-        name: arduino-psoc-core ${{  github.ref_name  }}
+        name: arduino-core-psoc ${{  github.ref_name  }}
         files: |
           pkg_build/*.zip
           pkg_build/package_psoc_index.json
