@@ -44,8 +44,8 @@ ifeq ($(UNITY_PATH),)
 	$(error "Must set variable UNITY_PATH in order to be able to compile Arduino unit tests !")
 else
 	find $(UNITY_PATH) -name '*.[hc]' \( -path '*extras*' -a -path '*src*' -or -path '*src*' -a \! -path '*example*' \) -exec \cp {} build \;
-	find test/unit -name '*.[hc]*' -a \! -path '*mtb*' -a \! -path '*applibs*' -exec \cp {} build \;
-	cp test/unit/src/test_main.ino build/build.ino
+	find tests/unity -name '*.[hc]*' -a \! -path '*mtb*' -a \! -path '*applibs*' -exec \cp {} build \;
+	cp tests/unity/src/test_main.ino build/build.ino
 endif
 
 
