@@ -1,0 +1,7 @@
+infineon:psoc:cy8ckit_062s2_ai:
+  MATH:
+    1:
+      - "math"
+
+
+  
