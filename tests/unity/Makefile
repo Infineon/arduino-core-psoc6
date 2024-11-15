@@ -1,14 +1,15 @@
 FQBN  ?=
 PORT  ?=
 TESTS ?=
+UNITY_PATH ?= ../../extras/unity
+BAUD_RATE ?= 115200
 
 $(info FQBN : $(FQBN))
 $(info PORT : $(PORT))
-
-UNITY_PATH = ./extras/unity
+$(info UNITY_PATH : $(UNITY_PATH))
+$(info BAUD_RATE : $(BAUD_RATE))
 
 TESTS_SINGLE_HARDWARE_CONNECTED=-DTEST_SINGLE_HARDWARE_CONNECTED
-
 
 TESTS_MULTI_HARDWARE_CONNECTED=-DTEST_MULTI_HARDWARE_CONNECTED
 		
@@ -44,8 +45,8 @@ ifeq ($(UNITY_PATH),)
 	$(error "Must set variable UNITY_PATH in order to be able to compile Arduino unit tests !")
 else
 	find $(UNITY_PATH) -name '*.[hc]' \( -path '*extras*' -a -path '*src*' -or -path '*src*' -a \! -path '*example*' \) -exec \cp {} build \;
-	find tests/unity -name '*.[hc]*' -a \! -path '*mtb*' -a \! -path '*applibs*' -exec \cp {} build \;
-	cp tests/unity/src/test_main.ino build/build.ino
+	find src -name '*.[hc]*' -a \! -path '*mtb*' -a \! -path '*applibs*' -exec \cp {} build \;
+	cp src/test_main.ino build/build.ino
 endif
 
 
@@ -79,19 +80,22 @@ else
 endif
 
 
-upload:	
+upload:	compile
 ifeq ($(PORT),)
 	$(error "Must set variable PORT (Windows port naming convention, ie COM16) in order to be able to flash Arduino sketches !")
 endif
 ifeq ($(FQBN),)
 	$(error "Must set variable FQBN in order to be able to flash Arduino sketches !")
 else
-	arduino-cli upload -p $(PORT) --fqbn $(FQBN) build
+	arduino-cli.exe upload \
+						-p $(PORT) \
+						--fqbn $(FQBN) \
+						--verbose \
+					build
 endif
 
 
 flash: compile upload
-flashLTO: compileLTO upload
 
 
 monitor:
@@ -101,6 +105,9 @@ endif
 ifeq ($(FQBN),)
 	$(error "Must set variable FQBN in order to be able to flash Arduino sketches !")
 else
-	arduino-cli monitor -c baudrate=115200 -p $(PORT) --fqbn $(FQBN)
+	arduino-cli.exe monitor \
+						-c baudrate=$(BAUD_RATE) \
+						-p $(PORT) \
+						--fqbn $(FQBN)
 endif
 
