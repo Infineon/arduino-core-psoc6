@@ -1,6 +1,12 @@
 **********************
 Arduino Core for PSoC™
 **********************
+
+.. warning::
+
+   This is a work in progress version of the Arduino Core for PSOC™ documentation. 
+   While this warning notice is present, the documentation is NOT ready for public usage.
+
 Welcome to the Arduino Core for Infineon's PSoC™ microcontrollers.
 
 .. image:: img/board_CY8CKIT-062S2-AI.png
