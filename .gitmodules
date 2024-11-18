@@ -4,6 +4,3 @@
 [submodule "extras/unity"]
 	path = extras/unity
 	url = https://github.com/ThrowTheSwitch/Unity.git
-[submodule "extras/hil_support"]
-	path = extras/hil_support
-	url = ssh://git@bitbucket.vih.infineon.com:7999/desswdev/hil_support.git
