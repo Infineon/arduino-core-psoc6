@@ -58,7 +58,7 @@ ifeq ($(FQBN),)
 	$(error "Must set variable FQBN in order to be able to compile Arduino sketches !")
 else
 # CAUTION : only use '=' when assigning values to vars, not '+='
-	arduino-cli compile --clean --log --warnings all --fqbn $(FQBN) --build-property "compiler.c.extra_flags=\"-DUNITY_INCLUDE_CONFIG_H=1\"" \
+	arduino-cli compile --clean --verbose --log --warnings all --fqbn $(FQBN) --build-property "compiler.c.extra_flags=\"-DUNITY_INCLUDE_CONFIG_H=1\"" \
                                     		             --build-property compiler.cpp.extra_flags="$(TESTS)" build
 endif
 
@@ -87,7 +87,7 @@ endif
 ifeq ($(FQBN),)
 	$(error "Must set variable FQBN in order to be able to flash Arduino sketches !")
 else
-	arduino-cli.exe upload \
+	arduino-cli upload \
 						-p $(PORT) \
 						--fqbn $(FQBN) \
 						--verbose \
@@ -105,7 +105,7 @@ endif
 ifeq ($(FQBN),)
 	$(error "Must set variable FQBN in order to be able to flash Arduino sketches !")
 else
-	arduino-cli.exe monitor \
+	arduino-cli monitor \
 						-c baudrate=$(BAUD_RATE) \
 						-p $(PORT) \
 						--fqbn $(FQBN)
