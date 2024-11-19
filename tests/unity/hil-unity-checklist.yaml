@@ -1,5 +1,5 @@
 infineon:psoc:cy8ckit_062s2_ai:
-  MATH:
+  math:
     1:
       - "math"
 

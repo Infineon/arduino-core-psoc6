@@ -99,6 +99,7 @@ jobs:
           # set the hil-unity-checks
           hil=$(./py_checkusb.py --readyaml ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/unity/hil-unity-checklist.yaml --json)
           echo "hil=${hil}" >> $GITHUB_OUTPUT
+          echo "hil=${hil}"
 
           # fetch unity libraries
           readarray -t data < <(echo $hil | jq -r '.|keys[]')
@@ -111,8 +112,10 @@ jobs:
         run: |
           hil=${{ toJson(steps.startup.outputs.hil) }}
           REPO="$(basename "$GITHUB_REPOSITORY")"
-          DEVICE=${{ fromJson(needs.setup.outputs.devices) }}
-          FQBN=`tr '.' ':' <<<"${DEVICE}"`
+          DEVICE=${{ steps.startup.outputs.devices }}
+          DEVICE=$(echo $DEVICE | tr -d '[]')
+          FQBN=$(echo $DEVICE | tr -d '[]')
+          DEVICE=`tr ':' '.' <<<"${DEVICE}"`
 
           echo "repo=$REPO" >> $GITHUB_ENV
           echo "device=$DEVICE" >> $GITHUB_ENV
@@ -130,41 +133,20 @@ jobs:
           mkdir -p $TMPDIR
           rm -rf $HOME/artefact
           mkdir -p $HOME/artefact
-
-          lib=${{ toJson(env.library) }}
-          readarray -t LIBS < <(echo ${lib} | jq ".|keys[]" -r --compact-output)
-
-          cd /opt/runner_support/
-          readarray -t SERIALS < <(echo $(./py_checkusb.py --type ${LIB} --json) | jq ".\"${LIB}\".\"${{ env.device }}\"|keys[]" -r)
-
-          # check if we have one or more serial numbers for this lib or stop here
-          if [[ -z $SERIALS ]]; then
-            echo "No serial or library information found"
-            exit 0
-          fi
-
-          # loop over all serials and fetch the ports
-          declare -a PORTS
-          for SERIAL in "${SERIALS[@]}"; do
-            PORTS+=($(/opt/runner_support/find_usb.sh $SERIAL))
-          done
-
-          # loop over all examples for one library
-          readarray -t EXAMPLES < <(echo $lib | jq ".\"${LIB}\"|keys[]" -r --compact-output)
           
           cd ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/unity/
           echo "=============================================================================================================="
           echo "Run Tests"
           echo "=============================================================================================================="
           make FQBN=${{ env.fqbn }} PORT=/dev/ttyACM0 single_hardware_connected
-          mkdir -p ~/artefact/unit_tests/
-          mv ./build/build/* ~/artefact/unit_tests/.
+          mkdir -p ~/artefact/unit_tests/${{ env.device }}
+          mv ./build/* ~/artefact/unit_tests/.
           echo "=============================================================================================================="
           
 
           
           echo "=============================================================================================================="
-          echo "Monitor on index $idx for TEST: ${TESTS[idx]} under EXAMPLE: ${EXAMPLE} and LIB: ${LIB}"
+          echo "Monitor"
           timeout 1m \
                   /opt/runner_support/py_console.py \
                     --port /dev/ttyACM0 \
