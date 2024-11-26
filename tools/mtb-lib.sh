@@ -18,7 +18,7 @@ verbose_flag=$7
 function is_bsp_added {
     # The linker.ld file assuming that the rest of the BSP files are present. 
     # It could be the TARGET_APP_xxx folder only, but this way we also ensure its sources are present.
-    flash_ld_path=${platform_path}/mtb-libs/bsps/TARGET_APP_${board_variant}/COMPONENT_CM4/TOOLCHAIN_GCC_ARM/linker.ld
+    flash_ld_path=${platform_path}/extras/mtb-integration/bsps/TARGET_APP_${board_variant}/COMPONENT_CM4/TOOLCHAIN_GCC_ARM/linker.ld
 
     added=false
 
@@ -42,7 +42,7 @@ function update_bsp_deps {
 
     json_file_default_name="bsp-deps.json"
     json_file="${platform_path}/variants/${board_variant}/${json_file_default_name}"
-    bsp_deps_dir="${platform_path}/mtb-libs/bsps/TARGET_APP_${board_variant}/deps"
+    bsp_deps_dir="${platform_path}/extras/mtb-integration/bsps/TARGET_APP_${board_variant}/deps"
 
     if [ ! -f "${json_file}" ]; then
         echo "JSON file not found: ${json_file}"
@@ -106,27 +106,27 @@ function add_bsp {
     if [[ ${verbose_flag} == "-v" ]]; then  
         echo "Adding BSP for ${board_variant} version ${board_version}"
     fi
-    ${mtb_tools_path}/library-manager/library-manager-cli --project ${platform_path}/mtb-libs --add-bsp-name ${board_variant} --add-bsp-version ${board_version}
+    ${mtb_tools_path}/library-manager/library-manager-cli --project ${platform_path}/extras/mtb-integration --add-bsp-name ${board_variant} --add-bsp-version ${board_version}
 }
 
 function get_bsp_deps {
     if [[ ${verbose_flag} == "-v" ]]; then 
         echo "Getting BSP dependencies for ${board_variant} version ${board_version}"
     fi
-    cd ${platform_path}/mtb-libs && make getlibs BOARD=${board_variant} CY_TOOLS_PATHS=${mtb_tools_path}
+    cd ${platform_path}/extras/mtb-integration && make getlibs BOARD=${board_variant} CY_TOOLS_PATHS=${mtb_tools_path}
 }
 
 function build_bsp {
     if [[ ${verbose_flag} == "-v" ]]; then 
         echo "Building BSP for ${board_variant} version ${board_version}"
     fi
-    cd ${platform_path}/mtb-libs && make build BOARD=${board_variant} CY_TOOLS_PATHS=${mtb_tools_path}
+    cd ${platform_path}/extras/mtb-integration && make build BOARD=${board_variant} CY_TOOLS_PATHS=${mtb_tools_path}
 }
 
 function get_ccxx_build_flags {
     # This function extracts the compiler flags from the cycompiler file
     # resulting from the mtb-lib build process
-    cycompiler_file=${platform_path}/mtb-libs/build/APP_${board_variant}/Debug/.cycompiler
+    cycompiler_file=${platform_path}/extras/mtb-integration/build/APP_${board_variant}/Debug/.cycompiler
 
     # Read the content of the cycompiler_file
     build_cmd=$(<"${cycompiler_file}")
@@ -163,7 +163,7 @@ function get_ccxx_build_flags {
 }
 
 function get_ld_linker_flags {
-    cylinker_file=${platform_path}/mtb-libs/build/APP_${board_variant}/Debug/.cylinker
+    cylinker_file=${platform_path}/extras/mtb-integration/build/APP_${board_variant}/Debug/.cylinker
 
     # Read the content of the cylinker_file
     link_cmd=$(<"$cylinker_file")
@@ -191,7 +191,7 @@ function get_ld_linker_flags {
 
     # Set the path of the linker script
     linker_script_param_index=$((end_idx - 1))
-    link_cmd_list[$linker_script_param_index]="-T ${platform_path}/mtb-libs/${link_cmd_list[$linker_script_param_index]:2}"
+    link_cmd_list[$linker_script_param_index]="-T ${platform_path}/extras/mtb-integration/${link_cmd_list[$linker_script_param_index]:2}"
 
     # Extract the flags
     ld_flags=("${link_cmd_list[@]:$start_idx:$((end_idx - start_idx))}")
@@ -204,8 +204,8 @@ function get_ld_linker_flags {
 }
 
 function get_inc_dirs {
-    inc_dirs_file=${platform_path}/mtb-libs/build/APP_${board_variant}/Debug/inclist.rsp
-    mtb_libs_path=${platform_path}/mtb-libs
+    inc_dirs_file=${platform_path}/extras/mtb-integration/build/APP_${board_variant}/Debug/inclist.rsp
+    mtb_libs_path=${platform_path}/extras/mtb-integration
 
     # Read the content of the inc_dirs_file
     inc_list=$(<"${inc_dirs_file}")
@@ -213,7 +213,7 @@ function get_inc_dirs {
     # Split the content into an array of words
     IFS=' ' read -r -a inc_list_list <<< "${inc_list}"
 
-    # Add the mtb-libs path to the include directories
+    # Add the extras/mtb-integration path to the include directories
     inc_list_with_updated_path=()
     for inc_dir in "${inc_list_list[@]}"; do
         inc_list_with_updated_path+=("${inc_dir/-I/-I${mtb_libs_path}/}")
@@ -309,11 +309,11 @@ function clean {
     # To be used during development. Not linked to any platform
     # pattern or command.
     echo "Cleaning BSP for ${board_variant} version ${board_version}"
-    rm -rf ${platform_path}/mtb-libs/bsps/TARGET_APP_${board_variant}
-    rm -rf ${platform_path}/mtb-libs/libs
-    rm -rf ${platform_path}/mtb-libs/build
-    rm -rf ${platform_path}/mtb_shared  
-    rm ${platform_path}/mtb-libs/deps/assetlocks.json 
+    rm -rf ${platform_path}/extras/mtb-integration/bsps/TARGET_APP_${board_variant}
+    rm -rf ${platform_path}/extras/mtb-integration/libs
+    rm -rf ${platform_path}/extras/mtb-integration/build
+    rm -rf ${platform_path}/extras/mtb_shared  
+    rm ${platform_path}/extras/mtb-integration/deps/assetlocks.json 
 }
 
 case ${cmd} in
