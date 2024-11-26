@@ -1,0 +1,1 @@
+-mcpu=cortex-m4 --specs=nano.specs -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -mthumb -ffunction-sections -fdata-sections -ffat-lto-objects -g -Wall -pipe -Wl,--gc-sections -T variants/CY8CKIT-062S2-AI/mtb-bsp/COMPONENT_CM4/TOOLCHAIN_GCC_ARM/linker.ld
