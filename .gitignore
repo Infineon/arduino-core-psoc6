@@ -10,9 +10,7 @@
 /pkg_build
 
 # Ignore mtb build folder
-/mtb-libs/build
-/mtb-libs/bsps
-/mtb-libs/deps/assetlocks.json
+/variants/*/mtb-bsp
 mtb_shared
  
 # Ignore files built by Visual Studio/Visual Micro
