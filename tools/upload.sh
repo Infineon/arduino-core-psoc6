@@ -27,7 +27,7 @@ function get_openocd_exe {
 function get_openocd_search_paths {
     # openocd config files search paths
     # A board support package might have additional openocd config files in its GeneratedSources path
-    search_paths="-s ${mtb_tools_path}/openocd/scripts -s ${platform_path}/mtb-libs/bsps/TARGET_APP_${board_variant}/config/GeneratedSource"
+    search_paths="-s ${mtb_tools_path}/openocd/scripts -s ${platform_path}/extras/mtb-integration/bsps/TARGET_APP_${board_variant}/config/GeneratedSource"
     echo ${search_paths}
 }
 
