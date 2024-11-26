@@ -70,8 +70,8 @@ compiler.elf2hex.extra_flags=
 
 hooks_prebuild_args=build {compiler.mtb_lib_tools.path} {runtime.platform.path} {build.path} {build.variant} {build.board.version}
 
-recipe.hooks.prebuild.1.pattern.linux=bash {runtime.platform.path}/tools/mtb-lib.sh {hooks_prebuild_args}
-recipe.hooks.prebuild.1.pattern.windows={runtime.platform.path}/tools/mtb-lib.bat {hooks_prebuild_args}
+recipe.hooks.prebuild.1.pattern.linux=bash {runtime.platform.path}/extras/mtb-integration/tools/mtb-lib.sh {hooks_prebuild_args}
+recipe.hooks.prebuild.1.pattern.windows={runtime.platform.path}/extras/mtb-integration/tools/mtb-lib.bat {hooks_prebuild_args}
 
 compiler.flags.from_file=@{build.path}/mtb-lib-cxx-flags.txt
 compiler.elf_flags.from_file=@{build.path}/mtb-lib-linker-flags.txt
