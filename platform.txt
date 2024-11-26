@@ -92,7 +92,7 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 # mtb library paths
-compiler.mtb_lib.path = "{runtime.platform.path}/mtb-libs/build/APP_{build.variant}/Debug/mtb-libs.a"
+compiler.mtb_lib.path = "{runtime.platform.path}/extras/mtb-integration/build/APP_{build.variant}/Debug/mtb-libs.a"
 
 # Linker command
 recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.elf_flags.from_file} {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -Wl,--start-group {object_files} {archive_file_path}   -Wl,--end-group -Wl,-EL -o "{build.path}/{build.project_name}.elf"  {compiler.mtb_lib.path}
