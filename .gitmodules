@@ -7,3 +7,18 @@
 [submodule "extras/mtb-integration"]
 	path = extras/mtb-integration
 	url = https://github.com/Infineon/mtb-arduino-core-psoc-integration.git
+[submodule "extras/mtb-libs/cat1cm0p"]
+	path = extras/mtb-libs/cat1cm0p
+	url = https://github.com/Infineon/cat1cm0p
+[submodule "extras/mtb-libs/cmsis"]
+	path = extras/mtb-libs/cmsis
+	url = https://github.com/Infineon/cmsis
+[submodule "extras/mtb-libs/core-lib"]
+	path = extras/mtb-libs/core-lib
+	url = https://github.com/Infineon/core-lib
+[submodule "extras/mtb-libs/mtb-hal-cat1"]
+	path = extras/mtb-libs/mtb-hal-cat1
+	url = https://github.com/Infineon/mtb-hal-cat1
+[submodule "extras/mtb-libs/mtb-pdl-cat1"]
+	path = extras/mtb-libs/mtb-pdl-cat1
+	url = https://github.com/Infineon/mtb-pdl-cat1
