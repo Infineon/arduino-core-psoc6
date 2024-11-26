@@ -246,16 +246,18 @@ function build {
 
     bsp_added=$(is_bsp_added)
     # Add BSP if not added and all its dependencies
-    if [[ ${bsp_added} == "false" ]]; then
-        add_bsp
-        update_bsp_deps
-        get_bsp_deps
-    else
-        if [[ ${verbose_flag} == "-v" ]]; then
-            echo "Board support package for ${board_variant} already added"
-        fi
-    fi
-
+    # The BSP is already added in the new mtb-integration submodule.
+    # We need to get the dependencies and build the BSP.
+    # if [[ ${bsp_added} == "false" ]]; then
+    #     add_bsp
+    #     update_bsp_deps
+    # else
+    #     if [[ ${verbose_flag} == "-v" ]]; then
+    #         echo "Board support package for ${board_variant} already added"
+    #     fi
+    # fi
+  
+    get_bsp_deps
     build_bsp
 
     get_build_flags
