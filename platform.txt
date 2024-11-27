@@ -69,11 +69,13 @@ compiler.elf2hex.extra_flags=
 # Builds the bsp mtb-lib and fetch the compiler and linker flags
 
 hooks_prebuild_args=build {compiler.mtb_lib_tools.path} {runtime.platform.path} {build.path} {build.variant} {build.board.version}
+hooks_prebuild_args_linker=add-abs-paths {runtime.platform.path} {build.path} {build.variant}
 
 recipe.hooks.prebuild.1.pattern.linux=bash {runtime.platform.path}/extras/mtb-integration/tools/mtb-lib.sh {hooks_prebuild_args}
+recipe.hooks.prebuild.2.pattern.linux=bash {runtime.platform.path}/tools/mtb-lib.sh {hooks_prebuild_args_linker}
 recipe.hooks.prebuild.1.pattern.windows={runtime.platform.path}/extras/mtb-integration/tools/mtb-lib.bat {hooks_prebuild_args}
 
-compiler.flags.from_file=@{build.path}/mtb-lib-cxx-flags.txt
+compiler.flags.from_file=@{runtime.platform.path}/variants/{build.variant}/mtb-lib-cxx-flags.txt
 compiler.elf_flags.from_file=@{build.path}/mtb-lib-linker-flags.txt
 compiler.inc_dirs.from_file=@{build.path}/mtb-lib-inc-dirs.txt
 
