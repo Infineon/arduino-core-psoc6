@@ -22,3 +22,6 @@
 [submodule "extras/mtb-libs/mtb-pdl-cat1"]
 	path = extras/mtb-libs/mtb-pdl-cat1
 	url = https://github.com/Infineon/mtb-pdl-cat1
+[submodule "extras/mtb-libs/retarget-io"]
+	path = extras/mtb-libs/retarget-io
+	url = https://github.com/Infineon/retarget-io.git
