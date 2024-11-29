@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# This script adds the absolute path to the relative paths
-# in variants/board/mtb-libs-xxx.txt files.
-
-# The mtb-libs-xxx.txt are obtained from the mtb-integration and
-# added to their respective variant dirs. The contain relative paths
-# to different subdirs and files in the {runtime.platform.path}.
-# As this path is runtime locally resolved, it can only be added during
-# the build process.
-
 # Command
 cmd=$1
 
@@ -21,6 +12,31 @@ board_variant=$4
 
 # # Optional arguments
 verbose_flag=$5
+
+function help {
+    echo "The mtb-lib.sh script adds the absolute paths to the relative paths"
+    echo "in variants/<board>/mtb-lib-xxx.txt files."
+    echo "The mtb-lib-xxx.txt files are obtained from mtb-integration and"
+    echo "the paths are relative to the {runtime.platform.path} directory."
+    echo "This platform path is runtime locally resolved. Thus it can only"
+    echo "be added during the build process."
+    echo 
+    echo "Usage: "
+    echo 
+    echo "  bash mtb-lib.sh add-abs-paths <platform_path> <build_path> <board_variant> [-v]"
+    echo "  bash mtb-lib.sh help"
+    echo
+    echo "Positional arguments for 'add-abs-paths' command:"
+    echo 
+    echo "  platform_path         Path to the platform directory"
+    echo "  build_path            Path to the build directory"
+    echo
+    echo "  board_variant         Board variant (OPN name)"
+    echo
+    echo "Optional arguments:"
+    echo
+    echo "  -v                    Verbose mode"
+}
 
 function add_linker_script_abs_path {
     # Each board variant has a mtb-libs-xxx.txt file in its variants dir
@@ -62,26 +78,46 @@ function add_linker_script_abs_path {
     echo "${linker_flags}" > "${build_path}/${linker_flag_file_name}"
 }
 
+function add_inc_dirs_abs_path {
+    # Each board variant has a mtb-libs-inc-dir.txt file in its variants dir
+    inc_dirs_file_name="mtb-lib-inc-dirs.txt"
+    inc_dirs_file=${platform_path}/variants/${board_variant}/${inc_dirs_file_name}
 
-# function add_inc_dir_bsp_abs_path {
+    # Read the inc dirs file
+    inc_dirs=$(cat ${inc_dirs_file})
 
-# }
+    if [[ ${verbose_flag} == "-v" ]]; then
+        echo "MTB inc dirs: ${inc_dirs_file}"
+    fi
 
-# function add_inc_dirs_mtb_lis_abs_path {
+    # Split the content into an array of words
+    IFS=' ' read -r -a inc_dirs_list <<< "$inc_dirs"
 
-# }
+    # For each element in the list, add the absolute path
+    for inc_dir in "${inc_dirs_list[@]}"; do
+        # Each inc_dir starts with "-I". We insert the platform
+        # path between the "-I" and the relative path:
+        # -I${platform_path}/relative/path/to/dir
+        inc_dir_abs_path=-I${platform_path}/${inc_dir:2}        
+        if [[ ${verbose_flag} == "-v" ]]; then
+            echo "Inc dir abs path: ${inc_dir_abs_path}"
+        fi
 
-# function add_inc_dir_abs_paths {
+        # Replace the relative path with the absolute path
+        inc_dirs=$(echo ${inc_dirs} | sed "s|${inc_dir}|${inc_dir_abs_path}|g")
+    done
 
-# }
+    if [[ ${verbose_flag} == "-v" ]]; then
+        echo "MTB inc dirs (abs path): ${inc_dirs}"
+    fi
 
+    # Write the inc dirs back to a new file in the build path
+    echo "${inc_dirs}" > "${build_path}/${inc_dirs_file_name}"
+}
 
 function add_abs_paths {
     add_linker_script_abs_path
-}
-
-function help {
-    echo "help"
+    add_inc_dirs_abs_path
 }
 
 function print_args {
