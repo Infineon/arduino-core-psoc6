@@ -7,10 +7,10 @@ cmd=$1
 platform_path=$2
 build_path=$3
 
-# # Board parameters
+# Board parameters
 board_variant=$4
 
-# # Optional arguments
+# Optional arguments
 verbose_flag=$5
 
 function help {
@@ -39,7 +39,7 @@ function help {
 }
 
 function add_linker_script_abs_path {
-    # Each board variant has a mtb-libs-xxx.txt file in its variants dir
+    # Each board variant has a mtb-libs-lkinker-flags.txt file in its variants dir
     linker_flag_file_name="mtb-lib-linker-flags.txt"
     linker_flags_file=${platform_path}/variants/${board_variant}/${linker_flag_file_name}
 
@@ -47,13 +47,13 @@ function add_linker_script_abs_path {
     linker_flags=$(cat ${linker_flags_file})
 
     if [[ ${verbose_flag} == "-v" ]]; then
-        echo "MTB linker flags: ${linker_flags_file}"
+        echo "MTB linker flags: ${linker_flags}"
     fi
 
     # Split the content into an array of words
     IFS=' ' read -r -a linker_flags_list <<< "$linker_flags"
 
-    # Look for the elements which includes the linker.ld file
+    # Look for the element which includes the linker.ld file
     for link_flag in "${linker_flags_list[@]}"; do
         if [[ ${link_flag} == *".ld"* ]]; then
 
