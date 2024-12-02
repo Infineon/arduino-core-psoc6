@@ -10,7 +10,6 @@
 /pkg_build
 
 # Ignore mtb build folder
-/variants/*/mtb-bsp
 mtb_shared
  
 # Ignore files built by Visual Studio/Visual Micro
