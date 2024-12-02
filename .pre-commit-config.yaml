@@ -23,6 +23,5 @@ repos:
     hooks:
       - id: codespell
         name: Spellcheck for changed files (codespell)
-        args: ["--skip=*/mtb-bsp/*"]
         additional_dependencies:
           - tomli
