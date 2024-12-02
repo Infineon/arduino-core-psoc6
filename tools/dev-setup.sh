@@ -47,5 +47,5 @@ if [ $# -gt 0 ]; then
 else
     git_submodule_setup
     core_api_setup
-    bsps_setup
+    # bsps_setup #TODO: Remove this after discussion on how to include MTB sources (symlink or copy)
 fi
