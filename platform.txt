@@ -15,8 +15,7 @@ build.core.path={runtime.platform.path}/core
 # Compiler and toolchain paths
 # ---------
 
-compiler.mtb_lib_tools.path={runtime.tools.mtb-tools.path}
-compiler.path={compiler.mtb_lib_tools.path}/gcc/bin/
+compiler.path={runtime.tools.mtb-gcc-arm-none-eabi.path}/bin/
 
 compiler.c.cmd=arm-none-eabi-gcc
 compiler.cpp.cmd=arm-none-eabi-g++
@@ -121,7 +120,7 @@ recipe.output.save_file={build.project_name}.{build.variant}.bin
 
 tools.openocd.upload.params.verbose=-v
 tools.openocd.upload.params.quiet=
-tools.openocd.upload.params.args=upload {runtime.tools.mtb-tools.path} {runtime.platform.path} {build.path} {build.variant} {upload.port.properties.serialNumber} {upload.target.cfg} {build.project_name} {upload.verbose}
+tools.openocd.upload.params.args=upload {runtime.tools.openocd.path} {runtime.platform.path} {build.path} {build.variant} {upload.port.properties.serialNumber} {upload.target.cfg} {build.project_name} {upload.verbose}
 
 tools.openocd.upload.pattern.linux=bash {runtime.platform.path}/tools/upload.sh {upload.params.args}
 tools.openocd.upload.pattern.windows={runtime.platform.path}/tools/upload.bat {upload.params.args}
