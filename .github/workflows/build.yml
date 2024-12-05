@@ -1,4 +1,4 @@
-name: Build on Linux OS
+name: Build check
 
 # on which event should we start push, pull request or schedule dispatches
 on:
@@ -13,10 +13,7 @@ jobs:
     # we run this on self hosted runner, use labels to be more specific
     # add specific names if there are some, otherwise self-hosted, X64, Linux are the default ones
     runs-on:
-      - self-hosted
-      - X64
-      - Linux
-      - PSoC
+      - ubuntu-latest
 
     strategy:
 
@@ -44,9 +41,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
+        
+      - name: Install arduino-cli
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh -s 1.1.0
+          sudo mv bin/arduino-cli /usr/local/bin/arduino-cli
+          arduino-cli version
 
       - name: Generate package json
         run: |
+          bash ./tools/dev-setup.sh
           python ./tools/release.py build-local
   
       - name: Start local HTTP server
