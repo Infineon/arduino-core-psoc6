@@ -43,7 +43,7 @@ def get_package_sha256(pkg):
 
 def build_package(pkg_name):
     pkg_build_path = os.path.join(pkg_assets_build_path, pkg_name)
-    dirs_to_copy = ["cores", "tools", "extras/mtb-integration", "examples", "variants"]
+    dirs_to_copy = ["cores", "tools", "extras/mtb-libs", "examples", "variants"]
     files_to_copy = [
         "boards.txt",
         "platform.txt",
