@@ -123,4 +123,4 @@ tools.openocd.upload.params.quiet=
 tools.openocd.upload.params.args=upload {runtime.tools.openocd.path} {runtime.platform.path} {build.path} {build.variant} {upload.port.properties.serialNumber} {upload.target.cfg} {build.project_name} {upload.verbose}
 
 tools.openocd.upload.pattern.linux=bash {runtime.platform.path}/tools/upload.sh {upload.params.args}
-tools.openocd.upload.pattern.windows={runtime.platform.path}/tools/upload.bat {upload.params.args}
+tools.openocd.upload.pattern.windows={runtime.platform.path}/tools/upload.cmd {upload.params.args}
