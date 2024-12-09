@@ -51,7 +51,8 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
         with:
-          submodules: true
+          token: ${{ secrets.UNITY_TOKEN }}
+          submodules: recursive
 
       - name: Generate package json
         run: |
@@ -97,7 +98,7 @@ jobs:
           cd /opt/runner_support/
 
           # set the hil-unity-checks
-          hil=$(./py_checkusb.py --readyaml ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/unity/hil-unity-checklist.yaml --json)
+          hil=$(./py_checkusb.py --readyaml ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/hil-unity-checklist.yaml --json)
           echo "hil=${hil}" >> $GITHUB_OUTPUT
           echo "hil=${hil}"
 
@@ -134,11 +135,11 @@ jobs:
           rm -rf $HOME/artefact
           mkdir -p $HOME/artefact
           
-          cd ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/unity/
+          cd ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/arduino-core-tests/Unity/
           echo "=============================================================================================================="
           echo "Run Tests"
           echo "=============================================================================================================="
-          make FQBN=${{ env.fqbn }} PORT=/dev/ttyACM0 single_hardware_connected
+          make FQBN=${{ env.fqbn }} PORT=/dev/ttyACM0 math
           mkdir -p ~/artefact/unit_tests/${{ env.device }}
           mv ./build/* ~/artefact/unit_tests/.
           echo "=============================================================================================================="
