@@ -50,7 +50,6 @@ def build_package(pkg_name):
         "LICENSE.md",
         "README.md",
         "post_install.sh",
-        "post_install.bat",
     ]
     for dir in dirs_to_copy:
         shutil.copytree(
