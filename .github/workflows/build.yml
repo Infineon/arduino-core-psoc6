@@ -47,6 +47,8 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh -s 1.1.0
           sudo mv bin/arduino-cli /usr/local/bin/arduino-cli
           arduino-cli version
+          token: ${{ secrets.UNITY_TOKEN }}
+          submodules: recursive
 
       - name: Generate package json
         run: |
