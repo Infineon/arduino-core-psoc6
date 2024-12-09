@@ -1,9 +1,6 @@
 [submodule "extras/arduino-core-api"]
 	path = extras/arduino-core-api
 	url = https://github.com/arduino/ArduinoCore-API.git
-[submodule "extras/unity"]
-	path = extras/unity
-	url = https://github.com/ThrowTheSwitch/Unity.git
 [submodule "extras/mtb-integration"]
 	path = extras/mtb-integration
 	url = https://github.com/Infineon/mtb-arduino-core-psoc-integration.git
@@ -25,3 +22,6 @@
 [submodule "extras/mtb-libs/retarget-io"]
 	path = extras/mtb-libs/retarget-io
 	url = https://github.com/Infineon/retarget-io.git
+[submodule "tests/arduino-core-tests"]
+	path = tests/arduino-core-tests
+	url = https://github.com/Infineon/arduino-core-tests.git
