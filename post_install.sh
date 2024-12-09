@@ -17,25 +17,18 @@ Linux*)
     exit
   fi
 
-    # The mtb-tools directory is located two levels above the hardware directory
-    mtb_tools_path="${PWD}/../../../tools/mtb-tools/"
-    mtb_tools_path_abs=$(realpath "${mtb_tools_path}")
+    # The openocd directory is located two levels above the hardware directory
+    openocd_path="${PWD}/../../../tools/openocd/"
+    openocd_path_abs=$(realpath "${openocd_path}")
 
-    # List directories inside the mtb-tools directory and store them in an array
+    # List directories inside the openocd directory and store them in an array
     # as we don´t know the current installed version
-    readarray -t directories < <(ls -d ${mtb_tools_path_abs}/*/)
+    readarray -t directories < <(ls -d ${openocd_path_abs}/*/)
 
-    # Find the directory starting with "tools_3.*" and 
-    # store it in the mtb_tools_path variable
-    for dir in "${directories[@]}"; do
-        if [[ $dir == *tools_3.* ]]; then
-            mtb_tools_ver_path=$dir
-            break
-        fi
-    done
+    # Get the directory inside the openocd directory.
+    # We assume only one version of openocd is installed. Thus, one directory.
+    openocd_ver_path=${directories[0]}
 
-    openocd_path="${mtb_tools_ver_path}/openocd"
-
-    bash ${openocd_path}/udev_rules/install_rules.sh
+    bash ${openocd_ver_path}/udev_rules/install_rules.sh
   ;;
 esac
