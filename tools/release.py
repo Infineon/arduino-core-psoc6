@@ -56,7 +56,7 @@ def build_package(pkg_name):
             os.path.join(psoc_ino_root_path, dir), os.path.join(pkg_build_path, dir)
         )
     for file in files_to_copy:
-        shutil.copyfile(
+        shutil.copy(
             os.path.join(psoc_ino_root_path, file), os.path.join(pkg_build_path, file)
         )
 
