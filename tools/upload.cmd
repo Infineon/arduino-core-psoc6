@@ -95,14 +95,34 @@ exit /b 0
     rem Display user friendly message for known errors
     rem Otherwise, display the error message
     if "%error%"=="%cmsis_dap_device_not_found%" (
-        set error_message=Are you sure the board is connected?
+        set error_message=Error: Device not found! Is the board connected and the right serial port selected?
     ) else (
         set error_message=%error%
     )
 
+    rem Enable virtual terminal processing
+    for /f "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do set ESC=%%b
+
+    rem If we are in a terminal that supports ANSI color codes we 
+    rem can color the error message in red. Otherwise, no coloring is added.
+    rem TODO: Currently we don´t know how to identify if we are
+    rem calling from the IDE or from the CLI.
+    set env=unknown
+    if "%env%"=="cli" (
+        rem Define ANSI color codes
+        set "red=%ESC%[31m"
+        set "reset=%ESC%[0m"
+        set "redirect="
+    ) else (
+        rem No coloring as we don´t know if supported
+        set "red="
+        set "reset="
+        rem Redirect to stderr
+        set "redirect=1>&2"
+    )
+
     rem Error message
-    rem No colouring added as not supported in Windows cmd
-    echo %error_message%
+    echo %red%%error_message%%reset% %redirect%
 
 exit /b %error_code%
 
