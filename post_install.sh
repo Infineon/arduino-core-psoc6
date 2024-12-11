@@ -5,15 +5,11 @@ OS="$(uname -s)"
 case "$OS" in
 Linux*)
   if [ "$EUID" -ne 0 ]; then
-    red="\e[31m"
-    reset_color=$(tput sgr0)
-    echo -e "${red}"
     echo
     echo "You might need to configure permissions for uploading."
     echo "To do so, run the following command from the terminal:"
     echo "sudo bash \"${PWD}/post_install.sh\""
     echo
-    echo -e "${reset_color}"
     exit
   fi
 
