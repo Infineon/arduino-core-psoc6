@@ -1,4 +1,4 @@
-# PSoC platform
+# PSOC™ platform
 # ------------------------------
 # For more info:
 # https://arduino.github.io/arduino-cli/platform-specification/
