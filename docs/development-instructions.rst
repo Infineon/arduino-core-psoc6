@@ -18,7 +18,7 @@ Development Instructions
       - pre-commit hook?
       - spellchecker
       - ... 
-   - Installation the Arduino PSoC6 core
+   - Installation of the Arduino PSOC™ core
    - Setting up the development environment
 
 .. _env_dev_setup:
@@ -33,7 +33,7 @@ Environment setup
 
 0. Obviously |:neutral_face:|, install `Arduino IDE (2.0 or higher) <https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing/>`_ or `Arduino CLI (1.0.0 or higher) <https://arduino.github.io/arduino-cli/0.24/installation/>`_.
 
-1. Install the :ref:`Infineon PSoC™ microcontroller <psoc_core_installation>` boards package.
+1. Install the :ref:`Infineon PSOC™ microcontroller <psoc_core_installation>` boards package.
 
 2. Locate in your computer where the Arduino15 packages are installed. Usually:
 
@@ -82,7 +82,7 @@ Environment setup
 
       arduino-cli core list
 
-   or in the Arduino IDE, navigate to *Tools > Board > Boards Manager...* and search for *PSoC*.
+   or in the Arduino IDE, navigate to *Tools > Board > Boards Manager...* and search for *PSOC*.
 
    .. warning::
       | The name of the repo directory needs to be a valid semver (x.y.z) version number. 
@@ -107,7 +107,7 @@ Environment setup
 Manual setup 
 ------------
 
-| This section describes the manual setup of the development environment for the Infineon PSoC™ microcontroller core.
+| This section describes the manual setup of the development environment for the Infineon PSOC™ microcontroller core.
 | You can consider this a detailed explanation of the development setup process. 
 | Unless you want to know the details |:detective:|, it is easier and recommended to use the automated setup script |:scroll:| in :ref:`Environment setup <env_dev_setup>`.
 

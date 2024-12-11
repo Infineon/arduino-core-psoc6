@@ -6,10 +6,10 @@
 [![commit message check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
 [![docs build](https://readthedocs.org/projects/arduino-core-psoc/badge/?version=latest)](https://arduino-core-psoc.readthedocs.io/en/latest/?badge=latest)
 
-This repository integrates Infineon's [PSOC microcontrollers](https://www.infineon.com/cms/de/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/) into the [Arduino ecosystem](https://www.arduino.cc/en/main/software).
+This repository integrates Infineon's [PSOC™ microcontrollers](https://www.infineon.com/cms/de/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/) into the [Arduino ecosystem](https://www.arduino.cc/en/main/software).
 
 > [!WARNING]  
-> This project is work in progress. Currently not all PSOC products & features are supported in Arduino. Please refer to the docs for further information.
+> This project is work in progress. Currently not all PSOC™ products & features are supported in Arduino. Please refer to the docs for further information.
 
 ## Supported Products
 
@@ -28,7 +28,7 @@ For installation & getting started instruction please refer to [our docs](https:
 
 ## Additional Information
 
-Please visit our [PSOC products page](https://www.infineon.com/cms/de/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/) for datasheets, pin out diagrams, and additional technical information.
+Please visit our [PSOC™ products page](https://www.infineon.com/cms/de/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/) for datasheets, pin out diagrams, and additional technical information.
 
 ## Contributing
 
@@ -42,7 +42,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-Before submitting a pull request, please check the  [Code of Conduct](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_OF_CONDUCT.md) and [Code Conventions](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_CONVENTIONS.md) for the PSOC for Arduino project. Thank you for following these guidelines.
+Before submitting a pull request, please check the  [Code of Conduct](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_OF_CONDUCT.md) and [Code Conventions](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_CONVENTIONS.md) for the PSOC™ for Arduino project. Thank you for following these guidelines.
 
 Don't forget to give the project a star :star:! Thanks again!
 

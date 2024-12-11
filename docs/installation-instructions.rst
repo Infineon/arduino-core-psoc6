@@ -20,7 +20,7 @@ Integration in Arduino IDE
 .. image:: img/install_preferences_menu.png
     :width: 600
 
-Paste the following URL into the *Additional boards manager URLs* input field under *File > Preferences* to add Infineon's PSoC™ microcontroller boards to the Arduino IDE:
+Paste the following URL into the *Additional boards manager URLs* input field under *File > Preferences* to add Infineon's PSOC™ microcontroller boards to the Arduino IDE:
 
 ::
 
@@ -29,13 +29,13 @@ Paste the following URL into the *Additional boards manager URLs* input field un
 .. image:: img/install_preferences_json.png
     :width: 600
 
-To install the boards, navigate to *Tools > Board > Boards Manager...* and search for *PSoC*. You will see options to install the board files for the microcontrollers. 
+To install the boards, navigate to *Tools > Board > Boards Manager...* and search for *PSOC*. You will see options to install the board files for the microcontrollers. 
 Click *Install* to add the boards to your Arduino IDE.
 
 .. image:: img/install_board_manager_entry.png
     :width: 600
 
-In the boards list *Tools > Board*, you will now find the supported PSoC™ microcontroller boards.
+In the boards list *Tools > Board*, you will now find the supported PSOC™ microcontroller boards.
 
 .. image:: img/install_board_list.png
     :width: 600
@@ -43,7 +43,7 @@ In the boards list *Tools > Board*, you will now find the supported PSoC™ micr
 Installation in Arduino CLI
 ----------------------------
 
-To install the PSoC™ microcontroller boards using the Arduino CLI, first make sure you have the latest version of the `Arduino CLI <https://arduino.github.io/arduino-cli/0.24/installation/>`_ installed. 
+To install the PSOC™ microcontroller boards using the Arduino CLI, first make sure you have the latest version of the `Arduino CLI <https://arduino.github.io/arduino-cli/0.24/installation/>`_ installed. 
 
 Then, run the following command:
 
@@ -51,7 +51,7 @@ Then, run the following command:
 
    $ arduino-cli version
 
-Now you can add the Infineon PSoC™ microcontroller boards package to the Arduino CLI:
+Now you can add the Infineon PSOC™ microcontroller boards package to the Arduino CLI:
 
 .. code-block:: bash
 
