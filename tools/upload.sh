@@ -89,7 +89,7 @@ function parse_upload_err_code {
     # Otherwise, display the error message
     case ${error} in
         ${cmsis_dap_device_not_found})
-            error_message="Are you sure the board is connected?"
+            error_message="Error: Device not found! Is the board connected and the right serial port selected?"
             ;;
         *)
             error_message="${error}"
@@ -97,10 +97,22 @@ function parse_upload_err_code {
 
     esac
 
-    # Error message in red
-    red="\e[31m"
-    reset_color=$(tput sgr0)
-    echo -e "${red}${error_message}${reset_color}"
+    # If we are in a terminal that supports ANSI color codes we 
+    # can color the error message in red. Otherwise, no coloring is added.
+    # TODO: Currently we don´t know how to identify if we are
+    # calling from the IDE or from the CLI.
+    env="unknown"
+    if [ "$env" == "cli" ]; then
+        # Define ANSI color codes
+        red='\e[31m'
+        reset_color='\e[0m'
+
+        echo -e "${red}${error_message}${reset_color}"
+    else
+        # No coloring as we don´t know if supported
+        # Redirect to stderr
+        >&2 echo -e "${red}${error_message}${reset_color}"
+    fi
 
     exit 1
 }
