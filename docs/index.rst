@@ -20,6 +20,7 @@ Welcome to the Arduino Core for Infineon's PSOC™ microcontrollers.
    installation-instructions
    hw-platforms
    development-instructions
+   supported-features
 
 License
 =======
