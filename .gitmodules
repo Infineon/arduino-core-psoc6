@@ -25,3 +25,39 @@
 [submodule "extras/mtb-libs/retarget-io"]
 	path = extras/mtb-libs/retarget-io
 	url = https://github.com/Infineon/retarget-io.git
+[submodule "extras/mtb-libs/abstraction-rtos"]
+	path = extras/mtb-libs/abstraction-rtos
+	url = https://github.com/Infineon/abstraction-rtos.git
+[submodule "extras/mtb-libs/clib-support"]
+	path = extras/mtb-libs/clib-support
+	url = https://github.com/Infineon/clib-support.git
+[submodule "extras/mtb-libs/connectivity-utilities"]
+	path = extras/mtb-libs/connectivity-utilities
+	url = https://github.com/Infineon/connectivity-utilities.git
+[submodule "extras/mtb-libs/cy-mbedtls-acceleration"]
+	path = extras/mtb-libs/cy-mbedtls-acceleration
+	url = https://github.com/Infineon/cy-mbedtls-acceleration.git
+[submodule "extras/mtb-libs/freertos"]
+	path = extras/mtb-libs/freertos
+	url = https://github.com/Infineon/freertos.git
+[submodule "extras/mtb-libs/wifi-connection-manager"]
+	path = extras/mtb-libs/wifi-connection-manager
+	url = https://github.com/Infineon/wifi-connection-manager.git
+[submodule "extras/mtb-libs/lwip-freertos-integration"]
+	path = extras/mtb-libs/lwip-freertos-integration
+	url = https://github.com/Infineon/lwip-freertos-integration.git
+[submodule "extras/mtb-libs/lwip-network-interface-integration"]
+	path = extras/mtb-libs/lwip-network-interface-integration
+	url = https://github.com/Infineon/lwip-network-interface-integration.git
+[submodule "extras/mtb-libs/lwip"]
+	path = extras/mtb-libs/lwip
+	url = https://github.com/lwip-tcpip/lwip.git
+[submodule "extras/mtb-libs/mbedtls"]
+	path = extras/mtb-libs/mbedtls
+	url = https://github.com/Mbed-TLS/mbedtls.git
+[submodule "extras/mtb-libs/secure-sockets"]
+	path = extras/mtb-libs/secure-sockets
+	url = https://github.com/Infineon/secure-sockets.git
+[submodule "extras/mtb-libs/whd-bsp-integration"]
+	path = extras/mtb-libs/whd-bsp-integration
+	url = https://github.com/Infineon/whd-bsp-integration.git
