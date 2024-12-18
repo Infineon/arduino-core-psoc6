@@ -61,3 +61,12 @@
 [submodule "extras/mtb-libs/whd-bsp-integration"]
 	path = extras/mtb-libs/whd-bsp-integration
 	url = https://github.com/Infineon/whd-bsp-integration.git
+[submodule "extras/mtb-libs/wifi-host-driver"]
+	path = extras/mtb-libs/wifi-host-driver
+	url = https://github.com/Infineon/wifi-host-driver.git
+[submodule "extras/mtb-libs/wifi-resources"]
+	path = extras/mtb-libs/wifi-resources
+	url = https://github.com/Infineon/wifi-resources.git
+[submodule "extras/mtb-libs/wpa3-external-supplicant"]
+	path = extras/mtb-libs/wpa3-external-supplicant
+	url = https://github.com/Infineon/wpa3-external-supplicant.git
