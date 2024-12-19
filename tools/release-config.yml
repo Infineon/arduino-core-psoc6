@@ -1,0 +1,36 @@
+package-name: arduino-core-psoc
+exclude:
+  - .github
+  - docs
+  - extras 
+  - package
+  - tests
+  - .codespellrc
+  - .gitattributes
+  - .gitignore
+  - .gitmodules
+  - .pre-commit-config.yaml
+  - .readthedocs.yml
+  - CODE_OF_CONDUCT.md
+  - CONTRIBUTING.md
+  - CODE_CONVENTIONS.md
+  - .clang-format
+  - .clang-tidy
+include:
+  # - cores
+  # - examples
+  - extras/mtb-libs
+  # - libraries
+  # - tools
+  # - variants
+  # - boards.txt
+  # - platform.txt
+  # - LICENSE.md
+  # - README.md
+  # - post_install.sh
+index-name: package_psoc_index
+server: 
+  type: github
+  owner: Infineon
+  repo: arduino-core-psoc
+ 
