@@ -1,0 +1,20 @@
+package-name: arduino-core-psoc
+include:
+  - cores
+  - examples
+  - extras/mtb-libs
+  - libraries
+  - tools
+  - variants
+  - boards.txt
+  - platform.txt
+  - LICENSE.md
+  - README.md
+  - post_install.sh
+index-name: package_psoc_index
+server: 
+  type: github
+  owner: Infineon
+  repo: arduino-core-psoc
+ 
+ 
