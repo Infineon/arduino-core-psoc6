@@ -22,6 +22,7 @@
 #include "cyhal.h"
 #include "cybsp.h"
 #include "cy_retarget_io.h"
+#include "time.h"
 
 // Weak empty variant initialization function.
 // May be redefined by variant files.
@@ -38,6 +39,7 @@ int main(void) {
 
     /* Initialize the device and board peripherals */
     result = cybsp_init();
+    time_init();
 
     /* Board init failed. Stop program execution */
     if (result != CY_RSLT_SUCCESS) {
