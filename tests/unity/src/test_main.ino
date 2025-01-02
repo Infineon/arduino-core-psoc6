@@ -9,9 +9,7 @@
 */
 void RunAllTests(void)
 {
-
-    RUN_TEST_GROUP(math);
-
+    RUN_TEST_GROUP(delay);
 }
 
 

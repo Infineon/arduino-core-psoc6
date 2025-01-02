@@ -10,16 +10,16 @@
 #define TRACE_OUTPUT
 
 // test feature includes requiring the above defined variables
-#include "test_math.hpp"
+#include "test_delay.hpp"
 
 
 // Method invoked before a test suite is run.
-static void math_suiteSetup() {
+static void delay_suiteSetup() {
     
 }
 
 
 // Method invoked after a test suite is run.
-static void math_suiteTearDown() {
+static void delay_suiteTearDown() {
     
 }
