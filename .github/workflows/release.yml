@@ -15,12 +15,15 @@ jobs:
     steps:
     - name: Checkout actions
       uses: actions/checkout@v4
+      with:
+        fetch-tags: true
+        fetch-depth: 0
 
     - name: Setup python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
-    - run: pip install requests
+    - run: pip install requests pyyaml
 
     - name: Build release changelog
       id: build_changelog
@@ -31,13 +34,13 @@ jobs:
     - name: Build release assets
       run: |
         bash ./tools/dev-setup.sh
-        python ./tools/release.py build-release ${{ github.repository }} ${{ github.ref_name }} 
+        python ./tools/arduino-packager.py
 
     - name: Upload assets
       uses: softprops/action-gh-release@v1
       with:
         name: arduino-core-psoc ${{  github.ref_name  }}
         files: |
-          pkg_build/*.zip
-          pkg_build/package_psoc_index.json
+          build/*.zip
+          build/*.json
         body: ${{steps.build_changelog.outputs.changelog}}
