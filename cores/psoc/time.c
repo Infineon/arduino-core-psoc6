@@ -26,7 +26,7 @@ extern "C" {
 /* Defines */
 #define CLOCK_FREQUENCY 8000000
 #define MILLISECONDS_PER_SECOND 1000
-#define SYSTICK_RELOAD_VAL (CLOCK_FREQUENCY / 1000 - 1) // For 1 ms tick
+#define SYSTICK_RELOAD_VAL (CLOCK_FREQUENCY / MILLISECONDS_PER_SECOND - 1) // For 1 ms tick
 
 volatile uint32_t systick_count = 0; // Counter to keep track of milliseconds
 
@@ -52,7 +52,6 @@ unsigned long millis() {
 
 unsigned long micros() {
     uint32_t ticks = Cy_SysTick_GetValue();
-    
     // Calculate the number of microseconds since the program started
     return (systick_count * MILLISECONDS_PER_SECOND) + ((SYSTICK_RELOAD_VAL - ticks) * MILLISECONDS_PER_SECOND / (SYSTICK_RELOAD_VAL + 1));
 }
