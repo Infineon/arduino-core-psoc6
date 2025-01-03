@@ -80,8 +80,8 @@ compiler.inc_dirs.from_file=@{build.path}/mtb-lib-inc-dirs.txt
 includes=-I{build.path}/cores/psoc 
 
 # Build commands
-recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} "{compiler.flags.from_file}" {compiler.arduino_core_api.path} {compiler.inc_dirs.from_file} {includes} "{source_file}" -o "{object_file}"
-recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} "{compiler.flags.from_file}" {compiler.arduino_core_api.path} {compiler.inc_dirs.from_file} {includes} "{source_file}" -o "{object_file}"
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} "{compiler.flags.from_file}" {compiler.arduino_core_api.path} {compiler.inc_dirs.from_file} {compiler.c.extra_flags} {includes} "{source_file}" -o "{object_file}"
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} "{compiler.flags.from_file}" {compiler.arduino_core_api.path} {compiler.inc_dirs.from_file} {compiler.cpp.extra_flags} {includes} "{source_file}" -o "{object_file}"
 recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} "{compiler.flags.from_file}" {compiler.arduino_core_api.path} {compiler.inc_dirs.from_file} {includes} "{source_file}" -o "{object_file}"
 
 ## Create archives
