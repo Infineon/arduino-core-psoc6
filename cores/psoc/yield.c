@@ -16,8 +16,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "yield.h"
-
 /**
  * Empty yield() hook.
  *
@@ -32,5 +30,3 @@ static void __empty() {
 }
 
 void yield(void) __attribute__((weak, alias("__empty")));
-
-
