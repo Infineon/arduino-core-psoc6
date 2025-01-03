@@ -51,29 +51,17 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.UNITY_TOKEN }}
-          submodules: recursive
+          submodules: true
+          fetch-tags: true
+          fetch-depth: 0
 
-      - name: Generate package json
+      - name: Pack Arduino core
         run: |
-          python ./tools/release.py build-local
-  
-      - name: Start local HTTP server
+          python ./tools/arduino-packager.py --no-version-check --no-previous-releases
+    
+      - name: Install Arduino core
         run: |
-          cd pkg_build
-          nohup python -m http.server 8000 & echo $! > server.pid
-        
-      - name: Install/Update Arduino Platform
-        run: |
-          arduino-cli core update-index
-          arduino-cli core install ${{ matrix.platform }} --additional-urls http://localhost:8000/package_psoc_index.json
-          arduino-cli core list
-      
-      - name: Kill local HTTP server
-        run: |
-          cd pkg_build
-          kill $(cat server.pid)
-          rm server.pid
+          python ./tools/pckg-install-local.py --pckg-dir build --verbose
 
       - name: Remove latest installed platform version
         run: |
