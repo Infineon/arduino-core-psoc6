@@ -40,10 +40,9 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.UNITY_TOKEN }}
-          submodules: recursive
-
-      
+          submodules: true
+          fetch-tags: true
+          fetch-depth: 0
         
       - name: Install arduino-cli
         run: |
@@ -51,29 +50,15 @@ jobs:
           sudo mv bin/arduino-cli /usr/local/bin/arduino-cli
           arduino-cli version
 
-      - name: Generate package json
+      - name: Pack Arduino core
         run: |
           bash ./tools/dev-setup.sh
-          python ./tools/release.py build-local
+          python ./tools/arduino-packager.py --no-version-check --no-previous-releases
   
-      - name: Start local HTTP server
+      - name: Install Arduino core
         run: |
-          cd pkg_build
-          nohup python -m http.server 8000 & echo $! > server.pid
-        
-      - name: Install/Update Arduino Platform
-        run: |
-          arduino-cli core update-index
-          arduino-cli core install ${{ matrix.platform }} --additional-urls http://localhost:8000/package_psoc_index.json
-          arduino-cli core list
-      
-      - name: Kill local HTTP server
-        run: |
-          cd pkg_build
-          kill $(cat server.pid)
-          rm server.pid
+          python ./tools/pckg-install-local.py --pckg-dir build
 
-      # Compile the sample code for the selected board and board support package with the arduino compiler
       - name: Compile Sketch
         run: |
           arduino-cli compile --clean --verbose --fqbn ${{ matrix.fqbn }} ${{ matrix.example }}
