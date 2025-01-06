@@ -1,46 +1,12 @@
-name: Release Automation
+name: Release
 
 on:
-  release:
-    types: published
   push:
-    tags: 
-      - '[0-9]+.[0-9]+.[0-9]+**'
-
+    
 jobs:
-  release:
-    runs-on: ubuntu-latest
-
-    if: startsWith(github.ref, 'refs/tags/')
-    steps:
-    - name: Checkout actions
-      uses: actions/checkout@v4
-      with:
-        fetch-tags: true
-        fetch-depth: 0
-
-    - name: Setup python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-    - run: pip install requests pyyaml
-
-    - name: Build release changelog
-      id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v3
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Build release assets
-      run: |
-        bash ./tools/dev-setup.sh
-        python ./tools/arduino-packager.py
-
-    - name: Upload assets
-      uses: softprops/action-gh-release@v1
-      with:
-        name: arduino-core-psoc ${{  github.ref_name  }}
-        files: |
-          build/*.zip
-          build/*.json
-        body: ${{steps.build_changelog.outputs.changelog}}
+  arduino-devops:
+    uses: Infineon/arduino-devops/.github/workflows/release.yml@latest
+    with:
+      release-title: arduino-core-psoc
+      setup-script: bash ./tools/dev-setup.sh
+    secrets: inherit
