@@ -55,7 +55,7 @@ private:
     uint32_t extractDataBits(uint16_t config);
 
     // Software buffer
-    static const int bufferSize = 64;
+    static const int bufferSize = 128;
     uint8_t buffer[bufferSize];
     int bufferHead;
     int bufferTail;
