@@ -83,6 +83,8 @@ int Uart::availableForWrite() {
 }
 
 void Uart::end() {
+    // Clear the UART buffer
+    cyhal_uart_clear(&uart_obj);
     cyhal_uart_free(&uart_obj);
 }
 
@@ -101,10 +103,6 @@ int Uart::peek(void) {
 }
 
 int Uart::read(void) {
-    // uint8_t c;
-    // size_t size = 1;
-    // cyhal_uart_read(&uart_obj, &c, &size);
-    // return c;
     if (bufferHead == bufferTail) {
         return -1;                  // Buffer is empty
     } else {
