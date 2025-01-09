@@ -1,3 +1,5 @@
-#include "cybsp.h"
 #include "Uart.h"
-Uart _UART1_(CYBSP_DEBUG_UART_TX, CYBSP_DEBUG_UART_RX, NC, NC);
+
+#if SERIAL_HOWMANY > 0
+Uart _UART1_(UART1_TX_PIN, UART1_RX_PIN, NC, NC);
+#endif

@@ -57,8 +57,8 @@ private:
     // Software buffer
     static const int bufferSize = 128;
     uint8_t buffer[bufferSize];
-    int bufferHead;
-    int bufferTail;
+    volatile int bufferHead;
+    volatile int bufferTail;
     void IrqHandler();
 };
 
