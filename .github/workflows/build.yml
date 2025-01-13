@@ -7,7 +7,22 @@ on:
 
 jobs:
 
-  # The build job compiles the sample code for different boards
+  set-ci-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      ci-matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+
+      - name: Set build matrix
+        id: set-matrix
+        run: |
+          ci_matrix=$(cat ci-build-matrix.json)
+          echo "::set-output name=matrix::$ci_matrix"
+
   build:
 
     # we run this on self hosted runner, use labels to be more specific
@@ -16,6 +31,8 @@ jobs:
       - ubuntu-latest
 
     strategy:
+      matrix: 
+        config: ${{ fromJSON(needs.set-ci-matrix.outputs.ci-matrix) }}
 
       matrix:
         # List of all examples in the lib to compile
