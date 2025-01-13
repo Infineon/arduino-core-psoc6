@@ -24,9 +24,7 @@ extern "C" {
 #endif
 
 void pinMode(pin_size_t pin, PinMode mode) {
-    // Check if the pin is within the valid range
-    if (pin >= sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) {
-        // TODO: Error handling
+    if (pin > GPIO_PIN_COUNT) {
         return; // Invalid pin number
     }
 
@@ -61,7 +59,6 @@ void pinMode(pin_size_t pin, PinMode mode) {
             break;
 
         default:
-            // TODO: Error handling
             return; // Invalid mode
     }
 
@@ -70,17 +67,14 @@ void pinMode(pin_size_t pin, PinMode mode) {
 }
 
 uint8_t digitalRead(uint8_t pin) {
-    // Check if the pin is within the valid range
-    if (pin >= sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) {
-        // TODO: Error handling
+    if (pin > GPIO_PIN_COUNT) {
+        return LOW; // Invalid pin number
     }
     return cyhal_gpio_read(mapping_gpio_pin[pin]) ? HIGH : LOW;
 }
 
 void digitalWrite(uint8_t pin, uint8_t value) {
-    // Check if the pin is within the valid range
-    if (pin >= sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) {
-        // TODO: Error handling
+    if (pin > GPIO_PIN_COUNT) {
         return; // Invalid pin number
     }
     cyhal_gpio_write(mapping_gpio_pin[pin], value);
