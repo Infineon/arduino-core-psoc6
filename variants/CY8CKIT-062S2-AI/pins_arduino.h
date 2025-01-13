@@ -96,7 +96,7 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
     /* 30  */ CYHAL_GET_GPIO(CYHAL_PORT_12, 5), // SDHC_CLK / IO /PWM                             P12.5
 };
 
-
+const uint8_t GPIO_PIN_COUNT = (sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) - 1;
 
 #ifdef __cplusplus
 }
