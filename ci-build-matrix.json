@@ -1,0 +1,8 @@
+{
+    "fqbn" : [
+        "infineon:psoc:cy8ckit_062s2_ai"
+    ],
+    "example" : [
+        "examples/testSketch/testSketch.ino"
+    ]
+}
