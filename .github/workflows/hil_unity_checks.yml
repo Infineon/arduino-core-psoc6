@@ -1,9 +1,9 @@
-name: Hil unity library checks
+name: Hil Unity Library Checks
 
 # Events triggering the workflow
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
 
 env:
   TEST_VERSION: 1.0.0
@@ -15,19 +15,17 @@ jobs:
       matrix: ${{ steps.set-test-matrix.outputs.matrix }}
 
     steps:
-
       - name: Checkout repository 
         uses: actions/checkout@v4
 
       - name: Set test matrix
         id: set-test-matrix
         run: |
-          test_matrix=$(cat ./tests/hil-unity-checklist.json)
-          echo $test_matrix
-          echo "matrix=$test_matrix" >> $GITHUB_OUTPUT
+          cat ./tests/hil-unity-checklist.json
+          matrix=$(jq -c '[.boards[] | { fqbn: .fqbn, single: .tests.single, multi: .tests.multi}]' ./tests/hil-unity-checklist.json)
+          echo "::set-output name=matrix::$matrix"
 
   tests:
-
     needs: set-test-matrix
     runs-on:
       - self-hosted
@@ -35,20 +33,14 @@ jobs:
       - Linux
       - PSoC
 
-    # which combination of sample code and boards should run
-    # for this example of 2 sample codes and 3 boards a total of 2x3=6 runners have to work.
-    # if we have only 4 runner then these 4 are started and the last 2 are waiting until they can start
     strategy:
-      matrix: ${{fromJson(needs.set-test-matrix.outputs.matrix)}}
+      matrix:
+        include: ${{ fromJson(needs.set-test-matrix.outputs.matrix) }}
 
-
-    # These are the steps which should run for each combination of fqbn and example code
     steps:
-
-      - name: Checkout repository 
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.UNITY_TOKEN }}
           submodules: true
           fetch-tags: true
           fetch-depth: 0
@@ -60,16 +52,14 @@ jobs:
           ref: latest
           path: arduino-devops
   
-      - name: Install arduino-cli
-        # TODO: We need to find a way to install the arduino-cli for multiple OS
-        # without the need of containers
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh -s 1.1.0
-          sudo mv bin/arduino-cli /usr/local/bin/arduino-cli
-          arduino-cli version
+      # - name: Install arduino-cli
+      #   run: |
+      #     curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh -s 1.1.0
+      #     sudo mv bin/arduino-cli /usr/local/bin/arduino-cli
+      #     arduino-cli version
 
       - name: Core setup
-        if : ${{ inputs.setup-script }} != null
+        if: ${{ inputs.setup-script }} != ''
         run: |
           ${{ inputs.setup-script }}
 
@@ -88,27 +78,27 @@ jobs:
 
       - name: copy/link repository to arduino path
         run: |
-          mkdir ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION
+          mkdir -p ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION
           cp -a ./* ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION
           cd ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION
 
       - name: copy/link arduino core api path
         run: |
-          mkdir ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/cores/psoc/api
+          mkdir -p ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/cores/psoc/api
           cp -a ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/extras/arduino-core-api/api/* ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/cores/psoc/api  
     
-      - name: check ports
+      - name: Check ports
         run: |
           cd /opt/runner_support/
           readarray -t SERIALS < <(echo $(./py_checkusb.py --type ${LIB} --json) | jq ".\"${LIB}\".\"${{ env.device }}\"|keys[]" -r)
 
-          # check if we have one or more serial numbers for this lib or stop here
+          # Check if we have one or more serial numbers for this lib or stop here
           if [[ -z $SERIALS ]]; then
             echo "No serial or library information found"
             exit 0
           fi
 
-          # loop over all serials and fetch the ports
+          # Loop over all serials and fetch the ports
           declare -a PORTS
           for SERIAL in "${SERIALS[@]}"; do
             PORTS+=($(/opt/runner_support/find_usb.sh $SERIAL))
@@ -124,26 +114,24 @@ jobs:
           echo "=============================================================================================================="
           echo "Run Tests"
           echo "=============================================================================================================="
-          make FQBN=${{ matrix.fqbn }} PORT=${PORTS[0]} ${{ matrix.tests.single }}
-          mkdir -p ~/artefact/unit_tests/${{ matrix.tests.single }}
-          mv ./build/* ~/artefact/unit_tests/.
-          echo "=============================================================================================================="
-          
-          echo "=============================================================================================================="
-          echo "Monitor"
-          timeout 1m \
-                  /opt/runner_support/py_console.py \
-                    --port ${PORTS[0]} \
-                    --baud 115200 \
-                    --report ~/artefact/unit_tests/${{ matrix.tests.single }}/report.json
-          
-          echo "=============================================================================================================="
+          for test in ${{ matrix.single }}; do
+            make FQBN=${{ matrix.fqbn }} PORT=${PORTS[0]} $test
+            mkdir -p ~/artefact/unit_tests/$test
+            mv ./build/* ~/artefact/unit_tests/.
+            echo "=============================================================================================================="
+            echo "Monitor"
+            timeout 1m \
+                    /opt/runner_support/py_console.py \
+                      --port ${PORTS[0]} \
+                      --baud 115200 \
+                      --report ~/artefact/unit_tests/$test/report.json
+            echo "=============================================================================================================="
+          done
               
-          
       # Upload the compiled HEX files to the GitHub server
       - name: Artefact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.tests.single }}
+          name: ${{ matrix.fqbn }}
           path: ~/artefact/*
-          if-no-files-found: ignore  
+          if-no-files-found: ignore

@@ -1,15 +1,19 @@
 {
-  "fqbn": "infineon:psoc:cy8ckit_062s2_ai",
-  "tests": {
-    "single": [
-      "test_digitalio_single",
-      "test_time_single"
-    ],
-    "multi": {
-      "uart": [
-        "test_uart_connected2_tx",
-        "test_uart_connected2_rx"
-      ]
+  "boards": [
+    {
+      "fqbn": "infineon:psoc:cy8ckit_062s2_ai",
+      "tests": {
+        "single": [
+          "test_digitalio_single",
+          "test_time_single"
+        ],
+        "multi": {
+          "uart": [
+            "test_uart_connected2_tx",
+            "test_uart_connected2_rx"
+          ]
+        }
+      }
     }
-  }
+  ]
 }
