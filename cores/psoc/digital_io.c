@@ -67,16 +67,10 @@ void pinMode(pin_size_t pin, PinMode mode) {
 }
 
 uint8_t digitalRead(uint8_t pin) {
-    if (pin > GPIO_PIN_COUNT) {
-        return LOW; // Invalid pin number
-    }
     return cyhal_gpio_read(mapping_gpio_pin[pin]) ? HIGH : LOW;
 }
 
 void digitalWrite(uint8_t pin, uint8_t value) {
-    if (pin > GPIO_PIN_COUNT) {
-        return; // Invalid pin number
-    }
     cyhal_gpio_write(mapping_gpio_pin[pin], value);
 }
 

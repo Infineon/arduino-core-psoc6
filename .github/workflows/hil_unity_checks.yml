@@ -130,11 +130,11 @@ jobs:
           rm -rf $HOME/artefact
           mkdir -p $HOME/artefact
           
-          cd ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/arduino-core-tests/Unity/
+          cd ~/.arduino15/packages/infineon/hardware/psoc/$TEST_VERSION/tests/arduino-core-tests/
           echo "=============================================================================================================="
           echo "Run Tests"
           echo "=============================================================================================================="
-          make FQBN=${{ env.fqbn }} PORT=/dev/ttyACM0 math
+          make FQBN=${{ env.fqbn }} PORT=/dev/ttyACM0 test_digitalio_single
           mkdir -p ~/artefact/unit_tests/${{ env.device }}
           mv ./build/* ~/artefact/unit_tests/.
           echo "=============================================================================================================="
