@@ -75,10 +75,10 @@ and it will only reformat those.
 uncrustify
 ==========
 
-[uncrustify](https://github.com/uncrustify/uncrustify) v0.71 or v0.72 can
+[uncrustify](https://github.com/uncrustify/uncrustify) v0.78.1 should 
 be used. Different uncrustify versions produce slightly
 different formatting, and the configuration file formats are often
-incompatible. v0.73 or newer *will not work*.
+incompatible.
 
 Depending on your operating system version, it may be possible to install a pre-compiled
 uncrustify version:
