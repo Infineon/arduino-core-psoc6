@@ -13,8 +13,8 @@
 #include <stdint.h>
 
 // test defines
-const uint8_t TEST_DIGITAL_IO_OUTPUT = 7;  // IO0
-const uint8_t TEST_DIGITAL_IO_INPUT_1 = 6; // IO1
-const uint8_t TEST_DIGITAL_IO_INPUT_2 = 5; // IO2
+const uint8_t TEST_DIGITALIO_OUTPUT = 7;  // IO0
+const uint8_t TEST_DIGITALIO_INPUT_1 = 6; // IO1
+const uint8_t TEST_DIGITALIO_INPUT_2 = 5; // IO2
 
 #endif // TEST_CONFIG_H
