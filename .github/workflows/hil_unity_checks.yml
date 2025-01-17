@@ -55,13 +55,20 @@ jobs:
           fetch-tags: true
           fetch-depth: 0
 
+      - name: Checkout arduino-devops
+        uses: actions/checkout@v4
+        with:
+          repository: Infineon/arduino-devops
+          ref: latest
+          path: arduino-devops
+
       - name: Pack Arduino core
         run: |
-          python ./tools/arduino-packager.py --no-version-check --no-previous-releases
+          python ./arduino-devops/arduino-packager.py --no-version-check --no-previous-releases
     
       - name: Install Arduino core
         run: |
-          python ./tools/pckg-install-local.py --pckg-dir build --verbose
+          python ./arduino-devops/pckg-install-local.py --pckg-dir build --verbose
 
       - name: Remove latest installed platform version
         run: |
