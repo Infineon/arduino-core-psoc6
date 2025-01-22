@@ -14,7 +14,6 @@
 
 // test defines
 const uint8_t TEST_DIGITALIO_OUTPUT = 7;  // IO0
-const uint8_t TEST_DIGITALIO_INPUT_1 = 6; // IO1
-const uint8_t TEST_DIGITALIO_INPUT_2 = 5; // IO2
+const uint8_t TEST_DIGITALIO_INPUT = 6;   // IO1
 
 #endif // TEST_CONFIG_H
