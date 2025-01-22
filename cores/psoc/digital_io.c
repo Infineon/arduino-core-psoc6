@@ -16,7 +16,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#define ARDUINO_GPIO
 #include "Arduino.h"
 
 #ifdef __cplusplus
@@ -65,15 +64,15 @@ void pinMode(pin_size_t pin, PinMode mode) {
     }
 
     // Initialize the GPIO pin with the specified direction, drive mode and set initial value = false (low)
-    (void)cyhal_gpio_init(mapping_gpio_pin[pin], direction, drive_mode, false);
+    (void)cyhal_gpio_init(mapping_gpio_pin[pin].pin, direction, drive_mode, mapping_gpio_pin[pin].initValue);
 }
 
 uint8_t digitalRead(uint8_t pin) {
-    return cyhal_gpio_read(mapping_gpio_pin[pin]) ? HIGH : LOW;
+    return cyhal_gpio_read(mapping_gpio_pin[pin].pin) ? HIGH : LOW;
 }
 
 void digitalWrite(uint8_t pin, uint8_t value) {
-    cyhal_gpio_write(mapping_gpio_pin[pin], value);
+    cyhal_gpio_write(mapping_gpio_pin[pin].pin, value);
 }
 
 #ifdef __cplusplus
