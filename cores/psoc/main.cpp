@@ -16,6 +16,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#define ARDUINO_GPIO
+
 #include "Arduino.h"
 
 #include "cyhal.h"
@@ -46,7 +48,7 @@ int main(void) {
     }
 
     /* Enable global interrupts */
-    __enable_irq();
+    interrupts();
     initVariant();
     setup();
 
