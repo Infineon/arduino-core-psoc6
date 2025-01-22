@@ -21,7 +21,7 @@
 #define Arduino_h
 
 #include "api/ArduinoAPI.h"
-#include "cyhal.h"
+#include "cyhal_gpio.h"
 
 #define RAMSTART (HMCRAMC0_ADDR)
 #define RAMSIZE  (HMCRAMC0_SIZE)
@@ -34,17 +34,14 @@ using namespace arduino;
 extern "C" {
 #endif // __cplusplus
 
-// pin init configuration
-typedef struct {
-    cyhal_gpio_t pin; // GPIO pin
-    bool initValue;   // Initial value of the pin
-} pinInitConfig;
-
 // ****************************************************************************
 // @Imported Global Variables
 // ****************************************************************************
-extern const pinInitConfig mapping_gpio_pin[];
+extern const cyhal_gpio_t mapping_gpio_pin[];
 extern const uint8_t GPIO_PIN_COUNT;
+
+#define GPIO_INTERRUPT_PRIORITY 3 // GPIO interrupt priority
+#define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
 
 #undef LITTLE_ENDIAN
 

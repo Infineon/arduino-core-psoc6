@@ -10,7 +10,7 @@
 class Uart: public arduino::HardwareSerial
 {
 public:
-    static Uart *g_uarts[MAX_UARTS];
+    static Uart * g_uarts[MAX_UARTS];
     Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts);
     void begin(unsigned long baud);
     void begin(unsigned long baud, uint16_t config);
