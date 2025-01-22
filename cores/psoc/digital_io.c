@@ -31,6 +31,7 @@ void pinMode(pin_size_t pin, PinMode mode) {
 
     cyhal_gpio_direction_t direction;
     cyhal_gpio_drive_mode_t drive_mode;
+    bool initPinValue = false;
 
     switch (mode)
     {
@@ -42,6 +43,7 @@ void pinMode(pin_size_t pin, PinMode mode) {
         case INPUT_PULLUP:
             direction = CYHAL_GPIO_DIR_INPUT;
             drive_mode = CYHAL_GPIO_DRIVE_PULLUP;
+            initPinValue = true;
             break;
 
         case INPUT_PULLDOWN:
@@ -63,16 +65,16 @@ void pinMode(pin_size_t pin, PinMode mode) {
             return; // Invalid mode
     }
 
-    // Initialize the GPIO pin with the specified direction, drive mode and set initial value = false (low)
-    (void)cyhal_gpio_init(mapping_gpio_pin[pin].pin, direction, drive_mode, mapping_gpio_pin[pin].initValue);
+    // Initialize the GPIO pin with the specified direction, drive mode and set initial value
+    (void)cyhal_gpio_init(mapping_gpio_pin[pin], direction, drive_mode, initPinValue);
 }
 
 uint8_t digitalRead(uint8_t pin) {
-    return cyhal_gpio_read(mapping_gpio_pin[pin].pin) ? HIGH : LOW;
+    return cyhal_gpio_read(mapping_gpio_pin[pin]) ? HIGH : LOW;
 }
 
 void digitalWrite(uint8_t pin, uint8_t value) {
-    cyhal_gpio_write(mapping_gpio_pin[pin].pin, value);
+    cyhal_gpio_write(mapping_gpio_pin[pin], value);
 }
 
 #ifdef __cplusplus

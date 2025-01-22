@@ -33,7 +33,7 @@ void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, PinStatus
     }
 
     cyhal_gpio_event_t event;
-    cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber].pin;
+    cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber];
 
     switch (mode) {
         case CHANGE:
@@ -64,7 +64,7 @@ void detachInterrupt(pin_size_t interruptNumber) {
         return; // Invalid interrupt number
     }
 
-    cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber].pin;
+    cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber];
     cyhal_gpio_enable_event(pin, CYHAL_GPIO_IRQ_NONE, 0, false);
     cyhal_gpio_register_callback(pin, NULL);
 }
