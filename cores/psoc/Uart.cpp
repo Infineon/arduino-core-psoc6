@@ -100,14 +100,14 @@ int Uart::peek(void) {
 }
 
 int Uart::read(void) {
-    __disable_irq();
+    noInterrupts();
     if (bufferHead == bufferTail) {
-        __enable_irq();
+        interrupts();
         return -1;                  // Buffer is empty
     } else {
         uint8_t c = buffer[bufferTail];
         bufferTail = (bufferTail + 1) % bufferSize;
-        __enable_irq();
+        interrupts();
         return c;
     }
 }
