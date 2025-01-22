@@ -21,6 +21,7 @@
 #define Arduino_h
 
 #include "api/ArduinoAPI.h"
+#include "cyhal.h"
 
 #define RAMSTART (HMCRAMC0_ADDR)
 #define RAMSIZE  (HMCRAMC0_SIZE)
@@ -33,7 +34,18 @@ using namespace arduino;
 extern "C" {
 #endif // __cplusplus
 
-// Include Atmel headers
+// pin init configuration
+typedef struct {
+    cyhal_gpio_t pin; // GPIO pin
+    bool initValue;   // Initial value of the pin
+} pinInitConfig;
+
+// ****************************************************************************
+// @Imported Global Variables
+// ****************************************************************************
+extern const pinInitConfig mapping_gpio_pin[];
+extern const uint8_t GPIO_PIN_COUNT;
+
 #undef LITTLE_ENDIAN
 
 #define clockCyclesPerMicrosecond() (SystemCoreClock / 1000000L)
@@ -52,11 +64,13 @@ extern "C" {
 
 #define abs(x) ((x) > 0?(x):-(x))
 
+// Globally enable or disable interrupts
+#define interrupts() __enable_irq()
+#define noInterrupts() __disable_irq()
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 #ifdef __cplusplus
 }
