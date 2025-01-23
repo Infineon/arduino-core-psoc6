@@ -21,7 +21,18 @@
 #include "cyhal.h"
 #include "cybsp.h"
 #include "cy_retarget_io.h"
+
+#include <FreeRTOS.h>
+#include <task.h>
+
 #include "time.h"
+
+#define ARDUINO_MAIN_TASK_STACK_SIZE    (4096u)
+#define ARDUINO_MAIN_TASK_PRIORITY      (2u)
+
+TaskHandle_t arduino_main_task_handle;
+
+void arduino_main_task(void *arg);
 
 // Weak empty variant initialization function.
 // May be redefined by variant files.
@@ -29,25 +40,32 @@ void initVariant() __attribute__((weak));
 void initVariant() {
 }
 
-
 /*
  * \brief Main entry point of Arduino application
  */
 int main(void) {
     cy_rslt_t result;
 
-    /* Initialize the device and board peripherals */
     result = cybsp_init();
-    time_init();
-
-    /* Board init failed. Stop program execution */
     if (result != CY_RSLT_SUCCESS) {
         CY_ASSERT(0);
     }
 
-    /* Enable global interrupts */
+    time_init();
+
+    xTaskCreate(arduino_main_task, "arduino-main-task", ARDUINO_MAIN_TASK_STACK_SIZE, NULL, ARDUINO_MAIN_TASK_PRIORITY, &arduino_main_task_handle);
+    vTaskStartScheduler();
+
+    /* Should never get here */
+    CY_ASSERT(0);
+    return 0;
+}
+
+void arduino_main_task(void *arg) {
+
     __enable_irq();
     initVariant();
+
     setup();
 
     for (;;)
@@ -57,6 +75,4 @@ int main(void) {
             arduino::serialEventRun();
         }
     }
-
-    return 0;
 }
