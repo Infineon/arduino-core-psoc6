@@ -99,6 +99,18 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
     return WL_AP_CONNECTED;
 }
 
+IPAddress WiFiClass::localIP()
+{
+    cy_wcm_ip_address_t ip_address;
+    cy_rslt_t ret = cy_wcm_get_ip_addr(CY_WCM_INTERFACE_TYPE_STA, &ip_address);
+    if(ret != CY_RSLT_SUCCESS) {
+        return IPAddress(0, 0, 0, 0);
+    }
+
+    IPAddress ip(ip_address.ip.v4);
+    return ip;
+}
+
 uint8_t WiFiClass::status() {
     return _status;
 }
