@@ -7,6 +7,7 @@
  * @param ret_code The mapped WiFi class error code.
  */
 #define wifi_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
+        _status = ret_code; \
         return ret_code; \
 }
 
@@ -41,11 +42,13 @@ int WiFiClass::begin(const char* ssid, const char *passphrase) {
 
     ret = CY_WCM_EVENT_CONNECT_FAILED;
     uint8_t retries = 3; /* This number has been selected arbitrarily. */
+    _status = WL_IDLE_STATUS;
     do
     {
         ret = cy_wcm_connect_ap(&connect_param, &ipaddress);
     } while (--retries < 0 && ret != CY_RSLT_SUCCESS);
     wifi_assert_raise(ret, WL_CONNECT_FAILED);
+    _status = WL_CONNECTED;
 
     return WL_CONNECTED;
 }
@@ -91,8 +94,13 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
 
     ret = cy_wcm_start_ap(&ap_conf);
     wifi_assert_raise(ret, WL_AP_FAILED);
+    _status = WL_AP_CONNECTED;
 
     return WL_AP_CONNECTED;
+}
+
+uint8_t WiFiClass::status() {
+    return _status;
 }
 
 
