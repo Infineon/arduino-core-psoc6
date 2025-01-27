@@ -1,5 +1,5 @@
 #include <stdint.h>
-
+#include "IPAddress.h"
 #include "cy_wcm.h"
 
 /**
@@ -64,6 +64,14 @@ class WiFiClass {
         uint8_t beginAP(const char *ssid, uint8_t channel);
         uint8_t beginAP(const char *ssid, const char* passphrase);
         uint8_t beginAP(const char *ssid, const char* passphrase, uint8_t channel);
+
+        /*
+        * Get the interface IP address of a station (not the access point).
+        * Currently only IPv4 is supported.
+        *
+        * return: IP address value. Returns 0.0.0.0 in case of error.
+        */
+        IPAddress localIP();
 
         /**
          * Return Connection status
