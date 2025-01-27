@@ -22,7 +22,7 @@ int WiFiClass::begin(const char* ssid) {
 
 int WiFiClass::begin(const char* ssid, const char *passphrase) {
 
-    cy_rslt_t ret = wcm_init();
+    cy_rslt_t ret = wcm_init(CY_WCM_INTERFACE_TYPE_STA);
     wifi_assert_raise(ret, WL_CONNECT_FAILED);
 
     cy_wcm_connect_params_t connect_param;
@@ -48,7 +48,9 @@ int WiFiClass::begin(const char* ssid, const char *passphrase) {
         ret = cy_wcm_connect_ap(&connect_param, &ipaddress);
     } while (--retries < 0 && ret != CY_RSLT_SUCCESS);
     wifi_assert_raise(ret, WL_CONNECT_FAILED);
+
     _status = WL_CONNECTED;
+    _mode = CY_WCM_INTERFACE_TYPE_STA;
 
     return WL_CONNECTED;
 }
@@ -70,7 +72,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase) {
 
 uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t channel) {
 
-    cy_rslt_t ret = wcm_init();
+    cy_rslt_t ret = wcm_init(CY_WCM_INTERFACE_TYPE_AP);
     wifi_assert_raise(ret, WL_AP_FAILED);
 
     cy_wcm_ap_config_t ap_conf;
@@ -94,6 +96,8 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
 
     ret = cy_wcm_start_ap(&ap_conf);
     wifi_assert_raise(ret, WL_AP_FAILED);
+
+    _mode = CY_WCM_INTERFACE_TYPE_AP;
     _status = WL_AP_CONNECTED;
 
     return WL_AP_CONNECTED;
@@ -101,8 +105,13 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
 
 IPAddress WiFiClass::localIP()
 {
+    /* If the WiFi interface has not been yet initialized. */
+    if(_mode == CY_WCM_INTERFACE_TYPE_UNKNOWN) {
+        return IPAddress(0, 0, 0, 0);
+    }
+
     cy_wcm_ip_address_t ip_address;
-    cy_rslt_t ret = cy_wcm_get_ip_addr(CY_WCM_INTERFACE_TYPE_STA, &ip_address);
+    cy_rslt_t ret = cy_wcm_get_ip_addr(_mode, &ip_address);
     if(ret != CY_RSLT_SUCCESS) {
         return IPAddress(0, 0, 0, 0);
     }
@@ -124,8 +133,8 @@ WiFiClass::~WiFiClass() {
 
 }
 
-cy_rslt_t WiFiClass::wcm_init() {
-    cy_wcm_config_t wcm_config = { .interface = CY_WCM_INTERFACE_TYPE_AP_STA };
+cy_rslt_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
+    cy_wcm_config_t wcm_config = { .interface = mode };
     return cy_wcm_init(&wcm_config);
 }
 

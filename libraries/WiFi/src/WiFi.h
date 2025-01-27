@@ -66,7 +66,7 @@ class WiFiClass {
         uint8_t beginAP(const char *ssid, const char* passphrase, uint8_t channel);
 
         /*
-        * Get the interface IP address of a station (not the access point).
+        * Get the interface IP address.
         * Currently only IPv4 is supported.
         *
         * return: IP address value. Returns 0.0.0.0 in case of error.
@@ -93,7 +93,12 @@ class WiFiClass {
 
     private: 
 
+        /* Extension of cy_wcm_interface_t enums. */
+        #define CY_WCM_INTERFACE_TYPE_UNKNOWN   (cy_wcm_interface_t)0xFF
+
+        cy_wcm_interface_t _mode = CY_WCM_INTERFACE_TYPE_UNKNOWN; 
         volatile wl_status_t _status = WL_IDLE_STATUS;
+
 
         /* The WiFi class is implemented as singleton. 
            The constructor and destructor are private. */
@@ -108,7 +113,7 @@ class WiFiClass {
          * Initialize the WiFi connection manager.
          * It support both AP and STA interfaces.
          */
-        static cy_rslt_t wcm_init();
+        static cy_rslt_t wcm_init(cy_wcm_interface_t mode);
 };
 
 extern WiFiClass & WiFi;
