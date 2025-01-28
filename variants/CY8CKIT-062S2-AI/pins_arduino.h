@@ -31,10 +31,16 @@
 /****** UART CORE DEFINES ******/
 
 #define SERIAL_HOWMANY		2
-#define UART1_TX_PIN        CYBSP_DEBUG_UART_TX
-#define UART1_RX_PIN        CYBSP_DEBUG_UART_RX
-#define UART2_TX_PIN        P10_1
-#define UART2_RX_PIN        P10_0
+#define UART1_TX_PIN      CYBSP_DEBUG_UART_TX
+#define UART1_RX_PIN      CYBSP_DEBUG_UART_RX
+#define UART2_TX_PIN      P10_1
+#define UART2_RX_PIN      P10_0
+
+#define I2C_HOWNMANY    2
+#define I2C1_SDA_PIN    CYBSP_I2C_SDA
+#define I2C1_SCL_PIN    CYBSP_I2C_SCL
+#define I2C2_SDA_PIN    P9_1
+#define I2C2_SCL_PIN    P9_0
 
 #define A0 0 // ADC P10.1
 #define A1 1 // ADC P10.0
