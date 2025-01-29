@@ -30,12 +30,12 @@ int WiFiClass::begin(const char* ssid, const char *passphrase) {
     memset(&connect_param, 0, sizeof(cy_wcm_connect_params_t));
 
     memcpy(connect_param.ap_credentials.SSID, ssid, strlen(ssid));
-    memcpy(connect_param.ap_credentials.password, passphrase, strlen(passphrase));
 
     /* Set security based on passphrase */
     if (passphrase == nullptr) {
         connect_param.ap_credentials.security = CY_WCM_SECURITY_OPEN;
     } else {
+        memcpy(connect_param.ap_credentials.password, passphrase, strlen(passphrase));
         connect_param.ap_credentials.security = CY_WCM_SECURITY_UNKNOWN;
     }
 
