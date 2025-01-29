@@ -22,8 +22,6 @@
 extern "C" {
 #endif
 
-#include "cyhal_gpio.h"
-
 void pinMode(pin_size_t pin, PinMode mode) {
     if (pin > GPIO_PIN_COUNT) {
         return; // Invalid pin number
