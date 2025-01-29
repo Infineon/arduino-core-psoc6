@@ -55,44 +55,44 @@ extern "C" {
 
 // Mapping of digital pins and comments
 const cyhal_gpio_t mapping_gpio_pin[] = {
-    /* 0   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 0),  // SPI-MOSI        P9.0 
-    /* 1   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 1),  // SPI-MISO        P9.1
-    /* 2   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 2),  // SPI-SCLK        P9.2
-    /* 3   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 3),  // IO_0            P9.3
-    /* 4   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 4),  // IO_1            P9.4
-    /* 5   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 5),  // IO_2 / PWM1     P9.5 
-    /* 6   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 6),  // IO_3 / PWM2     P9.6
-    /* 7   */ CYHAL_GET_GPIO(CYHAL_PORT_9, 7),  // IO_4            P9.7
+    /* 0   */ P9_0, // SPI-MOSI         
+    /* 1   */ P9_1, // SPI-MISO        
+    /* 2   */ P9_2, // SPI-SCLK        
+    /* 3   */ P9_3, // IO_0            
+    /* 4   */ P9_4, // IO_1            
+    /* 5   */ P9_5, // IO_2 / PWM1     
+    /* 6   */ P9_6, // IO_3 / PWM2     
+    /* 7   */ P9_7, // IO_4            
 		   
-    /* 8   */ CYHAL_GET_GPIO(CYHAL_PORT_0, 2),  // I2C-SCL         P0.2
-    /* 9   */ CYHAL_GET_GPIO(CYHAL_PORT_0, 3),  // I2C-SDA         P0.3
-    /* 10  */ CYHAL_GET_GPIO(CYHAL_PORT_10, 1), // A1 / UART_TX    P10.1
-    /* 11  */ CYHAL_GET_GPIO(CYHAL_PORT_10, 0), // A0 / UART_RX    P10.0
+    /* 8   */ P0_2, // I2C-SCL         
+    /* 9   */ P0_3, // I2C-SDA         
+    /* 10  */ P10_1,// A1 / UART_TX    
+    /* 11  */ P10_0,// A0 / UART_RX    
 
     // on board LEDs and USER BUTTON
 
-    /* 12  */ CYHAL_GET_GPIO(CYHAL_PORT_5, 3),  // LED1            P5.3
-    /* 13  */ CYHAL_GET_GPIO(CYHAL_PORT_5, 4),  // LED2            P5.4
-    /* 14  */ CYHAL_GET_GPIO(CYHAL_PORT_5, 2),  // USER BUTTON     P5.2 
+    /* 12  */ P5_3, // LED1            
+    /* 13  */ P5_4, // LED2            
+    /* 14  */ P5_2, // USER BUTTON     
 
     // Additional pins for expansion IO connector - J15 starting here
 
-    /* 15  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 0), // SDHC_DATA00 / SPI-MOSI / UART_RX / I2C-SCL     P13.0
-    /* 16  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 1), // SDHC_DATA01 / SPI-MISO / UART_TX / I2C-SDA     P13.1
-    /* 17  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 2), // SDHC_DATA02 / SPI-SCLK / IO / PWM              P13.2
-    /* 18  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 3), // SDHC_DATA03 / IO / PWM                         P13.3
-    /* 19  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 4), // SDHC_DATA10 / UART_RX / I2C-SCL                P13.4
-    /* 20  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 5), // SDHC_DATA11 / UART_TX / I2C-SDA                P13.5
-    /* 21  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 6), // SDHC_DATA12 / IO / PWM                         P13.6
-    /* 22  */ CYHAL_GET_GPIO(CYHAL_PORT_13, 7), // SDHC_DATA13 / IO / PWM                         P13.7
-    /* 23  */ CYHAL_GET_GPIO(CYHAL_PORT_8, 2), // SPI-SCLK / IO /PWM                              P8.2
-    /* 24  */ CYHAL_GET_GPIO(CYHAL_PORT_8, 1), // SPI-MISO / UART_TX / I2C-SDA / IO / PWM         P8.1
-    /* 25  */ CYHAL_GET_GPIO(CYHAL_PORT_8, 0), // SPI-MOSI / UART_RX / I2C-SCL / IO / PWM         P8.0   
-    /* 26  */ CYHAL_GET_GPIO(CYHAL_PORT_8, 3), // IO / PWM                                        P8.3 
-    /* 27  */ CYHAL_GET_GPIO(CYHAL_PORT_8, 4), // UART_RX / I2C-SCL / IO /PWM                     P8.4 
-    /* 28  */ CYHAL_GET_GPIO(CYHAL_PORT_8, 5), // UART_TX / I2C-SDA / IO /PWM                     P8.5 
-    /* 29  */ CYHAL_GET_GPIO(CYHAL_PORT_12, 4), // SDHC_CMD / IO /PWM                             P12.4 
-    /* 30  */ CYHAL_GET_GPIO(CYHAL_PORT_12, 5), // SDHC_CLK / IO /PWM                             P12.5
+    /* 15  */ P13_0,// SDHC_DATA00 / SPI-MOSI / UART_RX / I2C-SCL     
+    /* 16  */ P13_1,// SDHC_DATA01 / SPI-MISO / UART_TX / I2C-SDA     
+    /* 17  */ P13_2,// SDHC_DATA02 / SPI-SCLK / IO / PWM             
+    /* 18  */ P13_3,// SDHC_DATA03 / IO / PWM                         
+    /* 19  */ P13_4,// SDHC_DATA10 / UART_RX / I2C-SCL                
+    /* 20  */ P13_5,// SDHC_DATA11 / UART_TX / I2C-SDA                
+    /* 21  */ P13_6,// SDHC_DATA12 / IO / PWM                         
+    /* 22  */ P13_7,// SDHC_DATA13 / IO / PWM                         
+    /* 23  */ P8_2,// SPI-SCLK / IO /PWM                              
+    /* 24  */ P8_1,// SPI-MISO / UART_TX / I2C-SDA / IO / PWM         
+    /* 25  */ P8_0,// SPI-MOSI / UART_RX / I2C-SCL / IO / PWM         
+    /* 26  */ P8_3,// IO / PWM                                        
+    /* 27  */ P8_4,// UART_RX / I2C-SCL / IO /PWM                     
+    /* 28  */ P8_5,// UART_TX / I2C-SDA / IO /PWM                     
+    /* 29  */ P12_4,// SDHC_CMD / IO /PWM                             
+    /* 30  */ P12_5,// SDHC_CLK / IO /PWM                             
 };
 
 const uint8_t GPIO_PIN_COUNT = (sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) - 1;
