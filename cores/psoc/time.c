@@ -19,6 +19,9 @@
 #include "Arduino.h"
 #include "cy_systick.h"
 
+#include <FreeRTOS.h>
+#include <task.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -57,19 +60,13 @@ unsigned long micros() {
 }
 
 void delay(unsigned long ms) {
-    unsigned long start = millis();
-    while (millis() - start < ms) {
-        // Yield to allow other processes to run
-        yield();
-    }
+    const TickType_t xDelay = ms / portTICK_PERIOD_MS;
+    vTaskDelay(xDelay);
 }
 
 void delayMicroseconds(unsigned int us) {
-    unsigned long start = micros();
-    while (micros() - start < us) {
-        // Yield to allow other processes to run
-        yield();
-    }
+    const TickType_t xDelay = us / (portTICK_PERIOD_MS * MILLISECONDS_PER_SECOND);
+    vTaskDelay(xDelay);
 }
 
 #ifdef __cplusplus
