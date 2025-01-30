@@ -41,7 +41,7 @@ compiler.arduino_core_api.path= "-I{compiler.arduino_core_dep_avr.path}" "-I{com
 # Some flags might not be required : -mtune={build.mcu}
 compiler.c.flags= -c -g -Os {compiler.warning_flags} -std=gnu11  -nostdlib --param max-inline-insns-single=500 -MMD
 compiler.c.extra_flags=
-compiler.libraries.ldflags=
+compiler.libraries.ldflags= -lstdc++
 
 # linker options
 compiler.c.elf.flags=-Os -Wl,-Map,{build.path}/{build.project_name}.map
@@ -94,7 +94,7 @@ recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compil
 compiler.mtb_lib.path = "{runtime.platform.path}/variants/{build.variant}/mtb-libs.a"
 
 # Linker command
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.elf_flags.from_file} {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -Wl,--start-group {object_files} {archive_file_path}   -Wl,--end-group -Wl,-EL -o "{build.path}/{build.project_name}.elf"  {compiler.mtb_lib.path}
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.elf_flags.from_file} {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -Wl,--start-group {object_files} {archive_file_path}   -Wl,--end-group -Wl,-EL -o "{build.path}/{build.project_name}.elf"  {compiler.mtb_lib.path} {compiler.libraries.ldflags}
 
 ## Compute size
 # ----------------
