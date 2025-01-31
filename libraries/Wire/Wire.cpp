@@ -8,11 +8,28 @@ extern "C" {
 
 #define I2C_DEFAULT_FREQ 100000
 
-TwoWire::TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl) : sda_pin(sda), scl_pin(scl) {
+uint8_t TwoWire::rxBuffer[BUFFER_LENGTH];
+size_t TwoWire::rxBufferIndex = 0;			//head
+size_t TwoWire::rxBufferLength = 0;		//tail
+
+uint8_t TwoWire::txAddress = 0;
+uint8_t TwoWire::txBuffer[BUFFER_LENGTH];
+size_t TwoWire::txBufferIndex = 0;			//head
+size_t TwoWire::txBufferLength = 0;		//tail
+
+void (*TwoWire::user_onRequest)(void);
+void (*TwoWire::user_onReceive)(int);
+
+TwoWire *TwoWire::instances[I2C_HOWNMANY] = {nullptr};
+cyhal_i2c_t TwoWire::i2c_objs[I2C_HOWNMANY];
+
+TwoWire::TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance) : sda_pin(sda), scl_pin(scl), instance(instance) {
+    if (instance < I2C_HOWNMANY) {
+        instances[instance] = this;
+    }
 }
 
 void TwoWire::_begin() {
-
     rxBufferIndex = 0;
     rxBufferLength = 0;
 
@@ -20,22 +37,29 @@ void TwoWire::_begin() {
     txBufferLength = 0;
     
     if (is_master) {
-        i2c_config= {
-            .is_slave = is_master ? false : true,
-            0,
-            .frequencyhal_hz = I2C_DEFAULT_FREQ
-        };
-    }
-    else {
         i2c_config = {
-            .is_slave = is_master ? false : true,
-            slave_address,
+            .is_slave = CYHAL_I2C_MODE_MASTER,
+            .address = 0,
+            .frequencyhal_hz = I2C_DEFAULT_FREQ
+        };
+    } else {
+        i2c_config = {
+            .is_slave = CYHAL_I2C_MODE_SLAVE,
+            .address = slave_address,
             .frequencyhal_hz = I2C_DEFAULT_FREQ
         };
     }
-        cyhal_i2c_init(&i2c_obj, sda_pin, scl_pin, NULL);
-        cyhal_i2c_configure(&i2c_obj, &i2c_config);
-        cyhal_i2c_register_callback(&i2c_obj, i2c_event_handler, this);
+
+    cyhal_i2c_init(&i2c_objs[instance], sda_pin, scl_pin, NULL);
+    cyhal_i2c_configure(&i2c_objs[instance], &i2c_config);
+
+    if (!is_master) {
+        // Configure the read and write buffers for the I2C slave
+        cyhal_i2c_slave_config_read_buffer(&i2c_objs[instance],  txBuffer, BUFFER_LENGTH);
+        cyhal_i2c_slave_config_write_buffer(&i2c_objs[instance], rxBuffer, BUFFER_LENGTH);
+    }
+
+    cyhal_i2c_register_callback(&i2c_objs[instance], i2c_event_handler, this);
 }
 
 void TwoWire::begin() {
@@ -60,40 +84,62 @@ void TwoWire::begin(uint8_t address) {
 }
 
 void TwoWire::end() {
-    cyhal_i2c_free(&i2c_obj);
+    cyhal_i2c_free(&i2c_objs[instance]);
+    instances[instance] = nullptr; // Clear the instance
 }
 
 void TwoWire::setClock(uint32_t freq) {
-    if(is_master) {
+    if (is_master) {
         i2c_config = {
             .is_slave = false,
-            0,
+            .address = 0,
             .frequencyhal_hz = freq
         };
-    }
-    else {
+    } else {
         i2c_config = {
             .is_slave = true,
-            slave_address,
+            .address = slave_address,
             .frequencyhal_hz = freq
         };
     }
-    cyhal_i2c_configure(&i2c_obj, &i2c_config);
+    cyhal_i2c_configure(&i2c_objs[instance], &i2c_config);
 }
 
-void TwoWire::   beginTransmission(uint8_t address) {
+void TwoWire::beginTransmission(uint8_t address) {
     txAddress = address;
     txBufferIndex = 0;
     txBufferLength = 0;
 }
 
 uint8_t TwoWire::endTransmission(bool sendStop) {
-    cy_rslt_t result = cyhal_i2c_master_write(&i2c_obj, slave_address, txBuffer, txBufferLength, timeout, sendStop);
-    
-    txBufferIndex = 0;
-    txBufferLength = 0;
-
-    return (result == CY_RSLT_SUCCESS) ? 0 : 1; // Return 0 on success, 1 on failure
+    cy_rslt_t result;
+    if (txBufferLength == 0) {
+        result = cyhal_i2c_master_write(&i2c_objs[instance], txAddress, txBuffer, 0, timeout, sendStop);
+    } else {
+        result = cyhal_i2c_master_write(&i2c_objs[instance], txAddress, txBuffer, txBufferLength, timeout, sendStop);
+        txBufferIndex = 0;
+        txBufferLength = 0;
+    }
+    if (result == CY_RSLT_SUCCESS) {
+        return 0; // Success
+    } else {
+        // Handle specific error codes
+        switch (result) {
+            case 0xAA2004:
+                Serial.println("Error: No device attached to SDA/SCL, but they are pulled-up.");
+                return 2; // NACK on transmit of address
+            case 0xAA2003:
+                Serial.println("Error: No device attached to SDA/SCL, and they are not pulled-up.");
+                return 2; // NACK on transmit of address
+            case CYHAL_I2C_RSLT_WARN_TIMEOUT:
+                Serial.println("Warning: Timeout.");
+                return 5; // Timeout
+            default:
+                Serial.println("Error: Unknown error.");
+                break;
+        }
+        return 4; // Other error
+    }
 }
 
 uint8_t TwoWire::endTransmission(void) {
@@ -101,16 +147,16 @@ uint8_t TwoWire::endTransmission(void) {
 }
 
 size_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool stopBit) {
-    if(quantity > BUFFER_LENGTH){
+    if (quantity > BUFFER_LENGTH) {
         quantity = BUFFER_LENGTH;
     }
-    cy_rslt_t result = cyhal_i2c_master_read(&i2c_obj, address, rxBuffer, quantity, timeout, stopBit);   
-    if(result == CY_RSLT_SUCCESS){
+    memset(rxBuffer, 0, BUFFER_LENGTH);
+    cy_rslt_t result = cyhal_i2c_master_read(&i2c_objs[instance], address, rxBuffer, quantity, timeout, stopBit);   
+    if (result == CY_RSLT_SUCCESS) {
         rxBufferIndex = 0;
         rxBufferLength = quantity;
-        return quantity;
-    }
-    else{
+        return quantity; // Return number of bytes read
+    } else {
         return 0; // Return 0 on failure of read operation
     }
 }
@@ -120,74 +166,146 @@ size_t TwoWire::requestFrom(uint8_t address, size_t len) {
 }
 
 size_t TwoWire::write(uint8_t data) {
-    	/* Check if buffer is full */
-	if(txBufferLength >= BUFFER_LENGTH){
-	  return 0;
-	}
+    /* Check if buffer is full */
+    if (txBufferLength >= BUFFER_LENGTH) {
+        return 0;
+    }
 
-	/* Put byte in txBuffer */
-	txBuffer[txBufferIndex] = data;
-	txBufferIndex++;
+    /* Put byte in txBuffer */
+    txBuffer[txBufferIndex] = data;
+    txBufferIndex++;
 
-	/* Update buffer length */
-	txBufferLength = txBufferIndex;
-	 
-	return 1;
+    /* Update buffer length */
+    txBufferLength = txBufferIndex;
+     
+    return 1;
 }
 
 size_t TwoWire::write(const uint8_t * data, size_t quantity) {
-  	for(size_t i = 0; i < quantity; i++){
-		write(*(data + i));
-	}
+    for (size_t i = 0; i < quantity; i++) {
+        write(*(data + i));
+    }
 
-	return quantity;
+    return quantity;
+}
+
+// New overloaded write function to accept a string
+size_t TwoWire::write(const char *str) {
+    if (str == nullptr) {
+        return 0;
+    }
+    return write((const uint8_t *)str, strlen(str));
 }
 
 int TwoWire::available(void) {
-
     return rxBufferLength - rxBufferIndex;
 }
 
 int TwoWire::read(void) {
-   if(rxBufferIndex < rxBufferLength)
-    {
-        return rxBuffer[rxBufferIndex++];
+    if (rxBufferIndex < rxBufferLength) {
+        int data = rxBuffer[rxBufferIndex++];
+        if (rxBufferIndex == rxBufferLength) {
+            // Clear the buffer after reading
+            memset(rxBuffer, 0, BUFFER_LENGTH);
+            rxBufferIndex = 0;
+            rxBufferLength = 0;
+        }
+        return data;
     }
     return -1;
 }
 
 int TwoWire::peek(void) {
-   if(rxBufferIndex < rxBufferLength)
-    {
+    if (rxBufferIndex < rxBufferLength) {
         return rxBuffer[rxBufferIndex];
     }
     return -1;
 }
 
 void TwoWire::onReceive(void (*function)(int)) {
-   user_onReceive = function;
-   cyhal_i2c_enable_event(&i2c_obj, CYHAL_I2C_SLAVE_READ_EVENT, 7, true);
+    user_onReceive = function;
+    cyhal_i2c_enable_event(&i2c_objs[instance], CYHAL_I2C_SLAVE_WR_CMPLT_EVENT, 7, true);
 }
 
 void TwoWire::onRequest(void (*function)(void)) {
     user_onRequest = function;
-    cyhal_i2c_enable_event(&i2c_obj, CYHAL_I2C_SLAVE_WRITE_EVENT, 7, true);
+    cyhal_i2c_enable_event(&i2c_objs[instance], CYHAL_I2C_SLAVE_READ_EVENT, 7, true);
 }
+
 
 void TwoWire::i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event) {
     TwoWire *instance = static_cast<TwoWire*>(callback_arg);
-    if (event == CYHAL_I2C_SLAVE_READ_EVENT && instance->user_onReceive) {
-        instance->user_onReceive(instance->available());
-    } else if (event == CYHAL_I2C_SLAVE_WRITE_EVENT && instance->user_onRequest) {
-        instance->user_onRequest();
+    if (event == CYHAL_I2C_SLAVE_WR_CMPLT_EVENT) {  //master wants to write data
+        int availableBytes = instance->txBufferLength;
+        if (availableBytes > 0) {
+            instance->onReceiveService(availableBytes);
+        } else {
+            Serial.println("No bytes available to read.");
+        }
+    } else if (event == CYHAL_I2C_SLAVE_READ_EVENT) { //master wants to read data
+        instance->onRequestService();
+    } else {
+        Serial.print("Unknown I2C event: ");
+        Serial.println(event);
     }
 }
 
+// This function is called when the master wants to write data to the slave
+void TwoWire::onReceiveService(int numBytes) {
+    // Don't bother if user hasn't registered a callback
+    if (!user_onReceive) {
+        return;
+    }
+
+    // Don't bother if rx buffer is in use by a master requestFrom() op
+    if (rxBufferIndex < rxBufferLength) {
+        return;
+    }
+
+    // Manually update rxBufferLength to reflect the number of bytes received
+    rxBufferLength = numBytes;
+    rxBufferIndex = 0;
+
+    // Alert user program
+    user_onReceive(rxBufferLength);
+
+    // Reconfigure the write buffer after the transaction
+    cy_rslt_t result = cyhal_i2c_slave_config_write_buffer(&i2c_objs[instance], rxBuffer, BUFFER_LENGTH);
+    if (result != CY_RSLT_SUCCESS) {
+        Serial.print("I2C slave write buffer reconfig failed with error: ");
+        Serial.println(result);
+    }
+}
+
+// This function is called when the master wants to read data from the slave
+uint8_t TwoWire::onRequestService(void) {
+    // Don't bother if user hasn't registered a callback
+    if (!user_onRequest) {
+        return 0;
+    }
+
+    // Reset slave write buffer iterator var
+    txBufferIndex = 0;
+    txBufferLength = 0;
+
+    // Alert user program
+    user_onRequest();
+
+    // Reconfigure the read buffer after the transaction
+    cy_rslt_t result = cyhal_i2c_slave_config_read_buffer(&i2c_objs[instance], txBuffer, BUFFER_LENGTH);
+    if (result != CY_RSLT_SUCCESS) {
+        Serial.print("I2C slave read buffer reconfig failed with error: ");
+        Serial.println(result);
+    }
+
+    return txBufferLength;
+}
+
+
 #if I2C_HOWNMANY > 0
-TwoWire Wire = TwoWire(I2C1_SDA_PIN, I2C1_SCL_PIN);
+TwoWire Wire = TwoWire(I2C1_SDA_PIN, I2C1_SCL_PIN, 0);
 #endif
 
 #if I2C_HOWNMANY > 1
-TwoWire Wire1 = TwoWire(I2C2_SDA_PIN, I2C2_SCL_PIN);
+TwoWire Wire1 = TwoWire(I2C2_SDA_PIN, I2C2_SCL_PIN, 1);
 #endif
-
