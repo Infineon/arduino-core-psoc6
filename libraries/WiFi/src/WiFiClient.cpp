@@ -1,11 +1,30 @@
 #include <WiFiClient.h>
 
+/** 
+ * @brief Macro to assert the return value of the cy_wcm APIs 
+ *        and translate it to the mapped WiFi class error code.
+ * @param cy_ret Return value of the cy_wcm API. 
+ * @param ret_code The mapped WiFi class error code.
+ */
+#define wifi_client_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
+        return ret_code; \
+}
+
+#define wifi_client_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
+        return; \
+}
+
 WiFiClient::WiFiClient() {
 
 }
 
 int WiFiClient::connect(IPAddress ip, uint16_t port) {
-    return 0;
+    socket.begin();
+    
+    socket.set_receive_opts(tcp_receive_msg_handler, this);
+    socket.set_disconnect_opts(tcp_disconnection_handler, this);
+
+    return socket.connect(ip, port);
 }
 
 int WiFiClient::connect(const char *host, uint16_t port) {
@@ -50,4 +69,13 @@ uint8_t WiFiClient::connected() {
 
 WiFiClient::operator bool() {
  return true;
+}
+
+cy_rslt_t WiFiClient::tcp_receive_msg_handler(cy_socket_t socket_handle, void *arg) {
+    return 0;
+}
+
+cy_rslt_t WiFiClient::tcp_disconnection_handler(cy_socket_t socket_handle, void *arg) {
+    
+    return 0;
 }
