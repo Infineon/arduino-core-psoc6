@@ -1,4 +1,8 @@
 
+#ifndef WIFI_CLIENT_H
+#define WIFI_CLIENT_H
+
+#include <Socket.h>
 #include "Client.h"
 #include "cy_secure_sockets.h"
 
@@ -22,7 +26,12 @@ class WiFiClient : arduino::Client {
     
 
     private:
-        cy_socket_t socket; 
+        Socket socket;
+
+        static cy_rslt_t tcp_receive_msg_handler(cy_socket_t socket_handle, void *arg);
+        static cy_rslt_t tcp_disconnection_handler(cy_socket_t socket_handle, void *arg);
 
         friend class WiFiServer;
 };
+
+#endif /* WIFI_CLIENT_H */
