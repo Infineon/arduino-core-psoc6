@@ -31,7 +31,7 @@ compiler.warning_flags=-w
 compiler.define=-DARDUINO=
 
 # Compiler include paths for include files
-compiler.arduino_core.path={runtime.platform.path}/cores/arduino/api
+compiler.arduino_core.path={runtime.platform.path}/cores/psoc/api
 compiler.arduino_core_dep.path={compiler.arduino_core.path}/deprecated
 compiler.arduino_core_dep_avr.path={compiler.arduino_core.path}/deprecated-avr-comp/avr
 compiler.arduino_core_api.path= "-I{compiler.arduino_core_dep_avr.path}" "-I{compiler.arduino_core_dep.path}"  "-I{compiler.arduino_core.path}" 

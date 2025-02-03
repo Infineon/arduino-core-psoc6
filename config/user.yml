@@ -1,0 +1,6 @@
+check:
+    - check-clang-tidy
+    - check-cppcheck
+
+build:
+    - build-psoc-cy8ckit_062s2_ai

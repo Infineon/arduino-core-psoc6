@@ -1,0 +1,16 @@
+build:
+    build-psoc-cy8ckit_062s2_ai:
+      description: Compiling test_digitalio_single.cpp for PSOC6 platform
+      target: test_digitalio_single
+      fqbn: infineon:psoc:cy8ckit_062s2_ai
+
+check:
+    check-clang-tidy:
+      description: clang-tidy check for wire sources
+      tool: clang-tidy
+      command: tools/run_clangtidy.sh ./cores/psoc/*
+
+    check-cppcheck:
+      description: cppcheck check for wire sources
+      tool: cppcheck
+      command: tools/run_cppcheck.sh ./cores/psoc/*

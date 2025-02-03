@@ -20,7 +20,7 @@
 #ifndef Arduino_h
 #define Arduino_h
 
-#include "api/ArduinoAPI.h"
+#include "ArduinoAPI.h"
 #include "cyhal_gpio.h"
 
 #define RAMSTART (HMCRAMC0_ADDR)
