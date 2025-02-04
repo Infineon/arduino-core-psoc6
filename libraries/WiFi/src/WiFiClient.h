@@ -22,6 +22,7 @@ class WiFiClient : arduino::Client {
         void flush();
         void stop();
         uint8_t connected();
+        uint8_t status();
         operator bool();
     
 

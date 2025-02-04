@@ -40,7 +40,7 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size) {
 }
 
 int WiFiClient::available() {
-    return 0;
+    return true;
 }
 
 int WiFiClient::read()  {
@@ -64,11 +64,22 @@ void WiFiClient::stop() {
 }
 
 uint8_t WiFiClient::connected() {
-    return 0;
+    return (socket.status() == SOCKET_STATUS_CONNECTED); 
+}
+
+uint8_t WiFiClient::status() {
+    return socket.status();
 }
 
 WiFiClient::operator bool() {
- return true;
+    if (socket.status() != SOCKET_STATUS_CONNECTED) {
+        return false;
+    }
+    if(available() <= 0) 
+    {
+        return false;
+    }
+    return true;
 }
 
 cy_rslt_t WiFiClient::tcp_receive_msg_handler(cy_socket_t socket_handle, void *arg) {
