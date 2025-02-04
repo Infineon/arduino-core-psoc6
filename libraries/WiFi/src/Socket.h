@@ -6,6 +6,17 @@
 #include "cy_secure_sockets.h"
 #include "IPAddress.h"
 
+typedef enum {
+    SOCKET_STATUS_UNINITED = 0,
+    SOCKET_STATUS_CREATED,
+    SOCKET_STATUS_CLOSED,
+    SOCKET_STATUS_DISCONNECTED,
+    SOCKET_STATUS_CONNECTED,
+    SOCKET_STATUS_BOUND,
+    SOCKET_STATUS_LISTENING,
+    SOCKET_STATUS_ERROR = -1
+} socket_status_t;
+
 class Socket {
 
     public:
@@ -25,14 +36,15 @@ class Socket {
         void listen(int max_connections);
         bool accept(Socket & client_socket);
 
-        int get_status();
+        uint8_t status();
+        cy_rslt_t get_last_error();
 
     private:
 
         cy_socket_t socket;
-        cy_rslt_t status;
+        socket_status_t s_status;
+        cy_rslt_t s_last_error;
 
-        void set_status(cy_rslt_t ret);
 
         static bool global_socket_begun;
         static uint32_t global_socket_count;
