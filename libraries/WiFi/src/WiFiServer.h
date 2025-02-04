@@ -16,6 +16,7 @@ class WiFiServer : public arduino::Server {
         void begin(uint16_t port);
         void begin();
 
+        WiFiClient available();
         size_t write(uint8_t);
 
         void end();

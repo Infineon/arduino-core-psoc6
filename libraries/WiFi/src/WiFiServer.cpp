@@ -10,7 +10,6 @@ WiFiServer::WiFiServer(){
 }
 
 void WiFiServer::begin(uint16_t port) {
-    
     socket.begin();
     
     socket.set_timeout(SERVER_RECV_TIMEOUT_MS);
@@ -26,6 +25,16 @@ void WiFiServer::begin() {
     begin(0);
 }
 
+WiFiClient WiFiServer::available() {
+    WiFiClient client;
+
+    if (connected_clients.size() > 0) {
+        client = connected_clients.front();
+        connected_clients.erase(connected_clients.begin());
+    }
+
+    return client;
+}
 
 size_t WiFiServer::write(uint8_t) {
     return 0;
@@ -45,12 +54,6 @@ void WiFiServer::end() {
 
 cy_rslt_t WiFiServer::tcp_connection_handler(cy_socket_t socket_handle, void *arg) {
     
-    Serial.print("We received some connection!");
-    /**
-     * TODO: Verify this properly when implementing the 
-     * available method. This for now shows the connection
-     * callback being called.
-    */
     WiFiServer *server = (WiFiServer *)arg;
 
     WiFiClient new_client;
