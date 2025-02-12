@@ -5,16 +5,14 @@ SRC_FILES=$1
 HEADER_FILTER="(extras/arduino-core-api/api/.*|variants/CY8CKIT-062S2-AI/mtb-bsp/.*|extras/mtb-libs/core-lib/include/.*|extras/mtb-libs/mtb-hal-cat1/include/.*)"
 ERROR_COUNT=0
 
-# Iterate over each file and run clang-tidy
+# Iterate over each file and run clang-format
 for FILE in $SRC_FILES; do
-  echo "Running clang-tidy on $FILE"
+  echo "Running clang-format formatting on $FILE"
   FILENAME=$(basename "${FILE%.*}")
-  clang-tidy --config-file="config/clang-tidy/.clang-tidy" \
-             -export-fixes="results/clang-tidy/$FILENAME.yaml" \
-             --extra-arg=-Wno-error=clang-diagnostic-error \
+  clang-format "config/clang-format/.clang-format" -i \
              $FILE 
   if [ $? -ne 0 ]; then
-    echo "ERROR: clang-tidy failed for $FILE"
+    echo "ERROR: clang-format failed for $FILE"
     ERROR_COUNT=$((ERROR_COUNT + 1))
   fi
 done

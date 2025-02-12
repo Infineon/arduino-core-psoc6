@@ -6,11 +6,16 @@ build:
 
 check:
     check-clang-tidy:
-      description: clang-tidy check for wire sources
+      description: clang-tidy check sources
       tool: clang-tidy
       command: tools/run_clangtidy.sh ./cores/psoc/*
 
     check-cppcheck:
-      description: cppcheck check for wire sources
+      description: cppcheck check sources
       tool: cppcheck
       command: tools/run_cppcheck.sh ./cores/psoc/*
+
+    format-clang-tidy:
+      description: clang-tidy check sources
+      tool: clang-format
+      command: tools/run_clangtidy_format.sh ./cores/psoc/*

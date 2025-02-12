@@ -23,9 +23,14 @@
 #include "ArduinoAPI.h"
 #include "cyhal_gpio.h"
 
-#define RAMSTART (HMCRAMC0_ADDR)
-#define RAMSIZE  (HMCRAMC0_SIZE)
-#define RAMEND   (RAMSTART + RAMSIZE - 1)
+// ARM toolchain doesn't provide itoa etc, provide them
+#include "itoa.h"
+
+
+
+#ifdef __cplusplus
+#include "Uart.hpp"
+#endif
 
 #ifdef __cplusplus
 
@@ -39,6 +44,9 @@ extern "C" {
 // ****************************************************************************
 extern const cyhal_gpio_t mapping_gpio_pin[];
 extern const uint8_t GPIO_PIN_COUNT;
+
+// Include pin configuration file
+#include "pins_arduino.h"
 
 #define GPIO_INTERRUPT_PRIORITY 3 // GPIO interrupt priority
 #define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
@@ -73,17 +81,7 @@ extern "C" {
 }
 #endif
 
-
-// ARM toolchain doesn't provide itoa etc, provide them
-#include "api/itoa.h"
-
-#ifdef __cplusplus
-#include "Uart.h"
-#endif
-
 #define Serial _UART1_
 #define Serial1 _UART2_
-
-#include "pins_arduino.h"
 
 #endif // Arduino_h

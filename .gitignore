@@ -8,6 +8,7 @@
 # Ignore build folder
 /build
 /pkg_build
+/results
 
 # Ignore mtb build folder
 mtb_shared

@@ -1,4 +1,4 @@
-#include "Uart.h"
+#include "Uart.hpp"
 
 #if SERIAL_HOWMANY > 0
 Uart _UART1_(UART1_TX_PIN, UART1_RX_PIN, NC, NC);

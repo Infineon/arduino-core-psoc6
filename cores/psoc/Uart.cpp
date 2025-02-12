@@ -1,6 +1,5 @@
-#include "Uart.h"
+#include "Uart.hpp"
 #include "cybsp.h"
-
 
 #ifdef Serial
 #undef Serial
@@ -8,7 +7,7 @@
 
 Uart *Uart::g_uarts[MAX_UARTS] = {nullptr};
 
-Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts), bufferHead(0), bufferTail(0) {
+Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts), actualbaud(0), buffer(), bufferHead(0), bufferTail(0) {
 }
 
 void Uart::begin(unsigned long baud) {
@@ -121,7 +120,7 @@ size_t Uart::write(uint8_t c) {
 }
 
 size_t Uart::write(const uint8_t *buffer, size_t size) {
-    cy_rslt_t result = cyhal_uart_write(&uart_obj, (void *)buffer, &size);
+    cy_rslt_t result = cyhal_uart_write(&uart_obj, const_cast<void*>(static_cast<const void*>(buffer)), &size);
     if (result != CY_RSLT_SUCCESS) {
         return 0;
     }
