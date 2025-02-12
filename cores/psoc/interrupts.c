@@ -27,48 +27,44 @@ extern "C" {
 
 static cyhal_gpio_callback_data_t gpio_callback_data;
 
-void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback,
-                     PinStatus mode) {
-  if ((interruptNumber < GPIO_PIN_COUNT) ||
-      (digitalPinToInterrupt(interruptNumber) >= 0)) {
+void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, PinStatus mode) {
+    if ((interruptNumber < GPIO_PIN_COUNT) || (digitalPinToInterrupt(interruptNumber) >= 0)) {
 
-    cyhal_gpio_event_t event;
-    cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber];
+        cyhal_gpio_event_t event;
+        cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber];
 
-    switch (mode) {
-    case CHANGE:
-      event = CYHAL_GPIO_IRQ_BOTH;
-      break;
+        switch (mode) {
+        case CHANGE:
+            event = CYHAL_GPIO_IRQ_BOTH;
+            break;
 
-    case RISING:
-      event = CYHAL_GPIO_IRQ_RISE;
-      break;
+        case RISING:
+            event = CYHAL_GPIO_IRQ_RISE;
+            break;
 
-    case FALLING:
-      event = CYHAL_GPIO_IRQ_FALL;
-      break;
+        case FALLING:
+            event = CYHAL_GPIO_IRQ_FALL;
+            break;
 
-    default:
-      event = CYHAL_GPIO_IRQ_NONE;
-      break;
+        default:
+            event = CYHAL_GPIO_IRQ_NONE;
+            break;
+        }
+
+        gpio_callback_data.callback = (void (*)(void *, cyhal_gpio_event_t))callback;
+        cyhal_gpio_register_callback(pin, &gpio_callback_data);
+        cyhal_gpio_enable_event(pin, event, GPIO_INTERRUPT_PRIORITY, true);
     }
-
-    gpio_callback_data.callback =
-        (void (*)(void *, cyhal_gpio_event_t))callback;
-    cyhal_gpio_register_callback(pin, &gpio_callback_data);
-    cyhal_gpio_enable_event(pin, event, GPIO_INTERRUPT_PRIORITY, true);
-  }
 }
 
 void detachInterrupt(pin_size_t interruptNumber) {
 
-  if ((interruptNumber < GPIO_PIN_COUNT) ||
-      (digitalPinToInterrupt(interruptNumber) >= 0)) {
+    if ((interruptNumber < GPIO_PIN_COUNT) || (digitalPinToInterrupt(interruptNumber) >= 0)) {
 
-    cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber];
-    cyhal_gpio_enable_event(pin, CYHAL_GPIO_IRQ_NONE, 0, false);
-    cyhal_gpio_register_callback(pin, NULL);
-  }
+        cyhal_gpio_t pin = mapping_gpio_pin[interruptNumber];
+        cyhal_gpio_enable_event(pin, CYHAL_GPIO_IRQ_NONE, 0, false);
+        cyhal_gpio_register_callback(pin, NULL);
+    }
 }
 
 #ifdef __cplusplus

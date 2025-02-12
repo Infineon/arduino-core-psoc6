@@ -27,7 +27,7 @@
 #include "itoa.h"
 
 #ifdef __cplusplus
-#include "Uart.hpp"
+    #include "Uart.hpp"
 #endif
 
 #ifdef __cplusplus
@@ -61,7 +61,7 @@ extern const uint8_t GPIO_PIN_COUNT;
 
 // undefine stdlib's abs if encountered
 #ifdef abs
-#undef abs
+    #undef abs
 #endif // abs
 
 #define abs(x) ((x) > 0 ? (x) : -(x))
