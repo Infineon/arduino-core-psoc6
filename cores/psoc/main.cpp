@@ -20,44 +20,41 @@
 
 #include "Arduino.h"
 
-#include "cybsp.h"
 #include "cy_retarget_io.h"
+#include "cybsp.h"
 #include "time.h"
 
 // Weak empty variant initialization function.
 // May be redefined by variant files.
 void initVariant() __attribute__((weak));
-void initVariant() {
-}
-
+void initVariant() {}
 
 /*
  * \brief Main entry point of Arduino application
  */
 int main(void) {
-    cy_rslt_t result;
+  cy_rslt_t result;
 
-    /* Initialize the device and board peripherals */
-    result = cybsp_init();
-    time_init();
+  /* Initialize the device and board peripherals */
+  result = cybsp_init();
+  time_init();
 
-    /* Board init failed. Stop program execution */
-    if (result != CY_RSLT_SUCCESS) {
-        CY_ASSERT(0);
+  /* Board init failed. Stop program execution */
+  if (result != CY_RSLT_SUCCESS) {
+    CY_ASSERT(0);
+  }
+
+  /* Enable global interrupts */
+  interrupts();
+  initVariant();
+  setup();
+
+  for (;;) {
+    loop();
+    if (arduino::serialEventRun) {
+      arduino::serialEventRun();
     }
+  }
 
-    /* Enable global interrupts */
-    interrupts();
-    initVariant();
-    setup();
-
-    for (;;)
-    {
-        loop();
-        if (arduino::serialEventRun) {
-            arduino::serialEventRun();
-        }
-    }
-
-    return 0;
+  return 0;
 }

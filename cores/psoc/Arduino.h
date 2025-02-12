@@ -26,8 +26,6 @@
 // ARM toolchain doesn't provide itoa etc, provide them
 #include "itoa.h"
 
-
-
 #ifdef __cplusplus
 #include "Uart.hpp"
 #endif
@@ -61,13 +59,12 @@ extern const uint8_t GPIO_PIN_COUNT;
 } // extern "C"
 #endif
 
-
 // undefine stdlib's abs if encountered
 #ifdef abs
 #undef abs
 #endif // abs
 
-#define abs(x) ((x) > 0?(x):-(x))
+#define abs(x) ((x) > 0 ? (x) : -(x))
 
 // Globally enable or disable interrupts
 #define interrupts() __enable_irq()
