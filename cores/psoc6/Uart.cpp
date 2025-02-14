@@ -1,14 +1,19 @@
 #include "Uart.h"
 #include "cybsp.h"
 
-
 #ifdef Serial
-#undef Serial
+    #undef Serial
 #endif
 
 Uart *Uart::g_uarts[MAX_UARTS] = {nullptr};
 
-Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts), bufferHead(0), bufferTail(0) {
+Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts)
+    : tx_pin(tx),
+      rx_pin(rx),
+      cts_pin(cts),
+      rts_pin(rts),
+      bufferHead(0),
+      bufferTail(0) {
 }
 
 void Uart::begin(unsigned long baud) {
@@ -16,8 +21,7 @@ void Uart::begin(unsigned long baud) {
 }
 
 void Uart::begin(unsigned long baud, uint16_t config) {
-    switch (config)
-    {
+    switch (config) {
         case SERIAL_8N1:
             uart_config.data_bits = 8;
             uart_config.stop_bits = 1;
@@ -93,9 +97,9 @@ void Uart::flush() {
 
 int Uart::peek(void) {
     if (bufferHead == bufferTail) {
-        return -1;                  // Buffer is empty
+        return -1; // Buffer is empty
     } else {
-        return buffer[bufferTail];  // Return the next byte without removing it from the buffer
+        return buffer[bufferTail]; // Return the next byte without removing it from the buffer
     }
 }
 
@@ -103,7 +107,7 @@ int Uart::read(void) {
     noInterrupts();
     if (bufferHead == bufferTail) {
         interrupts();
-        return -1;                  // Buffer is empty
+        return -1; // Buffer is empty
     } else {
         uint8_t c = buffer[bufferTail];
         bufferTail = (bufferTail + 1) % bufferSize;
@@ -129,7 +133,7 @@ size_t Uart::write(const uint8_t *buffer, size_t size) {
 }
 
 void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
-    Uart *uart = static_cast < Uart * > (handler_arg);
+    Uart *uart = static_cast<Uart *>(handler_arg);
     uart->IrqHandler();
 }
 
@@ -147,4 +151,5 @@ void Uart::IrqHandler() {
         }
     }
 }
+
 // #endif
