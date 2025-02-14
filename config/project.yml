@@ -1,0 +1,26 @@
+build:
+    build-psoc-cy8ckit_062s2_ai:
+      description: Compiling test_digitalio_single.cpp for PSOC6 platform
+      target: test_digitalio_single
+      fqbn: infineon:psoc:cy8ckit_062s2_ai
+
+check:
+    check-clang-tidy:
+      description: clang-tidy check sources
+      tool: clang-tidy
+      command: tools/run_code_checks.sh clang-tidy ./cores/psoc/*
+
+    check-cppcheck:
+      description: cppcheck check sources
+      tool: cppcheck
+      command: tools/run_code_checks.sh cppcheck ./cores/psoc/*
+
+    clang-format:
+      description: clang-tidy check sources
+      tool: clang-format
+      command: tools/run_code_checks.sh clang-format ./cores/psoc/*
+
+    black-format:
+      description: black formatter formats the python scripts
+      tool: clang-format
+      command: tools/run_code_checks.sh black-format ./tools
