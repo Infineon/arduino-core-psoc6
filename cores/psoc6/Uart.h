@@ -10,8 +10,7 @@ typedef enum {
     UART_ERROR_SET_BAUD_FAILED = -2,
 } uart_error_t;
 
-class Uart: public arduino::HardwareSerial
-{
+class Uart : public arduino::HardwareSerial {
 public:
 
     Uart(pin_size_t tx, pin_size_t rx, pin_size_t cts = NC, pin_size_t rts = NC);
@@ -34,6 +33,7 @@ public:
 
     static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
 
+    static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
 
 private:
 

@@ -21,8 +21,7 @@ void Uart::begin(unsigned long baud) {
 }
 
 void Uart::begin(unsigned long baud, uint16_t config) {
-    switch (config)
-    {
+    switch (config) {
         case SERIAL_8N1:
             uart_config.data_bits = 8;
             uart_config.stop_bits = 1;
@@ -155,7 +154,7 @@ uart_error_t Uart::getLastError() {
 }
 
 void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
-    Uart *uart = static_cast < Uart * > (handler_arg);
+    Uart *uart = static_cast<Uart *>(handler_arg);
     uart->IrqHandler();
 }
 
