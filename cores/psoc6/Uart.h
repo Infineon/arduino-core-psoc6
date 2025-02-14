@@ -5,12 +5,11 @@
 #include "cyhal_uart.h"
 #include "cyhal_gpio.h"
 
-#define MAX_UARTS    10
+#define MAX_UARTS 10
 
-class Uart: public arduino::HardwareSerial
-{
+class Uart : public arduino::HardwareSerial {
 public:
-    static Uart * g_uarts[MAX_UARTS];
+    static Uart *g_uarts[MAX_UARTS];
     Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts);
     void begin(unsigned long baud);
     void begin(unsigned long baud, uint16_t config);
@@ -22,24 +21,30 @@ public:
     void flush(void);
     virtual size_t write(uint8_t c);
     virtual size_t write(const uint8_t *buffer, size_t size);
+
     inline size_t write(unsigned long n) {
         return write((uint8_t)n);
     }
+
     inline size_t write(long n) {
         return write((uint8_t)n);
     }
+
     inline size_t write(unsigned int n) {
         return write((uint8_t)n);
     }
+
     inline size_t write(int n) {
         return write((uint8_t)n);
     }
-    using Print::write;     // pull in write(str) and write(buf, size) from Print
+
+    using Print::write; // pull in write(str) and write(buf, size) from Print
+
     operator bool() {
         return true;
     }
-    static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
 
+    static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
 
 private:
     cyhal_gpio_t tx_pin;

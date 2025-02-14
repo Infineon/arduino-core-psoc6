@@ -38,6 +38,7 @@ void arduino_main_task(void *arg);
 // Weak empty variant initialization function.
 // May be redefined by variant files.
 void initVariant() __attribute__((weak));
+
 void initVariant() {
 }
 
@@ -70,8 +71,7 @@ void arduino_main_task(void *arg) {
 
     setup();
 
-    for (;;)
-    {
+    for (;;) {
         loop();
         if (arduino::serialEventRun) {
             arduino::serialEventRun();
