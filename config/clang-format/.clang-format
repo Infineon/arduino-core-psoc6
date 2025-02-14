@@ -16,4 +16,15 @@ BreakConstructorInitializersBeforeComma: false
 IndentPPDirectives: BeforeHash
 SortIncludes: Never
 SeparateDefinitionBlocks: Always
+IndentCaseLabels: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: false  # Braces stay on the same line for functions
+  BeforeFunctionBody: true  # Ensures statements start on a new line
+  AfterControlStatement: false  # Keeps braces on the same line for control statements
+  AfterEnum: false  # Keeps braces on the same line for enums
+  AfterStruct: false  # Keeps braces on the same line for structs
+  SplitEmptyFunction: false  # Prevents splitting empty functions into multiple lines
+  SplitEmptyRecord: false  # Prevents splitting empty structs into multiple lines
+  SplitEmptyNamespace: false  # Prevents splitting empty namespaces into multiple lines
 ...

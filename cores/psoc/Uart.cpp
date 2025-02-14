@@ -21,41 +21,41 @@ void Uart::begin(unsigned long baud) { begin(baud, SERIAL_8N1); }
 
 void Uart::begin(unsigned long baud, uint16_t config) {
     switch (config) {
-    case SERIAL_8N1:
-        uart_config.data_bits = 8;
-        uart_config.stop_bits = 1;
-        uart_config.parity = CYHAL_UART_PARITY_NONE;
-        break;
-    case SERIAL_8N2:
-        uart_config.data_bits = 8;
-        uart_config.stop_bits = 2;
-        uart_config.parity = CYHAL_UART_PARITY_NONE;
-        break;
-    case SERIAL_8E1:
-        uart_config.data_bits = 8;
-        uart_config.stop_bits = 1;
-        uart_config.parity = CYHAL_UART_PARITY_EVEN;
-        break;
-    case SERIAL_8E2:
-        uart_config.data_bits = 8;
-        uart_config.stop_bits = 2;
-        uart_config.parity = CYHAL_UART_PARITY_EVEN;
-        break;
-    case SERIAL_8O1:
-        uart_config.data_bits = 8;
-        uart_config.stop_bits = 1;
-        uart_config.parity = CYHAL_UART_PARITY_ODD;
-        break;
-    case SERIAL_8O2:
-        uart_config.data_bits = 8;
-        uart_config.stop_bits = 2;
-        uart_config.parity = CYHAL_UART_PARITY_ODD;
-        break;
-    default:
-        uart_config.data_bits = 8;
-        uart_config.stop_bits = 1;
-        uart_config.parity = CYHAL_UART_PARITY_NONE;
-        break;
+        case SERIAL_8N1:
+            uart_config.data_bits = 8;
+            uart_config.stop_bits = 1;
+            uart_config.parity = CYHAL_UART_PARITY_NONE;
+            break;
+        case SERIAL_8N2:
+            uart_config.data_bits = 8;
+            uart_config.stop_bits = 2;
+            uart_config.parity = CYHAL_UART_PARITY_NONE;
+            break;
+        case SERIAL_8E1:
+            uart_config.data_bits = 8;
+            uart_config.stop_bits = 1;
+            uart_config.parity = CYHAL_UART_PARITY_EVEN;
+            break;
+        case SERIAL_8E2:
+            uart_config.data_bits = 8;
+            uart_config.stop_bits = 2;
+            uart_config.parity = CYHAL_UART_PARITY_EVEN;
+            break;
+        case SERIAL_8O1:
+            uart_config.data_bits = 8;
+            uart_config.stop_bits = 1;
+            uart_config.parity = CYHAL_UART_PARITY_ODD;
+            break;
+        case SERIAL_8O2:
+            uart_config.data_bits = 8;
+            uart_config.stop_bits = 2;
+            uart_config.parity = CYHAL_UART_PARITY_ODD;
+            break;
+        default:
+            uart_config.data_bits = 8;
+            uart_config.stop_bits = 1;
+            uart_config.parity = CYHAL_UART_PARITY_NONE;
+            break;
     }
 
     // Initialize the UART Block
@@ -92,26 +92,24 @@ void Uart::flush() {
     }
 }
 
-int Uart::peek(void) {
+int Uart::peek() {
     if (bufferHead == bufferTail) {
         return -1; // Buffer is empty
-    } else {
-        return buffer[bufferTail]; // Return the next byte without removing it from
-                                   // the buffer
     }
+    return buffer[bufferTail]; // Return the next byte without removing it from
+                               // the buffer
 }
 
-int Uart::read(void) {
+int Uart::read() {
     noInterrupts();
     if (bufferHead == bufferTail) {
         interrupts();
         return -1; // Buffer is empty
-    } else {
-        uint8_t c = buffer[bufferTail];
-        bufferTail = (bufferTail + 1) % bufferSize;
-        interrupts();
-        return c;
     }
+    uint8_t c = buffer[bufferTail];
+    bufferTail = (bufferTail + 1) % bufferSize;
+    interrupts();
+    return c;
 }
 
 size_t Uart::write(uint8_t c) {

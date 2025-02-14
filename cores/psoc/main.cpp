@@ -33,7 +33,7 @@ void initVariant() {}
 /*
  * \brief Main entry point of Arduino application
  */
-int main(void) {
+int main() {
     cy_rslt_t result;
 
     /* Initialize the device and board peripherals */
@@ -52,9 +52,6 @@ int main(void) {
 
     for (;;) {
         loop();
-        if (arduino::serialEventRun) {
-            arduino::serialEventRun();
-        }
     }
 
     return 0;

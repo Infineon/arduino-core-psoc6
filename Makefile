@@ -38,13 +38,6 @@ pull-container:
 	docker pull $(REGISTRY)
 
 
-
-run-container-check-wire: clean-results pull-container
-	chmod +x tools/run_cppcheck.sh
-	$(DOCKER) tools/run_cppcheck.sh cores/psoc/* tests/arduino-core-tests/src/corelibs/wire
-#	firefox results/cppcheck/cppcheck-reports/index.html
-
-
 run-container-project-setup-script: clean-results pull-container
 	$(DOCKER) python3 tools/codeChecks.py --getAllChecks
 	$(DOCKER) python3 tools/codeChecks.py --runCheck check-clang-tidy
@@ -68,19 +61,18 @@ run-container-cppcheck: pull-container
 run-container-clang-tidy-check: pull-container
 	-rm -rf results/clang-tidy/* 
 	-mkdir -p results/clang-tidy 
-	$(DOCKER) python3 tools/codeChecks.py --runCheck check-clang-tidy
+	$(DOCKER) python3 tools/codeChecks.py --runCheck check-clang-tidy 
 
 run-container-clang-tidy-format: pull-container
 	-rm -rf results/clang-tidy-format/* 
 	-mkdir -p results/clang-tidy-format
-	$(DOCKER) python3 tools/codeChecks.py --runCheck format-clang-tidy
+	$(DOCKER) python3 tools/codeChecks.py --runCheck clang-format
 
 ##############################################################################################################################################################
 
 # run stuff with container from docker hub
-run-container-custom-command: clean-results pull-container
-	$(DOCKER) cppcheck --version
-	$(DOCKER) cppcheck --help
+run-container-build: clean-results pull-container
+	(cd tests/arduino-core-tests ; make FQBN=$(FQBN) $(TARGET))
 
 
 

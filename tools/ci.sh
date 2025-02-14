@@ -15,8 +15,6 @@ ulimit -n 1024
 function ci_c_code_formatting_setup {
     sudo apt-get install black
     black --version
-    sudo apt-get install uncrustify
-    uncrustify --version
 }
 
 function ci_c_code_formatting_run {

@@ -1,7 +1,7 @@
 check:
     - check-clang-tidy
     - check-cppcheck
-    - format-clang-tidy
+    - clang-format
 
 build:
     - build-psoc-cy8ckit_062s2_ai

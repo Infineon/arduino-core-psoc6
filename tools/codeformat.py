@@ -15,8 +15,6 @@ EXCLUSIONS = ["cores/arduino/**/*.[ch]"]
 # Path to repo top-level dir.
 TOP = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-UNCRUSTIFY_CFG = os.path.join(TOP, "tools/uncrustify.cfg")
-
 
 def list_files(paths, exclusions=None, prefix=""):
     files = set()
@@ -115,15 +113,6 @@ def main():
             if not file_args:
                 break
             subprocess.check_call(cmd + file_args)
-
-    # Format C files with uncrustify.
-    if format_c:
-        command = ["uncrustify", "-c", UNCRUSTIFY_CFG, "-lC", "--no-backup"]
-        if not args.v:
-            command.append("-q")
-        batch(command)
-        for file in files:
-            fixup_c(file)
 
     # Format Python files with "black".
     if format_py:

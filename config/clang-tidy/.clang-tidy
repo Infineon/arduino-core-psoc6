@@ -1,6 +1,7 @@
 Checks: 'cppcoreguidelines-*,
 performance-*,
 modernize-*,
+-modernize-deprecated-headers,
 google-*,
 misc-*
 cert-*,
