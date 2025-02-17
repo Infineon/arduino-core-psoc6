@@ -18,7 +18,7 @@ s_last_error(CY_RSLT_SUCCESS) {
 
 void Socket::begin() {
 
-    s_last_error = Socket::global_sockets_begin();
+    s_last_error = Socket::global_sockets_init();
     socket_assert(s_last_error);
 
     s_last_error = cy_socket_create(CY_SOCKET_DOMAIN_AF_INET, CY_SOCKET_TYPE_STREAM,
@@ -42,7 +42,7 @@ void Socket::end() {
     socket_assert(s_last_error);
     s_status = SOCKET_STATUS_CLOSED;
 
-    s_last_error = Socket::global_sockets_end();
+    s_last_error = Socket::global_sockets_deinit();
 
 }
 
@@ -155,26 +155,26 @@ cy_rslt_t Socket::get_last_error() {
     return s_last_error;
 }   
 
-bool Socket::global_socket_begun = false;
+bool Socket::global_socket_initialized = false;
 uint32_t Socket::global_socket_count = 0;
 
-cy_rslt_t Socket::global_sockets_begin() {
-    if (!Socket::global_socket_begun) {
+cy_rslt_t Socket::global_sockets_init() {
+    if (!Socket::global_socket_initialized) {
         cy_rslt_t ret = cy_socket_init();
         socket_assert_raise(ret);
-        Socket::global_socket_begun = true;
+        Socket::global_socket_initialized = true;
     }
     Socket::global_socket_count++;
 
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t Socket::global_sockets_end() {
+cy_rslt_t Socket::global_sockets_deinit() {
     Socket::global_socket_count--;
     if (Socket::global_socket_count == 0) {
         cy_rslt_t ret = cy_socket_deinit();
         socket_assert_raise(ret);
-        Socket::global_socket_begun = false;
+        Socket::global_socket_initialized = false;
     }
 
     return CY_RSLT_SUCCESS;
