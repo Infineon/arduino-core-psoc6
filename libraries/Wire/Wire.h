@@ -4,15 +4,15 @@
 #include <Arduino.h>
 #include "cyhal_i2c.h"
 
-#define BUFFER_LENGTH 32
-
 class TwoWire {
 public:
+    
+    static const size_t BUFFER_LENGTH = 32;
+    static const uint32_t I2C_DEFAULT_FREQ = 100000;
+
     TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance = 0);
 
     void begin();
-    void begin(uint16_t address);
-    void begin(int address);
     void begin(uint8_t address);
     void end();
     void setClock(uint32_t freq);
@@ -47,6 +47,7 @@ private:
     static size_t txBufferLength;
     static uint8_t txAddress;
     cyhal_i2c_cfg_t i2c_config;
+    cyhal_i2c_t i2c_obj;
     uint32_t timeout = 0; // Timeout in milliseconds
     static void (*user_onRequest)(void);
     static void (*user_onReceive)(int);

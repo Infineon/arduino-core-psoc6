@@ -6,8 +6,6 @@ extern "C" {
 
 #include "Wire.h"
 
-#define I2C_DEFAULT_FREQ 100000
-
 uint8_t TwoWire::rxBuffer[BUFFER_LENGTH];
 size_t TwoWire::rxBufferIndex = 0;			//head
 size_t TwoWire::rxBufferLength = 0;		//tail
@@ -17,8 +15,8 @@ uint8_t TwoWire::txBuffer[BUFFER_LENGTH];
 size_t TwoWire::txBufferIndex = 0;			//head
 size_t TwoWire::txBufferLength = 0;		//tail
 
-void (*TwoWire::user_onRequest)(void);
-void (*TwoWire::user_onReceive)(int);
+void (*TwoWire::user_onRequest)(void) = nullptr;
+void (*TwoWire::user_onReceive)(int) = nullptr;
 
 TwoWire *TwoWire::instances[I2C_HOWNMANY] = {nullptr};
 cyhal_i2c_t TwoWire::i2c_objs[I2C_HOWNMANY];
@@ -63,24 +61,14 @@ void TwoWire::_begin() {
 }
 
 void TwoWire::begin() {
-    end();
     is_master = true;
     _begin();
 }
 
-void TwoWire::begin(uint16_t address) {
-    end();
+void TwoWire::begin(uint8_t address) {
     is_master = false;
     slave_address = address;
     _begin();
-}
-
-void TwoWire::begin(int address) {
-    begin((uint16_t)address);
-}
-
-void TwoWire::begin(uint8_t address) {
-    begin((uint16_t)address);
 }
 
 void TwoWire::end() {
@@ -181,12 +169,13 @@ size_t TwoWire::write(uint8_t data) {
     return 1;
 }
 
-size_t TwoWire::write(const uint8_t * data, size_t quantity) {
+size_t TwoWire::write(const uint8_t *data, size_t quantity) {
     for (size_t i = 0; i < quantity; i++) {
-        write(*(data + i));
+        if (write(data[i]) == 0) {
+            return i; // Return the number of bytes successfully written
+        }
     }
-
-    return quantity;
+    return quantity; // All bytes were successfully written
 }
 
 // New overloaded write function to accept a string
@@ -240,13 +229,12 @@ void TwoWire::i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event) {
         if (availableBytes > 0) {
             instance->onReceiveService(availableBytes);
         } else {
-            Serial.println("No bytes available to read.");
+            return;
         }
     } else if (event == CYHAL_I2C_SLAVE_READ_EVENT) { //master wants to read data
         instance->onRequestService();
     } else {
-        Serial.print("Unknown I2C event: ");
-        Serial.println(event);
+       return;
     }
 }
 
