@@ -46,10 +46,10 @@ class Socket {
         cy_rslt_t s_last_error;
 
 
-        static bool global_socket_begun;
+        static bool global_socket_initialized;
         static uint32_t global_socket_count;
-        static cy_rslt_t global_sockets_begin();
-        static cy_rslt_t global_sockets_end();
+        static cy_rslt_t global_sockets_init();
+        static cy_rslt_t global_sockets_deinit();
 
         friend class WiFiServer;
         friend class WiFiClient;
