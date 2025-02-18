@@ -20,7 +20,7 @@
 #ifndef Arduino_h
 #define Arduino_h
 
-#include "api/ArduinoAPI.h"
+#include "ArduinoAPI.h"
 #include "cyhal_gpio.h"
 
 #define RAMSTART (HMCRAMC0_ADDR)
@@ -40,7 +40,9 @@ extern "C" {
 extern const cyhal_gpio_t mapping_gpio_pin[];
 extern const uint8_t GPIO_PIN_COUNT;
 
-#define GPIO_INTERRUPT_PRIORITY 3 // GPIO interrupt priority
+enum {
+GPIO_INTERRUPT_PRIORITY = 3 // GPIO interrupt priority
+};
 #define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
 
 #undef LITTLE_ENDIAN
@@ -73,7 +75,7 @@ extern "C" {
 #endif
 
 // ARM toolchain doesn't provide itoa etc, provide them
-#include "api/itoa.h"
+#include "itoa.h"
 
 #ifdef __cplusplus
     #include "Uart.h"

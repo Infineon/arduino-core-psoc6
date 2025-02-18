@@ -24,8 +24,8 @@ extern "C" {
 #endif
 
 /* Defines */
-#define CLOCK_FREQUENCY 8000000
-#define MILLISECONDS_PER_SECOND 1000
+enum { CLOCK_FREQUENCY = 8000000, MILLISECONDS_PER_SECOND = 1000 };
+
 #define SYSTICK_RELOAD_VAL (CLOCK_FREQUENCY / MILLISECONDS_PER_SECOND - 1) // For 1 ms tick
 
 volatile uint32_t systick_count = 0; // Counter to keep track of milliseconds
