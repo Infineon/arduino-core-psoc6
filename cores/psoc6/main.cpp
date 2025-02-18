@@ -45,8 +45,8 @@ void initVariant() {
 /*
  * \brief Main entry point of Arduino application
  */
-int main(void) {
-    cy_rslt_t result;
+int main() {
+    cy_rslt_t result = 0;
 
     result = cybsp_init();
     if (result != CY_RSLT_SUCCESS) {
@@ -73,8 +73,5 @@ void arduino_main_task(void *arg) {
 
     for (;;) {
         loop();
-        if (arduino::serialEventRun) {
-            arduino::serialEventRun();
-        }
     }
 }
