@@ -5,6 +5,10 @@
         return; \
 }
 
+#define socket_status_update(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
+        s_status = SOCKET_STATUS_ERROR; \
+}
+
 #define socket_assert_raise(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
         return cy_ret; \
 }
@@ -17,7 +21,6 @@ s_last_error(CY_RSLT_SUCCESS) {
 }
 
 void Socket::begin() {
-
     s_last_error = Socket::global_sockets_init();
     socket_assert(s_last_error);
 
@@ -43,7 +46,6 @@ void Socket::end() {
     s_status = SOCKET_STATUS_CLOSED;
 
     s_last_error = Socket::global_sockets_deinit();
-
 }
 
 void Socket::set_timeout(uint32_t timeout) {
@@ -53,40 +55,12 @@ void Socket::set_timeout(uint32_t timeout) {
     socket_assert(s_last_error);
 }
 
-void Socket::set_connect_opts(cy_socket_callback_t cback, void *arg) {   
-    cy_socket_opt_callback_t tcp_connection_option;
-
-    tcp_connection_option.callback = cback;
-    tcp_connection_option.arg = arg;
-
-    s_last_error = cy_socket_setsockopt(socket, CY_SOCKET_SOL_SOCKET,
-                                    CY_SOCKET_SO_CONNECT_REQUEST_CALLBACK,
-                                    &tcp_connection_option, sizeof(cy_socket_opt_callback_t));
-    socket_assert(s_last_error);
+void Socket::set_connect_opt_callback(cy_socket_callback_t cback, void * arg) {
+    set_opt_callback(CY_SOCKET_SO_CONNECT_REQUEST_CALLBACK, cback, arg);
 }
 
-void Socket::set_receive_opts(cy_socket_callback_t cback, void *arg) {
-    cy_socket_opt_callback_t tcp_receive_option;
-
-    tcp_receive_option.callback = cback;
-    tcp_receive_option.arg = arg;
-
-    s_last_error = cy_socket_setsockopt(socket, CY_SOCKET_SOL_SOCKET,
-                                    CY_SOCKET_SO_RECEIVE_CALLBACK,
-                                    &tcp_receive_option, sizeof(cy_socket_opt_callback_t));
-    socket_assert(s_last_error);
-}
-
-void Socket::set_disconnect_opts(cy_socket_callback_t cback, void *arg) {
-    cy_socket_opt_callback_t tcp_disconnection_option;
-
-    tcp_disconnection_option.callback = cback;
-    tcp_disconnection_option.arg = arg;
-
-    s_last_error = cy_socket_setsockopt(socket, CY_SOCKET_SOL_SOCKET,
-                                    CY_SOCKET_SO_DISCONNECT_CALLBACK,
-                                    &tcp_disconnection_option, sizeof(cy_socket_opt_callback_t));
-    socket_assert(s_last_error); 
+void Socket::set_receive_opt_callback(cy_socket_callback_t cback, void * arg) {
+    set_opt_callback(CY_SOCKET_SO_RECEIVE_CALLBACK, cback, arg);
 }
 
 void Socket::bind(uint16_t port) {
@@ -142,9 +116,31 @@ bool Socket::accept(Socket & client_socket) {
         s_status = SOCKET_STATUS_ERROR;
         return false;
     }
-    
+
     client_socket.s_status = SOCKET_STATUS_CONNECTED;
     return true;
+}
+
+uint32_t Socket::send(const void * data, uint32_t len) {
+    uint32_t bytes_sent = 0;
+    s_last_error =  cy_socket_send(socket, data, len,
+                                CY_SOCKET_FLAGS_NONE, &bytes_sent);
+    socket_status_update(s_last_error);
+
+    return bytes_sent;
+}
+uint32_t Socket::available(){
+    return rx_buf.available();
+}
+
+uint32_t Socket::receive(uint8_t * data, uint32_t len) {
+    uint32_t bytes_to_read = (uint32_t)rx_buf.available() > len ? len : rx_buf.available();
+
+    for(uint32_t i = 0; i < bytes_to_read; i++) {
+        data[i] = rx_buf.read_char();
+    }
+
+    return bytes_to_read;
 }
 
 uint8_t Socket::status() {
@@ -154,6 +150,34 @@ uint8_t Socket::status() {
 cy_rslt_t Socket::get_last_error() {
     return s_last_error;
 }   
+
+void Socket::receive_callback() {
+    if (!rx_buf.isFull()) {
+        uint32_t bytes_rcvd_request = rx_buf.availableForStore();
+        uint8_t temp_rx_buff [bytes_rcvd_request] = {0};
+
+        uint32_t bytes_received = 0;
+        s_last_error = cy_socket_recv(socket, temp_rx_buff, bytes_rcvd_request,
+                                    CY_SOCKET_FLAGS_NONE, &bytes_received);
+        socket_assert(s_last_error);
+
+        for(uint32_t i = 0; i < bytes_received; i++) {
+            rx_buf.store_char(temp_rx_buff[i]);
+        }
+    }
+}
+
+void Socket::set_opt_callback(int optname, cy_socket_callback_t cback, void * arg) {
+    cy_socket_opt_callback_t cy_opt_callback;
+
+    cy_opt_callback.callback = cback; 
+    cy_opt_callback.arg = arg;
+
+    s_last_error = cy_socket_setsockopt(socket, CY_SOCKET_SOL_SOCKET,
+                                    optname,
+                                    &cy_opt_callback, sizeof(cy_socket_opt_callback_t));
+    socket_assert(s_last_error); 
+}
 
 bool Socket::global_socket_initialized = false;
 uint32_t Socket::global_socket_count = 0;

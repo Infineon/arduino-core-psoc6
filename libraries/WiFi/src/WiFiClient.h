@@ -4,7 +4,6 @@
 
 #include <Socket.h>
 #include "Client.h"
-#include "cy_secure_sockets.h"
 
 class WiFiClient : arduino::Client {
 
@@ -13,7 +12,7 @@ class WiFiClient : arduino::Client {
 
         int connect(IPAddress ip, uint16_t port);
         int connect(const char *host, uint16_t port);
-        size_t write(uint8_t);
+        size_t write(uint8_t data);
         size_t write(const uint8_t *buf, size_t size);
         int available();
         int read();
@@ -29,8 +28,7 @@ class WiFiClient : arduino::Client {
     private:
         Socket socket;
 
-        static cy_rslt_t tcp_receive_msg_handler(cy_socket_t socket_handle, void *arg);
-        static cy_rslt_t tcp_disconnection_handler(cy_socket_t socket_handle, void *arg);
+        static cy_rslt_t receive_callback(cy_socket_t socket_handle, void * arg);
 
         friend class WiFiServer;
 };
