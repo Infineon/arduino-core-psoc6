@@ -5,6 +5,7 @@
 
 #include "cy_secure_sockets.h"
 #include "IPAddress.h"
+#include "RingBuffer.h"  
 
 typedef enum {
     SOCKET_STATUS_UNINITED = 0,
@@ -20,21 +21,24 @@ typedef enum {
 class Socket {
 
     public:
+
         Socket();
 
         void begin();
         void end();
 
         void set_timeout(uint32_t timeout);
-        void set_connect_opts(cy_socket_callback_t cback, void *arg);
-        void set_receive_opts(cy_socket_callback_t cback, void *arg);
-        void set_disconnect_opts(cy_socket_callback_t cback, void *arg);
+        void set_connect_opt_callback(cy_socket_callback_t cback, void * arg);
+        void set_receive_opt_callback(cy_socket_callback_t cback, void * arg);
 
         void bind(uint16_t port);
         bool connect(IPAddress ip, uint16_t port);
         
         void listen(int max_connections);
         bool accept(Socket & client_socket);
+        uint32_t send(const void * data, uint32_t len);
+        uint32_t available();
+        uint32_t receive(uint8_t * data, uint32_t len);
 
         uint8_t status();
         cy_rslt_t get_last_error();
@@ -45,6 +49,12 @@ class Socket {
         socket_status_t s_status;
         cy_rslt_t s_last_error;
 
+        void set_opt_callback(int optname, cy_socket_callback_t cback, void * arg);
+
+        static const uint16_t RX_BUFFER_SIZE = 256;
+        arduino::RingBufferN<RX_BUFFER_SIZE> rx_buf;
+
+        void receive_callback();
 
         static bool global_socket_initialized;
         static uint32_t global_socket_count;
