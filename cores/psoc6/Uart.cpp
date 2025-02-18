@@ -11,9 +11,8 @@ Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts)
     : tx_pin(tx),
       rx_pin(rx),
       cts_pin(cts),
-      rts_pin(rts),
-      bufferHead(0),
-      bufferTail(0) {
+      rts_pin(rts)
+      {
 }
 
 void Uart::begin(unsigned long baud) {
@@ -68,7 +67,7 @@ void Uart::begin(unsigned long baud, uint16_t config) {
     cyhal_uart_enable_event(&uart_obj, CYHAL_UART_IRQ_RX_NOT_EMPTY, 7, true);
 }
 
-int Uart::available(void) {
+int Uart::available() {
     return (bufferHead - bufferTail + bufferSize) % bufferSize;
 }
 
@@ -95,25 +94,23 @@ void Uart::flush() {
     }
 }
 
-int Uart::peek(void) {
+int Uart::peek() {
     if (bufferHead == bufferTail) {
         return -1; // Buffer is empty
-    } else {
-        return buffer[bufferTail]; // Return the next byte without removing it from the buffer
     }
+    return buffer[bufferTail]; // Return the next byte without removing it from the buffer
 }
 
-int Uart::read(void) {
+int Uart::read() {
     noInterrupts();
     if (bufferHead == bufferTail) {
         interrupts();
         return -1; // Buffer is empty
-    } else {
-        uint8_t c = buffer[bufferTail];
-        bufferTail = (bufferTail + 1) % bufferSize;
-        interrupts();
-        return c;
     }
+    uint8_t c = buffer[bufferTail];
+    bufferTail = (bufferTail + 1) % bufferSize;
+    interrupts();
+    return c;
 }
 
 size_t Uart::write(uint8_t c) {
@@ -138,7 +135,7 @@ void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
 }
 
 void Uart::IrqHandler() {
-    uint8_t c;
+    uint8_t c = 0;
     size_t size = 1;
     while (cyhal_uart_readable(&uart_obj) > 0) {
         cyhal_uart_read(&uart_obj, &c, &size);
