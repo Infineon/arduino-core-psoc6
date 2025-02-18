@@ -159,7 +159,7 @@ void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
 }
 
 void Uart::IrqHandler() {
-    uint8_t c;
+    uint8_t c = 0;
     size_t size = 1;
     while (cyhal_uart_readable(&uart_obj) > 0) {
         cyhal_uart_read(&uart_obj, &c, &size);
