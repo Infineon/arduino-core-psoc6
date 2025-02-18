@@ -81,7 +81,7 @@ jobs:
         echo "Workflow has these parameters :"
         echo "matrix.checks   : " ${{ matrix.checks }}
         echo ""
-        chmod +x tools/run_cppcheck.sh
+        chmod +x tools/run_code_checks.sh
         python3 tools/codeChecks.py --runCheck ${{ matrix.checks }} --showLog
 
  
