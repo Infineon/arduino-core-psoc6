@@ -1,12 +1,12 @@
 Checks: 'cppcoreguidelines-*,
 performance-*,
 modernize-*,
--modernize-deprecated-headers,
 google-*,
 misc-*
 cert-*,
 readability-*,
 clang-analyzer-*,
+-modernize-deprecated-headers,
 -performance-unnecessary-value-param,
 -modernize-use-trailing-return-type,
 -google-runtime-references,
