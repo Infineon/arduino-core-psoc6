@@ -13,9 +13,8 @@ void WiFiServer::begin(uint16_t port) {
     socket.begin();
     
     socket.set_timeout(SERVER_RECV_TIMEOUT_MS);
-    socket.set_connect_opts(tcp_connection_handler, this);
-    socket.set_receive_opts(tcp_receive_msg_handler, this);
-    socket.set_disconnect_opts(tcp_disconnection_handler, this);
+    socket.set_connect_opt_callback(connection_callback, this);
+    socket.set_receive_opt_callback(receive_callback, this);
 
     socket.bind(port);
     socket.listen(SERVER_MAX_CLIENTS);
@@ -30,7 +29,18 @@ WiFiClient WiFiServer::available() {
 
     if (connected_clients.size() > 0) {
         client = connected_clients.front();
-        connected_clients.erase(connected_clients.begin());
+        /* If client connected and data available */
+        if (client) {
+            return client;
+        }
+
+        //We cannot delete it, because we have to keep in the 
+        // list for received connections. 
+        // We can only deleted from the list when disconnecting.
+        // connected_clients.erase(connected_clients.begin());
+        /**
+         * TODO: We need to check later how to handle the client
+         * removal from the list upon disconnection etc.*/
     }
 
     return client;
@@ -51,15 +61,12 @@ void WiFiServer::end() {
     socket.end();
 }
 
-
-cy_rslt_t WiFiServer::tcp_connection_handler(cy_socket_t socket_handle, void *arg) {
-    
+cy_rslt_t WiFiServer::connection_callback(cy_socket_t socket_handle, void *arg) {
     WiFiServer *server = (WiFiServer *)arg;
 
     WiFiClient new_client;
-
     if(!server->socket.accept(new_client.socket)) {
-        return CY_RSLT_MODULE_SECURE_SOCKETS_NOMEM;
+        return server->socket.get_last_error();
     }
 
     server->connected_clients.push_back(new_client);
@@ -67,12 +74,20 @@ cy_rslt_t WiFiServer::tcp_connection_handler(cy_socket_t socket_handle, void *ar
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t WiFiServer::tcp_receive_msg_handler(cy_socket_t socket_handle, void *arg) {
+cy_rslt_t WiFiServer::receive_callback(cy_socket_t socket_handle, void * arg) {
+    WiFiServer *server = (WiFiServer *)arg;
 
-    return 0;
-}
+    /** 
+     * Find the client which has triggered the callback
+     * and receive the data from the client. 
+     */
+    std::vector<WiFiClient>::iterator client = server->connected_clients.begin();    
+    for( ;client != server->connected_clients.end(); client++) {
+        if(client->socket.socket == socket_handle) {
+            client->socket.receive_callback();
+            break;
+        }
+    }
 
-cy_rslt_t WiFiServer::tcp_disconnection_handler(cy_socket_t socket_handle, void *arg) {
-    
-    return 0;
+    return CY_RSLT_SUCCESS;
 }

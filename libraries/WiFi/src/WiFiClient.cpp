@@ -15,40 +15,53 @@
 }
 
 WiFiClient::WiFiClient() {
-
+   
 }
 
 int WiFiClient::connect(IPAddress ip, uint16_t port) {
     socket.begin();
     
-    socket.set_receive_opts(tcp_receive_msg_handler, this);
-    socket.set_disconnect_opts(tcp_disconnection_handler, this);
+    socket.set_receive_opt_callback(receive_callback, this); 
 
     return socket.connect(ip, port);
 }
 
 int WiFiClient::connect(const char *host, uint16_t port) {
+    /*TODO: First we need to get host by name in WiFi class */
     return 0;
 }
 
-size_t WiFiClient::write(uint8_t) {
-    return 0;
+size_t WiFiClient::write(uint8_t data) {
+    return write(&data, 1);
 }
 
 size_t WiFiClient::write(const uint8_t *buf, size_t size) {
-    return 0;
+    return (size_t)socket.send(buf, size);
 }
 
 int WiFiClient::available() {
-    return true;
+    return socket.available();
 }
 
 int WiFiClient::read()  {
-    return 0;
+    uint8_t data;
+    uint32_t received_data = socket.receive(&data, 1);
+
+    if(received_data == 0) {
+        return -1;
+    }
+
+    return (int)data;
 }
 
 int WiFiClient::read(uint8_t *buf, size_t size) {
-    return 0;   
+    uint32_t received_data = socket.receive(buf, size);
+
+    if(received_data == 0) {
+        return -1;
+    }
+
+    return (int)received_data;
 }
 
 int WiFiClient::peek() {
@@ -75,18 +88,16 @@ WiFiClient::operator bool() {
     if (socket.status() != SOCKET_STATUS_CONNECTED) {
         return false;
     }
-    if(available() <= 0) 
-    {
+    if(available() <= 0) {
         return false;
     }
     return true;
 }
 
-cy_rslt_t WiFiClient::tcp_receive_msg_handler(cy_socket_t socket_handle, void *arg) {
-    return 0;
-}
+cy_rslt_t WiFiClient::receive_callback(cy_socket_t socket_handle, void * arg) {
+    WiFiClient *client = (WiFiClient *)arg;
 
-cy_rslt_t WiFiClient::tcp_disconnection_handler(cy_socket_t socket_handle, void *arg) {
-    
-    return 0;
+    client->socket.receive_callback();
+
+    return CY_RSLT_SUCCESS;
 }
