@@ -89,6 +89,7 @@ case "$COMMAND" in
     [ "$#" -lt 1 ] && { echo "Usage: $0 clang-format <source_directory> <>"; exit 1; }
     echo "Formatting python scripts"
     black $@
+    git diff --exit-code
     ;;
   *)
     echo "Unknown command: $COMMAND"

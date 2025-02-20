@@ -1,9 +1,5 @@
 # pip3.exe install pyyaml schema
 
-
-# python.exe src/python/check_schemata/checkUserYAMLSchema.py
-
-
 import os
 import sys
 import yaml
@@ -23,7 +19,6 @@ if not importPath in sys.path:
 from check_schemata.user_yaml_schema import userYAMLSchema
 
 
-@staticmethod
 def checkUserYAMLSchema(yml):
     schema = Schema(userYAMLSchema)
 
@@ -37,7 +32,6 @@ def checkUserYAMLSchema(yml):
 if __name__ == "__main__":
 
     with open(".//user.yml", "r") as file:
-        # with open("src/python/project_yaml/user.yml", "r") as file:
         userYAML = yaml.safe_load(file)
 
     print(f"userYAML : {userYAML}\n")
