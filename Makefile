@@ -31,30 +31,38 @@ pull-container:
 	docker pull $(REGISTRY)
 
 run-container-check-all: clean-results pull-container
-	$(DOCKER) python3 tools/codeChecks.py --getAllChecks
-	$(DOCKER) python3 tools/codeChecks.py --runAllChecks
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --getAllChecks
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runAllChecks
 
 run-container-project-setup-script-with-show-logs: clean-results pull-container
-	$(DOCKER) python3 tools/codeChecks.py --getAllChecks
-	$(DOCKER) python3 tools/codeChecks.py --runCheck check-clang-tidy --showLog
-	$(DOCKER) python3 tools/codeChecks.py --runAllChecks --showLog
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --getAllChecks
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runAllChecks --showLog
 
 run-container-cppcheck: pull-container
 	-rm -rf _results/cppcheck/* 
 	-mkdir -p _results/cppcheck
-	$(DOCKER) python3 tools/codeChecks.py --runCheck check-cppcheck
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-cppcheck --showLog
 #	firefox _results/cppcheck/cppcheck-reports/index.html
 
 run-container-clang-tidy-check: pull-container
 	-rm -rf _results/clang-tidy/* 
 	-mkdir -p _results/clang-tidy 
-	$(DOCKER) python3 tools/codeChecks.py --runCheck check-clang-tidy 
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy --showLog
+
+run-container-clang-tidy-check-fix: pull-container
+	-rm -rf _results/clang-tidy/* 
+	-mkdir -p _results/clang-tidy 
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy-fix
 
 run-container-clang-tidy-format: pull-container
-	$(DOCKER) python3 tools/codeChecks.py --runCheck clang-format
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck clang-format --showLog
 
 run-container-black-format:
-	python3 tools/codeChecks.py --runCheck black-format
+	python3 tools/code_checks/codeChecks.py --runCheck black-format
+
+run-container-analyze_cppcheck:
+	python3 tools/code_checks/analyze_cppcheck.py
 
 ##############################################################################################################################################################
 
