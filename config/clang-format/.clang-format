@@ -1,12 +1,14 @@
 ---
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
 BasedOnStyle: LLVM
 IndentWidth: 4
+---
 Language: Cpp
 AccessModifierOffset: -4
-Standard: c++20
-TabWidth: 2
-UseTab: Never
-ColumnLimit: 100
+Standard:        c++20
+TabWidth:        2
+UseTab:          Never
+ColumnLimit:     100
 AlignAfterOpenBracket: Align
 BinPackParameters: false
 AlignEscapedNewlines: Left
@@ -14,7 +16,7 @@ AlwaysBreakTemplateDeclarations: Yes
 PackConstructorInitializers: Never
 BreakConstructorInitializersBeforeComma: false
 IndentPPDirectives: BeforeHash
-SortIncludes: Never
+SortIncludes:    Never
 SeparateDefinitionBlocks: Always
 IndentCaseLabels: true
 BreakBeforeBraces: Attach
