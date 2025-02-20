@@ -11,8 +11,7 @@ Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts)
     : tx_pin(tx),
       rx_pin(rx),
       cts_pin(cts),
-      rts_pin(rts)
-      {
+      rts_pin(rts) {
 }
 
 void Uart::begin(unsigned long baud) {
