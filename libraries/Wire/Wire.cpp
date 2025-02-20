@@ -18,11 +18,11 @@ size_t TwoWire::txBufferLength = 0;		//tail
 void (*TwoWire::user_onRequest)(void) = nullptr;
 void (*TwoWire::user_onReceive)(int) = nullptr;
 
-TwoWire *TwoWire::instances[I2C_HOWNMANY] = {nullptr};
-cyhal_i2c_t TwoWire::i2c_objs[I2C_HOWNMANY];
+TwoWire *TwoWire::instances[I2C_HOWMANY] = {nullptr};
+cyhal_i2c_t TwoWire::i2c_objs[I2C_HOWMANY];
 
 TwoWire::TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance) : sda_pin(sda), scl_pin(scl), instance(instance) {
-    if (instance < I2C_HOWNMANY) {
+    if (instance < I2C_HOWMANY) {
         instances[instance] = this;
     }
 }
@@ -290,10 +290,10 @@ uint8_t TwoWire::onRequestService(void) {
 }
 
 
-#if I2C_HOWNMANY > 0
+#if I2C_HOWMANY > 0
 TwoWire Wire = TwoWire(I2C1_SDA_PIN, I2C1_SCL_PIN, 0);
 #endif
 
-#if I2C_HOWNMANY > 1
+#if I2C_HOWMANY > 1
 TwoWire Wire1 = TwoWire(I2C2_SDA_PIN, I2C2_SCL_PIN, 1);
 #endif

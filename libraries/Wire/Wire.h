@@ -31,8 +31,8 @@ public:
     void onRequest(void (*function)(void));
 
 private:
-    static TwoWire *instances[I2C_HOWNMANY];
-    static cyhal_i2c_t i2c_objs[I2C_HOWNMANY];
+    static TwoWire *instances[I2C_HOWMANY];
+    static cyhal_i2c_t i2c_objs[I2C_HOWMANY];
     void _begin();
     cyhal_gpio_t sda_pin;
     cyhal_gpio_t scl_pin;
@@ -57,11 +57,11 @@ private:
 
 };
 
-#if (I2C_HOWNMANY > 0)
+#if (I2C_HOWMANY > 0)
 extern TwoWire Wire;
 #endif
 
-#if (I2C_HOWNMANY > 1)
+#if (I2C_HOWMANY > 1)
 extern TwoWire Wire1;
 #endif
 

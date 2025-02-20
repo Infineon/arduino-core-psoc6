@@ -36,7 +36,7 @@
 #define UART2_TX_PIN      P10_1
 #define UART2_RX_PIN      P10_0
 
-#define I2C_HOWNMANY    2
+#define I2C_HOWMANY    2
 #define I2C1_SDA_PIN    CYBSP_I2C_SDA
 #define I2C1_SCL_PIN    CYBSP_I2C_SCL
 #define I2C2_SDA_PIN    P9_1
