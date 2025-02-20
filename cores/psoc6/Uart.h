@@ -38,7 +38,7 @@ public:
         return write(static_cast<uint8_t>(n));
     }
 
-    using Print::write; // pull in write(str) and write(buf, size) from Print
+    using Print::write;
 
     operator bool() override {
         return true;
