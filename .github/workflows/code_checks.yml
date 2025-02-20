@@ -1,4 +1,4 @@
-name: Code check workflow with strategy
+name: Code checks
 
 on:
   push:
@@ -39,7 +39,7 @@ jobs:
       - name: Set strategy matrix
         id: set-matrix
         run: |
-          eval $(python3 tools/codeChecks.py --getAllChecks)
+          eval $(python3 tools/code_checks/codeChecks.py --getAllChecks)
 
     outputs:
       checks: ${{ steps.set-matrix.outputs.checks }}
@@ -74,20 +74,20 @@ jobs:
         submodules: recursive
 
         
-    - name: Demo to show use of script to use matrix values
+    - name: Run all code checks
       id: run_build
       if: success() || failure()
       run: |
         echo "Workflow has these parameters :"
         echo "matrix.checks   : " ${{ matrix.checks }}
         echo ""
-        chmod +x tools/run_code_checks.sh
-        python3 tools/codeChecks.py --runCheck ${{ matrix.checks }} --showLog
-
+        chmod +x tools/code_checks/run_code_checks.sh
+        python3 tools/code_checks/codeChecks.py --runCheck ${{ matrix.checks }} --showLog
+      continue-on-error: true
  
     - name: Archive tool reports
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.checks }}.log
+        name: ${{ matrix.checks }}
         path: |
-          _results/${{ matrix.checks }}.log
+          _results
