@@ -41,8 +41,9 @@ extern const cyhal_gpio_t mapping_gpio_pin[];
 extern const uint8_t GPIO_PIN_COUNT;
 
 enum {
-GPIO_INTERRUPT_PRIORITY = 3 // GPIO interrupt priority
+    GPIO_INTERRUPT_PRIORITY = 3 // GPIO interrupt priority
 };
+
 #define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
 
 #undef LITTLE_ENDIAN
