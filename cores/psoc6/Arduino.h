@@ -56,7 +56,6 @@ enum {
 } // extern "C"
 #endif
 
-// undefine stdlib's abs if encountered
 #ifdef abs
     #undef abs
 #endif // abs
