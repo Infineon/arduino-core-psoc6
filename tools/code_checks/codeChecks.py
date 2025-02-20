@@ -8,6 +8,7 @@ import os
 import subprocess
 import sys
 import yaml
+import xml.etree.ElementTree as ET
 
 sys.path.insert(1, "tools")
 
@@ -21,6 +22,9 @@ def parseArgs():
     parser.add_argument("--getAllChecks", action="store_true", help="getAllChecks help")
     parser.add_argument("--runAllChecks", action="store_true", help="runAllChecks help")
     parser.add_argument("--runCheck", type=str, help="runCheck help")
+    parser.add_argument(
+        "--parseCppCheckReport", action="store_true", help="parseCppCheckReport help"
+    )
     parser.add_argument("--showLog", action="store_true", help="showLog help")
 
     args = parser.parse_args()  # sys.argv) # [1:])
