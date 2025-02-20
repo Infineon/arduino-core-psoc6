@@ -8,41 +8,24 @@ create_dirs() {
   done
 }
 
-# Common function to handle error count and exit status
-handle_errors() {
-  local ERROR_COUNT=$1
-  local TOOL_NAME=$2
-
-  if [ "$ERROR_COUNT" -ne 0 ]; then
-    echo "$TOOL_NAME completed with $ERROR_COUNT error(s)."
-    exit 1
-  else
-    echo "$TOOL_NAME completed successfully."
-  fi
-}
-
 # -----------------------------------------------------------------------------------------------------------------------------------------
 # Function to run cppcheck
 # -----------------------------------------------------------------------------------------------------------------------------------------
 run_cppcheck() {
-  local ERROR_COUNT=0
+  local SRC_DIR=$1
   create_dirs
+  shift
 
   cppcheck --error-exitcode=1 --check-level=exhaustive --enable=all --inconclusive \
            --addon=./config/cppcheck/misra.json --addon=misc --std=c++20 \
            --suppress=missingIncludeSystem --cppcheck-build-dir=_results/cppcheck/build \
-           -I extras/arduino-core-api/api \
-           -I variants/CY8CKIT-062S2-AI/mtb-bsp \
-           -I extras/mtb-libs/core-lib/include \
-           --suppress=*:extras/arduino-core-api/api/* \
-           --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* \
-           --suppress=*:extras/mtb-libs/core-lib/include/* \
            --suppress=unusedFunction --suppress=misra-c2012-2.5 --suppress=missingInclude \
-           --max-configs=5 -j4 --xml 2> _results/cppcheck/cppcheck-errors.xml $*
+           $@ \
+           --max-configs=30 -j4 --xml 2> _results/cppcheck/cppcheck-errors.xml $SRC_DIR
 
   cppcheck-htmlreport --file=_results/cppcheck/cppcheck-errors.xml --title=TestCPPCheck --report-dir=_results/cppcheck/cppcheck-reports --source-dir=.
   chown -R --reference=tests _results/cppcheck/*
-  handle_errors $ERROR_COUNT "Cppcheck"
+  python3 tools/code_checks/analyze_cppcheck.py -v
 }
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
@@ -50,20 +33,20 @@ run_cppcheck() {
 # -----------------------------------------------------------------------------------------------------------------------------------------
 run_clangtidy() {
   local SRC_DIR=$1
-  local HEADER_FILTER="(extras/arduino-core-api/api/.*|variants/CY8CKIT-062S2-AI/mtb-bsp/.*|extras/mtb-libs/core-lib/include/.*|extras/mtb-libs/mtb-hal-cat1/include/.*)"
-  local ERROR_COUNT=0
+  shift
+
   create_dirs
 
   find $SRC_DIR -name '*.cpp' -o -name '*.h' -o -name '*.c' -o -name '*.hpp' | while read -r FILE; do
     echo "Running clang-tidy on $FILE"
     clang-tidy --config-file="config/clang-tidy/.clang-tidy" \
-               -header-filter="$HEADER_FILTER" \
                -export-fixes="_results/clang-tidy/$(basename "${FILE%.*}").yaml" \
+               $@ \
                --extra-arg=-Wno-error=clang-diagnostic-error \
+               -p . \
                $FILE
   done
 
-  handle_errors $ERROR_COUNT "Clang-tidy"
 }
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
@@ -71,14 +54,12 @@ run_clangtidy() {
 # -----------------------------------------------------------------------------------------------------------------------------------------
 run_clangformat() {
   local SRC_DIR=$1
-  local ERROR_COUNT=0
 
   find $SRC_DIR -name '*.cpp' -o -name '*.h' -o -name '*.c' -o -name '*.hpp' | while read -r FILE; do
     echo "Formatting $FILE"
     clang-format -i -style=file:"./config/clang-format/.clang-format" $FILE
   done
 
-  handle_errors $ERROR_COUNT "Clang-format"
 }
 # -----------------------------------------------------------------------------------------------------------------------------------------
 # Main script logic
@@ -93,19 +74,19 @@ shift
 
 case "$COMMAND" in
   cppcheck)
-    [ "$#" -ne 1 ] && { echo "Usage: $0 cppcheck <source_directory>"; exit 1; }
+    [ "$#" -lt 1 ] && { echo "Usage: $0 cppcheck <source_directory> <>"; exit 1; }
     run_cppcheck "$@"
     ;;
   clang-tidy)
-    [ "$#" -ne 1 ] && { echo "Usage: $0 clang-tidy <source_directory>"; exit 1; }
+    [ "$#" -lt 1 ] && { echo "Usage: $0 clang-tidy <source_directory> <>"; exit 1; }
     run_clangtidy "$@"
     ;;
   clang-format)
-    [ "$#" -ne 1 ] && { echo "Usage: $0 clang-format <source_directory>"; exit 1; }
+    [ "$#" -lt 1 ] && { echo "Usage: $0 clang-format <source_directory> <>"; exit 1; }
     run_clangformat "$@"
     ;;
   black-format)
-    [ "$#" -ne 1 ] && { echo "Usage: $0 clang-format <source_directory>"; exit 1; }
+    [ "$#" -lt 1 ] && { echo "Usage: $0 clang-format <source_directory> <>"; exit 1; }
     echo "Formatting python scripts"
     black $@
     ;;
