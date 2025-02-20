@@ -4,5 +4,3 @@ userYAMLSchema = {
     Optional("build"): [And(str)],
     Optional("check"): [And(str)],
 }
-
-# print(userYAMLSchema)
