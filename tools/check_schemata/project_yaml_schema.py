@@ -16,5 +16,3 @@ projectYAMLSchema = {
         }
     },
 }
-
-# print(projectYAMLSchema)

@@ -12,19 +12,8 @@ jobs:
   setup:
     runs-on: ubuntu-24.04
 
-    # env:
-    #   GHCR_REGISTRY: ghcr.io
-    #   # issue : organization "Infineon" with capital "I" not allowed.
-    #   IMAGE_NAME: infineon/makers-docker
-
     container:
       image: docker.io/ifxmakers/makers-docker:push
-      # image: ghcr.io/infineon/makers-docker:latest
-      # credentials:
-      #   # username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #   # password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      #   username: ${{ github.actor }}
-      #   password: ${{ secrets.github_token }}
       volumes:
         - .:/myLocalWorkingDir:rw
       options: --cpus 1
@@ -45,18 +34,12 @@ jobs:
       checks: ${{ steps.set-matrix.outputs.checks }}
 
 
-  flowStep:
+  codeCheckFlowStep:
     runs-on: ubuntu-24.04
     needs: setup
 
     container:
       image: docker.io/ifxmakers/makers-docker:push
-      # image: ghcr.io/infineon/makers-docker:latest
-      # credentials:
-      #   username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #   password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        # username: ${{ github.actor }}
-        # password: ${{ secrets.github_token }}
       volumes:
         - .:/myLocalWorkingDir:rw
       options: --cpus 1
