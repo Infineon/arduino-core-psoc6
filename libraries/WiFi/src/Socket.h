@@ -10,7 +10,7 @@
 typedef enum {
     SOCKET_STATUS_UNINITED = 0,
     SOCKET_STATUS_CREATED,
-    SOCKET_STATUS_CLOSED,
+    SOCKET_STATUS_DELETED,
     SOCKET_STATUS_DISCONNECTED,
     SOCKET_STATUS_CONNECTED,
     SOCKET_STATUS_BOUND,
@@ -30,15 +30,22 @@ class Socket {
         void set_timeout(uint32_t timeout);
         void set_connect_opt_callback(cy_socket_callback_t cback, void * arg);
         void set_receive_opt_callback(cy_socket_callback_t cback, void * arg);
+        void set_disconnect_opt_callback(cy_socket_callback_t cback, void * arg);
 
         void bind(uint16_t port);
         bool connect(IPAddress ip, uint16_t port);
+        bool connect(const char *host, uint16_t port);
         
         void listen(int max_connections);
         bool accept(Socket & client_socket);
         uint32_t send(const void * data, uint32_t len);
         uint32_t available();
+        int peek();
         uint32_t receive(uint8_t * data, uint32_t len);
+        void flush();
+
+        IPAddress remoteIP();
+        uint16_t port();
 
         uint8_t status();
         cy_rslt_t get_last_error();
@@ -46,15 +53,19 @@ class Socket {
     private:
 
         cy_socket_t socket;
-        socket_status_t s_status;
-        cy_rslt_t s_last_error;
+        socket_status_t _status;
+        cy_rslt_t _last_error;
+
+        IPAddress remote_ip;
+        uint16_t _port;
 
         void set_opt_callback(int optname, cy_socket_callback_t cback, void * arg);
 
         static const uint16_t RX_BUFFER_SIZE = 256;
         arduino::RingBufferN<RX_BUFFER_SIZE> rx_buf;
 
-        void receive_callback();
+        bool connect(cy_socket_sockaddr_t * addr);
+        void receiveCallback();
 
         static bool global_socket_initialized;
         static uint32_t global_socket_count;
