@@ -1,11 +1,5 @@
 #include <WiFiClient.h>
 
-/** 
- * @brief Macro to assert the return value of the cy_wcm APIs 
- *        and translate it to the mapped WiFi class error code.
- * @param cy_ret Return value of the cy_wcm API. 
- * @param ret_code The mapped WiFi class error code.
- */
 #define wifi_client_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
         return ret_code; \
 }
@@ -14,21 +8,27 @@
         return; \
 }
 
-WiFiClient::WiFiClient() {
+WiFiClient::WiFiClient() : 
+socket(std::make_shared<Socket>()) {
    
 }
 
 int WiFiClient::connect(IPAddress ip, uint16_t port) {
-    socket.begin();
+    socket->begin();
     
-    socket.set_receive_opt_callback(receive_callback, this); 
+    socket->set_receive_opt_callback(receiveCallback, this); 
+    socket->set_disconnect_opt_callback(disconnectionCallback, this);
 
-    return socket.connect(ip, port);
+    return socket->connect(ip, port);
 }
 
 int WiFiClient::connect(const char *host, uint16_t port) {
-    /*TODO: First we need to get host by name in WiFi class */
-    return 0;
+    socket->begin();
+    
+    socket->set_receive_opt_callback(receiveCallback, this); 
+    socket->set_disconnect_opt_callback(disconnectionCallback, this);
+
+    return socket->connect(host, port);
 }
 
 size_t WiFiClient::write(uint8_t data) {
@@ -36,16 +36,16 @@ size_t WiFiClient::write(uint8_t data) {
 }
 
 size_t WiFiClient::write(const uint8_t *buf, size_t size) {
-    return (size_t)socket.send(buf, size);
+    return (size_t)socket->send(buf, size);
 }
 
 int WiFiClient::available() {
-    return socket.available();
+    return socket->available();
 }
 
 int WiFiClient::read()  {
     uint8_t data;
-    uint32_t received_data = socket.receive(&data, 1);
+    uint32_t received_data = socket->receive(&data, 1);
 
     if(received_data == 0) {
         return -1;
@@ -55,7 +55,7 @@ int WiFiClient::read()  {
 }
 
 int WiFiClient::read(uint8_t *buf, size_t size) {
-    uint32_t received_data = socket.receive(buf, size);
+    uint32_t received_data = socket->receive(buf, size);
 
     if(received_data == 0) {
         return -1;
@@ -65,27 +65,27 @@ int WiFiClient::read(uint8_t *buf, size_t size) {
 }
 
 int WiFiClient::peek() {
-    return 0;
+    return socket->peek();
 }
 
 void WiFiClient::flush() {
-
+    socket->flush();
 }
 
 void WiFiClient::stop() {
-
+    socket->end();
 }
 
 uint8_t WiFiClient::connected() {
-    return (socket.status() == SOCKET_STATUS_CONNECTED); 
+    return (socket->status() == SOCKET_STATUS_CONNECTED); 
 }
 
 uint8_t WiFiClient::status() {
-    return socket.status();
+    return socket->status();
 }
 
 WiFiClient::operator bool() {
-    if (socket.status() != SOCKET_STATUS_CONNECTED) {
+    if (socket->status() != SOCKET_STATUS_CONNECTED) {
         return false;
     }
     if(available() <= 0) {
@@ -94,10 +94,43 @@ WiFiClient::operator bool() {
     return true;
 }
 
-cy_rslt_t WiFiClient::receive_callback(cy_socket_t socket_handle, void * arg) {
+IPAddress WiFiClient::remoteIP() {
+    return socket->remoteIP();
+}
+uint16_t WiFiClient::remotePort() {
+    return socket->port();
+};
+
+WiFiClient::WiFiClient(const WiFiClient& other) : socket(other.socket) {
+}
+
+WiFiClient& WiFiClient::operator=(const WiFiClient& other) {
+    if (this != &other) {
+        socket = other.socket;
+    }
+    return *this;
+}
+
+cy_rslt_t WiFiClient::receiveCallback(cy_socket_t socket_handle, void * arg) {
     WiFiClient *client = (WiFiClient *)arg;
 
-    client->socket.receive_callback();
+    client->socket->receiveCallback();
 
     return CY_RSLT_SUCCESS;
+}
+
+cy_rslt_t WiFiClient::disconnectionCallback(cy_socket_t socket_handle, void * arg) {
+    WiFiClient *client = (WiFiClient *)arg;
+
+    client->stop();
+
+    return CY_RSLT_SUCCESS;
+}
+
+bool WiFiClient::isThisClient(cy_socket_t socket_handle){
+    if(socket->socket == socket_handle) {
+        return true;
+    }
+
+    return false;
 }
