@@ -1,15 +1,51 @@
-# Arduino Core for Infineon's PSOC™ Microcontrollers
+<a id="readme-top"></a>
 
-[![build on Linux](https://github.com/Infineon/arduino-core-psoc/actions/workflows/compile.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
+<!-- PROJECT SHIELDS -->
+[![compile examples](https://github.com/Infineon/arduino-core-psoc/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
+[![HIL test](https://github.com/Infineon/arduino-core-psoc/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
 [![code format check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/code_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
 [![code spell check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
 [![commit message check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
 [![docs build](https://readthedocs.org/projects/arduino-core-psoc/badge/?version=latest)](https://arduino-core-psoc.readthedocs.io/en/latest/?badge=latest)
 
-This repository integrates Infineon's [PSOC™ microcontrollers](https://www.infineon.com/cms/de/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/) into the [Arduino ecosystem](https://www.arduino.cc/en/main/software).
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/Infineon/makers-devops">
+    <img src="https://img.shields.io/badge/Arduino-white?style=plastic&logo=arduino&logoColor=00878F" alt="Logo" width="100">
+  </a>
+
+<h2 align="center">Arduino Core for Infineon's PSOC™ 6 Microcontrollers</h2>
+
+  <p align="center">
+    This repository integrates Infineon's <a href="https://www.infineon.com/cms/en/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/psoc-6-32-bit-arm-cortex-m4-mcu/">PSOC™ 6 microcontrollers</a> into the <a href="https://www.arduino.cc/en/main/software">Arduino ecosystem</a>.
+    <br />
+    <br />
+    <a href="https://arduino-core-psoc.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/Infineon/arduino-core-psoc/issues/new?labels=bug&template=bug_report.md">Report Bug</a>
+    ·
+    <a href="https://github.com/Infineon/arduino-core-psoc/issues/new?labels=enhancement&template=feature_request.md">Request Feature</a>
+   <br />
+  </p>
+</div>
+
 
 > [!WARNING]  
-> This project is work in progress. Currently not all PSOC™ products & features are supported in Arduino. Please refer to the docs for further information.
+> This project is work in progress. Currently not all PSOC™ 6 products & features are supported in Arduino. Please refer to the docs for further information.
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+The Arduino Core for Infineon's PSOC™ 6 microcontrollers aims to bring the advanced features and versatility of Infineon's PSOC™ 6 family into the Arduino ecosystem. By integrating these powerful microcontrollers, developers can leverage the extensive libraries, tools, and community support of Arduino to build innovative and high-performance projects.
+
+### Features
+
+Please refer to [supported features](https://arduino-core-psoc.readthedocs.io/en/latest/supported-features.html)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Supported Products
 
@@ -26,9 +62,11 @@ This repository integrates Infineon's [PSOC™ microcontrollers](https://www.inf
 
 For installation & getting started instruction please refer to [our docs](https://arduino-core-psoc.readthedocs.io/en/latest/).
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Additional Information
 
-Please visit our [PSOC™ products page](https://www.infineon.com/cms/de/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/) for datasheets, pin out diagrams, and additional technical information.
+Please visit our [PSOC™ 6 products page](https://www.infineon.com/cms/en/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/psoc-6-32-bit-arm-cortex-m4-mcu/) for datasheets, pin out diagrams, and additional technical information.
 
 ## Contributing
 
@@ -38,13 +76,15 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your Changes (`git commit -m 'folder/sub-folder: Add some AmazingFeature.' -s`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-Before submitting a pull request, please check the  [Code of Conduct](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_OF_CONDUCT.md) and [Code Conventions](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_CONVENTIONS.md) for the PSOC™ for Arduino project. Thank you for following these guidelines.
+Before submitting a pull request, please check the  [Code of Conduct](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_OF_CONDUCT.md) and [Code Conventions](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_CONVENTIONS.md) for the PSOC™ 6 for Arduino project. Thank you for following these guidelines.
 
 Don't forget to give the project a star :star:! Thanks again!
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Important Note
 
@@ -53,10 +93,10 @@ Significant contributions should be aligned with the project team in advance.
 ### Top Contributors:
 
 <a href="https://github.com/Infineon/arduino-core-psoc/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Infineon/arduino-core-psoc" alt="contrib.rocks image" />
+  <img src="https://contrib.rocks/image?repo=Infineon/arduino-core-psoc" alt="contrib.rocks image" width="50" />
 </a>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 Refer to the [license](LICENSE.md) file for more details about this project's license.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>

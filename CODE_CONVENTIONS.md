@@ -191,7 +191,7 @@ Python code conventions
 =======================
 
 Python code follows [PEP 8](https://legacy.python.org/dev/peps/pep-0008/) and
-is auto-formatted using [ruff format](https://docs.astral.sh/ruff/formatter)
+is auto-formatted using [Black](https://black.readthedocs.io/en/stable/)
 with a line-length of 99 characters.
 
 Naming conventions:
