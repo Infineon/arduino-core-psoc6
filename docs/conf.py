@@ -21,7 +21,7 @@ read_the_docs_build = os.environ.get("READTHEDOCS", None) == "True"
 
 # -- Project information -----------------------------------------------------
 
-project = "Arduino Core for PSOC™"
+project = "Arduino Core for PSOC™ 6"
 copyright = "2024 Infineon Technologies AG"
 author = "Infineon Technologies AG"
 
@@ -109,6 +109,6 @@ html_static_path = ["_templates"]
 
 # -- Breathe configuration -------------------------------------------------
 
-breathe_projects = {"Arduino Core for PSOC™": "build/xml/"}
-breathe_default_project = "Arduino Core for PSOC™"
+breathe_projects = {"Arduino Core for PSOC™ 6": "build/xml/"}
+breathe_default_project = "Arduino Core for PSOC™ 6"
 breathe_default_members = ("members", "undoc-members")
