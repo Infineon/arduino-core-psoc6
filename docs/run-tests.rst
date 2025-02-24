@@ -3,7 +3,7 @@ Running Hardware Tests
 
 .. warning::
 
-   This is a work in progress version of the Arduino Core for PSOC™ documentation. 
+   This is a work in progress version of the Arduino Core for PSOC™ 6 documentation. 
    While this warning notice is present, the documentation is NOT ready for public usage.
 
 This document provides instructions on running tests on hardware using the Unity framework. These tests call the 
@@ -50,7 +50,7 @@ Makefile relies on arduino-cli for compiling, uploading, and monitoring. Unity i
      make FQBN= `FQBN` PORT= `PORT` test_digitalio_single monitor
      ```
 
-   - `FQBN`: select the connected board (e.g., `infineon:psoc:cy8ckit_062s2_a`).
+   - `FQBN`: select the connected board (e.g., `infineon:psoc6:cy8ckit_062s2_a`).
    - `PORT`: set the appropriate serial port (e.g., `/dev/ttyUSB0`).
    - monitor : opens the serial monitor to view the test results.
 

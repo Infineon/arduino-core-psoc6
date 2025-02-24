@@ -3,7 +3,7 @@ Development Instructions
 
 .. warning::
 
-   This is a work in progress version of the Arduino Core for PSOC™ documentation. 
+   This is a work in progress version of the Arduino Core for PSOC™ 6 documentation. 
    While this warning notice is present, the documentation is NOT ready for public usage.
 
 ..
@@ -31,7 +31,7 @@ Environment Setup
 
 0. Obviously |:neutral_face:|, install `Arduino IDE (2.0 or higher) <https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing/>`_ or `Arduino CLI (1.0.0 or higher) <https://arduino.github.io/arduino-cli/0.24/installation/>`_.
 
-1. Install the :ref:`Infineon PSOC™ microcontroller <psoc_core_installation>` boards package.
+1. Install the :ref:`Infineon PSOC™ 6 microcontroller <psoc6_core_installation>` boards package.
 
 2. Locate in your computer where the Arduino15 packages are installed. Usually:
 
@@ -46,7 +46,7 @@ Environment Setup
 
    ::
 
-      cd packages/infineon/hardware/psoc
+      cd packages/infineon/hardware/psoc6
 
 4. Remove any existing installed "x.y.z" version of the core
 
@@ -61,7 +61,7 @@ Environment Setup
 
    ::
 
-      git clone https://github.com/Infineon/arduino-core-psoc.git 1.2.0-new-feature
+      git clone https://github.com/Infineon/arduino-core-psoc6.git 1.2.0-new-feature
 
    You can check if the correct version is installed by running
 
@@ -69,7 +69,7 @@ Environment Setup
 
       arduino-cli core list
 
-   or in the Arduino IDE, navigate to *Tools > Board > Boards Manager...* and search for *PSOC*.
+   or in the Arduino IDE, navigate to *Tools > Board > Boards Manager...* and search for *PSOC6*.
 
    .. warning::
       | The name of the repo directory needs to be a valid semver (x.y.z) version number. 
@@ -94,7 +94,7 @@ Environment Setup
 Manual setup 
 ------------
 
-| This section describes the manual setup of the development environment for the Infineon PSOC™ microcontroller core.
+| This section describes the manual setup of the development environment for the Infineon PSOC™ 6 microcontroller core.
 | You can consider this a detailed explanation of the development setup process. 
 | Unless you want to know the details |:detective:|, it is easier and recommended to use the automated setup script |:scroll:| in :ref:`Environment setup <env_dev_setup>`.
 
@@ -117,11 +117,11 @@ Installing the ArduinoCore-API
 
             C:/Users/%USERNAME%/AppData/Local/Arduino15                
 
-2. Change directories to the following path, where your ``arduino-core-psoc`` repository should be cloned:
+2. Change directories to the following path, where your ``arduino-core-psoc6`` repository should be cloned:
 
    ::
 
-      cd packages/Infineon-psoc/hardware/psoc/<x.y.z>
+      cd packages/infineon/hardware/psoc6/<x.y.z>
 
 3. Initialize the ArduinoCore-API submodule
 
@@ -134,7 +134,7 @@ Installing the ArduinoCore-API
 
    ::
 
-      cd cores/psoc
+      cd cores/psoc6
 
 5. Copy or symlink the ``api`` folder from the ArduinoCore-API submodule
 
@@ -152,8 +152,8 @@ Installing the ArduinoCore-API
 
          ::
 
-            mklink /D "C:\Users\%USERNAME%\AppData\Local\Arduino15\packages\infineon\hardware\psoc\<x.y.z>\cores\psoc\api" "C:\Users\%USERNAME%\AppData\Local\Arduino15\packages\infineon\hardware\psoc\<x.y.z>\extras\arduino-core-api\api"
+            mklink /D "C:\Users\%USERNAME%\AppData\Local\Arduino15\packages\infineon\hardware\psoc6\<x.y.z>\cores\psoc6\api" "C:\Users\%USERNAME%\AppData\Local\Arduino15\packages\infineon\hardware\psoc6\<x.y.z>\extras\arduino-core-api\api"
 
-6. You should see now the ``api`` folder in the ``cores/psoc`` directory.
+6. You should see now the ``api`` folder in the ``cores/psoc6`` directory.
 
 
