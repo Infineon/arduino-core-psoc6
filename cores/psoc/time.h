@@ -19,8 +19,6 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include "cyhal_timer.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
