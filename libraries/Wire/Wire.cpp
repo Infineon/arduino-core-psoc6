@@ -18,8 +18,11 @@ size_t TwoWire::txBufferLength = 0;		//tail
 void (*TwoWire::user_onRequest)(void) = nullptr;
 void (*TwoWire::user_onReceive)(int) = nullptr;
 
+#define Wire_assert(cy_ret) if (cy_ret != CY_RSLT_SUCCESS) { \
+    return ;\
+}
+
 TwoWire *TwoWire::instances[I2C_HOWMANY] = {nullptr};
-cyhal_i2c_t TwoWire::i2c_objs[I2C_HOWMANY];
 
 TwoWire::TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance) : sda_pin(sda), scl_pin(scl), instance(instance) {
     if (instance < I2C_HOWMANY) {
@@ -48,16 +51,20 @@ void TwoWire::_begin() {
         };
     }
 
-    cyhal_i2c_init(&i2c_objs[instance], sda_pin, scl_pin, NULL);
-    cyhal_i2c_configure(&i2c_objs[instance], &i2c_config);
+    w_status = cyhal_i2c_init(&i2c_obj, sda_pin, scl_pin, NULL);
+    Wire_assert(w_status);
+    w_status = cyhal_i2c_configure(&i2c_obj, &i2c_config);
+    Wire_assert(w_status);
 
     if (!is_master) {
         // Configure the read and write buffers for the I2C slave
-        cyhal_i2c_slave_config_read_buffer(&i2c_objs[instance],  txBuffer, BUFFER_LENGTH);
-        cyhal_i2c_slave_config_write_buffer(&i2c_objs[instance], rxBuffer, BUFFER_LENGTH);
+        w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj,  txBuffer, BUFFER_LENGTH);
+        Wire_assert(w_status);
+        w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, rxBuffer, BUFFER_LENGTH);
+        Wire_assert(w_status);
     }
 
-    cyhal_i2c_register_callback(&i2c_objs[instance], i2c_event_handler, this);
+    cyhal_i2c_register_callback(&i2c_obj, i2c_event_handler, this);
 }
 
 void TwoWire::begin() {
@@ -72,7 +79,7 @@ void TwoWire::begin(uint8_t address) {
 }
 
 void TwoWire::end() {
-    cyhal_i2c_free(&i2c_objs[instance]);
+    cyhal_i2c_free(&i2c_obj);
     instances[instance] = nullptr; // Clear the instance
 }
 
@@ -90,7 +97,7 @@ void TwoWire::setClock(uint32_t freq) {
             .frequencyhal_hz = freq
         };
     }
-    cyhal_i2c_configure(&i2c_objs[instance], &i2c_config);
+    cyhal_i2c_configure(&i2c_obj, &i2c_config);
 }
 
 void TwoWire::beginTransmission(uint8_t address) {
@@ -102,32 +109,25 @@ void TwoWire::beginTransmission(uint8_t address) {
 uint8_t TwoWire::endTransmission(bool sendStop) {
     cy_rslt_t result;
     if (txBufferLength == 0) {
-        result = cyhal_i2c_master_write(&i2c_objs[instance], txAddress, txBuffer, 0, timeout, sendStop);
+        result = cyhal_i2c_master_write(&i2c_obj, txAddress, txBuffer, 0, timeout, sendStop);
     } else {
-        result = cyhal_i2c_master_write(&i2c_objs[instance], txAddress, txBuffer, txBufferLength, timeout, sendStop);
+        result = cyhal_i2c_master_write(&i2c_obj, txAddress, txBuffer, txBufferLength, timeout, sendStop);
         txBufferIndex = 0;
         txBufferLength = 0;
     }
-    if (result == CY_RSLT_SUCCESS) {
-        return 0; // Success
-    } else {
-        // Handle specific error codes
+    // Handle specific error codes
         switch (result) {
-            case 0xAA2004:
-                Serial.println("Error: No device attached to SDA/SCL, but they are pulled-up.");
-                return 2; // NACK on transmit of address
-            case 0xAA2003:
-                Serial.println("Error: No device attached to SDA/SCL, and they are not pulled-up.");
-                return 2; // NACK on transmit of address
-            case CYHAL_I2C_RSLT_WARN_TIMEOUT:
-                Serial.println("Warning: Timeout.");
+            case I2C_SUCCESS:
+                return 0; // Success
+            case I2C_NO_DEVICE_ATTACHED_PULL_UP:
+                return 2; // NACK on transmit of address . Error: No device attached to SDA/SCL, but they are pulled-up
+            case I2C_NO_DEVICE_ATTACHED_NO_PULL_UP:
+                return 2; // NACK on transmit of address. Error: No device attached to SDA/SCL, and they are not pulled-up
+            case I2C_TIMEOUT:
                 return 5; // Timeout
             default:
-                Serial.println("Error: Unknown error.");
-                break;
+                return 4; // Other error
         }
-        return 4; // Other error
-    }
 }
 
 uint8_t TwoWire::endTransmission(void) {
@@ -139,7 +139,7 @@ size_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool stopBit) {
         quantity = BUFFER_LENGTH;
     }
     memset(rxBuffer, 0, BUFFER_LENGTH);
-    cy_rslt_t result = cyhal_i2c_master_read(&i2c_objs[instance], address, rxBuffer, quantity, timeout, stopBit);   
+    cy_rslt_t result = cyhal_i2c_master_read(&i2c_obj, address, rxBuffer, quantity, timeout, stopBit);   
     if (result == CY_RSLT_SUCCESS) {
         rxBufferIndex = 0;
         rxBufferLength = quantity;
@@ -213,12 +213,12 @@ int TwoWire::peek(void) {
 
 void TwoWire::onReceive(void (*function)(int)) {
     user_onReceive = function;
-    cyhal_i2c_enable_event(&i2c_objs[instance], CYHAL_I2C_SLAVE_WR_CMPLT_EVENT, 7, true);
+    cyhal_i2c_enable_event(&i2c_obj, CYHAL_I2C_SLAVE_WR_CMPLT_EVENT, 7, true);
 }
 
 void TwoWire::onRequest(void (*function)(void)) {
     user_onRequest = function;
-    cyhal_i2c_enable_event(&i2c_objs[instance], CYHAL_I2C_SLAVE_READ_EVENT, 7, true);
+    cyhal_i2c_enable_event(&i2c_obj, CYHAL_I2C_SLAVE_READ_EVENT, 7, true);
 }
 
 
@@ -258,11 +258,8 @@ void TwoWire::onReceiveService(int numBytes) {
     user_onReceive(rxBufferLength);
 
     // Reconfigure the write buffer after the transaction
-    cy_rslt_t result = cyhal_i2c_slave_config_write_buffer(&i2c_objs[instance], rxBuffer, BUFFER_LENGTH);
-    if (result != CY_RSLT_SUCCESS) {
-        Serial.print("I2C slave write buffer reconfig failed with error: ");
-        Serial.println(result);
-    }
+    w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, rxBuffer, BUFFER_LENGTH);
+    Wire_assert(w_status);
 }
 
 // This function is called when the master wants to read data from the slave
@@ -280,11 +277,8 @@ uint8_t TwoWire::onRequestService(void) {
     user_onRequest();
 
     // Reconfigure the read buffer after the transaction
-    cy_rslt_t result = cyhal_i2c_slave_config_read_buffer(&i2c_objs[instance], txBuffer, BUFFER_LENGTH);
-    if (result != CY_RSLT_SUCCESS) {
-        Serial.print("I2C slave read buffer reconfig failed with error: ");
-        Serial.println(result);
-    }
+    w_status= cyhal_i2c_slave_config_read_buffer(&i2c_obj, txBuffer, BUFFER_LENGTH);
+    Wire_assert(w_status);
 
     return txBufferLength;
 }

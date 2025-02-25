@@ -12,6 +12,13 @@ public:
 
     TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance = 0);
 
+    enum I2C_ErrorCodes {
+        I2C_SUCCESS = CY_RSLT_SUCCESS,
+        I2C_NO_DEVICE_ATTACHED_PULL_UP = 0xAA2004,
+        I2C_NO_DEVICE_ATTACHED_NO_PULL_UP = 0xAA2003,
+        I2C_TIMEOUT = CYHAL_I2C_RSLT_WARN_TIMEOUT
+    };
+
     void begin();
     void begin(uint8_t address);
     void end();
@@ -48,6 +55,7 @@ private:
     static uint8_t txAddress;
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
+    cy_rslt_t w_status;
     uint32_t timeout = 0; // Timeout in milliseconds
     static void (*user_onRequest)(void);
     static void (*user_onReceive)(int);
