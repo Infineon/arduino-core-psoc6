@@ -47,6 +47,7 @@ author = "Infineon Technologies AG"
 extensions = [
     "sphinx_tabs.tabs",
     "sphinxemoji.sphinxemoji",
+    "myst_parser",
     # 'sphinx.ext.autodoc',
     # 'sphinx.ext.intersphinx',
     # 'sphinx.ext.autosectionlabel',

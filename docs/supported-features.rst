@@ -1,4 +1,4 @@
-Supported features
+Supported Features
 ===================
 
 .. warning::
@@ -10,7 +10,7 @@ Supported features
 This section indicates implementation status of Arduino functions and libraries.
 
 
-Built-in libraries
+Built-in Libraries
 ^^^^^^^^^^^^^^^^^^^
 
 .. list-table:: 
