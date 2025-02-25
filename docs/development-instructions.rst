@@ -18,12 +18,10 @@ Development Instructions
       - pre-commit hook?
       - spellchecker
       - ... 
-   - Installation of the Arduino PSOC™ core
-   - Setting up the development environment
 
 .. _env_dev_setup:
 
-Environment setup
+Environment Setup
 ------------------
 
 .. note::
@@ -49,17 +47,6 @@ Environment setup
    ::
 
       cd packages/infineon/hardware/psoc
-
-   ..
-      TODO: We already have the "Infineon" package (from XMC-for-Arduino). We should go for "infineon" instead of "infineon-psoc". And
-      we have to see how that works in Windows, to see what happen when we have "Infineon" and "infineon" in the same path, or they are considered
-      the same. 
-      That arduino-cli naming will be more consistent with the snake_case naming conventions and non-redundant:
-      - arduino-cli compile --fqbn infineon:psoc:cy8ckit_062s2_ai 
-      instead of
-      - arduino-cli compile -fqbn Infineon-psoc:psoc:cy8ckit_062s2_ai 
-      or
-      - arduino-cli compile -fqbn Infineon:psoc:cy8ckit_062s2_ai
 
 4. Remove any existing installed "x.y.z" version of the core
 
@@ -140,7 +127,7 @@ Installing the ArduinoCore-API
 
    ::
 
-      git submodule update --init
+      git submodule update --init --recursive
 
 
 4. Change directories
