@@ -17,46 +17,66 @@
 */
 
 #include "Arduino.h"
-#include "cy_systick.h"
-
 #include <FreeRTOS.h>
 #include <task.h>
+#include "cyhal_timer.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Defines */
-#define CLOCK_FREQUENCY 8000000
 #define MILLISECONDS_PER_SECOND 1000
-#define SYSTICK_RELOAD_VAL (CLOCK_FREQUENCY / MILLISECONDS_PER_SECOND - 1) // For 1 ms tick
+#define MICROSECONDS_PER_SECOND 1000000
+#define MICROS_TO_MILLISECONDS(us) ((unsigned long)((double)(us) / (double)MILLISECONDS_PER_SECOND));
 
-volatile uint32_t systick_count = 0; // Counter to keep track of milliseconds
+cyhal_timer_t timer;
 
-void time_increment_millisecond_counter(void) {
-    systick_count++;
+#define time_assert(ret) if (ret != CY_RSLT_SUCCESS) { \
+            time_error = ret; \
+            return; \
 }
 
+static cy_rslt_t time_error = CY_RSLT_SUCCESS;
+/**
+ * This function can be used for debugging purposes.
+ * Include in app as extern cy_rslt_t get_time_error();
+ */
+cy_rslt_t get_time_error() {
+    return time_error;
+}
+
+
 void time_init() {
-    /* Initialize the systick, set the 8MHz IMO as clock source */
-    Cy_SysTick_Init(CY_SYSTICK_CLOCK_SOURCE_CLK_IMO, SYSTICK_RELOAD_VAL);
+    const cyhal_timer_cfg_t timer_cfg =
+    {
+        .compare_value = 0,                     /* Unused */
+        .period = 4294967295,                   /* 2^32 - 1 ticks. With 1MHz freq ~ 70 min overflow.*/
+        .direction = CYHAL_TIMER_DIR_UP,
+        .is_compare = false,
+        .is_continuous = true,
+        .value = 0
+    };
 
-    /* Set Systick interrupt callback */
-    Cy_SysTick_SetCallback(0, time_increment_millisecond_counter);
+    cy_rslt_t ret = cyhal_timer_init(&timer, NC, NULL);
+    time_assert(ret);
 
-    /* Enable Systick and the Systick interrupt */
-    Cy_SysTick_Enable();
+    ret = cyhal_timer_configure(&timer, &timer_cfg);
+    time_assert(ret);
+
+    ret = cyhal_timer_set_frequency(&timer, MICROSECONDS_PER_SECOND);
+    time_assert(ret);
+
+    ret = cyhal_timer_start(&timer);
+    time_assert(ret);
 }
 
 unsigned long millis() {
-    // Return the number of milliseconds since the program started
-    return systick_count;
+    return MICROS_TO_MILLISECONDS(cyhal_timer_read(&timer));
 }
 
 unsigned long micros() {
-    uint32_t ticks = Cy_SysTick_GetValue();
-    // Calculate the number of microseconds since the program started
-    return (systick_count * MILLISECONDS_PER_SECOND) + ((SYSTICK_RELOAD_VAL - ticks) * MILLISECONDS_PER_SECOND / (SYSTICK_RELOAD_VAL + 1));
+    return cyhal_timer_read(&timer);
 }
 
 void delay(unsigned long ms) {
