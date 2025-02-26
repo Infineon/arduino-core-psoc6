@@ -103,8 +103,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
     return WL_AP_CONNECTED;
 }
 
-IPAddress WiFiClass::localIP()
-{
+IPAddress WiFiClass::localIP() {
     /* If the WiFi interface has not been yet initialized. */
     if(_mode == CY_WCM_INTERFACE_TYPE_UNKNOWN) {
         return IPAddress(0, 0, 0, 0);
@@ -120,10 +119,24 @@ IPAddress WiFiClass::localIP()
     return ip;
 }
 
+IPAddress WiFiClass::gatewayIP() {
+    if(_mode == CY_WCM_INTERFACE_TYPE_UNKNOWN) {
+        return IPAddress(0, 0, 0, 0);
+    }
+
+    cy_wcm_ip_address_t gateway_ip;
+    cy_rslt_t ret = cy_wcm_get_gateway_ip_address(_mode, &gateway_ip);
+    if(ret != CY_RSLT_SUCCESS) {
+        return IPAddress(0, 0, 0, 0);
+    }
+
+    IPAddress ip(gateway_ip.ip.v4);
+    return ip;
+};
+
 uint8_t WiFiClass::status() {
     return _status;
 }
-
 
 WiFiClass::WiFiClass() {
 
