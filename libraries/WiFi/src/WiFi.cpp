@@ -1,4 +1,5 @@
 #include <WiFi.h>
+#include "Socket.h"
 
 /** 
  * @brief Macro to assert the return value of the cy_wcm APIs 
@@ -137,6 +138,10 @@ IPAddress WiFiClass::gatewayIP() {
 uint8_t WiFiClass::status() {
     return _status;
 }
+
+int WiFiClass::hostByName(const char* aHostname, IPAddress& aResult) {
+    return Socket::hostByName(aHostname, aResult);
+}   
 
 WiFiClass::WiFiClass() {
 
