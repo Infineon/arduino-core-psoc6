@@ -3,3 +3,10 @@
       1:
         - "test_uart_connected2_tx"
         - "test_uart_connected2_rx"
+    
+      Wire:
+      1:
+      - "test_wire_connected2_slavepingpong"
+      - "test_wire_connected2_masterpingpong"
+      2:
+      - "test_wire_connected1_pingpong"
