@@ -3,7 +3,7 @@
 #include "cy_wcm.h"
 
 /**
- * TODOs: 
+ * TODO: 
  *  - Adapt the enum list conveniently. Do we need to keep all?
  *  - Move it to some header file?
 */
@@ -72,6 +72,13 @@ class WiFiClass {
         * return: IP address value. Returns 0.0.0.0 in case of error.
         */
         IPAddress localIP();
+
+        /*
+        * Get the gateway IP address.
+        *
+        * return: gateway IP address value
+        */
+        IPAddress gatewayIP();
 
         /**
          * Return Connection status
