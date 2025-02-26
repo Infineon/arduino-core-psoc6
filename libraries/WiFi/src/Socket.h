@@ -47,6 +47,8 @@ class Socket {
         IPAddress remoteIP();
         uint16_t port();
 
+        static int hostByName(const char* aHostname, IPAddress& aResult);
+
         uint8_t status();
         cy_rslt_t get_last_error();
 

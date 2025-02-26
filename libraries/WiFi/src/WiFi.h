@@ -98,6 +98,8 @@ class WiFiClass {
          */
         uint8_t status();
 
+        int hostByName(const char* aHostname, IPAddress& aResult);
+
     private: 
 
         /* Extension of cy_wcm_interface_t enums. */

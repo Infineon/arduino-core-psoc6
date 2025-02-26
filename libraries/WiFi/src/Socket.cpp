@@ -180,6 +180,19 @@ uint16_t Socket::port() {
     return _port;
 }
 
+int Socket::hostByName(const char* aHostname, IPAddress& aResult) {
+    cy_socket_sockaddr_t address;
+    
+    cy_rslt_t ret = cy_socket_gethostbyname(aHostname, CY_SOCKET_IP_VER_V4, &(address.ip_address));
+    if(ret != CY_RSLT_SUCCESS) {
+        return SOCKET_STATUS_ERROR;
+    }
+
+    aResult = IPAddress(address.ip_address.ip.v4);
+
+    return true;
+}
+
 uint8_t Socket::status() {
     return _status;
 }   
