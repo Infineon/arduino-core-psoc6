@@ -39,29 +39,30 @@ public:
 
 private:
     static TwoWire *instances[I2C_HOWMANY];
-    static cyhal_i2c_t i2c_objs[I2C_HOWMANY];
     void _begin();
     cyhal_gpio_t sda_pin;
     cyhal_gpio_t scl_pin;
     uint8_t instance;
     bool is_master;
     uint16_t slave_address;
-    static uint8_t rxBuffer[BUFFER_LENGTH];
-    static uint8_t txBuffer[BUFFER_LENGTH];
-    static size_t rxBufferIndex;
-    static size_t rxBufferLength;
-    static size_t txBufferIndex;
-    static size_t txBufferLength;
-    static uint8_t txAddress;
+    uint8_t rxBuffer[BUFFER_LENGTH];
+    uint8_t txBuffer[BUFFER_LENGTH];
+     size_t rxBufferIndex =0;
+     size_t rxBufferLength = 0;
+     size_t txBufferIndex =0;
+     size_t txBufferLength = 0;
+     uint8_t txAddress;
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
     cy_rslt_t w_status;
+    static uint8_t bytesSent;
     uint32_t timeout = 0; // Timeout in milliseconds
-    static void (*user_onRequest)(void);
-    static void (*user_onReceive)(int);
-    uint8_t onRequestService(void);
+    void (*user_onRequest)(void);
+    void (*user_onReceive)(int);
+    void onRequestService(void);
     void onReceiveService(int);
     static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);
+    void i2c_event_handler_member(cyhal_i2c_event_t event);
 
 };
 
