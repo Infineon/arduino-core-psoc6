@@ -12,6 +12,11 @@
         return ret_code; \
 }
 
+#define wifi_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
+        _status = ret_code; \
+        return; \
+}
+
 WiFiClass & WiFiClass::get_instance() {
     static WiFiClass wifi_singleton;
     return wifi_singleton;
@@ -102,6 +107,33 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
     _status = WL_AP_CONNECTED;
 
     return WL_AP_CONNECTED;
+}
+
+void WiFiClass::config(IPAddress local_ip) {
+
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server) {
+
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway) {
+
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet) {
+
+    //for STA
+        // if connected disconnect
+        // is there some current settings for IP
+            // change the IP as provided
+            // connect to ap again if it was connected 
+            // else just keep the settings for when the user decides to connect
+            
+        // is there current setting for DNS? 
+
+    //for AP
+        //just call the provided function.
 }
 
 IPAddress WiFiClass::localIP() {
