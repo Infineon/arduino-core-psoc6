@@ -1,4 +1,5 @@
 #include <WiFi.h>
+#include "Socket.h"
 
 /** 
  * @brief Macro to assert the return value of the cy_wcm APIs 
@@ -9,6 +10,11 @@
 #define wifi_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
         _status = ret_code; \
         return ret_code; \
+}
+
+#define wifi_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
+        _status = ret_code; \
+        return; \
 }
 
 WiFiClass & WiFiClass::get_instance() {
@@ -91,7 +97,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
         ap_conf.ap_credentials.security = CY_WCM_SECURITY_OPEN;
     }
 
-    /* The AP requires a default some default IP settings */
+    /* The AP requires some default IP settings */
     cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0", "192.168.0.1", CY_WCM_IP_VER_V4);
 
     ret = cy_wcm_start_ap(&ap_conf);
@@ -103,8 +109,34 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
     return WL_AP_CONNECTED;
 }
 
-IPAddress WiFiClass::localIP()
-{
+void WiFiClass::config(IPAddress local_ip) {
+
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server) {
+
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway) {
+
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet) {
+
+    //for STA
+        // if connected disconnect
+        // is there some current settings for IP
+            // change the IP as provided
+            // connect to ap again if it was connected 
+            // else just keep the settings for when the user decides to connect
+            
+        // is there current setting for DNS? 
+
+    //for AP
+        //just call the provided function.
+}
+
+IPAddress WiFiClass::localIP() {
     /* If the WiFi interface has not been yet initialized. */
     if(_mode == CY_WCM_INTERFACE_TYPE_UNKNOWN) {
         return IPAddress(0, 0, 0, 0);
@@ -120,10 +152,28 @@ IPAddress WiFiClass::localIP()
     return ip;
 }
 
+IPAddress WiFiClass::gatewayIP() {
+    if(_mode == CY_WCM_INTERFACE_TYPE_UNKNOWN) {
+        return IPAddress(0, 0, 0, 0);
+    }
+
+    cy_wcm_ip_address_t gateway_ip;
+    cy_rslt_t ret = cy_wcm_get_gateway_ip_address(_mode, &gateway_ip);
+    if(ret != CY_RSLT_SUCCESS) {
+        return IPAddress(0, 0, 0, 0);
+    }
+
+    IPAddress ip(gateway_ip.ip.v4);
+    return ip;
+};
+
 uint8_t WiFiClass::status() {
     return _status;
 }
 
+int WiFiClass::hostByName(const char* aHostname, IPAddress& ip) {
+    return Socket::hostByName(aHostname, ip);
+}   
 
 WiFiClass::WiFiClass() {
 

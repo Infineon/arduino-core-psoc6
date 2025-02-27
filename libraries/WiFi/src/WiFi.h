@@ -3,7 +3,7 @@
 #include "cy_wcm.h"
 
 /**
- * TODOs: 
+ * TODO: 
  *  - Adapt the enum list conveniently. Do we need to keep all?
  *  - Move it to some header file?
 */
@@ -65,6 +65,18 @@ class WiFiClass {
         uint8_t beginAP(const char *ssid, const char* passphrase);
         uint8_t beginAP(const char *ssid, const char* passphrase, uint8_t channel);
 
+        /* Change IP configuration settings disabling the DHCP client
+        *
+        * param local_ip:   Static IP configuration
+        * param dns_server: IP configuration for DNS server 1
+        * param gateway:    Static gateway configuration
+        * param subnet:     Static Subnet mask
+        */
+        void config(IPAddress local_ip);
+        void config(IPAddress local_ip, IPAddress dns_server);
+        void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway);
+        void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet);
+
         /*
         * Get the interface IP address.
         * Currently only IPv4 is supported.
@@ -72,6 +84,13 @@ class WiFiClass {
         * return: IP address value. Returns 0.0.0.0 in case of error.
         */
         IPAddress localIP();
+
+        /*
+        * Get the gateway IP address.
+        *
+        * return: gateway IP address value
+        */
+        IPAddress gatewayIP();
 
         /**
          * Return Connection status
@@ -90,6 +109,8 @@ class WiFiClass {
          *  WL_DISCONNECTED: assigned when disconnected from a network;
          */
         uint8_t status();
+
+        int hostByName(const char* aHostname, IPAddress& ip);
 
     private: 
 

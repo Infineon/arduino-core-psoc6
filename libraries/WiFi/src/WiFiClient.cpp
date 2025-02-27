@@ -16,8 +16,8 @@ socket(std::make_shared<Socket>()) {
 int WiFiClient::connect(IPAddress ip, uint16_t port) {
     socket->begin();
     
-    socket->set_receive_opt_callback(receiveCallback, this); 
-    socket->set_disconnect_opt_callback(disconnectionCallback, this);
+    socket->setReceiveOptCallback(receiveCallback, this); 
+    socket->setDisconnectOptCallback(disconnectionCallback, this);
 
     return socket->connect(ip, port);
 }
@@ -25,8 +25,8 @@ int WiFiClient::connect(IPAddress ip, uint16_t port) {
 int WiFiClient::connect(const char *host, uint16_t port) {
     socket->begin();
     
-    socket->set_receive_opt_callback(receiveCallback, this); 
-    socket->set_disconnect_opt_callback(disconnectionCallback, this);
+    socket->setReceiveOptCallback(receiveCallback, this); 
+    socket->setDisconnectOptCallback(disconnectionCallback, this);
 
     return socket->connect(host, port);
 }
