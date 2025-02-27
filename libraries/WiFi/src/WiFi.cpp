@@ -171,8 +171,8 @@ uint8_t WiFiClass::status() {
     return _status;
 }
 
-int WiFiClass::hostByName(const char* aHostname, IPAddress& aResult) {
-    return Socket::hostByName(aHostname, aResult);
+int WiFiClass::hostByName(const char* aHostname, IPAddress& ip) {
+    return Socket::hostByName(aHostname, ip);
 }   
 
 WiFiClass::WiFiClass() {
