@@ -29,6 +29,7 @@ extern "C" {
 #define MILLISECONDS_PER_SECOND 1000
 #define MICROSECONDS_PER_SECOND 1000000
 #define MICROS_TO_MILLISECONDS(us) ((unsigned long)((double)(us) / (double)MILLISECONDS_PER_SECOND));
+#define MAX_UINT32_VALUE 4294967295
 
 cyhal_timer_t timer;
 
@@ -51,7 +52,7 @@ void time_init() {
     const cyhal_timer_cfg_t timer_cfg =
     {
         .compare_value = 0,                     /* Unused */
-        .period = 4294967295,                   /* 2^32 - 1 ticks. With 1MHz freq ~ 70 min overflow.*/
+        .period = MAX_UINT32_VALUE,             /* With 1MHz freq ~ 70 min overflow.*/
         .direction = CYHAL_TIMER_DIR_UP,
         .is_compare = false,
         .is_continuous = true,
