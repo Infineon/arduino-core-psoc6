@@ -6,7 +6,7 @@
 
 class TwoWire {
 public:
-    
+
     static const size_t BUFFER_LENGTH = 32;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
@@ -38,7 +38,7 @@ public:
     void onRequest(void (*function)(void));
 
 private:
-    static TwoWire *instances[I2C_HOWMANY];
+    static TwoWire * instances[I2C_HOWMANY];
     void _begin();
     cyhal_gpio_t sda_pin;
     cyhal_gpio_t scl_pin;
@@ -47,11 +47,11 @@ private:
     uint16_t slave_address;
     uint8_t rxBuffer[BUFFER_LENGTH];
     uint8_t txBuffer[BUFFER_LENGTH];
-     size_t rxBufferIndex =0;
-     size_t rxBufferLength = 0;
-     size_t txBufferIndex =0;
-     size_t txBufferLength = 0;
-     uint8_t txAddress;
+    size_t rxBufferIndex = 0;
+    size_t rxBufferLength = 0;
+    size_t txBufferIndex = 0;
+    size_t txBufferLength = 0;
+    uint8_t txAddress;
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
     cy_rslt_t w_status;
