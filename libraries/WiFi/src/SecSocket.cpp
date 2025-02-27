@@ -41,23 +41,23 @@ void Socket::end() {
     _last_error = Socket::global_sockets_deinit();
 }
 
-void Socket::set_timeout(uint32_t timeout) {
+void Socket::setTimeout(uint32_t timeout) {
     _last_error = cy_socket_setsockopt(socket, CY_SOCKET_SOL_SOCKET,
                                     CY_SOCKET_SO_RCVTIMEO, &timeout,
                                     sizeof(timeout)); 
     socket_assert(_last_error);
 }
 
-void Socket::set_connect_opt_callback(cy_socket_callback_t cback, void * arg) {
-    set_opt_callback(CY_SOCKET_SO_CONNECT_REQUEST_CALLBACK, cback, arg);
+void Socket::setConnectOptCallback(cy_socket_callback_t cback, void * arg) {
+    setOptCallback(CY_SOCKET_SO_CONNECT_REQUEST_CALLBACK, cback, arg);
 }
 
-void Socket::set_receive_opt_callback(cy_socket_callback_t cback, void * arg) {
-    set_opt_callback(CY_SOCKET_SO_RECEIVE_CALLBACK, cback, arg);
+void Socket::setReceiveOptCallback(cy_socket_callback_t cback, void * arg) {
+    setOptCallback(CY_SOCKET_SO_RECEIVE_CALLBACK, cback, arg);
 }
 
-void Socket::set_disconnect_opt_callback(cy_socket_callback_t cback, void * arg) {
-    set_opt_callback(CY_SOCKET_SO_DISCONNECT_CALLBACK, cback, arg);
+void Socket::setDisconnectOptCallback(cy_socket_callback_t cback, void * arg) {
+    setOptCallback(CY_SOCKET_SO_DISCONNECT_CALLBACK, cback, arg);
 }
 
 void Socket::bind(uint16_t port) {
@@ -197,7 +197,7 @@ uint8_t Socket::status() {
     return _status;
 }   
 
-cy_rslt_t Socket::get_last_error() {
+cy_rslt_t Socket::getLastError() {
     return _last_error;
 }   
 
@@ -231,7 +231,7 @@ void Socket::receiveCallback() {
     }
 }
 
-void Socket::set_opt_callback(int optname, cy_socket_callback_t cback, void * arg) {
+void Socket::setOptCallback(int optname, cy_socket_callback_t cback, void * arg) {
     cy_socket_opt_callback_t cy_opt_callback;
 
     cy_opt_callback.callback = cback; 

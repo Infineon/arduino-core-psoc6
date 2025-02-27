@@ -97,7 +97,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
         ap_conf.ap_credentials.security = CY_WCM_SECURITY_OPEN;
     }
 
-    /* The AP requires a default some default IP settings */
+    /* The AP requires some default IP settings */
     cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0", "192.168.0.1", CY_WCM_IP_VER_V4);
 
     ret = cy_wcm_start_ap(&ap_conf);
