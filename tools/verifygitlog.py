@@ -133,7 +133,7 @@ def run(args):
     if err.has_errors or err.has_warnings:
         if suggestions:
             print(
-                "See https://github.com/Infineon/arduino-core-psoc/blob/main/CODECONVENTIONS.md"
+                "See https://github.com/Infineon/arduino-core-psoc6/blob/main/CODECONVENTIONS.md"
             )
     else:
         print("ok")

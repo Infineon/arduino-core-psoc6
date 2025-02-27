@@ -8,9 +8,16 @@ import re
 import subprocess
 
 # Relative to top-level repo dir.
-PATHS = ["cores/psoc/*.[ch]", "cores/psoc/*.cpp"]
+PATHS = [
+    "cores/psoc6/*.[ch]",
+    "cores/psoc6/*.cpp",
+    "libraries/**/*.[ch]",
+    "libraries/**/src/*.[ch]",
+    "libraries/**/*.[cpp]",
+    "libraries/**/src/*.[cpp]",
+]
 
-EXCLUSIONS = ["cores/arduino/**/*.[ch]"]
+EXCLUSIONS = ["cores/api/**/*.[ch]"]
 
 # Path to repo top-level dir.
 TOP = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

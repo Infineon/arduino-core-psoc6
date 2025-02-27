@@ -10,14 +10,14 @@ function git_submodule_setup {
 }
 
 function core_api_setup {
-    cores_psoc_dir="${PWD}/../cores/psoc"
+    cores_psoc6_dir="${PWD}/../cores/psoc6"
     core_api_submodule_dir="${PWD}/../extras/arduino-core-api"
 
     # Create symbolic link (overwrite) to the api/ 
     # folder of ArduinoCore-API submodule.
     # Note: Symlinks might not work without full paths
     # https://stackoverflow.com/questions/8601988/symlinks-not-working-when-link-is-made-in-another-directory
-    ln -sf ${core_api_submodule_dir}/api ${cores_psoc_dir}
+    ln -sf ${core_api_submodule_dir}/api ${cores_psoc6_dir}
 }
 
 function bsps_setup {
