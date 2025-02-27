@@ -11,10 +11,10 @@ WiFiServer::WiFiServer(){
 void WiFiServer::begin(uint16_t port) {
     socket.begin();
     
-    socket.set_timeout(SERVER_RECV_TIMEOUT_MS);
-    socket.set_connect_opt_callback(connectionCallback, this);
-    socket.set_receive_opt_callback(receiveCallback, this);
-    socket.set_disconnect_opt_callback(disconnectionCallback, this);
+    socket.setTimeout(SERVER_RECV_TIMEOUT_MS);
+    socket.setConnectOptCallback(connectionCallback, this);
+    socket.setReceiveOptCallback(receiveCallback, this);
+    socket.setDisconnectOptCallback(disconnectionCallback, this);
 
     socket.bind(port);
     socket.listen(SERVER_MAX_CLIENTS);
@@ -118,7 +118,7 @@ cy_rslt_t WiFiServer::connectionCallback(cy_socket_t socket_handle, void *arg) {
 
     if(!server->socket.accept(*(new_client.socket))) {
         server->connected_clients.pop_back();
-        return server->socket.get_last_error();
+        return server->socket.getLastError();
     }
 
     return CY_RSLT_SUCCESS;
