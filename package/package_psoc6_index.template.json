@@ -3,12 +3,12 @@
         {
             "name": "infineon",
             "maintainer": "Infineon Technologies AG",
-            "websiteURL": "https://arduino-core-psoc.readthedocs.io/en/latest/index.html",
+            "websiteURL": "https://arduino-core-psoc6.readthedocs.io/en/latest/index.html",
             "email": "maker@infineon.com",
             "platforms": [
                 {
-                    "name": "Infineon PSOC Boards",
-                    "architecture": "psoc",
+                    "name": "Infineon PSOC6 Boards",
+                    "architecture": "psoc6",
                     "version": "",
                     "category": "Contributed",
                     "url": "",
@@ -45,14 +45,14 @@
                         {
                             "host": "i686-mingw32",
                             "archiveFileName": "mtb-gcc-arm-none-eabi-11.3.1.67-windows.zip",
-                            "url": "https://github.com/Infineon/arduino-core-psoc/releases/download/mtb-tools/mtb-gcc-arm-none-eabi-11.3.1.67-windows.zip",
+                            "url": "https://github.com/Infineon/arduino-core-psoc6/releases/download/mtb-tools/mtb-gcc-arm-none-eabi-11.3.1.67-windows.zip",
                             "checksum": "SHA-256:a96002b4aebbd89b1ace6a2da3f591d27d168fe56c1decd401bfb7a88d509260",
                             "size": "305588533"
                         },
                         {
                             "host": "x86_64-pc-linux-gnu",
                             "archiveFileName": "mtb-gcc-arm-none-eabi-11.3.1.67-linux.zip",
-                            "url": "https://github.com/Infineon/arduino-core-psoc/releases/download/mtb-tools/mtb-gcc-arm-none-eabi-11.3.1.67-linux.tar.gz",
+                            "url": "https://github.com/Infineon/arduino-core-psoc6/releases/download/mtb-tools/mtb-gcc-arm-none-eabi-11.3.1.67-linux.tar.gz",
                             "checksum": "SHA-256:76fb2d76080c3c2966983d8d8053cb7082416b83d8f5f6caa3d69bc8287d7846",
                             "size": "212727150"
                         }

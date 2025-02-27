@@ -1,12 +1,12 @@
 <a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
-[![compile examples](https://github.com/Infineon/arduino-core-psoc/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/compile-examples.yml)
-[![HIL test](https://github.com/Infineon/arduino-core-psoc/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/hil_unity_checks.yml)
-[![code format check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/code_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/code_formatting.yml)
-[![code spell check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/codespell.yml)
-[![commit message check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/commit_formatting.yml)
-[![docs build](https://readthedocs.org/projects/arduino-core-psoc/badge/?version=latest)](https://arduino-core-psoc.readthedocs.io/en/latest/?badge=latest)
+[![compile examples](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile-examples.yml)
+[![HIL test](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml)
+[![code format check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/code_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/code_formatting.yml)
+[![code spell check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml)
+[![commit message check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml)
+[![docs build](https://readthedocs.org/projects/arduino-core-psoc6/badge/?version=latest)](https://arduino-core-psoc6.readthedocs.io/en/latest/?badge=latest)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -16,12 +16,12 @@
     This repository integrates Infineon's <a href="https://www.infineon.com/cms/en/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/psoc-6-32-bit-arm-cortex-m4-mcu/">PSOC™ 6 microcontrollers</a> into the <a href="https://www.arduino.cc/en/main/software">Arduino ecosystem</a>.
     <br />
     <br />
-    <a href="https://arduino-core-psoc.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
+    <a href="https://arduino-core-psoc6.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Infineon/arduino-core-psoc/issues/new?labels=bug&template=bug_report.md">Report Bug</a>
+    <a href="https://github.com/Infineon/arduino-core-psoc6/issues/new?labels=bug&template=bug_report.md">Report Bug</a>
     ·
-    <a href="https://github.com/Infineon/arduino-core-psoc/issues/new?labels=enhancement&template=feature_request.md">Request Feature</a>
+    <a href="https://github.com/Infineon/arduino-core-psoc6/issues/new?labels=enhancement&template=feature_request.md">Request Feature</a>
    <br />
   </p>
 </div>
@@ -38,7 +38,7 @@ The Arduino Core for Infineon's PSOC™ 6 microcontrollers aims to bring the adv
 
 ### Features
 
-Please refer to [supported features](https://arduino-core-psoc.readthedocs.io/en/latest/supported-features.html)
+Please refer to [supported features](https://arduino-core-psoc6.readthedocs.io/en/latest/supported-features.html)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -55,7 +55,7 @@ Please refer to [supported features](https://arduino-core-psoc.readthedocs.io/en
 
 ## Getting Started
 
-For installation & getting started instruction please refer to [our docs](https://arduino-core-psoc.readthedocs.io/en/latest/).
+For installation & getting started instruction please refer to [our docs](https://arduino-core-psoc6.readthedocs.io/en/latest/).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,7 +75,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-Before submitting a pull request, please check the  [Code of Conduct](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_OF_CONDUCT.md) and [Code Conventions](https://github.com/Infineon/arduino-core-psoc/blob/main/CODE_CONVENTIONS.md) for the PSOC™ 6 for Arduino project. Thank you for following these guidelines.
+Before submitting a pull request, please check the  [Code of Conduct](https://github.com/Infineon/arduino-core-psoc6/blob/main/CODE_OF_CONDUCT.md) and [Code Conventions](https://github.com/Infineon/arduino-core-psoc6/blob/main/CODE_CONVENTIONS.md) for the PSOC™ 6 for Arduino project. Thank you for following these guidelines.
 
 Don't forget to give the project a star :star:! Thanks again!
 
@@ -87,8 +87,8 @@ Significant contributions should be aligned with the project team in advance.
 
 ### Top Contributors:
 
-<a href="https://github.com/Infineon/arduino-core-psoc/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Infineon/arduino-core-psoc" alt="contrib.rocks image" width="50" />
+<a href="https://github.com/Infineon/arduino-core-psoc6/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Infineon/arduino-core-psoc6" alt="contrib.rocks image" width="50" />
 </a>
 
 ## License
