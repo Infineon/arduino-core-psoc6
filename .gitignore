@@ -35,5 +35,5 @@ debug.svd
 debug_custom.json
 
 # Arduino core api symlinked
-cores/psoc/api
+cores/psoc6/api
 

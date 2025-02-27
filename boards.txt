@@ -1,5 +1,5 @@
 ####################################################
-############### Infineon PSOC™ Boards ##############
+############### Infineon PSOC™ 6 Boards ##############
 ####################################################
 
 ####################################################
@@ -7,7 +7,7 @@ cy8ckit_062s2_ai.name=CY8CKIT-062S2-AI
 
 # Board configuration
 cy8ckit_062s2_ai.build.board=CY8CKIT_062S2_AI
-cy8ckit_062s2_ai.build.core=psoc
+cy8ckit_062s2_ai.build.core=psoc6
 cy8ckit_062s2_ai.build.variant=CY8CKIT-062S2-AI
 cy8ckit_062s2_ai.build.board.version=release-v4.3.2
 

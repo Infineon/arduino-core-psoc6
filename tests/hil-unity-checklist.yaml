@@ -1,4 +1,4 @@
-  infineon:psoc:cy8ckit_062s2_ai:
+  infineon:psoc6:cy8ckit_062s2_ai:
     uart:
       1:
         - "test_uart_connected2_tx"

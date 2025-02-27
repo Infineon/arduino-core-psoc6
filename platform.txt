@@ -1,11 +1,11 @@
-# PSOC™ platform
+# PSOC™ 6 platform
 # ------------------------------
 # For more info:
 # https://arduino.github.io/arduino-cli/platform-specification/
 
 # The information about this Arduino compatible environment
 # ---------
-name=Infineon PSOC Boards
+name=Infineon PSOC6 Boards
 version=0.1.0
 
 # Build related core definitions
@@ -31,7 +31,7 @@ compiler.warning_flags=-w
 compiler.define=-DARDUINO=
 
 # Compiler include paths for include files
-compiler.arduino_core.path={runtime.platform.path}/cores/psoc/api
+compiler.arduino_core.path={runtime.platform.path}/cores/psoc6/api
 compiler.arduino_core_dep.path={compiler.arduino_core.path}/deprecated
 compiler.arduino_core_dep_avr.path={compiler.arduino_core.path}/deprecated-avr-comp/avr
 compiler.arduino_core_api.path= "-I{compiler.arduino_core_dep_avr.path}" "-I{compiler.arduino_core_dep.path}"  "-I{compiler.arduino_core.path}" 
@@ -77,7 +77,7 @@ compiler.elf_flags.from_file=@{build.path}/mtb-lib-linker-flags.txt
 compiler.inc_dirs.from_file=@{build.path}/mtb-lib-inc-dirs.txt
 
 # Includes
-includes=-I{build.path}/cores/psoc 
+includes=-I{build.path}/cores/psoc6
 
 # Build commands
 recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} "{compiler.flags.from_file}" {compiler.arduino_core_api.path} {compiler.inc_dirs.from_file} {compiler.c.extra_flags} {includes} "{source_file}" -o "{object_file}"
