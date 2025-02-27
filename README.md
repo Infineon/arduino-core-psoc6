@@ -1,20 +1,15 @@
 <a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
-[![compile examples](https://github.com/Infineon/arduino-core-psoc/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
-[![HIL test](https://github.com/Infineon/arduino-core-psoc/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
-[![code format check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/code_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
-[![code spell check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
-[![commit message check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions)
+[![compile examples](https://github.com/Infineon/arduino-core-psoc/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/compile-examples.yml)
+[![HIL test](https://github.com/Infineon/arduino-core-psoc/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/hil_unity_checks.yml)
+[![code format check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/code_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/code_formatting.yml)
+[![code spell check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/codespell.yml)
+[![commit message check](https://github.com/Infineon/arduino-core-psoc/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc/actions/workflows/commit_formatting.yml)
 [![docs build](https://readthedocs.org/projects/arduino-core-psoc/badge/?version=latest)](https://arduino-core-psoc.readthedocs.io/en/latest/?badge=latest)
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  <a href="https://github.com/Infineon/makers-devops">
-    <img src="https://img.shields.io/badge/Arduino-white?style=plastic&logo=arduino&logoColor=00878F" alt="Logo" width="100">
-  </a>
-
 <h2 align="center">Arduino Core for Infineon's PSOC™ 6 Microcontrollers</h2>
 
   <p align="center">
