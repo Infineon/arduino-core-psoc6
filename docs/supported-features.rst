@@ -20,54 +20,63 @@ Built-in Libraries
       - Description
       - Status
     * - Serial/UART
-      - `Serial <https://reference.arduino.cc/reference/en/language/functions/communication/serial/>`_
+      - | `Serial <https://docs.arduino.cc/language-reference/en/functions/communication/serial/>`_
       - ✅ Implemented
     * - Stream
-      - `Stream <https://reference.arduino.cc/reference/en/language/functions/communication/stream/>`_
+      - | `Stream <https://docs.arduino.cc/language-reference/en/functions/communication/stream/>`_
       - ✅ Implemented
     * - Digital I/O
-      - | `digitalRead <https://reference.arduino.cc/reference/en/language/functions/digital-io/digitalread/>`_
-        | `digitalWrite <https://reference.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/>`_
-        | `pinMode <https://reference.arduino.cc/reference/en/language/functions/digital-io/pinmode/>`_   
+      - | `digitalRead <https://docs.arduino.cc/language-reference/en/functions/digital-io/digitalread/>`_
+        | `digitalWrite <https://docs.arduino.cc/language-reference/en/functions/digital-io/digitalwrite/>`_
+        | `pinMode <https://docs.arduino.cc/language-reference/en/functions/digital-io/pinMode/>`_   
       - ✅ Implemented
     * - Time
-      - | `delay <https://reference.arduino.cc/reference/en/language/functions/time/delay/>`_
-        | `delayMicroseconds <https://reference.arduino.cc/reference/en/language/functions/time/delaymicroseconds/>`_ 
-        | `micros <https://reference.arduino.cc/reference/en/language/functions/time/micros/>`_ 
-        | `millis <https://reference.arduino.cc/reference/en/language/functions/time/millis/>`_ 
+      - | `delay <https://docs.arduino.cc/language-reference/en/functions/time/delay/>`_
+        | `delayMicroseconds <https://docs.arduino.cc/language-reference/en/functions/time/delayMicroseconds/>`_ 
+        | `micros <https://docs.arduino.cc/language-reference/en/functions/time/micros/>`_ 
+        | `millis <https://docs.arduino.cc/language-reference/en/functions/time/millis/>`_ 
       - ✅ Implemented
-    * - WiFi
-      - `WiFi Network <https://docs.arduino.cc/libraries/wifi/>`_
-      - ✅ Implemented
+    * - WiFi Network
+      - | `WiFi Network <https://docs.arduino.cc/language-reference/en/functions/wifi/wificlass/>`_  
+      - ⏳ Partially Implemented  (Work in progress)
+    * - WiFi Server 
+      - | `WiFiServer <https://docs.arduino.cc/language-reference/en/functions/wifi/server/>`_  
+      - ✅ Implemented  (except SSL)
+    * - WiFi Client
+      - | `WiFiClient <https://docs.arduino.cc/language-reference/en/functions/wifi/client/>`_  
+      - ✅ Implemented  (except SSL)
+    * - WiFi UDP
+      - | `WiFiUDP <https://docs.arduino.cc/language-reference/en/functions/wifi/udp/>`_  
+      - ❌ Not Implemented
     * - Wire/I2C
-      - `Wire <https://reference.arduino.cc/reference/en/language/functions/communication/wire/>`_
+      - | `Wire <https://docs.arduino.cc/language-reference/en/functions/communication/wire/>`_
       - ✅ Implemented
     * - Interrupts
-      - | `interrupts <https://reference.arduino.cc/reference/en/language/functions/interrupts/interrupts/>`_
-        | `noInterrupts <https://reference.arduino.cc/reference/en/language/functions/interrupts/nointerrupts/>`_       
+      - | `interrupts <https://docs.arduino.cc/language-reference/en/functions/interrupts/interrupts/>`_
+        | `noInterrupts <https://docs.arduino.cc/language-reference/en/functions/interrupts/noInterrupts/>`_       
       - ✅ Implemented
     * - External Interrupts
-      - | `attachInterrupt <https://reference.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/>`_
-        | `detachInterrupt <https://reference.arduino.cc/reference/en/language/functions/external-interrupts/detachinterrupt/>`_
-        | `digitalPinToInterrupt <https://reference.arduino.cc/reference/en/language/functions/external-interrupts/digitalpintointerrupt/>`_        
+      - | `attachInterrupt <https://docs.arduino.cc/language-reference/en/functions/external-interrupts/attachInterrupt/>`_
+        | `detachInterrupt <https://docs.arduino.cc/language-reference/en/functions/external-interrupts/detachInterrupt/>`_
+        | `digitalPinToInterrupt <https://docs.arduino.cc/language-reference/en/functions/external-interrupts/digitalPinToInterrupt/>`_        
       - ✅ Implemented
     * - SPI
-      - `SPI <https://reference.arduino.cc/reference/en/language/functions/communication/spi/>`_
+      - | `SPI <https://docs.arduino.cc/language-reference/en/functions/communication/SPI/>`_
       - ❌ Not Implemented
     * - Analog I/O
-      - | `analogRead <https://reference.arduino.cc/reference/en/language/functions/analog-io/analogread/>`_
-        | `analogReadResolution <https://reference.arduino.cc/reference/en/language/functions/analog-io/analogreadresolution/>`_
-        | `analogReference <https://reference.arduino.cc/reference/en/language/functions/analog-io/analogreference/>`_
-        | `analogWrite <https://reference.arduino.cc/reference/en/language/functions/analog-io/analogwrite/>`_
-        | `analogWriteResolution <https://reference.arduino.cc/reference/en/language/functions/analog-io/analogwriteresolution/>`_
+      - | `analogRead <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogRead/>`_
+        | `analogReadResolution <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogReadResolution/>`_
+        | `analogReference <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogReference/>`_
+        | `analogWrite <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogWrite/>`_
+        | `analogWriteResolution <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogWriteResolution/>`_
       - ❌ Not Implemented
     * - Advanced I/O
-      - | `noTone <https://reference.arduino.cc/reference/en/language/functions/advanced-io/notone/>`_
-        | `pulseIn <https://reference.arduino.cc/reference/en/language/functions/advanced-io/pulsein/>`_
-        | `pulseInLong <https://reference.arduino.cc/reference/en/language/functions/advanced-io/pulseinlong/>`_
-        | `shiftIn <https://reference.arduino.cc/reference/en/language/functions/advanced-io/shiftin/>`_
-        | `shiftOut <https://reference.arduino.cc/reference/en/language/functions/advanced-io/shiftout/>`_
-        | `tone <https://reference.arduino.cc/reference/en/language/functions/advanced-io/tone/>`_
+      - | `noTone <https://docs.arduino.cc/language-reference/en/functions/advanced-io/noTone/>`_
+        | `pulseIn <https://docs.arduino.cc/language-reference/en/functions/advanced-io/pulseIn/>`_
+        | `pulseInLong <https://docs.arduino.cc/language-reference/en/functions/advanced-io/pulseInLong/>`_
+        | `shiftIn <https://docs.arduino.cc/language-reference/en/functions/advanced-io/shiftIn/>`_
+        | `shiftOut <https://docs.arduino.cc/language-reference/en/functions/advanced-io/shiftOut/>`_
+        | `tone <https://docs.arduino.cc/language-reference/en/functions/advanced-io/tone/>`_
       - ❌ Not Implemented
 
 
