@@ -65,6 +65,18 @@ class WiFiClass {
         uint8_t beginAP(const char *ssid, const char* passphrase);
         uint8_t beginAP(const char *ssid, const char* passphrase, uint8_t channel);
 
+        /* Change IP configuration settings disabling the DHCP client
+        *
+        * param local_ip:   Static IP configuration
+        * param dns_server: IP configuration for DNS server 1
+        * param gateway:    Static gateway configuration
+        * param subnet:     Static Subnet mask
+        */
+        void config(IPAddress local_ip);
+        void config(IPAddress local_ip, IPAddress dns_server);
+        void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway);
+        void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet);
+
         /*
         * Get the interface IP address.
         * Currently only IPv4 is supported.
