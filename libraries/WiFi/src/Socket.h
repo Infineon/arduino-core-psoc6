@@ -5,7 +5,7 @@
 
 #include "cy_secure_sockets.h"
 #include "IPAddress.h"
-#include "RingBuffer.h"  
+#include "RingBuffer.h"
 
 typedef enum {
     SOCKET_STATUS_UNINITED = 0,
@@ -20,60 +20,60 @@ typedef enum {
 
 class Socket {
 
-    public:
+public:
 
-        Socket();
+    Socket();
 
-        void begin();
-        void end();
+    void begin();
+    void end();
 
-        void set_timeout(uint32_t timeout);
-        void set_connect_opt_callback(cy_socket_callback_t cback, void * arg);
-        void set_receive_opt_callback(cy_socket_callback_t cback, void * arg);
-        void set_disconnect_opt_callback(cy_socket_callback_t cback, void * arg);
+    void set_timeout(uint32_t timeout);
+    void set_connect_opt_callback(cy_socket_callback_t cback, void *arg);
+    void set_receive_opt_callback(cy_socket_callback_t cback, void *arg);
+    void set_disconnect_opt_callback(cy_socket_callback_t cback, void *arg);
 
-        void bind(uint16_t port);
-        bool connect(IPAddress ip, uint16_t port);
-        bool connect(const char *host, uint16_t port);
-        
-        void listen(int max_connections);
-        bool accept(Socket & client_socket);
-        uint32_t send(const void * data, uint32_t len);
-        uint32_t available();
-        int peek();
-        uint32_t receive(uint8_t * data, uint32_t len);
-        void flush();
+    void bind(uint16_t port);
+    bool connect(IPAddress ip, uint16_t port);
+    bool connect(const char *host, uint16_t port);
 
-        IPAddress remoteIP();
-        uint16_t port();
+    void listen(int max_connections);
+    bool accept(Socket & client_socket);
+    uint32_t send(const void *data, uint32_t len);
+    uint32_t available();
+    int peek();
+    uint32_t receive(uint8_t *data, uint32_t len);
+    void flush();
 
-        uint8_t status();
-        cy_rslt_t get_last_error();
+    IPAddress remoteIP();
+    uint16_t port();
 
-    private:
+    uint8_t status();
+    cy_rslt_t get_last_error();
 
-        cy_socket_t socket;
-        socket_status_t _status;
-        cy_rslt_t _last_error;
+private:
 
-        IPAddress remote_ip;
-        uint16_t _port;
+    cy_socket_t socket;
+    socket_status_t _status;
+    cy_rslt_t _last_error;
 
-        void set_opt_callback(int optname, cy_socket_callback_t cback, void * arg);
+    IPAddress remote_ip;
+    uint16_t _port;
 
-        static const uint16_t RX_BUFFER_SIZE = 256;
-        arduino::RingBufferN<RX_BUFFER_SIZE> rx_buf;
+    void set_opt_callback(int optname, cy_socket_callback_t cback, void *arg);
 
-        bool connect(cy_socket_sockaddr_t * addr);
-        void receiveCallback();
+    static const uint16_t RX_BUFFER_SIZE = 256;
+    arduino::RingBufferN < RX_BUFFER_SIZE > rx_buf;
 
-        static bool global_socket_initialized;
-        static uint32_t global_socket_count;
-        static cy_rslt_t global_sockets_init();
-        static cy_rslt_t global_sockets_deinit();
+    bool connect(cy_socket_sockaddr_t *addr);
+    void receiveCallback();
 
-        friend class WiFiServer;
-        friend class WiFiClient;
+    static bool global_socket_initialized;
+    static uint32_t global_socket_count;
+    static cy_rslt_t global_sockets_init();
+    static cy_rslt_t global_sockets_deinit();
+
+    friend class WiFiServer;
+    friend class WiFiClient;
 };
 
-#endif /* CY_SECURE_SOCKET_H */ 
+#endif /* CY_SECURE_SOCKET_H */

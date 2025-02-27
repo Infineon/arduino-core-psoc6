@@ -7,40 +7,40 @@
 #include <Socket.h>
 #include "Server.h"
 
-class WiFiServer : public arduino::Server {
+class WiFiServer: public arduino::Server {
 
-    public:
+public:
 
-        WiFiServer();
+    WiFiServer();
 
-        void begin(uint16_t port);
-        void begin();
+    void begin(uint16_t port);
+    void begin();
 
-        WiFiClient & available();
-        size_t write(uint8_t) override;
-        size_t write(const uint8_t *buf, size_t size) override;
+    WiFiClient & available();
+    size_t write(uint8_t) override;
+    size_t write(const uint8_t *buf, size_t size) override;
 
-        uint8_t status();
-        void end();
-        operator bool();
+    uint8_t status();
+    void end();
+    operator bool();
 
-        using Print::print;
-        using Print::println;
+    using Print::print;
+    using Print::println;
 
-        /* This function is not part of the API in other (official) ports */
-        uint8_t connectedSize();
+    /* This function is not part of the API in other (official) ports */
+    uint8_t connectedSize();
 
-    private:
+private:
 
-        Socket socket;
+    Socket socket;
 
-        static const uint16_t SERVER_RECV_TIMEOUT_MS = 500;
-        static const uint32_t SERVER_MAX_CLIENTS = 32;
-        std::vector <WiFiClient> connected_clients;
+    static const uint16_t SERVER_RECV_TIMEOUT_MS = 500;
+    static const uint32_t SERVER_MAX_CLIENTS = 32;
+    std::vector < WiFiClient > connected_clients;
 
-        static cy_rslt_t connectionCallback(cy_socket_t socket_handle, void * arg);
-        static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void * arg);
-        static cy_rslt_t disconnectionCallback(cy_socket_t socket_handle, void * arg);
+    static cy_rslt_t connectionCallback(cy_socket_t socket_handle, void *arg);
+    static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
+    static cy_rslt_t disconnectionCallback(cy_socket_t socket_handle, void *arg);
 };
 
 #endif /* WIFI_SERVER_H */
