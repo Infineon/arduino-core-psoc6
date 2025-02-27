@@ -110,7 +110,7 @@ class WiFiClass {
          */
         uint8_t status();
 
-        int hostByName(const char* aHostname, IPAddress& aResult);
+        int hostByName(const char* aHostname, IPAddress& ip);
 
     private: 
 
