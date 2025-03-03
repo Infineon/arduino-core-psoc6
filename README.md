@@ -88,7 +88,7 @@ Significant contributions should be aligned with the project team in advance.
 ### Top Contributors:
 
 <a href="https://github.com/Infineon/arduino-core-psoc6/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Infineon/arduino-core-psoc6" alt="contrib.rocks image" width="50" />
+  <img src="https://contrib.rocks/image?repo=Infineon/arduino-core-psoc6&max=50&columns=50" />
 </a>
 
 ## License
