@@ -1,12 +1,9 @@
-
 ---
-
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
-
 ---
 
 **Describe the bug**
@@ -25,10 +22,10 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Environment (please complete the following information):**
- - Board [e.g. CY8CKIT-062S2-AI]
- - OS [e.g. Windows, Linux]
- - Version [e.g. 1.0.0]
+**Desktop (please complete the following information):**
+ - OS: [e.g. Windows, WSL, Linux]
+ - Tools [e.g. Arduino IDE, ModusToolBox]
+ - Version [e.g. 22]
 
 **Additional context**
 Add any other context about the problem here.
