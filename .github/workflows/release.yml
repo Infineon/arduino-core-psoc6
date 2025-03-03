@@ -1,0 +1,12 @@
+name: Release
+
+on:
+  push:
+    
+jobs:
+  arduino-devops:
+    uses: Infineon/arduino-devops/.github/workflows/release.yml@latest
+    with:
+      release-title: arduino-core-psoc6
+      setup-script: bash ./tools/dev-setup.sh
+    secrets: inherit

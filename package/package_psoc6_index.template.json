@@ -1,0 +1,91 @@
+{
+    "packages": [
+        {
+            "name": "infineon",
+            "maintainer": "Infineon Technologies AG",
+            "websiteURL": "https://arduino-core-psoc6.readthedocs.io/en/latest/index.html",
+            "email": "maker@infineon.com",
+            "platforms": [
+                {
+                    "name": "Infineon PSOC6 Boards",
+                    "architecture": "psoc6",
+                    "version": "",
+                    "category": "Contributed",
+                    "url": "",
+                    "archiveFileName": "",
+                    "checksum": "",
+                    "size": "",
+                    "help": {
+                        "online": ""
+                    },
+                    "boards": [
+                        {
+                            "name": "CY8CKIT-062S2-AI"
+                        }
+                    ],
+                    "toolsDependencies": [
+                        {
+                            "packager": "infineon",
+                            "name": "mtb-gcc-arm-none-eabi",
+                            "version": "11.3.1.67"
+                        },
+                        {
+                            "packager": "infineon",
+                            "name": "openocd",
+                            "version": "5.2.1.3248"
+                        }
+                    ]
+                }
+            ],
+            "tools": [
+                {
+                    "name": "mtb-gcc-arm-none-eabi",
+                    "version": "11.3.1.67",
+                    "systems": [
+                        {
+                            "host": "i686-mingw32",
+                            "archiveFileName": "mtb-gcc-arm-none-eabi-11.3.1.67-windows.zip",
+                            "url": "https://github.com/Infineon/arduino-core-psoc6/releases/download/mtb-tools/mtb-gcc-arm-none-eabi-11.3.1.67-windows.zip",
+                            "checksum": "SHA-256:a96002b4aebbd89b1ace6a2da3f591d27d168fe56c1decd401bfb7a88d509260",
+                            "size": "305588533"
+                        },
+                        {
+                            "host": "x86_64-pc-linux-gnu",
+                            "archiveFileName": "mtb-gcc-arm-none-eabi-11.3.1.67-linux.zip",
+                            "url": "https://github.com/Infineon/arduino-core-psoc6/releases/download/mtb-tools/mtb-gcc-arm-none-eabi-11.3.1.67-linux.tar.gz",
+                            "checksum": "SHA-256:76fb2d76080c3c2966983d8d8053cb7082416b83d8f5f6caa3d69bc8287d7846",
+                            "size": "212727150"
+                        }
+                    ]
+                },
+                {
+                    "name": "openocd",
+                    "version": "5.2.1.3248",
+                    "systems": [
+                        {
+                            "host": "i686-mingw32",
+                            "archiveFileName": "openocd-5.2.1.3248-windows.zip",
+                            "url": "https://github.com/Infineon/openocd/releases/download/release-v5.2.1/openocd-5.2.1.3248-windows.zip",
+                            "checksum": "SHA-256:858d7370ea29bd70f22a017976248c7df82076d401a05420b1a479ebadb1f7b2",
+                            "size": "4932550"
+                        },
+                        {
+                            "host": "x86_64-pc-linux-gnu",
+                            "archiveFileName": "openocd-5.2.1.3248-linux.tar.gz",
+                            "url": "https://github.com/Infineon/openocd/releases/download/release-v5.2.1/openocd-5.2.1.3248-linux.tar.gz",
+                            "checksum": "SHA-256:2ea4721039cbfd3859ddac87eda8c3a10284c7404a77fdcb69e9a96378ea880b",
+                            "size": "4620637"
+                        },
+                        {
+                            "host": "x86_64-apple-darwin",
+                            "archiveFileName": "openocd-5.2.1.3248-macos.zip",
+                            "url": "https://github.com/Infineon/openocd/releases/download/release-v5.2.1/openocd-5.2.1.3248-macos.zip",
+                            "checksum": "SHA-256:563dd0ad0dfabc05a8832c068e85b330d93248cc907978b29c3d3d95710dc077",
+                            "size": "4901567"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
