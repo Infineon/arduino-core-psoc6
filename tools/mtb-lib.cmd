@@ -114,16 +114,12 @@ exit /b 0
         rem Change backslashes to double backsplashes
         set "dir_abs_path=!dir_abs_path:\=\\!"
         
-        rem Append to the new list with the absolute paths
-        set "inc_dir_abs_paths=!inc_dir_abs_paths! !dir_abs_path!"
+		if "%verbose_flag%" == "-v" (
+			echo MTB inc dirs: !dir_abs_path!
+		)
+		echo !dir_abs_path! >> "%build_path%\%inc_dirs_file_name%"
     )
 
-    if "%verbose_flag%" == "-v" (
-        echo MTB inc dirs with abs path: %inc_dir_abs_paths%
-    )
-
-    rem Write the inc dirs back to a new file in the build path
-    echo %inc_dir_abs_paths% > "%build_path%\%inc_dirs_file_name%"
 
 exit /b 0
 
