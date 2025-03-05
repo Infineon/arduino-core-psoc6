@@ -1,14 +1,12 @@
 #!/usr/bin/python3
 
-# python3 runProjectSetup.py
+# python3 codeChecks.py
 
 
 import argparse
-import os
 import subprocess
 import sys
-import yaml
-import xml.etree.ElementTree as ET
+
 
 sys.path.insert(1, "tools")
 
@@ -16,20 +14,57 @@ from project_yaml.readProjectYAML import readProjectYAML
 
 
 def parseArgs():
-    # parser = argparse.ArgumentParser(prog = 'checkCode')
-    parser = argparse.ArgumentParser()  # prog = 'runProjectSetup')
+    parser = argparse.ArgumentParser()
 
     parser.add_argument("--getAllChecks", action="store_true", help="getAllChecks help")
     parser.add_argument("--runAllChecks", action="store_true", help="runAllChecks help")
     parser.add_argument("--runCheck", type=str, help="runCheck help")
-    parser.add_argument(
-        "--parseCppCheckReport", action="store_true", help="parseCppCheckReport help"
-    )
-    parser.add_argument("--showLog", action="store_true", help="showLog help")
 
-    args = parser.parse_args()  # sys.argv) # [1:])
+    args = parser.parse_args()
 
     return args
+
+
+def runCheck(checkType=None, check=None):
+    returnCode = 0
+
+    if checkType == None:
+        print(f"ERROR : Check type 'None' is not valid !")
+        returnCode = 1
+
+    elif check == None:
+        print(f"ERROR : Check 'None' is not valid !")
+        returnCode = 1
+
+    elif checkType == "build":
+        returnCode |= subprocess.run(
+            [
+                "make",
+                "run-build-target",
+                f"FQBN={projectYAML[checkType][check]['fqbn']}",
+                f"TARGET={projectYAML[checkType][check]['target']}",
+            ]
+        ).returncode
+
+    elif checkType == "check":
+        if "command" not in projectYAML[checkType][check]:
+            print(
+                f"ERROR : Option 'command' not found in project YAML for {checkType} / {check} !"
+            )
+            returnCode = 1
+
+        else:
+            paramList = projectYAML[checkType][check]["command"].split()
+            paramList.insert(1, f"--file-prefix={check}")
+            # print(f'cmd : {paramList}')
+            returnCode |= subprocess.run(paramList).returncode
+
+    if returnCode == 2:
+        print(f"ERROR : Running check '{check}' failed due to failed code checks !")
+    elif returnCode != 0:
+        print(f"ERROR : Problem running check '{check}' !")
+
+    return returnCode
 
 
 if __name__ == "__main__":
@@ -39,134 +74,54 @@ if __name__ == "__main__":
 
     (projectYAML, userYAML) = readProjectYAML("config/project.yml", "config/user.yml")
 
-    resultPath = "_results"
-
-    if not os.path.isdir(resultPath):
-        os.makedirs(resultPath)
-
     if args.runAllChecks:
         for checkType, checkTypeList in userYAML.items():
             if checkType not in projectYAML:
-                print(f"ERROR : {checkType} not found in project YAML !")
-                exit(1)
+                print(f"ERROR : Check type '{checkType}' not found in project YAML !")
+                returnCode = 1
 
-            for check in checkTypeList:
-                returnCodeLocal = 0
-
-                if check not in projectYAML[checkType]:
-                    print(
-                        f"ERROR : {check} not found in project YAML for {checkType} !"
-                    )
-                    exit(1)
-
-                if checkType == "build":
-                    with open(f"{resultPath}/{check}.log", "w") as logfile:
-                        returnCodeLocal |= subprocess.run(
-                            [
-                                "make",
-                                "run-build-target",
-                                f"FQBN={projectYAML[checkType][check]['fqbn']}",
-                                f"TARGET={projectYAML[checkType][check]['target']}",
-                            ],
-                            stdout=logfile,
-                            stderr=logfile,
-                        ).returncode
-
-                elif checkType == "check":
-                    if "command" not in projectYAML[checkType][check]:
+            else:
+                for check in checkTypeList:
+                    if check not in projectYAML[checkType]:
                         print(
-                            f"ERROR : 'command' not found in project YAML for {checkType} / {check} !"
+                            f"ERROR : Check '{check}' not found in project YAML for check type '{checkType}' !"
                         )
-                        exit(1)
-
-                    with open(f"{resultPath}/{check}.log", "w") as logfile:
-                        returnCodeLocal |= subprocess.run(
-                            projectYAML[checkType][check]["command"].split(),
-                            stdout=logfile,
-                            stderr=logfile,
-                        ).returncode
-
-                if args.showLog:
-                    with open(f"{resultPath}/{check}.log", "r") as f:
-                        print(f.read())
-
-                if returnCodeLocal != 0:
-                    print(f"ERROR : Running check '{check}' failed !")
-
-        # returnCode |= returnCodeLocal
+                        returnCode = 1
+                    else:
+                        returnCode |= runCheck(checkType, check)
 
     elif args.runCheck:
         check = args.runCheck
         type = None
-        returnCodeLocal = 0
 
         for checkType, checkTypeList in userYAML.items():
             if check in checkTypeList:
                 type = checkType
                 break
 
-        if type == None:
-            print(f"ERROR : {check} not found in user YAML !")
-            exit(1)
-
-        if type == "build":
-            with open(f"{resultPath}/{check}.log", "w") as logfile:
-                returnCodeLocal |= subprocess.run(
-                    [
-                        "make",
-                        "run-build-target",
-                        f"FQBN={projectYAML[type][check]['fqbn']}",
-                        f"TARGET={projectYAML[type][check]['target']}",
-                    ],
-                    stdout=logfile,
-                    stderr=logfile,
-                ).returncode
-
-        elif type == "check":
-            if "command" not in projectYAML[type][check]:
-                print(
-                    f"ERROR : 'command' not found in project YAML for {type} / {check} !"
-                )
-                exit(1)
-
-            with open(f"{resultPath}/{check}.log", "w") as logfile:
-                returnCodeLocal |= subprocess.run(
-                    projectYAML[checkType][check]["command"].split(),
-                    stdout=logfile,
-                    stderr=logfile,
-                ).returncode
-
-        if args.showLog:
-            with open(f"{resultPath}/{check}.log", "r") as f:
-                print(f.read())
-
-        if returnCodeLocal != 0:
-            print(f"ERROR : Running check '{check}' failed !")
-
-        # returnCode |= returnCodeLocal
+        returnCode |= runCheck(type, check)
 
     elif args.getAllChecks:
         allChecks = 'echo "checks=['
 
         for checkType, checkTypeList in userYAML.items():
             if checkType not in projectYAML:
-                print(f"ERROR : {checkType} not found in project YAML !")
-                exit(1)
+                print(f"ERROR : Check type '{checkType}' not found in project YAML !")
+                returnCode = 1
 
             for check in checkTypeList:
                 if check not in projectYAML[checkType]:
                     print(
-                        f"ERROR : {check} not found in project YAML for {checkType} !"
+                        f"ERROR : Check '{check}' not found in project YAML for check type '{checkType}' !"
                     )
-                    exit(1)
-
-                allChecks += f'\\"{check}\\",'
+                    returnCode = 1
+                else:
+                    allChecks += f'\\"{check}\\",'
 
         allChecks += ']" >> "$GITHUB_OUTPUT"'
         allChecks = allChecks.replace(",]", "]")
 
         print(f"{allChecks}")
-        returnCode = 0
 
     else:
         print(f"\nERROR : Wrong parameters passed !\n")
