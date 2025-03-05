@@ -20,7 +20,6 @@
 
 #include "Arduino.h"
 
-#include "cybsp.h"
 #include "cy_retarget_io.h"
 
 #include <FreeRTOS.h>
