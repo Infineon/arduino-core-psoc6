@@ -2,8 +2,8 @@
 
 #include "Arduino.h"
 #include "HardwareSerial.h"
-#include "cyhal_uart.h"
 #include "cyhal_gpio.h"
+#include "cyhal_uart.h"
 
 enum { MAX_UARTS = 10 };
 
