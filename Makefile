@@ -18,8 +18,6 @@ clean-results:
 TAG=push
 TAG=latest
 
-IFX_DOCKER_REGISTRY=dockerregistry-v2.vih.infineon.com/ifxmakers/makers-docker:$(TAG)
-
 DOCKER_REGISTRY=ifxmakers/makers-docker:$(TAG)
 GHCR_REGISTRY=ghcr.io/infineon/makers-docker:$(TAG)
 
@@ -37,26 +35,27 @@ run-container-check-all: clean-results pull-container
 run-container-project-setup-script-with-show-logs: clean-results pull-container
 	$(DOCKER) python3 tools/code_checks/codeChecks.py --getAllChecks
 	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy
-	$(DOCKER) python3 tools/code_checks/codeChecks.py --runAllChecks --showLog
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runAllChecks 
 
 run-container-cppcheck: pull-container
-	-rm -rf _results/cppcheck/* 
-	-mkdir -p _results/cppcheck
-	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-cppcheck --showLog
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-cppcheck 
 #	firefox _results/cppcheck/cppcheck-reports/index.html
 
 run-container-clang-tidy-check: pull-container
 	-rm -rf _results/clang-tidy/* 
 	-mkdir -p _results/clang-tidy 
-	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy --showLog
+	chmod +x tools/code_checks/run_clang_tidy.sh
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy 
 
 run-container-clang-tidy-check-fix: pull-container
 	-rm -rf _results/clang-tidy/* 
 	-mkdir -p _results/clang-tidy 
+	chmod +x tools/code_checks/run_cppcheck.sh
 	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy-fix
 
 run-container-clang-tidy-format: pull-container
-	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck clang-format --showLog
+	chmod +x tools/code_checks/run_clang_format.sh
+	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck clang-format
 
 run-container-black-format:
 	python3 tools/code_checks/codeChecks.py --runCheck black-format
