@@ -5,19 +5,27 @@ cd $(dirname $0)
 echo ${PWD}
 
 function git_submodule_setup {
+    echo "Setting up Git Submodules..."
     git submodule init
     git submodule update --recursive
 }
 
 function core_api_setup {
+    echo "Setting up Arduino Core API..."
     cores_psoc6_dir="${PWD}/../cores/psoc6"
     core_api_submodule_dir="${PWD}/../extras/arduino-core-api"
 
-    # Create symbolic link (overwrite) to the api/ 
-    # folder of ArduinoCore-API submodule.
-    # Note: Symlinks might not work without full paths
-    # https://stackoverflow.com/questions/8601988/symlinks-not-working-when-link-is-made-in-another-directory
-    ln -sf ${core_api_submodule_dir}/api ${cores_psoc6_dir}
+    cp -r ${core_api_submodule_dir}/api ${cores_psoc6_dir}/api
+}
+
+function replace_string_h_with_wstring_h {
+    echo "Replacing String_h with WString_h in Arduino core APIs..."
+
+    # Find and rename String.h to WString.h
+    find ${cores_psoc6_dir}/api -type f -name 'String.h' -execdir mv {} WString.h \;
+
+    # Find and update include statements in C++ source files
+    find ${cores_psoc6_dir}/api -type f \( -name '*.cpp' -o -name '*.h' \) -exec sed -i 's/#include "String.h"/#include "WString.h"/g' {} \;
 }
 
 function bsps_setup {
@@ -47,5 +55,6 @@ if [ $# -gt 0 ]; then
 else
     git_submodule_setup
     core_api_setup
+    replace_string_h_with_wstring_h
     # bsps_setup #TODO: Remove this after discussion on how to include MTB sources (symlink or copy)
 fi
