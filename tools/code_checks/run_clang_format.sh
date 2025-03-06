@@ -7,7 +7,7 @@ echo "executing $0 $* ..."
 usage() {
   echo "Usage: $0 :" 1>&2;
   echo "          [-i] <Edit in-place.>  [-n | --dry-run] <Do not make any changes.>  [--fcolor-diagnostics] <Coloured output.>  [--files] <File list.>  [--file-prefix] <File_prefix>  [-o | --output-dir] <output directory>" 1>&2;
-  echo "          [--output-replacements-xml] <Replacement XML.>  [ --sort-includes] <Sort includes.>  [--style] <Style orconfig file.>  [--use-shell-color] <Use color in terminal.>  [--verbose] <Show list of processed files.>  [ --Wno-error] <Do not error out for named warnings.>  [--Werror]  <Upgrade warnings to errors.> " 1>&2;
+  echo "          [--output-replacements-xml] <Replacement XML.>  [ --sort-includes] <Sort includes.>  [--style] <Style or config file.>  [--use-shell-color] <Use color in terminal.>  [--verbose] <Show list of processed files.>  [ --Wno-error] <Do not error out for named warnings.>  [--Werror]  <Upgrade warnings to errors.> " 1>&2;
   exit 1;
 }
 
@@ -51,7 +51,7 @@ while true; do
     -o | --output-dir )               output_dir=$2;                                           shift 2 ;;
          --output-replacements-xml )  output_replacements_xml="--output-replacements-xml=$2";  shift 2 ;;
          --sort-includes )            sort_includes="--sort-includes";                         shift ;;
-         --style )                    style=$2;                                      shift 2 ;;
+         --style )                    style="--style=$2";                                      shift 2 ;;
          --use-shell-color )          use_shell_color=true; unbuffer="unbuffer";               shift ;;
          --verbose )                  verbose="--verbose";                                     shift ;;
          --Wno-error )                wno_error="--Wno-error=$2";                              shift 2 ;;
