@@ -13,9 +13,14 @@ check:
     check-cppcheck:
       description: cppcheck check sources
       tool: cppcheck
-      command: tools/code_checks/run_cppcheck.sh ./cores/psoc/* --includes-file=extras/arduino-core-api/api --includes-file=variants/CY8CKIT-062S2-AI/mtb-bsp --includes-file=extras/mtb-libs/core-lib/include --suppress=*:extras/arduino-core-api/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
+      command: tools/code_checks/run_cppcheck.sh ./cores/psoc/* -Iextras/arduino-core-api/api -Ivariants/CY8CKIT-062S2-AI/mtb-bsp -Iextras/mtb-libs/core-lib/include --suppress=*:extras/arduino-core-api/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
 
     clang-format:
       description: clang-tidy check sources
       tool: clang-format
       command: tools/code_checks/run_clang_format.sh ./cores/psoc/* ./libraries/*
+
+    black-format:
+      description: clang-tidy check sources
+      tool: black-format
+      command: tools/code_checks/run_black.sh ./tools/* 

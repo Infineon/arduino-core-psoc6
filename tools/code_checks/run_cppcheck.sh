@@ -6,14 +6,15 @@ echo "executing $0 ..."
 
 usage() {
   echo "Usage: $0 :" 1>&2;
-  echo "          [-a | --addon] <addon>  [--check-level] <check level>  [-e | --enable] <checks to enable>  [--error-exitcode] <Error exitcode>  [-i] <Source files or directory not to be processed.>  [ --exitcode-suppressions] <File for messages not to generate error exit code.>  [--file-filter] <File filter pattern.>  [--file-list] <File list to process.>  [--file-prefix] <file_prefix>" 1>&2;
-  echo "          [--includes-file] <Search paths to header files.>  [--inconclusive] <inconclusive flag>  [--max-configs] < max configs>  [--no-addon-default]  [--no-enable-default]  [--no-suppress-default]  [-o | --output-dir] <output directory>  [--std] <c++ standard>  [-s | --suppress] <suppress messages>  [--suppressions-list] <File list.>  [--use-shell-color] <Use color in terminal.>" 1>&2;
+  echo "          [-a | --addon] <addon>  [--check-level] <check level>  [-e | --enable] <checks to enable>  [--error-exitcode] <Error exitcode>  [ --exitcode-suppressions] <File for messages not to generate error exit code.>  [--file-filter] <File filter pattern.>  [--file-list] <File list to process.>  [--file-prefix] <file_prefix>" 1>&2;
+  echo "          [-I] <Directory to search for include files.>  [-i] <Source files or directory not to be processed.>  [--includes-file] <Search paths to header files.>  [--inconclusive] <inconclusive flag>  [--max-configs] < max configs>  [--no-addon-default]  [--no-enable-default]  [--no-suppress-default]  [-o | --output-dir] <output directory>" 1>&2;
+  echo "          [--std] <c++ standard>  [-s | --suppress] <suppress messages>  [--suppressions-list] <File list.>  [--use-shell-color] <Use color in terminal.>" 1>&2;
   exit 1;
 }
 
 
 # This requires GNU getopt.
-TEMP=`getopt -o a:e:i:o:s: --long addon:,check-level:,enable:,error-exitcode:,excludes:,exitcode-suppressions:,file-filter:,file-list:,file-prefix:,includes-file:,inconclusive,max-configs:,no-addon-default,no-enable-default,no-suppress-default,output-dir:,suppress:,--suppressions-list:,std:,use-shell-color -n "$0" -- "$@"`
+TEMP=`getopt -o I:a:e:i:o:s: --long addon:,check-level:,enable:,error-exitcode:,excludes:,exitcode-suppressions:,file-filter:,file-list:,file-prefix:,includes-file:,inconclusive,max-configs:,no-addon-default,no-enable-default,no-suppress-default,output-dir:,suppress:,--suppressions-list:,std:,use-shell-color -n "$0" -- "$@"`
 
 if [ $? != 0 ] ; then
   echo "Terminating..." >&2 ;
@@ -36,6 +37,7 @@ exitcode_suppressions=
 file_filter=
 file_list=
 file_prefix=
+includes=
 includes_file=
 inconclusive="--inconclusive"
 max_configs="--max-configs=50"
@@ -58,8 +60,9 @@ while true; do
          --file-filter )            file_filter+=" --file-filter=$2";                    shift 2 ;;
          --file-list )              file_list="--file-list=$2";                          shift 2 ;;
          --file-prefix )            file_prefix=$2;                                      shift 2 ;;
-    -i )                            excludes+=" -i $2";                                   shift 2 ;;
-         --includes-file )          includes_file+="--includes-file=$2";                  shift 2 ;;
+    -I )                            includes+=" -I $2";                                  shift 2 ;;
+    -i )                            excludes+=" -i $2";                                  shift 2 ;;
+         --includes-file )          includes_file+=" --includes-file=$2";                shift 2 ;;
          --inconclusive )           inconclusive="--inconclusive";                       shift ;;
          --max-configs )            max_configs="--max-configs=$2";                      shift 2 ;;
          --no-addon-default )       addon_default="";                                    shift ;;
@@ -105,6 +108,7 @@ echo "exitcode-suppressions : $exitcode_suppressions"
 echo "file-filter           : $file_filter"
 echo "file-list             : $file_list"
 echo "file-prefix           : $file_prefix"
+echo "includes              : $includes"
 echo "includes-file         : $includes_file"
 echo "inconclusive          : $inconclusive"
 echo "max-configs           : $max_configs"
@@ -122,7 +126,7 @@ echo ""
 returnValue=0
 
 
-$unbuffer cppcheck $addon $check_level $enable $error_exitcode $excludes $exitcode_suppressions $file_filter $file_list $inconclusive \
+$unbuffer cppcheck $addon $check_level $enable $error_exitcode $excludes $exitcode_suppressions $file_filter $file_list $includes $inconclusive \
                   $max_configs $std $suppress $suppressions_list --xml --output-file=$output_dir/$file_prefix-errors.xml $* 2>&1 | tee $output_dir/$file_prefix.log
 returnValue=${PIPESTATUS[0]}
 
