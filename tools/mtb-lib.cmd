@@ -90,6 +90,11 @@ exit /b 0
     set "inc_dirs_file_name=mtb-lib-inc-dirs.txt"
     set "inc_dirs_file=%platform_path%\variants\%board_variant%\%inc_dirs_file_name%"
 
+    rem Delete the inc dirs file if it exists
+    if exist "%build_path%\%inc_dirs_file_name%" (
+        del "%build_path%\%inc_dirs_file_name%"
+    )
+
     rem Read the inc dirs file
     set "inc_dirs="
     setlocal enabledelayedexpansion
@@ -107,10 +112,12 @@ exit /b 0
         set "dir=%%a"
         set "dir_no_prefix=!dir:~2!"
 
-        rem Replace the forward slashes with backslashes
-        set "dir_no_prefix=!dir_no_prefix:/=\!"
         rem Prepend the platform path to the relative path
         set "dir_abs_path=-I%platform_path%\!dir_no_prefix!"
+
+        rem Replace the forward slashes with backslashes
+        set "dir_abs_path=!dir_abs_path:/=\!"
+        
         rem Change backslashes to double backsplashes
         set "dir_abs_path=!dir_abs_path:\=\\!"
         
