@@ -43,27 +43,38 @@ def append_clang_tidy_results_to_xml(xml_path, results):
         ET.SubElement(clang_tidy_section, "errors")
 
     errors_section = clang_tidy_section.find("errors")
+    existing_errors = set()
 
     for result in results:
-        error_element = ET.SubElement(
-            errors_section,
-            "error",
-            {
-                "id": "clang-tidy-" + result["id"],
-                "severity": result["type"],
-                "msg": result["msg"],
-                "verbose": result["msg"],
-            },
+        unique_id = (
+            result["file"],
+            result["line"],
+            result["column"],
+            result["msg"],
+            result["type"],
+            "clang-tidy-" + result["id"],
         )
-        location_element = ET.SubElement(
-            error_element,
-            "location",
-            {
-                "file": result["file"],
-                "line": result["line"],
-                "column": result["column"],
-            },
-        )
+        if unique_id not in existing_errors:
+            existing_errors.add(unique_id)
+            error_element = ET.SubElement(
+                errors_section,
+                "error",
+                {
+                    "id": "clang-tidy-" + result["id"],
+                    "severity": result["type"],
+                    "msg": result["msg"],
+                    "verbose": result["msg"],
+                },
+            )
+            location_element = ET.SubElement(
+                error_element,
+                "location",
+                {
+                    "file": result["file"],
+                    "line": result["line"],
+                    "column": result["column"],
+                },
+            )
 
     # Pretty-print the XML
     xml_str = ET.tostring(root, encoding="unicode")

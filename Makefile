@@ -38,8 +38,11 @@ run-container-project-setup-script-with-show-logs: clean-results pull-container
 	$(DOCKER) python3 tools/code_checks/codeChecks.py --runAllChecks 
 
 run-container-cppcheck: pull-container
+	-rm -rf _results/cppcheck/* 
+	-mkdir -p _results/cppcheck
+	chmod +x tools/code_checks/run_cppcheck.sh
 	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-cppcheck 
-#	firefox _results/cppcheck/cppcheck-reports/index.html
+#	firefox _results/cppcheck/check-cppcheck/html-report/index.html
 
 run-container-clang-tidy-check: pull-container
 	-rm -rf _results/clang-tidy/* 
@@ -50,7 +53,7 @@ run-container-clang-tidy-check: pull-container
 run-container-clang-tidy-check-fix: pull-container
 	-rm -rf _results/clang-tidy/* 
 	-mkdir -p _results/clang-tidy 
-	chmod +x tools/code_checks/run_cppcheck.sh
+	chmod +x tools/code_checks/run_clang_tidy.sh
 	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck check-clang-tidy-fix
 
 run-container-clang-tidy-format: pull-container
@@ -58,10 +61,10 @@ run-container-clang-tidy-format: pull-container
 	$(DOCKER) python3 tools/code_checks/codeChecks.py --runCheck clang-format
 
 run-container-black-format:
+	-rm -rf _results/black/* 
+	-mkdir -p _results/black
+	chmod +x tools/code_checks/run_black.sh
 	python3 tools/code_checks/codeChecks.py --runCheck black-format
-
-run-container-analyze_cppcheck:
-	python3 tools/code_checks/analyze_cppcheck.py
 
 ##############################################################################################################################################################
 
