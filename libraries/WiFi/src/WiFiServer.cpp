@@ -58,7 +58,7 @@ size_t WiFiServer::write(uint8_t data) {
 size_t WiFiServer::write(const uint8_t *buf, size_t size) {
     size_t written_bytes = 4294967295; /* Maximum value of uint32_t */
 
-    for (WiFiClient & client: connected_clients) {
+    for (WiFiClient &client : connected_clients) {
         uint16_t written_bytes_i = client.write(buf, size);
         /**
          * Keep as written_bytes the smallest value of written bytes to any clients.
@@ -114,7 +114,7 @@ cy_rslt_t WiFiServer::connectionCallback(cy_socket_t socket_handle, void *arg) {
      * and use the reference to accept the connection.
      */
     server->connected_clients.emplace_back();
-    WiFiClient & new_client = server->connected_clients.back();
+    WiFiClient &new_client = server->connected_clients.back();
 
     if (!server->socket.accept(*(new_client.socket))) {
         server->connected_clients.pop_back();

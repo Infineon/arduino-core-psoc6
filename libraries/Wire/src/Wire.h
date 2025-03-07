@@ -1,7 +1,6 @@
 #ifndef WIRE_H
 #define WIRE_H
 
-#include <Arduino.h>
 #include "cyhal_i2c.h"
 #include "api/RingBuffer.h"
 #include "api/HardwareI2C.h"
@@ -61,7 +60,6 @@ private:
     void onReceiveService(void);
     static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);
     void i2c_event_handler_member(cyhal_i2c_event_t event);
-
 };
 
 #if (I2C_HOWMANY > 0)

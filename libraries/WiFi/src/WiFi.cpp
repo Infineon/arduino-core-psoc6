@@ -419,11 +419,9 @@ uint8_t WiFiClass::reasonCode() {
 }
 
 WiFiClass::WiFiClass() {
-
 }
 
 WiFiClass::~WiFiClass() {
-
 }
 
 wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
