@@ -21,7 +21,7 @@ WiFiClass & WiFiClass::get_instance() {
     return wifi_singleton;
 }
 
-int WiFiClass::begin(const char* ssid) {
+int WiFiClass::begin(const char *ssid) {
     return begin(ssid, nullptr);
 }
 
@@ -80,7 +80,8 @@ uint8_t WiFiClass::beginAP(const char *ssid) {
 uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel) {
     return beginAP(ssid, nullptr, channel);
 }
-uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase) {
+
+uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase) {
     return beginAP(ssid, passphrase, 1);
 }
 
@@ -119,7 +120,7 @@ IPAddress WiFiClass::localIP() {
 
     cy_wcm_ip_address_t ip_address;
     cy_rslt_t ret = cy_wcm_get_ip_addr(_mode, &ip_address);
-    if(ret != CY_RSLT_SUCCESS) {
+    if (ret != CY_RSLT_SUCCESS) {
         return IPAddress(0, 0, 0, 0);
     }
 
@@ -157,11 +158,9 @@ wifi_error_t WiFiClass::getLastError() {
 
 
 WiFiClass::WiFiClass() {
-
 }
 
 WiFiClass::~WiFiClass() {
-
 }
 
 wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
@@ -238,4 +237,4 @@ void WiFiClass::set_ap_params(cy_wcm_ap_config_t * ap_config, const char * ssid,
     }
 }
 
-WiFiClass & WiFi = WiFiClass::get_instance();
+WiFiClass &WiFi = WiFiClass::get_instance();
