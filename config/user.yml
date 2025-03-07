@@ -5,4 +5,4 @@ check:
     - black-format
 
 build:
-    - build-psoc-cy8ckit_062s2_ai
+    - build-psoc6-cy8ckit_062s2_ai
