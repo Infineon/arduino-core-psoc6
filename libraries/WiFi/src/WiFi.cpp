@@ -157,11 +157,9 @@ wifi_error_t WiFiClass::getLastError() {
 
 
 WiFiClass::WiFiClass() {
-
 }
 
 WiFiClass::~WiFiClass() {
-
 }
 
 wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
