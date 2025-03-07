@@ -8,12 +8,13 @@
 #include "WiFiServer.h"
 
 #include "cy_wcm.h"
+#include <stdint.h>
 
 /**
  * TODO:
  *  - Adapt the enum list conveniently. Do we need to keep all?
  *  - Move it to some header file?
-*/
+ */
 typedef enum {
     WL_NO_SHIELD = 255,
     WL_NO_MODULE = 255,
@@ -67,9 +68,8 @@ typedef enum {
 class WiFiClass {
 
 public:
-
     /* Return the WiFi class singleton */
-    static WiFiClass & get_instance();
+    static WiFiClass &get_instance();
 
 
     int begin(const char *ssid);
@@ -118,7 +118,6 @@ public:
     wifi_error_t getLastError();
 
 private:
-
     /* Extension of cy_wcm_interface_t enums. */
     #define CY_WCM_INTERFACE_TYPE_UNKNOWN   (cy_wcm_interface_t)0xFF
 
@@ -145,8 +144,8 @@ private:
     ~WiFiClass();
 
     /* Delete copy constructor and assignment operator  */
-    WiFiClass(const WiFiClass&) = delete;
-    WiFiClass& operator = (const WiFiClass&) = delete;
+    WiFiClass(const WiFiClass &) = delete;
+    WiFiClass &operator=(const WiFiClass &) = delete;
 
     /**
     * Initialize the WiFi connection manager.

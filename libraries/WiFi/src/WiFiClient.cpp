@@ -97,11 +97,13 @@ WiFiClient::operator bool() {
 IPAddress WiFiClient::remoteIP() {
     return socket->remoteIP();
 }
+
 uint16_t WiFiClient::remotePort() {
     return socket->port();
 };
 
-WiFiClient::WiFiClient(const WiFiClient& other) : socket(other.socket) {
+WiFiClient::WiFiClient(const WiFiClient &other)
+    : socket(other.socket) {
 }
 
 WiFiClient& WiFiClient::operator = (const WiFiClient& other) {

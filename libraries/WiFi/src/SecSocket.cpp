@@ -16,6 +16,12 @@ Socket::Socket():
     remote_ip(0, 0, 0, 0),
     _port(0) {
 
+Socket::Socket()
+    : socket(nullptr),
+      _status(SOCKET_STATUS_UNINITED),
+      _last_error(CY_RSLT_SUCCESS),
+      remote_ip(0, 0, 0, 0),
+      _port(0) {
 }
 
 void Socket::begin() {
@@ -113,7 +119,7 @@ void Socket::listen(int max_connections) {
     _status = SOCKET_STATUS_LISTENING;
 }
 
-bool Socket::accept(Socket & client_socket) {
+bool Socket::accept(Socket &client_socket) {
     cy_socket_sockaddr_t peer_addr;
     uint32_t peer_addr_len;
 
