@@ -3,9 +3,9 @@
 #ifndef CY_SECURE_SOCKET_H
 #define CY_SECURE_SOCKET_H
 
-#include "cy_secure_sockets.h"
 #include "IPAddress.h"
 #include "RingBuffer.h"
+#include "cy_secure_sockets.h"
 
 typedef enum {
     SOCKET_STATUS_UNINITED = 0,
@@ -21,7 +21,6 @@ typedef enum {
 class Socket {
 
 public:
-
     Socket();
 
     void begin();
@@ -37,7 +36,7 @@ public:
     bool connect(const char *host, uint16_t port);
 
     void listen(int max_connections);
-    bool accept(Socket & client_socket);
+    bool accept(Socket &client_socket);
     uint32_t send(const void *data, uint32_t len);
     uint32_t available();
     int peek();
@@ -51,7 +50,6 @@ public:
     cy_rslt_t get_last_error();
 
 private:
-
     cy_socket_t socket;
     socket_status_t _status;
     cy_rslt_t _last_error;
@@ -62,7 +60,7 @@ private:
     void set_opt_callback(int optname, cy_socket_callback_t cback, void *arg);
 
     static const uint16_t RX_BUFFER_SIZE = 256;
-    arduino::RingBufferN < RX_BUFFER_SIZE > rx_buf;
+    arduino::RingBufferN<RX_BUFFER_SIZE> rx_buf;
 
     bool connect(cy_socket_sockaddr_t *addr);
     void receiveCallback();

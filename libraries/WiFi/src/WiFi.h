@@ -1,12 +1,12 @@
-#include <stdint.h>
 #include "IPAddress.h"
 #include "cy_wcm.h"
+#include <stdint.h>
 
 /**
  * TODOs:
  *  - Adapt the enum list conveniently. Do we need to keep all?
  *  - Move it to some header file?
-*/
+ */
 typedef enum {
     WL_NO_SHIELD = 255,
     WL_NO_MODULE = 255,
@@ -25,23 +25,22 @@ typedef enum {
 class WiFiClass {
 
 public:
-
     /* Return the WiFi class singleton */
-    static WiFiClass & get_instance();
+    static WiFiClass &get_instance();
 
     /* Start Wifi connection for OPEN networks
-    *
-    * param ssid: Pointer to the SSID string.
-    */
+     *
+     * param ssid: Pointer to the SSID string.
+     */
     int begin(const char *ssid);
 
     /* Start WiFi connection with passphrase
-    * the most secure supported mode will be automatically selected
-    *
-    * param ssid: Pointer to the SSID string.
-    * param passphrase: Passphrase. Valid characters in a passphrase
-    *        must be between ASCII 32-126 (decimal).
-    */
+     * the most secure supported mode will be automatically selected
+     *
+     * param ssid: Pointer to the SSID string.
+     * param passphrase: Passphrase. Valid characters in a passphrase
+     *        must be between ASCII 32-126 (decimal).
+     */
     int begin(const char *ssid, const char *passphrase);
 
     /* WEP is not supported by WCM class as considered an insecure encryption. */
@@ -58,7 +57,6 @@ public:
 
     void end(void);
 
-
     /* Connect as Access Point with  a standard passphrase */
     uint8_t beginAP(const char *ssid);
     uint8_t beginAP(const char *ssid, uint8_t channel);
@@ -66,11 +64,11 @@ public:
     uint8_t beginAP(const char *ssid, const char *passphrase, uint8_t channel);
 
     /*
-    * Get the interface IP address.
-    * Currently only IPv4 is supported.
-    *
-    * return: IP address value. Returns 0.0.0.0 in case of error.
-    */
+     * Get the interface IP address.
+     * Currently only IPv4 is supported.
+     *
+     * return: IP address value. Returns 0.0.0.0 in case of error.
+     */
     IPAddress localIP();
 
     /**
@@ -82,9 +80,10 @@ public:
      *  WL_AP_LISTENING : assigned when the listening for connections in Access Point mode;
      *  WL_NO_SHIELD: assigned when no WiFi shield is present;
      *  WL_NO_MODULE: assigned when the communication with an integrated WiFi module fails;
-     *  WL_IDLE_STATUS: it is a temporary status assigned when WiFi.begin() is called and remains active until the number of attempts expires (resulting in WL_CONNECT_FAILED) or a connection is established (resulting in WL_CONNECTED);
-     *  WL_NO_SSID_AVAIL: assigned when no SSID are available;
-     *  WL_SCAN_COMPLETED: assigned when the scan networks is completed;
+     *  WL_IDLE_STATUS: it is a temporary status assigned when WiFi.begin() is called and remains
+     * active until the number of attempts expires (resulting in WL_CONNECT_FAILED) or a connection
+     * is established (resulting in WL_CONNECTED); WL_NO_SSID_AVAIL: assigned when no SSID are
+     * available; WL_SCAN_COMPLETED: assigned when the scan networks is completed;
      *  WL_CONNECT_FAILED: assigned when the connection fails for all the attempts;
      *  WL_CONNECTION_LOST: assigned when the connection is lost;
      *  WL_DISCONNECTED: assigned when disconnected from a network;
@@ -92,13 +91,11 @@ public:
     uint8_t status();
 
 private:
-
     /* Extension of cy_wcm_interface_t enums. */
-        #define CY_WCM_INTERFACE_TYPE_UNKNOWN   (cy_wcm_interface_t)0xFF
+#define CY_WCM_INTERFACE_TYPE_UNKNOWN (cy_wcm_interface_t)0xFF
 
     cy_wcm_interface_t _mode = CY_WCM_INTERFACE_TYPE_UNKNOWN;
     volatile wl_status_t _status = WL_IDLE_STATUS;
-
 
     /* The WiFi class is implemented as singleton.
        The constructor and destructor are private. */
@@ -106,8 +103,8 @@ private:
     ~WiFiClass();
 
     /* Delete copy constructor and assignment operator  */
-    WiFiClass(const WiFiClass&) = delete;
-    WiFiClass& operator = (const WiFiClass&) = delete;
+    WiFiClass(const WiFiClass &) = delete;
+    WiFiClass &operator=(const WiFiClass &) = delete;
 
     /**
      * Initialize the WiFi connection manager.
@@ -116,4 +113,4 @@ private:
     static cy_rslt_t wcm_init(cy_wcm_interface_t mode);
 };
 
-extern WiFiClass & WiFi;
+extern WiFiClass &WiFi;
