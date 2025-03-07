@@ -1,12 +1,11 @@
 #ifndef WIRE_H
 #define WIRE_H
 
-#include <Arduino.h>
 #include "cyhal_i2c.h"
+#include <Arduino.h>
 
 class TwoWire {
 public:
-
     static const size_t BUFFER_LENGTH = 32;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
@@ -38,7 +37,7 @@ public:
     void onRequest(void (*function)(void));
 
 private:
-    static TwoWire * instances[I2C_HOWMANY];
+    static TwoWire *instances[I2C_HOWMANY];
     void _begin();
     cyhal_gpio_t sda_pin;
     cyhal_gpio_t scl_pin;
@@ -63,7 +62,6 @@ private:
     void onReceiveService(int);
     static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);
     void i2c_event_handler_member(cyhal_i2c_event_t event);
-
 };
 
 #if (I2C_HOWMANY > 0)

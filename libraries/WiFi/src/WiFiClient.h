@@ -6,11 +6,12 @@
 #include <SecSocket.h>
 #include "Client.h"
 #include "Print.h"
+#include <Socket.h>
+#include <memory>
 
 class WiFiClient: public arduino::Client {
 
 public:
-
     WiFiClient();
 
     int connect(IPAddress ip, uint16_t port);
@@ -33,20 +34,18 @@ public:
     using Print::print;
     using Print::println;
 
-    WiFiClient(const WiFiClient& other);
-    WiFiClient& operator = (const WiFiClient& other);
-
+    WiFiClient(const WiFiClient &other);
+    WiFiClient &operator=(const WiFiClient &other);
 
 private:
-
     /**
      * Implemented as shared ptr as this class is used
      * in the WiFiServer to keep the WiFiClient objects
      * as a list of connected clients.
      * Keeping objects will lead to copies which won´t
      * update the socket rx_buffer upon interrupts.
-    */
-    std::shared_ptr < Socket > socket;
+     */
+    std::shared_ptr<Socket> socket;
 
     static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
     static cy_rslt_t disconnectionCallback(cy_socket_t socket_handle, void *arg);
