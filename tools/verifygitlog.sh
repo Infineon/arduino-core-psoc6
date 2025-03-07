@@ -13,7 +13,7 @@ ulimit -n 1024
 # commit formatting
 
 function ci_commit_formatting_run {
-    git remote add upstream https://github.com/Infineon/arduino-core-psoc.git
+    git remote add upstream https://github.com/Infineon/arduino-core-psoc6.git
     git fetch --depth=100 upstream main
     # If the common ancestor commit hasn't been found, fetch more.
     git merge-base upstream/main HEAD || git fetch upstream main

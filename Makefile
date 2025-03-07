@@ -3,7 +3,7 @@
 
 
 
-FQBN   ?= infineon:psoc:cy8ckit_062s2_ai
+FQBN   ?= infineon:psoc6:cy8ckit_062s2_ai
 TARGET ?= test_interrupts_single
 
 
