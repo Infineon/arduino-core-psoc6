@@ -8,6 +8,7 @@
 #include "WiFiServer.h"
 
 #include "cy_wcm.h"
+#include <stdint.h>
 
 /**
  * TODO:
