@@ -27,8 +27,8 @@
 
 #include "time.h"
 
-#define ARDUINO_MAIN_TASK_STACK_SIZE    (4096u)
-#define ARDUINO_MAIN_TASK_PRIORITY      (2u)
+#define ARDUINO_MAIN_TASK_STACK_SIZE (4096u)
+#define ARDUINO_MAIN_TASK_PRIORITY (2u)
 
 TaskHandle_t arduino_main_task_handle;
 
@@ -54,7 +54,8 @@ int main() {
 
     time_init();
 
-    xTaskCreate(arduino_main_task, "arduino-main-task", ARDUINO_MAIN_TASK_STACK_SIZE, NULL, ARDUINO_MAIN_TASK_PRIORITY, &arduino_main_task_handle);
+    xTaskCreate(arduino_main_task, "arduino-main-task", ARDUINO_MAIN_TASK_STACK_SIZE, NULL,
+                ARDUINO_MAIN_TASK_PRIORITY, &arduino_main_task_handle);
     vTaskStartScheduler();
 
     /* Should never get here */
