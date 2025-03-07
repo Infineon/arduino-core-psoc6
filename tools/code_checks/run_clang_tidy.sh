@@ -112,7 +112,6 @@ for pattern in $*; do
     for file in $file_list; do
         file_base=`basename $file`
 
-        # echo "$unbuffer clang-tidy $checks $config_file $export_fixes $extra_arg $fix $header_filter $quiet $system_headers $use_color $warnings_as_errors $file -- 2>&1 | tee $output_dir/$file_prefix.$file_base.log"
         $unbuffer clang-tidy $checks $config_file $export_fixes $extra_arg $fix $header_filter $quiet $system_headers $use_color $warnings_as_errors $file -- $excludes $includes 2>&1 | tee $output_dir/$file_prefix.$file_base.log
 
         fileReturnValue=${PIPESTATUS[0]}
