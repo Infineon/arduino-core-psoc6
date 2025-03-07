@@ -96,6 +96,7 @@ fi
 
 if [ ! -d "$output_dir" ]; then
   mkdir -p $output_dir/html-report
+  mkdir -p $output_dir/build
 fi
 
 
@@ -120,14 +121,11 @@ echo "use-shell-color       : $use_shell_color"
 echo ""
 
 
-# echo "cppcheck $addon --check-level=$check_level $enable --error-exitcode=$error_exitcode $exitcode_suppressions $file_filter $file_list --inconclusive \
-#                --max-configs=$max_configs --std=$std $suppress --xml 2> $output_dir/cppcheck-errors.xml $* | tee $output_dir/$file_prefix.log"
-
 returnValue=0
 
 
 $unbuffer cppcheck $addon $check_level $enable $error_exitcode $excludes $exitcode_suppressions $file_filter $file_list $includes $inconclusive \
-                  $max_configs $std $suppress $suppressions_list --xml --output-file=$output_dir/$file_prefix-errors.xml $* 2>&1 | tee $output_dir/$file_prefix.log
+                  $max_configs $std $suppress $suppressions_list --cppcheck-build-dir=$output_dir/build -j4 --xml --output-file=$output_dir/$file_prefix-errors.xml $* 2>&1 | tee $output_dir/$file_prefix.log
 returnValue=${PIPESTATUS[0]}
 
 echo "" | tee -a $output_dir/$file_prefix.log
