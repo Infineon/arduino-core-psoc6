@@ -1,3 +1,6 @@
+#ifndef WIFI_H
+#define WIFI_H
+
 #include <stdint.h>
 #include "IPAddress.h"
 #include "cy_wcm.h"
@@ -117,3 +120,5 @@ private:
 };
 
 extern WiFiClass & WiFi;
+
+#endif /* WIFI_H */

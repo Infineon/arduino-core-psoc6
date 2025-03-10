@@ -3,11 +3,11 @@
 #define WIFI_CLIENT_H
 
 #include <memory>
-#include <Socket.h>
+#include <SecSocket.h>
 #include "Client.h"
 #include "Print.h"
 
-class WiFiClient: arduino::Client {
+class WiFiClient: public arduino::Client {
 
 public:
 

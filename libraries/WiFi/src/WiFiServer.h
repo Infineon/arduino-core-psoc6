@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <vector>
 #include <WiFiClient.h>
-#include <Socket.h>
+#include <SecSocket.h>
 #include "Server.h"
 
 class WiFiServer: public arduino::Server {
