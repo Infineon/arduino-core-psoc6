@@ -64,7 +64,7 @@ jobs:
         echo "Workflow has these parameters :"
         echo "matrix.checks   : " ${{ matrix.checks }}
         echo ""
-        python3 tools/code_checks/codeChecks.py --runCheck ${{ matrix.checks }} --showLog
+        python3 tools/code_checks/codeChecks.py --runCheck ${{ matrix.checks }}
       continue-on-error: true
  
     - name: Archive tool reports
