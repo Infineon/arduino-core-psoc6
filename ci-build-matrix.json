@@ -3,6 +3,10 @@
         "infineon:psoc6:cy8ckit_062s2_ai"
     ],
     "example" : [
-        "examples/testSketch/testSketch.ino"
+        "examples/testSketch/testSketch.ino",
+        "libraries/Wire/examples/master_reader/master_reader.ino",
+        "libraries/Wire/examples/master_writer/master_writer.ino",
+        "libraries/Wire/examples/slave_receiver/slave_receiver.ino",
+        "libraries/Wire/examples/slave_sender/slave_sender.ino"
     ]
 }
