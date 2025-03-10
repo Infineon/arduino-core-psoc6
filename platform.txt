@@ -39,7 +39,7 @@ compiler.arduino_core_api.path= "-I{compiler.arduino_core_dep_avr.path}" "-I{com
 
 # GCC related definitions
 # Some flags might not be required : -mtune={build.mcu}
-compiler.c.flags= -c -g -Os {compiler.warning_flags} -std=gnu11  -nostdlib --param max-inline-insns-single=500 -MMD
+compiler.c.flags= -c -g -Os {compiler.warning_flags} -std=gnu11  -nostdlib --param max-inline-insns-single=500 -MMD -DARDUINO_ARCH_{build.arch}
 compiler.c.extra_flags=
 compiler.libraries.ldflags= -lstdc++
 
@@ -49,11 +49,11 @@ compiler.cpp.elf.flags={compiler.c.elf.flags}
 compiler.c.elf.extra_flags=
 
 # G++ related definitions
-compiler.cpp.flags= -fpermissive -c -g -Os {compiler.warning_flags} -std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD
+compiler.cpp.flags= -fpermissive -c -g -Os {compiler.warning_flags} -std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DARDUINO_ARCH_{build.arch}
 compiler.cpp.extra_flags=
 
 # Assembler related definitions
-compiler.S.flags= -mthumb -c -g -x assembler-with-cpp
+compiler.S.flags= -mthumb -c -g -x assembler-with-cpp -DARDUINO_ARCH_{build.arch}
 compiler.S.extra_flags=-w
 
 # Archives & binaries related definitions
