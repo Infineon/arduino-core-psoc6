@@ -30,7 +30,7 @@ edit_in_place="-i"
 fcolor_diagnostics="--fcolor-diagnostics"
 files=
 file_prefix="clang-format"
-output_dir="results/clang-format"
+output_dir="_results/clang-format"
 output_replacements_xml=
 sort_includes="--sort-includes"
 style="-style=file:"./config/clang-format/.clang-format""
