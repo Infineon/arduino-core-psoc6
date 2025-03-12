@@ -19,6 +19,9 @@ function core_api_setup {
 }
 
 function replace_string_h_with_wstring_h {
+    # This function replaces String.h with WString.h in Arduino core APIs
+    # to avoid the issues with case insensitivity in windows.
+    # Issue can be followed here: https://github.com/arduino/ArduinoCore-API/issues/37
     echo "Replacing String_h with WString_h in Arduino core APIs..."
 
     # Find and rename String.h to WString.h
