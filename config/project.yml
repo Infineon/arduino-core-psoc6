@@ -8,21 +8,21 @@ check:
     check-clang-tidy:
       description: clang-tidy check sources
       tool: clang-tidy
-      command: tools/code_checks/run_clang_tidy.sh ./cores/psoc6/* ./libraries/*
+      command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh ./cores/psoc6/* ./libraries/*
 
     check-cppcheck:
       description: cppcheck check sources
       tool: cppcheck
-      command: tools/code_checks/run_cppcheck.sh ./cores/psoc6/* ./libraries/*  
+      command: extras/makers-devops/tools/code_checks/run_cppcheck.sh ./cores/psoc6/* ./libraries/*  
                | -I extras/arduino-core-api/api/ -I variants/CY8CKIT-062S2-AI/mtb-bsp -I extras/mtb-libs/core-lib/include 
                | --suppress=*:extras/arduino-core-api/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
 
     clang-format:
       description: clang-tidy check sources
       tool: clang-format
-      command: tools/code_checks/run_clang_format.sh ./cores/psoc6/* ./libraries/*
+      command: extras/makers-devops/tools/code_checks/run_clang_format.sh ./cores/psoc6/* ./libraries/*
 
     black-format:
       description: clang-tidy check sources
       tool: black-format
-      command: tools/code_checks/run_black.sh ./tools/* 
+      command: extras/makers-devops/tools/code_checks/run_black.sh ./extras/makers-devops/tools/* 
