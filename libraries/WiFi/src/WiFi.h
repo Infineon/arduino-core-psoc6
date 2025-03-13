@@ -2,7 +2,11 @@
 #define WIFI_H
 
 #include <stdint.h>
+
 #include "IPAddress.h"
+#include "WiFiClient.h"
+#include "WiFiServer.h"
+
 #include "cy_wcm.h"
 
 /**
@@ -97,7 +101,7 @@ public:
 private:
 
     /* Extension of cy_wcm_interface_t enums. */
-        #define CY_WCM_INTERFACE_TYPE_UNKNOWN   (cy_wcm_interface_t)0xFF
+    #define CY_WCM_INTERFACE_TYPE_UNKNOWN   (cy_wcm_interface_t)0xFF
 
     cy_wcm_interface_t _mode = CY_WCM_INTERFACE_TYPE_UNKNOWN;
     volatile wl_status_t _status = WL_IDLE_STATUS;
