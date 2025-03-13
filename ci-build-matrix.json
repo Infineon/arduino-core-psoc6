@@ -9,6 +9,7 @@
     "example" : [
         "examples/testSketch/testSketch.ino",
         "libraries/WiFi/examples/ConnectNoEncryption/ConnectNoEncryption.ino",
+        "libraries/WiFi/examples/ConnectWithWPA/ConnectWithWPA.ino",
         "libraries/Wire/examples/master_reader/master_reader.ino",
         "libraries/Wire/examples/master_writer/master_writer.ino",
         "libraries/Wire/examples/slave_receiver/slave_receiver.ino",
