@@ -1,75 +1,14 @@
-name: Code checks
+name: Code Checks
 
 on:
   push:
-    branches: [ '*' ]
-
-defaults:
-  run:
-    shell: bash
-
+    
 jobs:
-  setup:
-    runs-on: ubuntu-24.04
-
-    container:
-      image: docker.io/ifxmakers/makers-docker:push
-      volumes:
-        - .:/myLocalWorkingDir:rw
-      options: --cpus 1
-
-    steps:
-
-      - name: Checkout actions
-        uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Set strategy matrix
-        id: set-matrix
-        run: |
-          eval $(python3 tools/code_checks/codeChecks.py --getAllChecks)
-
-    outputs:
-      checks: ${{ steps.set-matrix.outputs.checks }}
-
-
-  codeCheckFlowStep:
-    runs-on: ubuntu-24.04
-    needs: setup
-
-    container:
-      image: docker.io/ifxmakers/makers-docker:push
-      volumes:
-        - .:/myLocalWorkingDir:rw
-      options: --cpus 1
-
-    strategy:
-
-      matrix:
-        checks: ${{ fromJson(needs.setup.outputs.checks) }}
-
-    steps:
-
-    - name: Checkout actions
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
+  makers-devops:
+    uses: Infineon/makers-devops/.github/workflows/code_checks.yml@fix-configs-path
+    with:
+      project-yaml: config/project.yml
+      user-yaml: config/user.yml
+    secrets: inherit
 
         
-    - name: Run all code checks
-      id: run_build
-      if: success() || failure()
-      run: |
-        echo "Workflow has these parameters :"
-        echo "matrix.checks   : " ${{ matrix.checks }}
-        echo ""
-        python3 tools/code_checks/codeChecks.py --runCheck ${{ matrix.checks }} --showLog
-      continue-on-error: true
- 
-    - name: Archive tool reports
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ matrix.checks }}
-        path: |
-          _results
