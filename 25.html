@@ -223,7 +223,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> WiFi.h</p>
-<a href="25.html#line-1"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 1</a><a href="25.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="25.html#line-10"> clang-tidy-modernize-use-using 10</a><a href="25.html#line-10"> clang-tidy-performance-enum-size 10</a><a href="25.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="25.html#line-25"> clang-tidy-readability-enum-initial-value 25</a><a href="25.html#line-58"> clang-tidy-cppcoreguidelines-special-member-functions 58</a><a href="25.html#line-106"> clang-tidy-modernize-redundant-void-arg 106</a><a href="25.html#line-107"> clang-tidy-modernize-use-equals-delete 107</a><a href="25.html#line-116"> clang-tidy-modernize-use-equals-delete 116</a>
+<a href="25.html#line-5"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 5</a><a href="25.html#line-7"> clang-tidy-clang-diagnostic-error 7</a><a href="25.html#line-14"> clang-tidy-readability-duplicate-include 14</a><a href="25.html#line-14"> clang-tidy-modernize-use-using 14</a><a href="25.html#line-14"> clang-tidy-performance-enum-size 14</a><a href="25.html#line-14"> clang-tidy-readability-duplicate-include 14</a><a href="25.html#line-29"> clang-tidy-readability-enum-initial-value 29</a><a href="25.html#line-62"> clang-tidy-cppcoreguidelines-special-member-functions 62</a><a href="25.html#line-110"> clang-tidy-modernize-redundant-void-arg 110</a><a href="25.html#line-111"> clang-tidy-modernize-use-equals-delete 111</a><a href="25.html#line-120"> clang-tidy-modernize-use-equals-delete 120</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
@@ -341,123 +341,135 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;IPAddress.h&quot;</span><span class="error2">&lt;--- variable 'WiFi' provides global access to a non-const object; consider making the referenced data 'const'</span>
-</span><a id="line-2" name="line-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cy_wcm.h&quot;</span>
-<a id="line-3" name="line-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
-<a id="line-4" name="line-4"></a>
-<a id="line-5" name="line-5"></a><span class="cm">/**</span>
-<a id="line-6" name="line-6"></a><span class="cm"> * TODOs:</span>
-<a id="line-7" name="line-7"></a><span class="cm"> *  - Adapt the enum list conveniently. Do we need to keep all?</span>
-<a id="line-8" name="line-8"></a><span class="cm"> *  - Move it to some header file?</span>
-<a id="line-9" name="line-9"></a><span class="cm"> */</span>
-<a id="line-10" name="line-10"></a><span class="hll"><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'IPAddress.h' file not found</span><span class="error2">&lt;--- use 'using' instead of 'typedef'</span><span class="error2">&lt;--- enum 'wl_status_t' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size</span><span class="error2">&lt;--- 'IPAddress.h' file not found</span>
-</span><a id="line-11" name="line-11"></a><span class="w">    </span><span class="n">WL_NO_SHIELD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span>
-<a id="line-12" name="line-12"></a><span class="w">    </span><span class="n">WL_NO_MODULE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span>
-<a id="line-13" name="line-13"></a><span class="w">    </span><span class="n">WL_IDLE_STATUS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<a id="line-14" name="line-14"></a><span class="w">    </span><span class="n">WL_NO_SSID_AVAIL</span><span class="p">,</span>
-<a id="line-15" name="line-15"></a><span class="w">    </span><span class="n">WL_SCAN_COMPLETED</span><span class="p">,</span>
-<a id="line-16" name="line-16"></a><span class="w">    </span><span class="n">WL_CONNECTED</span><span class="p">,</span>
-<a id="line-17" name="line-17"></a><span class="w">    </span><span class="n">WL_CONNECT_FAILED</span><span class="p">,</span>
-<a id="line-18" name="line-18"></a><span class="w">    </span><span class="n">WL_CONNECTION_LOST</span><span class="p">,</span>
-<a id="line-19" name="line-19"></a><span class="w">    </span><span class="n">WL_DISCONNECTED</span><span class="p">,</span>
-<a id="line-20" name="line-20"></a><span class="w">    </span><span class="n">WL_AP_LISTENING</span><span class="p">,</span>
-<a id="line-21" name="line-21"></a><span class="w">    </span><span class="n">WL_AP_CONNECTED</span><span class="p">,</span>
-<a id="line-22" name="line-22"></a><span class="w">    </span><span class="n">WL_AP_FAILED</span>
-<a id="line-23" name="line-23"></a><span class="p">}</span><span class="w"> </span><span class="n">wl_status_t</span><span class="p">;</span>
-<a id="line-24" name="line-24"></a>
-<a id="line-25" name="line-25"></a><span class="hll"><span class="n">class</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- inital values in enum 'wl_status_t' are not consistent, consider explicit initialization of all, none or only the first enumerator</span>
-</span><a id="line-26" name="line-26"></a>
-<a id="line-27" name="line-27"></a><span class="n">public</span><span class="o">:</span>
-<a id="line-28" name="line-28"></a><span class="w">    </span><span class="cm">/* Return the WiFi class singleton */</span>
-<a id="line-29" name="line-29"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="n">get_instance</span><span class="p">();</span>
-<a id="line-30" name="line-30"></a>
-<a id="line-31" name="line-31"></a><span class="w">    </span><span class="cm">/* Start Wifi connection for OPEN networks</span>
-<a id="line-32" name="line-32"></a><span class="cm">     *</span>
-<a id="line-33" name="line-33"></a><span class="cm">     * param ssid: Pointer to the SSID string.</span>
-<a id="line-34" name="line-34"></a><span class="cm">     */</span>
-<a id="line-35" name="line-35"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">);</span>
-<a id="line-36" name="line-36"></a>
-<a id="line-37" name="line-37"></a><span class="w">    </span><span class="cm">/* Start WiFi connection with passphrase</span>
-<a id="line-38" name="line-38"></a><span class="cm">     * the most secure supported mode will be automatically selected</span>
-<a id="line-39" name="line-39"></a><span class="cm">     *</span>
-<a id="line-40" name="line-40"></a><span class="cm">     * param ssid: Pointer to the SSID string.</span>
-<a id="line-41" name="line-41"></a><span class="cm">     * param passphrase: Passphrase. Valid characters in a passphrase</span>
-<a id="line-42" name="line-42"></a><span class="cm">     *        must be between ASCII 32-126 (decimal).</span>
-<a id="line-43" name="line-43"></a><span class="cm">     */</span>
-<a id="line-44" name="line-44"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">passphrase</span><span class="p">);</span>
-<a id="line-45" name="line-45"></a>
-<a id="line-46" name="line-46"></a><span class="w">    </span><span class="cm">/* WEP is not supported by WCM class as considered an insecure encryption. */</span>
-<a id="line-47" name="line-47"></a>
-<a id="line-48" name="line-48"></a><span class="w">    </span><span class="c1">// /* Start WiFi connection with WEP encryption.</span>
-<a id="line-49" name="line-49"></a><span class="w">    </span><span class="c1">// * Configure a key into the device. The key type (WEP-40, WEP-104)</span>
-<a id="line-50" name="line-50"></a><span class="w">    </span><span class="c1">// * is determined by the size of the key (5 bytes for WEP-40, 13 bytes for WEP-104).</span>
-<a id="line-51" name="line-51"></a><span class="w">    </span><span class="c1">// *</span>
-<a id="line-52" name="line-52"></a><span class="w">    </span><span class="c1">// * param ssid: Pointer to the SSID string.</span>
-<a id="line-53" name="line-53"></a><span class="w">    </span><span class="c1">// * param key_idx: The key index to set. Valid values are 0-3.</span>
-<a id="line-54" name="line-54"></a><span class="w">    </span><span class="c1">// * param key: Key input buffer.</span>
-<a id="line-55" name="line-55"></a><span class="w">    </span><span class="c1">// */</span>
-<a id="line-56" name="line-56"></a><span class="w">    </span><span class="c1">// int begin(const char* ssid, uint8_t key_idx, const char* key);</span>
-<a id="line-57" name="line-57"></a>
-<a id="line-58" name="line-58"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- class 'WiFiClass' defines a non-default destructor, a copy constructor and a copy assignment operator but does not define a move constructor or a move assignment operator</span>
-</span><a id="line-59" name="line-59"></a>
-<a id="line-60" name="line-60"></a><span class="w">    </span><span class="cm">/* Connect as Access Point with  a standard passphrase */</span>
-<a id="line-61" name="line-61"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">);</span>
-<a id="line-62" name="line-62"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">channel</span><span class="p">);</span>
-<a id="line-63" name="line-63"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">passphrase</span><span class="p">);</span>
-<a id="line-64" name="line-64"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">passphrase</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">channel</span><span class="p">);</span>
-<a id="line-65" name="line-65"></a>
-<a id="line-66" name="line-66"></a><span class="w">    </span><span class="cm">/*</span>
-<a id="line-67" name="line-67"></a><span class="cm">     * Get the interface IP address.</span>
-<a id="line-68" name="line-68"></a><span class="cm">     * Currently only IPv4 is supported.</span>
-<a id="line-69" name="line-69"></a><span class="cm">     *</span>
-<a id="line-70" name="line-70"></a><span class="cm">     * return: IP address value. Returns 0.0.0.0 in case of error.</span>
-<a id="line-71" name="line-71"></a><span class="cm">     */</span>
-<a id="line-72" name="line-72"></a><span class="w">    </span><span class="n">IPAddress</span><span class="w"> </span><span class="nf">localIP</span><span class="p">();</span>
-<a id="line-73" name="line-73"></a>
-<a id="line-74" name="line-74"></a><span class="w">    </span><span class="cm">/**</span>
-<a id="line-75" name="line-75"></a><span class="cm">     * Return Connection status</span>
-<a id="line-76" name="line-76"></a><span class="cm">     * TODO: Clean up unused or irrelevant status codes for this core.</span>
-<a id="line-77" name="line-77"></a><span class="cm">     *</span>
-<a id="line-78" name="line-78"></a><span class="cm">     *  WL_CONNECTED: assigned when connected to a WiFi network;</span>
-<a id="line-79" name="line-79"></a><span class="cm">     *  WL_AP_CONNECTED : assigned when a device is connected in Access Point mode;</span>
-<a id="line-80" name="line-80"></a><span class="cm">     *  WL_AP_LISTENING : assigned when the listening for connections in Access Point mode;</span>
-<a id="line-81" name="line-81"></a><span class="cm">     *  WL_NO_SHIELD: assigned when no WiFi shield is present;</span>
-<a id="line-82" name="line-82"></a><span class="cm">     *  WL_NO_MODULE: assigned when the communication with an integrated WiFi module fails;</span>
-<a id="line-83" name="line-83"></a><span class="cm">     *  WL_IDLE_STATUS: it is a temporary status assigned when WiFi.begin() is called and remains</span>
-<a id="line-84" name="line-84"></a><span class="cm">     * active until the number of attempts expires (resulting in WL_CONNECT_FAILED) or a connection</span>
-<a id="line-85" name="line-85"></a><span class="cm">     * is established (resulting in WL_CONNECTED); WL_NO_SSID_AVAIL: assigned when no SSID are</span>
-<a id="line-86" name="line-86"></a><span class="cm">     * available; WL_SCAN_COMPLETED: assigned when the scan networks is completed;</span>
-<a id="line-87" name="line-87"></a><span class="cm">     *  WL_CONNECT_FAILED: assigned when the connection fails for all the attempts;</span>
-<a id="line-88" name="line-88"></a><span class="cm">     *  WL_CONNECTION_LOST: assigned when the connection is lost;</span>
-<a id="line-89" name="line-89"></a><span class="cm">     *  WL_DISCONNECTED: assigned when disconnected from a network;</span>
-<a id="line-90" name="line-90"></a><span class="cm">     */</span>
-<a id="line-91" name="line-91"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">status</span><span class="p">();</span>
-<a id="line-92" name="line-92"></a>
-<a id="line-93" name="line-93"></a><span class="n">private</span><span class="o">:</span>
-<a id="line-94" name="line-94"></a><span class="w">    </span><span class="cm">/* Extension of cy_wcm_interface_t enums. */</span>
-<a id="line-95" name="line-95"></a><span class="cp">#define CY_WCM_INTERFACE_TYPE_UNKNOWN (cy_wcm_interface_t)0xFF</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef WIFI_H</span>
+<a id="line-2" name="line-2"></a><span class="cp">#define WIFI_H</span>
+<a id="line-3" name="line-3"></a>
+<a id="line-4" name="line-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
+<a id="line-5" name="line-5"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;IPAddress.h&quot;</span><span class="error2">&lt;--- variable 'WiFi' provides global access to a non-const object; consider making the referenced data 'const'</span>
+</span><a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cy_wcm.h&quot;</span>
+<a id="line-7" name="line-7"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span><span class="error2">&lt;--- 'IPAddress.h' file not found</span>
+</span><a id="line-8" name="line-8"></a>
+<a id="line-9" name="line-9"></a><span class="cm">/**</span>
+<a id="line-10" name="line-10"></a><span class="cm"> * TODOs:</span>
+<a id="line-11" name="line-11"></a><span class="cm"> *  - Adapt the enum list conveniently. Do we need to keep all?</span>
+<a id="line-12" name="line-12"></a><span class="cm"> *  - Move it to some header file?</span>
+<a id="line-13" name="line-13"></a><span class="cm"> */</span>
+<a id="line-14" name="line-14"></a><span class="hll"><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- duplicate include</span><span class="error2">&lt;--- use 'using' instead of 'typedef'</span><span class="error2">&lt;--- enum 'wl_status_t' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size</span><span class="error2">&lt;--- duplicate include</span>
+</span><a id="line-15" name="line-15"></a><span class="w">    </span><span class="n">WL_NO_SHIELD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span>
+<a id="line-16" name="line-16"></a><span class="w">    </span><span class="n">WL_NO_MODULE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span>
+<a id="line-17" name="line-17"></a><span class="w">    </span><span class="n">WL_IDLE_STATUS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="line-18" name="line-18"></a><span class="w">    </span><span class="n">WL_NO_SSID_AVAIL</span><span class="p">,</span>
+<a id="line-19" name="line-19"></a><span class="w">    </span><span class="n">WL_SCAN_COMPLETED</span><span class="p">,</span>
+<a id="line-20" name="line-20"></a><span class="w">    </span><span class="n">WL_CONNECTED</span><span class="p">,</span>
+<a id="line-21" name="line-21"></a><span class="w">    </span><span class="n">WL_CONNECT_FAILED</span><span class="p">,</span>
+<a id="line-22" name="line-22"></a><span class="w">    </span><span class="n">WL_CONNECTION_LOST</span><span class="p">,</span>
+<a id="line-23" name="line-23"></a><span class="w">    </span><span class="n">WL_DISCONNECTED</span><span class="p">,</span>
+<a id="line-24" name="line-24"></a><span class="w">    </span><span class="n">WL_AP_LISTENING</span><span class="p">,</span>
+<a id="line-25" name="line-25"></a><span class="w">    </span><span class="n">WL_AP_CONNECTED</span><span class="p">,</span>
+<a id="line-26" name="line-26"></a><span class="w">    </span><span class="n">WL_AP_FAILED</span>
+<a id="line-27" name="line-27"></a><span class="p">}</span><span class="w"> </span><span class="n">wl_status_t</span><span class="p">;</span>
+<a id="line-28" name="line-28"></a>
+<a id="line-29" name="line-29"></a><span class="hll"><span class="n">class</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- inital values in enum 'wl_status_t' are not consistent, consider explicit initialization of all, none or only the first enumerator</span>
+</span><a id="line-30" name="line-30"></a>
+<a id="line-31" name="line-31"></a><span class="n">public</span><span class="o">:</span>
+<a id="line-32" name="line-32"></a><span class="w">    </span><span class="cm">/* Return the WiFi class singleton */</span>
+<a id="line-33" name="line-33"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="n">get_instance</span><span class="p">();</span>
+<a id="line-34" name="line-34"></a>
+<a id="line-35" name="line-35"></a><span class="w">    </span><span class="cm">/* Start Wifi connection for OPEN networks</span>
+<a id="line-36" name="line-36"></a><span class="cm">     *</span>
+<a id="line-37" name="line-37"></a><span class="cm">     * param ssid: Pointer to the SSID string.</span>
+<a id="line-38" name="line-38"></a><span class="cm">     */</span>
+<a id="line-39" name="line-39"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">);</span>
+<a id="line-40" name="line-40"></a>
+<a id="line-41" name="line-41"></a><span class="w">    </span><span class="cm">/* Start WiFi connection with passphrase</span>
+<a id="line-42" name="line-42"></a><span class="cm">     * the most secure supported mode will be automatically selected</span>
+<a id="line-43" name="line-43"></a><span class="cm">     *</span>
+<a id="line-44" name="line-44"></a><span class="cm">     * param ssid: Pointer to the SSID string.</span>
+<a id="line-45" name="line-45"></a><span class="cm">     * param passphrase: Passphrase. Valid characters in a passphrase</span>
+<a id="line-46" name="line-46"></a><span class="cm">     *        must be between ASCII 32-126 (decimal).</span>
+<a id="line-47" name="line-47"></a><span class="cm">     */</span>
+<a id="line-48" name="line-48"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">passphrase</span><span class="p">);</span>
+<a id="line-49" name="line-49"></a>
+<a id="line-50" name="line-50"></a><span class="w">    </span><span class="cm">/* WEP is not supported by WCM class as considered an insecure encryption. */</span>
+<a id="line-51" name="line-51"></a>
+<a id="line-52" name="line-52"></a><span class="w">    </span><span class="c1">// /* Start WiFi connection with WEP encryption.</span>
+<a id="line-53" name="line-53"></a><span class="w">    </span><span class="c1">// * Configure a key into the device. The key type (WEP-40, WEP-104)</span>
+<a id="line-54" name="line-54"></a><span class="w">    </span><span class="c1">// * is determined by the size of the key (5 bytes for WEP-40, 13 bytes for WEP-104).</span>
+<a id="line-55" name="line-55"></a><span class="w">    </span><span class="c1">// *</span>
+<a id="line-56" name="line-56"></a><span class="w">    </span><span class="c1">// * param ssid: Pointer to the SSID string.</span>
+<a id="line-57" name="line-57"></a><span class="w">    </span><span class="c1">// * param key_idx: The key index to set. Valid values are 0-3.</span>
+<a id="line-58" name="line-58"></a><span class="w">    </span><span class="c1">// * param key: Key input buffer.</span>
+<a id="line-59" name="line-59"></a><span class="w">    </span><span class="c1">// */</span>
+<a id="line-60" name="line-60"></a><span class="w">    </span><span class="c1">// int begin(const char* ssid, uint8_t key_idx, const char* key);</span>
+<a id="line-61" name="line-61"></a>
+<a id="line-62" name="line-62"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- class 'WiFiClass' defines a non-default destructor, a copy constructor and a copy assignment operator but does not define a move constructor or a move assignment operator</span>
+</span><a id="line-63" name="line-63"></a>
+<a id="line-64" name="line-64"></a><span class="w">    </span><span class="cm">/* Connect as Access Point with  a standard passphrase */</span>
+<a id="line-65" name="line-65"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">);</span>
+<a id="line-66" name="line-66"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">channel</span><span class="p">);</span>
+<a id="line-67" name="line-67"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">passphrase</span><span class="p">);</span>
+<a id="line-68" name="line-68"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">beginAP</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">passphrase</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">channel</span><span class="p">);</span>
+<a id="line-69" name="line-69"></a>
+<a id="line-70" name="line-70"></a><span class="w">    </span><span class="cm">/*</span>
+<a id="line-71" name="line-71"></a><span class="cm">     * Get the interface IP address.</span>
+<a id="line-72" name="line-72"></a><span class="cm">     * Currently only IPv4 is supported.</span>
+<a id="line-73" name="line-73"></a><span class="cm">     *</span>
+<a id="line-74" name="line-74"></a><span class="cm">     * return: IP address value. Returns 0.0.0.0 in case of error.</span>
+<a id="line-75" name="line-75"></a><span class="cm">     */</span>
+<a id="line-76" name="line-76"></a><span class="w">    </span><span class="n">IPAddress</span><span class="w"> </span><span class="nf">localIP</span><span class="p">();</span>
+<a id="line-77" name="line-77"></a>
+<a id="line-78" name="line-78"></a><span class="w">    </span><span class="cm">/**</span>
+<a id="line-79" name="line-79"></a><span class="cm">     * Return Connection status</span>
+<a id="line-80" name="line-80"></a><span class="cm">     * TODO: Clean up unused or irrelevant status codes for this core.</span>
+<a id="line-81" name="line-81"></a><span class="cm">     *</span>
+<a id="line-82" name="line-82"></a><span class="cm">     *  WL_CONNECTED: assigned when connected to a WiFi network;</span>
+<a id="line-83" name="line-83"></a><span class="cm">     *  WL_AP_CONNECTED : assigned when a device is connected in Access Point mode;</span>
+<a id="line-84" name="line-84"></a><span class="cm">     *  WL_AP_LISTENING : assigned when the listening for connections in Access Point mode;</span>
+<a id="line-85" name="line-85"></a><span class="cm">     *  WL_NO_SHIELD: assigned when no WiFi shield is present;</span>
+<a id="line-86" name="line-86"></a><span class="cm">     *  WL_NO_MODULE: assigned when the communication with an integrated WiFi module fails;</span>
+<a id="line-87" name="line-87"></a><span class="cm">     *  WL_IDLE_STATUS: it is a temporary status assigned when WiFi.begin() is called and remains</span>
+<a id="line-88" name="line-88"></a><span class="cm">     * active until the number of attempts expires (resulting in WL_CONNECT_FAILED) or a connection</span>
+<a id="line-89" name="line-89"></a><span class="cm">     * is established (resulting in WL_CONNECTED); WL_NO_SSID_AVAIL: assigned when no SSID are</span>
+<a id="line-90" name="line-90"></a><span class="cm">     * available; WL_SCAN_COMPLETED: assigned when the scan networks is completed;</span>
+<a id="line-91" name="line-91"></a><span class="cm">     *  WL_CONNECT_FAILED: assigned when the connection fails for all the attempts;</span>
+<a id="line-92" name="line-92"></a><span class="cm">     *  WL_CONNECTION_LOST: assigned when the connection is lost;</span>
+<a id="line-93" name="line-93"></a><span class="cm">     *  WL_DISCONNECTED: assigned when disconnected from a network;</span>
+<a id="line-94" name="line-94"></a><span class="cm">     */</span>
+<a id="line-95" name="line-95"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">status</span><span class="p">();</span>
 <a id="line-96" name="line-96"></a>
-<a id="line-97" name="line-97"></a><span class="w">    </span><span class="n">cy_wcm_interface_t</span><span class="w"> </span><span class="n">_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CY_WCM_INTERFACE_TYPE_UNKNOWN</span><span class="p">;</span>
-<a id="line-98" name="line-98"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="n">wl_status_t</span><span class="w"> </span><span class="n">_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WL_IDLE_STATUS</span><span class="p">;</span>
-<a id="line-99" name="line-99"></a>
-<a id="line-100" name="line-100"></a><span class="w">    </span><span class="cm">/* The WiFi class is implemented as singleton.</span>
-<a id="line-101" name="line-101"></a><span class="cm">       The constructor and destructor are private. */</span>
-<a id="line-102" name="line-102"></a><span class="w">    </span><span class="n">WiFiClass</span><span class="p">();</span>
-<a id="line-103" name="line-103"></a><span class="w">    </span><span class="o">~</span><span class="n">WiFiClass</span><span class="p">();</span>
-<a id="line-104" name="line-104"></a>
-<a id="line-105" name="line-105"></a><span class="w">    </span><span class="cm">/* Delete copy constructor and assignment operator  */</span>
-<a id="line-106" name="line-106"></a><span class="hll"><span class="w">    </span><span class="n">WiFiClass</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delete</span><span class="p">;</span><span class="error2">&lt;--- redundant void argument list in function declaration</span>
-</span><a id="line-107" name="line-107"></a><span class="hll"><span class="w">    </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="n">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delete</span><span class="p">;</span><span class="error2">&lt;--- deleted member function should be public</span>
-</span><a id="line-108" name="line-108"></a>
-<a id="line-109" name="line-109"></a><span class="w">    </span><span class="cm">/**</span>
-<a id="line-110" name="line-110"></a><span class="cm">     * Initialize the WiFi connection manager.</span>
-<a id="line-111" name="line-111"></a><span class="cm">     * It support both AP and STA interfaces.</span>
-<a id="line-112" name="line-112"></a><span class="cm">     */</span>
-<a id="line-113" name="line-113"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">wcm_init</span><span class="p">(</span><span class="n">cy_wcm_interface_t</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
-<a id="line-114" name="line-114"></a><span class="p">};</span>
-<a id="line-115" name="line-115"></a>
-<a id="line-116" name="line-116"></a><span class="hll"><span class="k">extern</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="n">WiFi</span><span class="p">;</span><span class="error2">&lt;--- deleted member function should be public</span>
-</span></pre></div></td></tr></table></div>
+<a id="line-97" name="line-97"></a><span class="n">private</span><span class="o">:</span>
+<a id="line-98" name="line-98"></a><span class="w">    </span><span class="cm">/* Extension of cy_wcm_interface_t enums. */</span>
+<a id="line-99" name="line-99"></a><span class="cp">#define CY_WCM_INTERFACE_TYPE_UNKNOWN (cy_wcm_interface_t)0xFF</span>
+<a id="line-100" name="line-100"></a>
+<a id="line-101" name="line-101"></a><span class="w">    </span><span class="n">cy_wcm_interface_t</span><span class="w"> </span><span class="n">_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CY_WCM_INTERFACE_TYPE_UNKNOWN</span><span class="p">;</span>
+<a id="line-102" name="line-102"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="n">wl_status_t</span><span class="w"> </span><span class="n">_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WL_IDLE_STATUS</span><span class="p">;</span>
+<a id="line-103" name="line-103"></a>
+<a id="line-104" name="line-104"></a><span class="w">    </span><span class="cm">/* The WiFi class is implemented as singleton.</span>
+<a id="line-105" name="line-105"></a><span class="cm">       The constructor and destructor are private. */</span>
+<a id="line-106" name="line-106"></a><span class="w">    </span><span class="n">WiFiClass</span><span class="p">();</span>
+<a id="line-107" name="line-107"></a><span class="w">    </span><span class="o">~</span><span class="n">WiFiClass</span><span class="p">();</span>
+<a id="line-108" name="line-108"></a>
+<a id="line-109" name="line-109"></a><span class="w">    </span><span class="cm">/* Delete copy constructor and assignment operator  */</span>
+<a id="line-110" name="line-110"></a><span class="hll"><span class="w">    </span><span class="n">WiFiClass</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delete</span><span class="p">;</span><span class="error2">&lt;--- redundant void argument list in function declaration</span>
+</span><a id="line-111" name="line-111"></a><span class="hll"><span class="w">    </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="n">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delete</span><span class="p">;</span><span class="error2">&lt;--- deleted member function should be public</span>
+</span><a id="line-112" name="line-112"></a>
+<a id="line-113" name="line-113"></a><span class="w">    </span><span class="cm">/**</span>
+<a id="line-114" name="line-114"></a><span class="cm">     * Initialize the WiFi connection manager.</span>
+<a id="line-115" name="line-115"></a><span class="cm">     * It support both AP and STA interfaces.</span>
+<a id="line-116" name="line-116"></a><span class="cm">     */</span>
+<a id="line-117" name="line-117"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">wcm_init</span><span class="p">(</span><span class="n">cy_wcm_interface_t</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
+<a id="line-118" name="line-118"></a><span class="p">};</span>
+<a id="line-119" name="line-119"></a>
+<a id="line-120" name="line-120"></a><span class="hll"><span class="k">extern</span><span class="w"> </span><span class="n">WiFiClass</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">WiFi</span><span class="p">;</span><span class="error2">&lt;--- deleted member function should be public</span>
+</span><a id="line-121" name="line-121"></a>
+<a id="line-122" name="line-122"></a><span class="cp">#endif </span><span class="cm">/* WIFI_H */</span>
+</pre></div></td></tr></table></div>
 
     </div>
     <div id="footer" class="footer">

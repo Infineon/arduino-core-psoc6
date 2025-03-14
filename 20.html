@@ -217,13 +217,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/WiFi/src/Socket.h</h1>
+      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/WiFi/src/SecSocket.h</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> Socket.h</p>
-<a href="20.html#line-6"> clang-tidy-readability-convert-member-functions-to-static 6</a><a href="20.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="20.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="20.html#line-10"> clang-tidy-modernize-use-using 10</a><a href="20.html#line-10"> clang-tidy-performance-enum-size 10</a><a href="20.html#line-21"> clang-tidy-readability-enum-initial-value 21</a><a href="20.html#line-35"> clang-tidy-readability-enum-initial-value 35</a><a href="20.html#line-54"> clang-tidy-readability-identifier-length 54</a>
+     <p><a href="index.html">Defects:</a> SecSocket.h</p>
+<a href="20.html#line-6"> clang-tidy-readability-convert-member-functions-to-static 6</a><a href="20.html#line-10"> clang-tidy-modernize-use-using 10</a><a href="20.html#line-10"> clang-tidy-performance-enum-size 10</a><a href="20.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="20.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="20.html#line-21"> clang-tidy-readability-enum-initial-value 21</a><a href="20.html#line-35"> clang-tidy-readability-enum-initial-value 35</a><a href="20.html#line-54"> clang-tidy-readability-identifier-length 54</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -311,7 +311,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </span><a id="line-7" name="line-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;RingBuffer.h&quot;</span>
 <a id="line-8" name="line-8"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cy_secure_sockets.h&quot;</span>
 <a id="line-9" name="line-9"></a>
-<a id="line-10" name="line-10"></a><span class="hll"><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'IPAddress.h' file not found</span><span class="error2">&lt;--- 'IPAddress.h' file not found</span><span class="error2">&lt;--- use 'using' instead of 'typedef'</span><span class="error2">&lt;--- enum 'socket_status_t' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::int8_t' (1 byte) as the base type to reduce its size</span>
+<a id="line-10" name="line-10"></a><span class="hll"><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- use 'using' instead of 'typedef'</span><span class="error2">&lt;--- enum 'socket_status_t' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::int8_t' (1 byte) as the base type to reduce its size</span><span class="error2">&lt;--- 'IPAddress.h' file not found</span><span class="error2">&lt;--- 'IPAddress.h' file not found</span>
 </span><a id="line-11" name="line-11"></a><span class="w">    </span><span class="n">SOCKET_STATUS_UNINITED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <a id="line-12" name="line-12"></a><span class="w">    </span><span class="n">SOCKET_STATUS_CREATED</span><span class="p">,</span>
 <a id="line-13" name="line-13"></a><span class="w">    </span><span class="n">SOCKET_STATUS_DELETED</span><span class="p">,</span>
