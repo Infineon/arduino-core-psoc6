@@ -1,0 +1,25 @@
+repos:
+  - repo: local
+    hooks:
+      - id: codeformat-c-cpp
+        name: Running clang formatter for changed C/ C++ files
+        entry: tools/code_checks/run_clang_format.sh ./cores/psoc/* 
+        language: system
+      - id: codeformat-python
+        name: Running black formatter for changed python scripts files
+        entry: sh -c "find ./tools -type f -name '*.py' -exec black {} +"
+        language: system
+      - id: verifygitlog
+        name: git commit message format checker
+        entry: python3 tools/verifygitlog.py --check-file --ignore-rebase
+        language: python
+        verbose: true
+        stages: [commit-msg]
+  - repo: https://github.com/codespell-project/codespell
+    # Version should be kept in sync with .github/workflows/codespell.yml
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        name: Spellcheck for changed files (codespell)
+        additional_dependencies:
+          - tomli

@@ -1,0 +1,5 @@
+[codespell]
+skip = */mtb-bsp/*
+
+# Add words to skip (comma-separated)
+ignore-words-list = shiftIn, shiftin

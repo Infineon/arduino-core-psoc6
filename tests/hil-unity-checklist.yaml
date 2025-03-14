@@ -1,0 +1,12 @@
+  infineon:psoc6:cy8ckit_062s2_ai:
+    uart:
+      1:
+        - "test_uart_connected2_tx"
+        - "test_uart_connected2_rx"
+    
+      Wire:
+      1:
+      - "test_wire_connected2_slavepingpong"
+      - "test_wire_connected2_masterpingpong"
+      2:
+      - "test_wire_connected1_pingpong"
