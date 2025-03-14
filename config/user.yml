@@ -1,8 +1,0 @@
-check:
-    - check-clang-tidy
-    - check-cppcheck
-    - clang-format
-    - black-format
-
-build:
-    - build-psoc6-cy8ckit_062s2_ai
