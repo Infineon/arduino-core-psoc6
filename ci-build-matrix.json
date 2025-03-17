@@ -11,6 +11,7 @@
         "libraries/WiFi/examples/ConnectNoEncryption/ConnectNoEncryption.ino",
         "libraries/WiFi/examples/ConnectWithWPA/ConnectWithWPA.ino",
         "libraries/WiFi/examples/SimpleWebServerWiFi/SimpleWebServerWiFi.ino",
+        "libraries/WiFi/examples/WiFiWebClient/WiFiWebClient.ino",
         "libraries/Wire/examples/master_reader/master_reader.ino",
         "libraries/Wire/examples/master_writer/master_writer.ino",
         "libraries/Wire/examples/slave_receiver/slave_receiver.ino",
