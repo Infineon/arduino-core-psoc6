@@ -1,5 +1,3 @@
-
-
 #ifndef CY_SECURE_SOCKET_H
 #define CY_SECURE_SOCKET_H
 
@@ -27,10 +25,10 @@ public:
     void begin();
     void end();
 
-    void set_timeout(uint32_t timeout);
-    void set_connect_opt_callback(cy_socket_callback_t cback, void *arg);
-    void set_receive_opt_callback(cy_socket_callback_t cback, void *arg);
-    void set_disconnect_opt_callback(cy_socket_callback_t cback, void *arg);
+    void setTimeout(uint32_t timeout);
+    void setConnectOptCallback(cy_socket_callback_t cback, void *arg);
+    void setReceiveOptCallback(cy_socket_callback_t cback, void *arg);
+    void setDisconnectOptCallback(cy_socket_callback_t cback, void *arg);
 
     void bind(uint16_t port);
     bool connect(IPAddress ip, uint16_t port);
@@ -47,8 +45,10 @@ public:
     IPAddress remoteIP();
     uint16_t port();
 
+    static int hostByName(const char *aHostname, IPAddress& ip);
+
     uint8_t status();
-    cy_rslt_t get_last_error();
+    cy_rslt_t getLastError();
 
 private:
 
@@ -59,7 +59,7 @@ private:
     IPAddress remote_ip;
     uint16_t _port;
 
-    void set_opt_callback(int optname, cy_socket_callback_t cback, void *arg);
+    void setOptCallback(int optname, cy_socket_callback_t cback, void *arg);
 
     static const uint16_t RX_BUFFER_SIZE = 256;
     arduino::RingBufferN < RX_BUFFER_SIZE > rx_buf;
