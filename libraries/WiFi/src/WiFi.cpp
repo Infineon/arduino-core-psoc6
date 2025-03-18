@@ -1,21 +1,21 @@
 #include <WiFi.h>
-#include "Socket.h"
+#include "SecSocket.h"
 
-/** 
- * @brief Macro to assert the return value of the cy_wcm APIs 
- *        and translate it to the mapped WiFi class error code.
- * @param cy_ret Return value of the cy_wcm API. 
- * @param ret_code The mapped WiFi class error code.
- */
-#define wifi_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-        _status = ret_code; \
+#define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
+        _last_error = ret_code; \
         return ret_code; \
 }
 
-#define wifi_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
+#define wcm_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
         _status = ret_code; \
         return; \
 }
+
+#define wifi_assert_raise(ret_code)  if (ret_code != WIFI_ERROR_NONE) { \
+        _last_error = ret_code; \
+        return ret_code; \
+}
+
 
 WiFiClass & WiFiClass::get_instance() {
     static WiFiClass wifi_singleton;
@@ -27,38 +27,32 @@ int WiFiClass::begin(const char* ssid) {
 }
 
 int WiFiClass::begin(const char* ssid, const char *passphrase) {
+    _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_STA);
+    wifi_assert_raise(_last_error);
 
-    cy_rslt_t ret = wcm_init(CY_WCM_INTERFACE_TYPE_STA);
-    wifi_assert_raise(ret, WL_CONNECT_FAILED);
+    /* Ensure begin() is only called from an uninitialized WiFi
+    instance or from an instance in station mode. */
+    _last_error = wcm_assert_interface_mode(CY_WCM_INTERFACE_TYPE_STA);
+    wifi_assert_raise(_last_error);
 
-    cy_wcm_connect_params_t connect_param;
-    cy_wcm_ip_address_t ipaddress;
-    /* Initialized all connect params to zero */
-    memset(&connect_param, 0, sizeof(cy_wcm_connect_params_t));
+    if (_status == WIFI_STATUS_INITED || 
+        _status == WIFI_STATUS_STA_DISCONNECTED) {
+        cy_wcm_connect_params_t connect_params;
+        set_sta_connect_params(&connect_params, ssid, passphrase);
+        
+        cy_wcm_ip_address_t ipaddress;
+        cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
+        uint8_t retries = 3; /* This number has been selected arbitrarily. */
+        do
+        {
+            ret = cy_wcm_connect_ap(&connect_params, &ipaddress);
+        } while (--retries < 0 && ret != CY_RSLT_SUCCESS);
+        wcm_assert_raise(ret, WIFI_ERROR_STA_CONNECT_FAILED);
 
-    memcpy(connect_param.ap_credentials.SSID, ssid, strlen(ssid));
-
-    /* Set security based on passphrase */
-    if (passphrase == nullptr) {
-        connect_param.ap_credentials.security = CY_WCM_SECURITY_OPEN;
-    } else {
-        memcpy(connect_param.ap_credentials.password, passphrase, strlen(passphrase));
-        connect_param.ap_credentials.security = CY_WCM_SECURITY_UNKNOWN;
+        _status = WIFI_STATUS_STA_CONNECTED;
     }
 
-    ret = CY_WCM_EVENT_CONNECT_FAILED;
-    uint8_t retries = 3; /* This number has been selected arbitrarily. */
-    _status = WL_IDLE_STATUS;
-    do
-    {
-        ret = cy_wcm_connect_ap(&connect_param, &ipaddress);
-    } while (--retries < 0 && ret != CY_RSLT_SUCCESS);
-    wifi_assert_raise(ret, WL_CONNECT_FAILED);
-
-    _status = WL_CONNECTED;
-    _mode = CY_WCM_INTERFACE_TYPE_STA;
-
-    return WL_CONNECTED;
+    return _status;
 }
 
 void WiFiClass::end(void) {
@@ -77,68 +71,35 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase) {
 }
 
 uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t channel) {
+    _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_AP);
+    wifi_assert_raise(_last_error);
 
-    cy_rslt_t ret = wcm_init(CY_WCM_INTERFACE_TYPE_AP);
-    wifi_assert_raise(ret, WL_AP_FAILED);
+    /* Ensure beginAP() is only called from an uninitialized WiFi
+    instance or from an instance in access point mode. */
+    _last_error = wcm_assert_interface_mode(CY_WCM_INTERFACE_TYPE_AP);
+    wifi_assert_raise(_last_error);
 
-    cy_wcm_ap_config_t ap_conf;
-    /* Initialized all AP config params to zero */
-    memset(&ap_conf, 0, sizeof(cy_wcm_ap_config_t));
+    if (_status == WIFI_STATUS_INITED || 
+        _status == WIFI_STATUS_AP_DISCONNECTED) {
+        cy_wcm_ap_config_t ap_conf;
+        set_ap_params(&ap_conf, ssid, passphrase, channel);
 
-    ap_conf.channel = channel;
-    memcpy(ap_conf.ap_credentials.SSID, ssid, strlen(ssid));
+        /** TODO: This can be added to set_ap_params? Wait for the development of config function() */
+        /* The AP requires some default IP settings */
+        cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0", "192.168.0.1", CY_WCM_IP_VER_V4);
 
-    /* If no passphrase is provided set configuration to open. */
-    if (passphrase != nullptr) {
-        memcpy(ap_conf.ap_credentials.password, passphrase, strlen(passphrase));
-        /* Default security is WPA2_AES_PSK */
-        ap_conf.ap_credentials.security = CY_WCM_SECURITY_WPA2_AES_PSK; 
-    } else {
-        ap_conf.ap_credentials.security = CY_WCM_SECURITY_OPEN;
+        cy_rslt_t ret = cy_wcm_start_ap(&ap_conf);
+        wcm_assert_raise(ret, WIFI_ERROR_AP_LISTENING_FAILED);
+
+        _status = WIFI_STATUS_AP_CONNECTED;
     }
 
-    /* The AP requires some default IP settings */
-    cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0", "192.168.0.1", CY_WCM_IP_VER_V4);
-
-    ret = cy_wcm_start_ap(&ap_conf);
-    wifi_assert_raise(ret, WL_AP_FAILED);
-
-    _mode = CY_WCM_INTERFACE_TYPE_AP;
-    _status = WL_AP_CONNECTED;
-
-    return WL_AP_CONNECTED;
-}
-
-void WiFiClass::config(IPAddress local_ip) {
-
-}
-
-void WiFiClass::config(IPAddress local_ip, IPAddress dns_server) {
-
-}
-
-void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway) {
-
-}
-
-void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet) {
-
-    //for STA
-        // if connected disconnect
-        // is there some current settings for IP
-            // change the IP as provided
-            // connect to ap again if it was connected 
-            // else just keep the settings for when the user decides to connect
-            
-        // is there current setting for DNS? 
-
-    //for AP
-        //just call the provided function.
+    return _status;
 }
 
 IPAddress WiFiClass::localIP() {
-    /* If the WiFi interface has not been yet initialized. */
-    if(_mode == CY_WCM_INTERFACE_TYPE_UNKNOWN) {
+    if(_status == WIFI_STATUS_UNINITED) {
+        _last_error = WIFI_ERROR_STATUS_INVALID;
         return IPAddress(0, 0, 0, 0);
     }
 
@@ -153,7 +114,8 @@ IPAddress WiFiClass::localIP() {
 }
 
 IPAddress WiFiClass::gatewayIP() {
-    if(_mode == CY_WCM_INTERFACE_TYPE_UNKNOWN) {
+    if(_status == WIFI_STATUS_UNINITED) {
+        _last_error = WIFI_ERROR_STATUS_INVALID;
         return IPAddress(0, 0, 0, 0);
     }
 
@@ -175,6 +137,11 @@ int WiFiClass::hostByName(const char* aHostname, IPAddress& ip) {
     return Socket::hostByName(aHostname, ip);
 }   
 
+wifi_error_t WiFiClass::getLastError() {
+    return _last_error;
+}
+
+
 WiFiClass::WiFiClass() {
 
 }
@@ -183,9 +150,56 @@ WiFiClass::~WiFiClass() {
 
 }
 
-cy_rslt_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
-    cy_wcm_config_t wcm_config = { .interface = mode };
-    return cy_wcm_init(&wcm_config);
+wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
+    if (_status == WIFI_STATUS_UNINITED) {
+        cy_wcm_config_t wcm_config = { .interface = mode };
+        cy_rslt_t ret = cy_wcm_init(&wcm_config);
+        wcm_assert_raise(ret, WIFI_ERROR_INIT_FAILED);
+        _mode = mode;
+        _status = WIFI_STATUS_INITED;
+    }
+
+    return WIFI_ERROR_NONE; 
+}
+
+wifi_error_t WiFiClass::wcm_assert_interface_mode(cy_wcm_interface_t mode) {
+    if (_mode != mode) {
+        return WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
+    }
+
+    return WIFI_ERROR_NONE; 
+}
+
+void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t * connect_params, const char * ssid, const char * passphrase) {
+    /* Initialized all connect params to zero */
+    memset(connect_params, 0, sizeof(cy_wcm_connect_params_t));
+    
+    memcpy(connect_params->ap_credentials.SSID, ssid, strlen(ssid));
+    
+    /* Set security based on passphrase */
+    if (passphrase == nullptr) {
+        connect_params->ap_credentials.security = CY_WCM_SECURITY_OPEN;
+    } else {
+        memcpy(connect_params->ap_credentials.password, passphrase, strlen(passphrase));
+        connect_params->ap_credentials.security = CY_WCM_SECURITY_UNKNOWN;
+    }
+}
+
+void WiFiClass::set_ap_params(cy_wcm_ap_config_t * ap_config, const char * ssid, const char * passphrase, uint8_t channel) {
+    /* Initialized all AP config params to zero */
+    memset(ap_config, 0, sizeof(cy_wcm_ap_config_t));
+
+    ap_config->channel = channel;
+    memcpy(ap_config->ap_credentials.SSID, ssid, strlen(ssid));
+
+    /* If no passphrase is provided set configuration to open. */
+    if (passphrase != nullptr) {
+        memcpy(ap_config->ap_credentials.password, passphrase, strlen(passphrase));
+        /* Default security is WPA2_AES_PSK */
+        ap_config->ap_credentials.security = CY_WCM_SECURITY_WPA2_AES_PSK; 
+    } else {
+        ap_config->ap_credentials.security = CY_WCM_SECURITY_OPEN;
+    }
 }
 
 WiFiClass & WiFi = WiFiClass::get_instance();
