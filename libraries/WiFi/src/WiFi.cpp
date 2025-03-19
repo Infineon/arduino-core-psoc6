@@ -7,7 +7,7 @@
 }
 
 #define wcm_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-        _status = ret_code; \
+        _last_error = ret_code; \
         return; \
 }
 
@@ -15,7 +15,6 @@
         _last_error = ret_code; \
         return ret_code; \
 }
-
 
 WiFiClass & WiFiClass::get_instance() {
     static WiFiClass wifi_singleton;
@@ -55,8 +54,23 @@ int WiFiClass::begin(const char* ssid, const char *passphrase) {
     return _status;
 }
 
+int WiFiClass::disconnect(void) {
+    switch(_mode)
+    {
+        case CY_WCM_INTERFACE_TYPE_STA:
+            return disconnect_sta();
+        case CY_WCM_INTERFACE_TYPE_AP:
+            return disconnect_ap();
+        default:
+            return WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
+    }
+}
+
 void WiFiClass::end(void) {
-    cy_wcm_deinit();
+    cy_rslt_t ret = cy_wcm_deinit();
+    wcm_assert(ret, WIFI_ERROR_DEINIT_FAILED);
+
+    _status = WIFI_STATUS_UNINITED;
 }
 
 uint8_t WiFiClass::beginAP(const char *ssid) {
@@ -168,6 +182,28 @@ wifi_error_t WiFiClass::wcm_assert_interface_mode(cy_wcm_interface_t mode) {
     }
 
     return WIFI_ERROR_NONE; 
+}
+
+int WiFiClass::disconnect_sta(void) {
+    if (_status == WIFI_STATUS_STA_CONNECTED) {
+        cy_rslt_t ret = cy_wcm_disconnect_ap();
+        wcm_assert_raise(ret, WIFI_ERROR_STA_DISCONNECT_FAILED);
+        _status = WIFI_STATUS_STA_DISCONNECTED;
+        return _status;
+    }
+
+    return WIFI_ERROR_STATUS_INVALID;
+}
+
+int WiFiClass::disconnect_ap(void) {
+    if (_status == WIFI_STATUS_AP_CONNECTED) {
+        cy_rslt_t ret = cy_wcm_stop_ap();
+        wcm_assert_raise(ret, WIFI_ERROR_AP_DISCONNECT_FAILED);
+        _status = WIFI_STATUS_AP_DISCONNECTED;
+        return _status;
+    }
+
+    return WIFI_ERROR_STATUS_INVALID;
 }
 
 void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t * connect_params, const char * ssid, const char * passphrase) {
