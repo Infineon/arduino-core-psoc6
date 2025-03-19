@@ -34,7 +34,7 @@ typedef enum {
     WIFI_STATUS_INITED = WL_IDLE_STATUS,
     WIFI_STATUS_STA_CONNECTED = WL_CONNECTED,
     WIFI_STATUS_AP_CONNECTED = WL_AP_LISTENING,
-    WIFI_STATUS_STA_DISCONNECTED = WL_DISCONNECTED,
+    WIFI_STATUS_STA_DISCONNECTED = WIFI_STATUS_INITED,
     WIFI_STATUS_AP_DISCONNECTED = WIFI_STATUS_INITED
 } wifi_status_t;
 
@@ -43,8 +43,11 @@ typedef enum {
     WIFI_ERROR_INIT_FAILED = WL_NO_SHIELD,
     WIFI_ERROR_STA_CONNECT_FAILED = WL_CONNECT_FAILED,
     WIFI_ERROR_AP_LISTENING_FAILED = WL_AP_FAILED,
+    WIFI_ERROR_STA_DISCONNECT_FAILED,
+    WIFI_ERROR_AP_DISCONNECT_FAILED,
     WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE,
-    WIFI_ERROR_STATUS_INVALID
+    WIFI_ERROR_STATUS_INVALID,
+    WIFI_ERROR_DEINIT_FAILED
 } wifi_error_t;
 
 class WiFiClass {
@@ -80,6 +83,14 @@ class WiFiClass {
         // * param key: Key input buffer.
         // */
         // int begin(const char* ssid, uint8_t key_idx, const char* key);
+
+
+        /*
+        * Disconnect from the network
+        *
+        * return: one value of wl_status_t enum
+        */
+        int disconnect(void);
 
         void end(void);
 
@@ -149,6 +160,9 @@ class WiFiClass {
         */
         wifi_error_t wcm_init(cy_wcm_interface_t mode);
         wifi_error_t wcm_assert_interface_mode(cy_wcm_interface_t mode);
+
+        int disconnect_sta(void);
+        int disconnect_ap(void);
 
         static void set_sta_connect_params(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase);
         static void set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel);
