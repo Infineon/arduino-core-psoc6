@@ -109,10 +109,10 @@ public:
     IPAddress localIP();
 
     /*
-    * Get the gateway IP address.
-    *
-    * return: gateway IP address value
-    */
+     * Get the gateway IP address.
+     *
+     * return: gateway IP address value
+     */
     IPAddress gatewayIP();
 
     /**
@@ -134,7 +134,7 @@ public:
      */
     uint8_t status();
 
-    int hostByName(const char *aHostname, IPAddress& ip);
+    int hostByName(const char *aHostname, IPAddress &ip);
 
     wifi_error_t getLastError();
 
@@ -156,9 +156,9 @@ private:
     WiFiClass &operator=(const WiFiClass &) = delete;
 
     /**
-    * Initialize the WiFi connection manager.
-    * It support both AP and STA interfaces.
-    */
+     * Initialize the WiFi connection manager.
+     * It support both AP and STA interfaces.
+     */
     wifi_error_t wcm_init(cy_wcm_interface_t mode);
     wifi_error_t wcm_assert_interface_mode(cy_wcm_interface_t mode);
 

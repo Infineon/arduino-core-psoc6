@@ -5,7 +5,7 @@ on:
     
 jobs:
   makers-devops:
-    uses: Infineon/makers-devops/.github/workflows/code_checks.yml@fix-configs-path
+    uses: Infineon/makers-devops/.github/workflows/code_checks.yml@main
     with:
       project-yaml: config/project.yml
       user-yaml: config/user.yml

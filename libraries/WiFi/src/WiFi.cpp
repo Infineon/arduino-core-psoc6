@@ -1,5 +1,5 @@
-#include <WiFi.h>
 #include "SecSocket.h"
+#include <WiFi.h>
 
 #define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _last_error = ret_code; \
@@ -42,8 +42,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
         cy_wcm_ip_address_t ipaddress;
         cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
         uint8_t retries = 3; /* This number has been selected arbitrarily. */
-        do
-        {
+        do {
             ret = cy_wcm_connect_ap(&connect_params, &ipaddress);
         } while (--retries < 0 && ret != CY_RSLT_SUCCESS);
         wcm_assert_raise(ret, WIFI_ERROR_STA_CONNECT_FAILED);
@@ -98,9 +97,11 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t cha
         cy_wcm_ap_config_t ap_conf;
         set_ap_params(&ap_conf, ssid, passphrase, channel);
 
-        /** TODO: This can be added to set_ap_params? Wait for the development of config function() */
+        /** TODO: This can be added to set_ap_params? Wait for the development of config function()
+         */
         /* The AP requires some default IP settings */
-        cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0", "192.168.0.1", CY_WCM_IP_VER_V4);
+        cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0",
+                                 "192.168.0.1", CY_WCM_IP_VER_V4);
 
         cy_rslt_t ret = cy_wcm_start_ap(&ap_conf);
         wcm_assert_raise(ret, WIFI_ERROR_AP_LISTENING_FAILED);
@@ -155,7 +156,6 @@ wifi_error_t WiFiClass::getLastError() {
     return _last_error;
 }
 
-
 WiFiClass::WiFiClass() {
 }
 
@@ -164,7 +164,7 @@ WiFiClass::~WiFiClass() {
 
 wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
     if (_status == WIFI_STATUS_UNINITED) {
-        cy_wcm_config_t wcm_config = { .interface = mode };
+        cy_wcm_config_t wcm_config = {.interface = mode};
         cy_rslt_t ret = cy_wcm_init(&wcm_config);
         wcm_assert_raise(ret, WIFI_ERROR_INIT_FAILED);
         _mode = mode;
