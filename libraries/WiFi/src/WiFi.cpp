@@ -426,7 +426,7 @@ WiFiClass::~WiFiClass() {
 
 wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
     if (_status == WIFI_STATUS_UNINITED) {
-        cy_wcm_config_t wcm_config = { .interface = mode };
+        cy_wcm_config_t wcm_config = {.interface = mode};
         cy_rslt_t ret = cy_wcm_init(&wcm_config);
         wcm_assert_raise(ret, WIFI_ERROR_INIT_FAILED);
         _mode = mode;
