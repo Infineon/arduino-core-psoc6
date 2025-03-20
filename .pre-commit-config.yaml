@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: codeformat-c-cpp
         name: Running clang formatter for changed C/ C++ files
-        entry: tools/code_checks/run_clang_format.sh ./cores/psoc/* 
+        entry: extras/makers-devops/tools/code_checks/run_clang_format.sh ./cores/psoc/* 
         language: system
       - id: codeformat-python
         name: Running black formatter for changed python scripts files

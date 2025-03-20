@@ -169,6 +169,6 @@ private:
     static void set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel);
 };
 
-extern WiFiClass & WiFi;
+extern WiFiClass &WiFi;
 
 #endif /* WIFI_H */

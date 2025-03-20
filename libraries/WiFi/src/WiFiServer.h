@@ -2,13 +2,11 @@
 #define WIFI_SERVER_H
 
 #include "Server.h"
+#include <SecSocket.h>
 #include <Socket.h>
 #include <WiFiClient.h>
 #include <stdint.h>
 #include <vector>
-#include <WiFiClient.h>
-#include <SecSocket.h>
-#include "Server.h"
 
 class WiFiServer : public arduino::Server {
 
