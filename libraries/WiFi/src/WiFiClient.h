@@ -7,7 +7,7 @@
 #include "api/Client.h"
 #include "api/Print.h"
 
-class WiFiClient: public arduino::Client {
+class WiFiClient : public arduino::Client {
 
 public:
     WiFiClient();

@@ -2,6 +2,7 @@
 #define WIFI_SERVER_H
 
 #include "Server.h"
+#include <SecSocket.h>
 #include <Socket.h>
 #include <WiFiClient.h>
 #include <stdint.h>
