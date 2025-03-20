@@ -60,8 +60,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
         cy_wcm_ip_address_t ipaddress;
         cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
         uint8_t retries = 3; /* This number has been selected arbitrarily. */
-        do
-        {
+        do {
             ret = cy_wcm_connect_ap(&connect_params, &ipaddress);
         } while (--retries < 0 && ret != CY_RSLT_SUCCESS);
         wcm_assert_raise(ret, WIFI_ERROR_STA_CONNECT_FAILED);
@@ -401,7 +400,6 @@ wifi_error_t WiFiClass::getLastError() {
     return _last_error;
 }
 
-
 WiFiClass::WiFiClass() {
 }
 
@@ -410,7 +408,7 @@ WiFiClass::~WiFiClass() {
 
 wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
     if (_status == WIFI_STATUS_UNINITED) {
-        cy_wcm_config_t wcm_config = { .interface = mode };
+        cy_wcm_config_t wcm_config = {.interface = mode};
         cy_rslt_t ret = cy_wcm_init(&wcm_config);
         wcm_assert_raise(ret, WIFI_ERROR_INIT_FAILED);
         _mode = mode;

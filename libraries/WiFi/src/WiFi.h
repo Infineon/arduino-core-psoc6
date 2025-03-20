@@ -109,7 +109,7 @@ public:
 
     uint8_t status();
 
-    int hostByName(const char *aHostname, IPAddress& ip);
+    int hostByName(const char *aHostname, IPAddress &ip);
 
     int ping(const char *hostname, uint8_t ttl = 128);
     int ping(const String &hostname, uint8_t ttl = 128);
@@ -148,9 +148,9 @@ private:
     WiFiClass &operator=(const WiFiClass &) = delete;
 
     /**
-    * Initialize the WiFi connection manager.
-    * It support both AP and STA interfaces.
-    */
+     * Initialize the WiFi connection manager.
+     * It support both AP and STA interfaces.
+     */
     wifi_error_t wcm_init(cy_wcm_interface_t mode);
     wifi_error_t wcm_assert_interface_mode(cy_wcm_interface_t mode);
 
