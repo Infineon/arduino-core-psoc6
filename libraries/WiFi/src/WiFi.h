@@ -180,6 +180,6 @@ private:
     static void wcm_scan_cb(cy_wcm_scan_result_t *result_ptr, void *user_data, cy_wcm_scan_status_t status);
 };
 
-extern WiFiClass & WiFi;
+extern WiFiClass &WiFi;
 
 #endif /* WIFI_H */
