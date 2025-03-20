@@ -44,7 +44,7 @@ public:
     IPAddress remoteIP();
     uint16_t port();
 
-    static int hostByName(const char *aHostname, IPAddress& ip);
+    static int hostByName(const char *aHostname, IPAddress &ip);
 
     uint8_t status();
     cy_rslt_t getLastError();

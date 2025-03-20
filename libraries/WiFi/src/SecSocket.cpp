@@ -43,21 +43,20 @@ void Socket::end() {
 }
 
 void Socket::setTimeout(uint32_t timeout) {
-    _last_error = cy_socket_setsockopt(socket, CY_SOCKET_SOL_SOCKET,
-                                    CY_SOCKET_SO_RCVTIMEO, &timeout,
-                                    sizeof(timeout)); 
+    _last_error = cy_socket_setsockopt(socket, CY_SOCKET_SOL_SOCKET, CY_SOCKET_SO_RCVTIMEO,
+                                       &timeout, sizeof(timeout));
     socket_assert(_last_error);
 }
 
-void Socket::setConnectOptCallback(cy_socket_callback_t cback, void * arg) {
+void Socket::setConnectOptCallback(cy_socket_callback_t cback, void *arg) {
     setOptCallback(CY_SOCKET_SO_CONNECT_REQUEST_CALLBACK, cback, arg);
 }
 
-void Socket::setReceiveOptCallback(cy_socket_callback_t cback, void * arg) {
+void Socket::setReceiveOptCallback(cy_socket_callback_t cback, void *arg) {
     setOptCallback(CY_SOCKET_SO_RECEIVE_CALLBACK, cback, arg);
 }
 
-void Socket::setDisconnectOptCallback(cy_socket_callback_t cback, void * arg) {
+void Socket::setDisconnectOptCallback(cy_socket_callback_t cback, void *arg) {
     setOptCallback(CY_SOCKET_SO_DISCONNECT_CALLBACK, cback, arg);
 }
 
@@ -166,11 +165,11 @@ uint16_t Socket::port() {
     return _port;
 }
 
-int Socket::hostByName(const char* aHostname, IPAddress& ip) {
+int Socket::hostByName(const char *aHostname, IPAddress &ip) {
     cy_socket_sockaddr_t address;
-    
+
     cy_rslt_t ret = cy_socket_gethostbyname(aHostname, CY_SOCKET_IP_VER_V4, &(address.ip_address));
-    if(ret != CY_RSLT_SUCCESS) {
+    if (ret != CY_RSLT_SUCCESS) {
         return SOCKET_STATUS_ERROR;
     }
 
@@ -217,7 +216,7 @@ void Socket::receiveCallback() {
     }
 }
 
-void Socket::setOptCallback(int optname, cy_socket_callback_t cback, void * arg) {
+void Socket::setOptCallback(int optname, cy_socket_callback_t cback, void *arg) {
     cy_socket_opt_callback_t cy_opt_callback;
 
     cy_opt_callback.callback = cback;
