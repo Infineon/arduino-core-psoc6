@@ -217,13 +217,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - CPPCheck: libraries/WiFi/src/SecSocket.cpp</h1>
+      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/WiFi/src/SecSocket.cpp</h1>
 
     </div>
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> SecSocket.cpp</p>
-<a href="11.html#line-1"> missingIncludeSystem 1</a><a href="11.html#line-17"> syntaxError 17</a>
+<a href="33.html#line-3"> clang-tidy-clang-diagnostic-error 3</a><a href="33.html#line-8"> clang-tidy-cppcoreguidelines-macro-usage 8</a><a href="33.html#line-12"> clang-tidy-cppcoreguidelines-macro-usage 12</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
@@ -500,24 +500,24 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
-<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SecSocket.h&gt;</span><span class="error2">&lt;--- Include file: <SecSocket.h> not found. Please note: Cppcheck does not need standard library headers to get proper results.</span>
-</span><a id="line-2" name="line-2"></a>
-<a id="line-3" name="line-3"></a><span class="cp">#define socket_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \</span>
-<a id="line-4" name="line-4"></a><span class="cp">            _status = SOCKET_STATUS_ERROR; \</span>
+<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SecSocket.h&gt;</span>
+<a id="line-2" name="line-2"></a>
+<a id="line-3" name="line-3"></a><span class="hll"><span class="cp">#define socket_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \</span><span class="error2">&lt;--- 'SecSocket.h' file not found with <angled> include; use "quotes" instead</span>
+</span><a id="line-4" name="line-4"></a><span class="cp">            _status = SOCKET_STATUS_ERROR; \</span>
 <a id="line-5" name="line-5"></a><span class="cp">            return; \</span>
 <a id="line-6" name="line-6"></a><span class="cp">}</span>
 <a id="line-7" name="line-7"></a>
-<a id="line-8" name="line-8"></a><span class="cp">#define socket_assert_raise(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \</span>
-<a id="line-9" name="line-9"></a><span class="cp">            return cy_ret; \</span>
+<a id="line-8" name="line-8"></a><span class="hll"><span class="cp">#define socket_assert_raise(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \</span><span class="error2">&lt;--- function-like macro 'socket_assert' used; consider a 'constexpr' template function</span>
+</span><a id="line-9" name="line-9"></a><span class="cp">            return cy_ret; \</span>
 <a id="line-10" name="line-10"></a><span class="cp">}</span>
 <a id="line-11" name="line-11"></a>
-<a id="line-12" name="line-12"></a><span class="n">Socket</span><span class="o">::</span><span class="n">Socket</span><span class="p">()</span><span class="o">:</span>
-<a id="line-13" name="line-13"></a><span class="w">    </span><span class="n">socket</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span>
+<a id="line-12" name="line-12"></a><span class="hll"><span class="n">Socket</span><span class="o">::</span><span class="n">Socket</span><span class="p">()</span><span class="o">:</span><span class="error2">&lt;--- function-like macro 'socket_assert_raise' used; consider a 'constexpr' template function</span>
+</span><a id="line-13" name="line-13"></a><span class="w">    </span><span class="n">socket</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span>
 <a id="line-14" name="line-14"></a><span class="w">    </span><span class="n">_status</span><span class="p">(</span><span class="n">SOCKET_STATUS_UNINITED</span><span class="p">),</span>
 <a id="line-15" name="line-15"></a><span class="w">    </span><span class="n">_last_error</span><span class="p">(</span><span class="n">CY_RSLT_SUCCESS</span><span class="p">),</span>
 <a id="line-16" name="line-16"></a><span class="w">    </span><span class="n">remote_ip</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
-<a id="line-17" name="line-17"></a><span class="hll"><span class="w">    </span><span class="n">_port</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- Unmatched '{'. Configuration: ''.</span>
-</span><a id="line-18" name="line-18"></a>
+<a id="line-17" name="line-17"></a><span class="w">    </span><span class="n">_port</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-18" name="line-18"></a>
 <a id="line-19" name="line-19"></a><span class="n">Socket</span><span class="o">::</span><span class="n">Socket</span><span class="p">()</span>
 <a id="line-20" name="line-20"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span>
 <a id="line-21" name="line-21"></a><span class="w">      </span><span class="n">_status</span><span class="p">(</span><span class="n">SOCKET_STATUS_UNINITED</span><span class="p">),</span>

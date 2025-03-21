@@ -217,13 +217,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/WiFi/src/WiFiClient.h</h1>
+      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/Wire/Wire.h</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> WiFiClient.h</p>
-<a href="21.html#line-5"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 5</a><a href="21.html#line-5"> clang-tidy-readability-simplify-boolean-expr 5</a><a href="21.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="21.html#line-10"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 10</a><a href="21.html#line-10"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 10</a><a href="21.html#line-10"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 10</a><a href="21.html#line-10"> clang-tidy-readability-identifier-length 10</a><a href="21.html#line-10"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 10</a><a href="21.html#line-15"> clang-tidy-cppcoreguidelines-special-member-functions 15</a><a href="21.html#line-27"> clang-tidy-readability-identifier-length 27</a>
+     <p><a href="index.html">Defects:</a> Wire.h</p>
+<a href="21.html#line-4"> clang-tidy-readability-implicit-bool-conversion 4</a><a href="21.html#line-7"> clang-tidy-clang-diagnostic-error 7</a><a href="21.html#line-14"> clang-tidy-clang-diagnostic-error 14</a><a href="21.html#line-26"> clang-tidy-readability-enum-initial-value 26</a><a href="21.html#line-33"> clang-tidy-modernize-redundant-void-arg 33</a><a href="21.html#line-34"> clang-tidy-modernize-redundant-void-arg 34</a><a href="21.html#line-35"> clang-tidy-modernize-redundant-void-arg 35</a><a href="21.html#line-37"> clang-tidy-modernize-redundant-void-arg 37</a><a href="21.html#line-59"> clang-tidy-modernize-redundant-void-arg 59</a><a href="21.html#line-61"> clang-tidy-modernize-redundant-void-arg 61</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -281,62 +281,100 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a>
-<a id="line-2" name="line-2"></a><span class="cp">#ifndef WIFI_CLIENT_H</span>
-<a id="line-3" name="line-3"></a><span class="cp">#define WIFI_CLIENT_H</span>
-<a id="line-4" name="line-4"></a>
-<a id="line-5" name="line-5"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Client.h&quot;</span><span class="error2">&lt;--- variable 'Socket' is non-const and globally accessible, consider making it const</span><span class="error2">&lt;--- redundant boolean literal in conditional return statement</span>
-</span><a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Print.h&quot;</span>
-<a id="line-7" name="line-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SecSocket.h&gt;</span>
-<a id="line-8" name="line-8"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
-<a id="line-9" name="line-9"></a>
-<a id="line-10" name="line-10"></a><span class="hll"><span class="n">class</span><span class="w"> </span><span class="n">WiFiClient</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">Client</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'Client.h' file not found</span><span class="error2">&lt;--- variable 'WiFiClient' is non-const and globally accessible, consider making it const</span><span class="error2">&lt;--- variable 'WiFi' provides global access to a non-const object; consider making the referenced data 'const'</span><span class="error2">&lt;--- variable 'Socket' is non-const and globally accessible, consider making it const</span><span class="error2">&lt;--- parameter name 'ip' is too short, expected at least 3 characters</span><span class="error2">&lt;--- variable 'WiFiClass' is non-const and globally accessible, consider making it const</span>
-</span><a id="line-11" name="line-11"></a>
-<a id="line-12" name="line-12"></a><span class="n">public</span><span class="o">:</span>
-<a id="line-13" name="line-13"></a><span class="w">    </span><span class="n">WiFiClient</span><span class="p">();</span>
-<a id="line-14" name="line-14"></a>
-<a id="line-15" name="line-15"></a><span class="hll"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="n">IPAddress</span><span class="w"> </span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">port</span><span class="p">);</span><span class="error2">&lt;--- class 'WiFiClient' defines a copy constructor and a copy assignment operator but does not define a destructor, a move constructor or a move assignment operator</span>
-</span><a id="line-16" name="line-16"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">host</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">port</span><span class="p">);</span>
-<a id="line-17" name="line-17"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="n">override</span><span class="p">;</span>
-<a id="line-18" name="line-18"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="n">override</span><span class="p">;</span>
-<a id="line-19" name="line-19"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">available</span><span class="p">();</span>
-<a id="line-20" name="line-20"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">();</span>
-<a id="line-21" name="line-21"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
-<a id="line-22" name="line-22"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">peek</span><span class="p">();</span>
-<a id="line-23" name="line-23"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">flush</span><span class="p">();</span>
-<a id="line-24" name="line-24"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">stop</span><span class="p">();</span>
-<a id="line-25" name="line-25"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">connected</span><span class="p">();</span>
-<a id="line-26" name="line-26"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">status</span><span class="p">();</span>
-<a id="line-27" name="line-27"></a><span class="hll"><span class="w">    </span><span class="n">operator</span><span class="w"> </span><span class="nf">bool</span><span class="p">();</span><span class="error2">&lt;--- parameter name 'ip' is too short, expected at least 3 characters</span>
-</span><a id="line-28" name="line-28"></a>
-<a id="line-29" name="line-29"></a><span class="w">    </span><span class="n">IPAddress</span><span class="w"> </span><span class="nf">remoteIP</span><span class="p">();</span>
-<a id="line-30" name="line-30"></a><span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="nf">remotePort</span><span class="p">();</span>
-<a id="line-31" name="line-31"></a>
-<a id="line-32" name="line-32"></a><span class="w">    </span><span class="n">using</span><span class="w"> </span><span class="n">Print</span><span class="o">::</span><span class="n">print</span><span class="p">;</span>
-<a id="line-33" name="line-33"></a><span class="w">    </span><span class="n">using</span><span class="w"> </span><span class="n">Print</span><span class="o">::</span><span class="n">println</span><span class="p">;</span>
-<a id="line-34" name="line-34"></a>
-<a id="line-35" name="line-35"></a><span class="w">    </span><span class="n">WiFiClient</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">WiFiClient</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">);</span>
-<a id="line-36" name="line-36"></a><span class="w">    </span><span class="n">WiFiClient</span><span class="w"> </span><span class="o">&amp;</span><span class="n">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">WiFiClient</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">);</span>
-<a id="line-37" name="line-37"></a>
-<a id="line-38" name="line-38"></a><span class="n">private</span><span class="o">:</span>
-<a id="line-39" name="line-39"></a><span class="w">    </span><span class="cm">/**</span>
-<a id="line-40" name="line-40"></a><span class="cm">     * Implemented as shared ptr as this class is used</span>
-<a id="line-41" name="line-41"></a><span class="cm">     * in the WiFiServer to keep the WiFiClient objects</span>
-<a id="line-42" name="line-42"></a><span class="cm">     * as a list of connected clients.</span>
-<a id="line-43" name="line-43"></a><span class="cm">     * Keeping objects will lead to copies which won´t</span>
-<a id="line-44" name="line-44"></a><span class="cm">     * update the socket rx_buffer upon interrupts.</span>
-<a id="line-45" name="line-45"></a><span class="cm">     */</span>
-<a id="line-46" name="line-46"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Socket</span><span class="o">&gt;</span><span class="w"> </span><span class="n">socket</span><span class="p">;</span>
-<a id="line-47" name="line-47"></a>
-<a id="line-48" name="line-48"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">receiveCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">);</span>
-<a id="line-49" name="line-49"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">disconnectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">);</span>
-<a id="line-50" name="line-50"></a>
-<a id="line-51" name="line-51"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="nf">isThisClient</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">);</span>
-<a id="line-52" name="line-52"></a>
-<a id="line-53" name="line-53"></a><span class="w">    </span><span class="n">friend</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">WiFiServer</span><span class="p">;</span>
-<a id="line-54" name="line-54"></a><span class="p">};</span>
-<a id="line-55" name="line-55"></a>
-<a id="line-56" name="line-56"></a><span class="cp">#endif </span><span class="cm">/* WIFI_CLIENT_H */</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef WIRE_H</span>
+<a id="line-2" name="line-2"></a><span class="cp">#define WIRE_H</span>
+<a id="line-3" name="line-3"></a>
+<a id="line-4" name="line-4"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_i2c.h&quot;</span><span class="error2">&lt;--- implicit conversion 'void (*)()' -> 'bool'</span>
+</span><a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Arduino.h&gt;</span>
+<a id="line-6" name="line-6"></a>
+<a id="line-7" name="line-7"></a><span class="hll"><span class="n">class</span><span class="w"> </span><span class="n">TwoWire</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'cyhal_i2c.h' file not found</span>
+</span><a id="line-8" name="line-8"></a><span class="n">public</span><span class="o">:</span>
+<a id="line-9" name="line-9"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">BUFFER_LENGTH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
+<a id="line-10" name="line-10"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">I2C_DEFAULT_FREQ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100000</span><span class="p">;</span>
+<a id="line-11" name="line-11"></a>
+<a id="line-12" name="line-12"></a><span class="w">    </span><span class="n">TwoWire</span><span class="p">(</span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">sda</span><span class="p">,</span><span class="w"> </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">scl</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">instance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="line-13" name="line-13"></a>
+<a id="line-14" name="line-14"></a><span class="hll"><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="n">I2C_ErrorCodes</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'cyhal_i2c.h' file not found</span>
+</span><a id="line-15" name="line-15"></a><span class="w">        </span><span class="n">I2C_SUCCESS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CY_RSLT_SUCCESS</span><span class="p">,</span>
+<a id="line-16" name="line-16"></a><span class="w">        </span><span class="n">I2C_NO_DEVICE_ATTACHED_PULL_UP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xAA2004</span><span class="p">,</span>
+<a id="line-17" name="line-17"></a><span class="w">        </span><span class="n">I2C_NO_DEVICE_ATTACHED_NO_PULL_UP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xAA2003</span><span class="p">,</span>
+<a id="line-18" name="line-18"></a><span class="w">        </span><span class="n">I2C_TIMEOUT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_I2C_RSLT_WARN_TIMEOUT</span>
+<a id="line-19" name="line-19"></a><span class="w">    </span><span class="p">};</span>
+<a id="line-20" name="line-20"></a>
+<a id="line-21" name="line-21"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">();</span>
+<a id="line-22" name="line-22"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">address</span><span class="p">);</span>
+<a id="line-23" name="line-23"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">();</span>
+<a id="line-24" name="line-24"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setClock</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">freq</span><span class="p">);</span>
+<a id="line-25" name="line-25"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">beginTransmission</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">address</span><span class="p">);</span>
+<a id="line-26" name="line-26"></a><span class="hll"><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">endTransmission</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- inital values in enum 'I2C_ErrorCodes' are not consistent, consider explicit initialization of all, none or only the first enumerator</span>
+</span><a id="line-27" name="line-27"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">endTransmission</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">sendStop</span><span class="p">);</span>
+<a id="line-28" name="line-28"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">requestFrom</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">stopBit</span><span class="p">);</span>
+<a id="line-29" name="line-29"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">requestFrom</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<a id="line-30" name="line-30"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<a id="line-31" name="line-31"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">quantity</span><span class="p">);</span>
+<a id="line-32" name="line-32"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">str</span><span class="p">);</span>
+<a id="line-33" name="line-33"></a><span class="hll"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">available</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- redundant void argument list in function declaration</span>
+</span><a id="line-34" name="line-34"></a><span class="hll"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- redundant void argument list in function declaration</span>
+</span><a id="line-35" name="line-35"></a><span class="hll"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">peek</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- redundant void argument list in function declaration</span>
+</span><a id="line-36" name="line-36"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">onReceive</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">function</span><span class="p">)(</span><span class="kt">int</span><span class="p">));</span>
+<a id="line-37" name="line-37"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">onRequest</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">function</span><span class="p">)(</span><span class="kt">void</span><span class="p">));</span><span class="error2">&lt;--- redundant void argument list in function declaration</span>
+</span><a id="line-38" name="line-38"></a>
+<a id="line-39" name="line-39"></a><span class="n">private</span><span class="o">:</span>
+<a id="line-40" name="line-40"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">TwoWire</span><span class="w"> </span><span class="o">*</span><span class="n">instances</span><span class="p">[</span><span class="n">I2C_HOWMANY</span><span class="p">];</span>
+<a id="line-41" name="line-41"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">_begin</span><span class="p">();</span>
+<a id="line-42" name="line-42"></a><span class="w">    </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">sda_pin</span><span class="p">;</span>
+<a id="line-43" name="line-43"></a><span class="w">    </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">scl_pin</span><span class="p">;</span>
+<a id="line-44" name="line-44"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">instance</span><span class="p">;</span>
+<a id="line-45" name="line-45"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_master</span><span class="p">;</span>
+<a id="line-46" name="line-46"></a><span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">slave_address</span><span class="p">;</span>
+<a id="line-47" name="line-47"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">rxBuffer</span><span class="p">[</span><span class="n">BUFFER_LENGTH</span><span class="p">];</span>
+<a id="line-48" name="line-48"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">txBuffer</span><span class="p">[</span><span class="n">BUFFER_LENGTH</span><span class="p">];</span>
+<a id="line-49" name="line-49"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">rxBufferIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-50" name="line-50"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">rxBufferLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-51" name="line-51"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">txBufferIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-52" name="line-52"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">txBufferLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-53" name="line-53"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">txAddress</span><span class="p">;</span>
+<a id="line-54" name="line-54"></a><span class="w">    </span><span class="n">cyhal_i2c_cfg_t</span><span class="w"> </span><span class="n">i2c_config</span><span class="p">;</span>
+<a id="line-55" name="line-55"></a><span class="w">    </span><span class="n">cyhal_i2c_t</span><span class="w"> </span><span class="n">i2c_obj</span><span class="p">;</span>
+<a id="line-56" name="line-56"></a><span class="w">    </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">w_status</span><span class="p">;</span>
+<a id="line-57" name="line-57"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">bytesSent</span><span class="p">;</span>
+<a id="line-58" name="line-58"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Timeout in milliseconds</span>
+<a id="line-59" name="line-59"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">user_onRequest</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- redundant void argument list in variable declaration</span>
+</span><a id="line-60" name="line-60"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">user_onReceive</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+<a id="line-61" name="line-61"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">onRequestService</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="error2">&lt;--- redundant void argument list in field declaration</span>
+</span><a id="line-62" name="line-62"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">onReceiveService</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<a id="line-63" name="line-63"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i2c_event_handler</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">callback_arg</span><span class="p">,</span><span class="w"> </span><span class="n">cyhal_i2c_event_t</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
+<a id="line-64" name="line-64"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">i2c_event_handler_member</span><span class="p">(</span><span class="n">cyhal_i2c_event_t</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
+<a id="line-65" name="line-65"></a><span class="p">};</span>
+<a id="line-66" name="line-66"></a>
+<a id="line-67" name="line-67"></a><span class="cp">#if (I2C_HOWMANY &gt; 0)</span>
+<a id="line-68" name="line-68"></a><span class="k">extern</span><span class="w"> </span><span class="n">TwoWire</span><span class="w"> </span><span class="n">Wire</span><span class="p">;</span>
+<a id="line-69" name="line-69"></a><span class="cp">#endif</span>
+<a id="line-70" name="line-70"></a>
+<a id="line-71" name="line-71"></a><span class="cp">#if (I2C_HOWMANY &gt; 1)</span>
+<a id="line-72" name="line-72"></a><span class="k">extern</span><span class="w"> </span><span class="n">TwoWire</span><span class="w"> </span><span class="n">Wire1</span><span class="p">;</span>
+<a id="line-73" name="line-73"></a><span class="cp">#endif</span>
+<a id="line-74" name="line-74"></a>
+<a id="line-75" name="line-75"></a><span class="cp">#endif </span><span class="c1">// WIRE_H</span>
 </pre></div></td></tr></table></div>
 
     </div>
