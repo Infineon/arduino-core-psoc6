@@ -3,7 +3,6 @@
 
 #include "Server.h"
 #include <SecSocket.h>
-#include <Socket.h>
 #include <WiFiClient.h>
 #include <stdint.h>
 #include <vector>
