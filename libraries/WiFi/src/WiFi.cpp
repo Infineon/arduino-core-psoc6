@@ -2,18 +2,18 @@
 #include "SecSocket.h"
 
 #define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-        _last_error = ret_code; \
-        return ret_code; \
+            _last_error = ret_code; \
+            return ret_code; \
 }
 
 #define wcm_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-        _last_error = ret_code; \
-        return; \
+            _last_error = ret_code; \
+            return; \
 }
 
 #define wifi_assert_raise(ret_code)  if (ret_code != WIFI_ERROR_NONE) { \
-        _last_error = ret_code; \
-        return ret_code; \
+            _last_error = ret_code; \
+            return ret_code; \
 }
 
 WiFiClass & WiFiClass::get_instance() {
@@ -21,11 +21,11 @@ WiFiClass & WiFiClass::get_instance() {
     return wifi_singleton;
 }
 
-int WiFiClass::begin(const char* ssid) {
+int WiFiClass::begin(const char *ssid) {
     return begin(ssid, nullptr);
 }
 
-int WiFiClass::begin(const char* ssid, const char *passphrase) {
+int WiFiClass::begin(const char *ssid, const char *passphrase) {
     _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_STA);
     wifi_assert_raise(_last_error);
 
@@ -34,11 +34,11 @@ int WiFiClass::begin(const char* ssid, const char *passphrase) {
     _last_error = wcm_assert_interface_mode(CY_WCM_INTERFACE_TYPE_STA);
     wifi_assert_raise(_last_error);
 
-    if (_status == WIFI_STATUS_INITED || 
+    if (_status == WIFI_STATUS_INITED ||
         _status == WIFI_STATUS_STA_DISCONNECTED) {
         cy_wcm_connect_params_t connect_params;
         set_sta_connect_params(&connect_params, ssid, passphrase);
-        
+
         cy_wcm_ip_address_t ipaddress;
         cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
         uint8_t retries = 3; /* This number has been selected arbitrarily. */
@@ -55,7 +55,7 @@ int WiFiClass::begin(const char* ssid, const char *passphrase) {
 }
 
 int WiFiClass::disconnect(void) {
-    switch(_mode)
+    switch (_mode)
     {
         case CY_WCM_INTERFACE_TYPE_STA:
             return disconnect_sta();
@@ -80,11 +80,11 @@ uint8_t WiFiClass::beginAP(const char *ssid) {
 uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel) {
     return beginAP(ssid, nullptr, channel);
 }
-uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase) {
+uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase) {
     return beginAP(ssid, passphrase, 1);
 }
 
-uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t channel) {
+uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t channel) {
     _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_AP);
     wifi_assert_raise(_last_error);
 
@@ -93,7 +93,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
     _last_error = wcm_assert_interface_mode(CY_WCM_INTERFACE_TYPE_AP);
     wifi_assert_raise(_last_error);
 
-    if (_status == WIFI_STATUS_INITED || 
+    if (_status == WIFI_STATUS_INITED ||
         _status == WIFI_STATUS_AP_DISCONNECTED) {
         cy_wcm_ap_config_t ap_conf;
         set_ap_params(&ap_conf, ssid, passphrase, channel);
@@ -112,14 +112,14 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
 }
 
 IPAddress WiFiClass::localIP() {
-    if(_status == WIFI_STATUS_UNINITED) {
+    if (_status == WIFI_STATUS_UNINITED) {
         _last_error = WIFI_ERROR_STATUS_INVALID;
         return IPAddress(0, 0, 0, 0);
     }
 
     cy_wcm_ip_address_t ip_address;
     cy_rslt_t ret = cy_wcm_get_ip_addr(_mode, &ip_address);
-    if(ret != CY_RSLT_SUCCESS) {
+    if (ret != CY_RSLT_SUCCESS) {
         return IPAddress(0, 0, 0, 0);
     }
 
@@ -128,14 +128,14 @@ IPAddress WiFiClass::localIP() {
 }
 
 IPAddress WiFiClass::gatewayIP() {
-    if(_status == WIFI_STATUS_UNINITED) {
+    if (_status == WIFI_STATUS_UNINITED) {
         _last_error = WIFI_ERROR_STATUS_INVALID;
         return IPAddress(0, 0, 0, 0);
     }
 
     cy_wcm_ip_address_t gateway_ip;
     cy_rslt_t ret = cy_wcm_get_gateway_ip_address(_mode, &gateway_ip);
-    if(ret != CY_RSLT_SUCCESS) {
+    if (ret != CY_RSLT_SUCCESS) {
         return IPAddress(0, 0, 0, 0);
     }
 
@@ -147,9 +147,9 @@ uint8_t WiFiClass::status() {
     return _status;
 }
 
-int WiFiClass::hostByName(const char* aHostname, IPAddress& ip) {
+int WiFiClass::hostByName(const char *aHostname, IPAddress& ip) {
     return Socket::hostByName(aHostname, ip);
-}   
+}
 
 wifi_error_t WiFiClass::getLastError() {
     return _last_error;
@@ -173,7 +173,7 @@ wifi_error_t WiFiClass::wcm_init(cy_wcm_interface_t mode) {
         _status = WIFI_STATUS_INITED;
     }
 
-    return WIFI_ERROR_NONE; 
+    return WIFI_ERROR_NONE;
 }
 
 wifi_error_t WiFiClass::wcm_assert_interface_mode(cy_wcm_interface_t mode) {
@@ -181,7 +181,7 @@ wifi_error_t WiFiClass::wcm_assert_interface_mode(cy_wcm_interface_t mode) {
         return WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
     }
 
-    return WIFI_ERROR_NONE; 
+    return WIFI_ERROR_NONE;
 }
 
 int WiFiClass::disconnect_sta(void) {
@@ -206,12 +206,12 @@ int WiFiClass::disconnect_ap(void) {
     return WIFI_ERROR_STATUS_INVALID;
 }
 
-void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t * connect_params, const char * ssid, const char * passphrase) {
+void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase) {
     /* Initialized all connect params to zero */
     memset(connect_params, 0, sizeof(cy_wcm_connect_params_t));
-    
+
     memcpy(connect_params->ap_credentials.SSID, ssid, strlen(ssid));
-    
+
     /* Set security based on passphrase */
     if (passphrase == nullptr) {
         connect_params->ap_credentials.security = CY_WCM_SECURITY_OPEN;
@@ -221,7 +221,7 @@ void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t * connect_params,
     }
 }
 
-void WiFiClass::set_ap_params(cy_wcm_ap_config_t * ap_config, const char * ssid, const char * passphrase, uint8_t channel) {
+void WiFiClass::set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel) {
     /* Initialized all AP config params to zero */
     memset(ap_config, 0, sizeof(cy_wcm_ap_config_t));
 
@@ -232,7 +232,7 @@ void WiFiClass::set_ap_params(cy_wcm_ap_config_t * ap_config, const char * ssid,
     if (passphrase != nullptr) {
         memcpy(ap_config->ap_credentials.password, passphrase, strlen(passphrase));
         /* Default security is WPA2_AES_PSK */
-        ap_config->ap_credentials.security = CY_WCM_SECURITY_WPA2_AES_PSK; 
+        ap_config->ap_credentials.security = CY_WCM_SECURITY_WPA2_AES_PSK;
     } else {
         ap_config->ap_credentials.security = CY_WCM_SECURITY_OPEN;
     }

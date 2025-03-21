@@ -9,7 +9,6 @@ SPIClassPSOC::SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sc
     : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _ssel_pin(ssel), _is_initialized(false), _is_slave(false) {
 }
 
-// Destructor
 SPIClassPSOC::~SPIClassPSOC() {
     end();
 }
