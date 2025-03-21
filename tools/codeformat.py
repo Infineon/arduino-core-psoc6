@@ -13,8 +13,8 @@ PATHS = [
     "cores/psoc6/*.cpp",
     "libraries/**/*.[ch]",
     "libraries/**/src/*.[ch]",
-    "libraries/**/*.[cpp]",
-    "libraries/**/src/*.[cpp]",
+    "libraries/**/*.cpp",
+    "libraries/**/src/*.cpp",
 ]
 
 EXCLUSIONS = ["cores/api/**/*.[ch]"]
