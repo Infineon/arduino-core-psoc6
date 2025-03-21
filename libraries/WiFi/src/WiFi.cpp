@@ -37,8 +37,8 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
     if (_status == WIFI_STATUS_INITED ||
         _status == WIFI_STATUS_STA_DISCONNECTED) {
         cy_wcm_connect_params_t connect_params;
-        set_sta_connect_params(&connect_params, ssid, passphrase);
-
+        set_connect_params_sta(&connect_params, ssid, passphrase);
+        
         cy_wcm_ip_address_t ipaddress;
         cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
         uint8_t retries = 3; /* This number has been selected arbitrarily. */
@@ -58,9 +58,9 @@ int WiFiClass::disconnect(void) {
     switch (_mode)
     {
         case CY_WCM_INTERFACE_TYPE_STA:
-            return disconnect_sta();
+            return disconnectSTA();
         case CY_WCM_INTERFACE_TYPE_AP:
-            return disconnect_ap();
+            return disconnectAP();
         default:
             return WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
     }
@@ -95,10 +95,9 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t cha
 
     if (_status == WIFI_STATUS_INITED ||
         _status == WIFI_STATUS_AP_DISCONNECTED) {
-        cy_wcm_ap_config_t ap_conf;
-        set_ap_params(&ap_conf, ssid, passphrase, channel);
+        set_params_ap(&ap_conf, ssid, passphrase, channel);
 
-        /** TODO: This can be added to set_ap_params? Wait for the development of config function() */
+        /** TODO: This can be added to set_params_ap? Wait for the development of config function() */
         /* The AP requires some default IP settings */
         cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0", "192.168.0.1", CY_WCM_IP_VER_V4);
 
@@ -143,6 +142,21 @@ IPAddress WiFiClass::gatewayIP() {
     return ip;
 };
 
+const char* WiFiClass::SSID() {
+    switch(_mode)
+    {
+        case CY_WCM_INTERFACE_TYPE_STA:
+            return SSID_STA();
+        case CY_WCM_INTERFACE_TYPE_AP:
+            return SSID_AP();
+        default:
+            /* The instance has not yet called begin()
+            or beginAP(). Return empty string. */
+            _last_error = WIFI_ERROR_STATUS_INVALID;
+            return "";
+    }
+}
+
 uint8_t WiFiClass::status() {
     return _status;
 }
@@ -184,7 +198,7 @@ wifi_error_t WiFiClass::wcm_assert_interface_mode(cy_wcm_interface_t mode) {
     return WIFI_ERROR_NONE;
 }
 
-int WiFiClass::disconnect_sta(void) {
+int WiFiClass::disconnectSTA(void) {
     if (_status == WIFI_STATUS_STA_CONNECTED) {
         cy_rslt_t ret = cy_wcm_disconnect_ap();
         wcm_assert_raise(ret, WIFI_ERROR_STA_DISCONNECT_FAILED);
@@ -195,7 +209,7 @@ int WiFiClass::disconnect_sta(void) {
     return WIFI_ERROR_STATUS_INVALID;
 }
 
-int WiFiClass::disconnect_ap(void) {
+int WiFiClass::disconnectAP(void) {
     if (_status == WIFI_STATUS_AP_CONNECTED) {
         cy_rslt_t ret = cy_wcm_stop_ap();
         wcm_assert_raise(ret, WIFI_ERROR_AP_DISCONNECT_FAILED);
@@ -206,7 +220,7 @@ int WiFiClass::disconnect_ap(void) {
     return WIFI_ERROR_STATUS_INVALID;
 }
 
-void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase) {
+void WiFiClass::set_connect_params_sta(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase) {
     /* Initialized all connect params to zero */
     memset(connect_params, 0, sizeof(cy_wcm_connect_params_t));
 
@@ -221,7 +235,7 @@ void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t *connect_params, 
     }
 }
 
-void WiFiClass::set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel) {
+void WiFiClass::set_params_ap(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel) {
     /* Initialized all AP config params to zero */
     memset(ap_config, 0, sizeof(cy_wcm_ap_config_t));
 
@@ -236,6 +250,18 @@ void WiFiClass::set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, c
     } else {
         ap_config->ap_credentials.security = CY_WCM_SECURITY_OPEN;
     }
+}
+
+const char * WiFiClass::SSID_STA() {
+    cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
+    if(ret != CY_RSLT_SUCCESS) {
+        return "";
+    }
+    return (const char *)(&(ap_info.SSID));
+}
+
+const char * WiFiClass::SSID_AP() {
+    return (const char *)(&(ap_conf.ap_credentials.SSID));
 }
 
 WiFiClass & WiFi = WiFiClass::get_instance();

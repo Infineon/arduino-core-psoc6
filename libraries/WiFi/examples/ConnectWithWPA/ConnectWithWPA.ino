@@ -42,12 +42,11 @@ void loop() {
 }
 
 void wifiConfigPrint() {
-
-  /* TODO: Enable when functions are available. Not yet enabled */
-  /** 
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
 
+  /* TODO: Enable when functions are available. Not yet enabled */
+  /** 
   byte encryption = WiFi.encryptionType();
   Serial.print("Encryption Type:");
   Serial.println(encryption, HEX);
