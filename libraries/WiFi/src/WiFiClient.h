@@ -5,7 +5,6 @@
 #include "Client.h"
 #include "Print.h"
 #include <SecSocket.h>
-#include <Socket.h>
 #include <memory>
 
 class WiFiClient : public arduino::Client {
