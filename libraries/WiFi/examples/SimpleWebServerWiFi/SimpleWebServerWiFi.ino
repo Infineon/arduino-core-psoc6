@@ -94,11 +94,9 @@ void loop() {
 }
 
 void wifiStatusPrint() {
-  /* TODO: Enable when functions are available. Not yet enabled */
-  /** 
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
-  */  
+
   IPAddress ip = WiFi.localIP();
   Serial.print("IP Address: ");
   Serial.println(ip);

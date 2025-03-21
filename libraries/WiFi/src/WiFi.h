@@ -115,6 +115,13 @@ public:
     */
     IPAddress gatewayIP();
 
+    /*
+     * Return the current SSID associated with the network
+     *
+     * return: ssid string
+     */
+    const char * SSID();
+
     /**
      * Return Connection status
      * TODO: Clean up unused or irrelevant status codes for this core.
@@ -146,6 +153,11 @@ private:
     volatile wifi_status_t _status = WIFI_STATUS_UNINITED;
     wifi_error_t _last_error = WIFI_ERROR_NONE;
 
+    /* AP configuration */
+    cy_wcm_ap_config_t ap_conf;
+
+    /* STA configuration */
+    cy_wcm_associated_ap_info_t ap_info;
 
     /* The WiFi class is implemented as singleton.
     The constructor and destructor are private. */
@@ -163,11 +175,14 @@ private:
     wifi_error_t wcm_init(cy_wcm_interface_t mode);
     wifi_error_t wcm_assert_interface_mode(cy_wcm_interface_t mode);
 
-    int disconnect_sta(void);
-    int disconnect_ap(void);
+    int disconnectSTA(void);
+    int disconnectAP(void);
 
-    static void set_sta_connect_params(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase);
-    static void set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel);
+    static void set_connect_params_sta(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase);
+    void set_params_ap(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel);
+
+    const char * SSID_STA();
+    const char * SSID_AP();
 };
 
 extern WiFiClass & WiFi;
