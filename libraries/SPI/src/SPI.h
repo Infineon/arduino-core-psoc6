@@ -1,11 +1,11 @@
 #ifndef SPI_H
 #define SPI_H
 
-#include <Arduino.h>
 #include "cyhal_spi.h"
+#include <Arduino.h>
 #include <HardwareSPI.h>
 
-class SPIClassPSOC: public arduino::HardwareSPI {
+class SPIClassPSOC : public arduino::HardwareSPI {
 public:
     SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel);
     ~SPIClassPSOC();
@@ -28,7 +28,8 @@ public:
     cy_rslt_t status;
 
 private:
-    arduino::SPISettings const DEFAULT_SPI_SETTINGS = arduino::SPISettings(1000000, MSBFIRST, arduino::SPI_MODE0);
+    arduino::SPISettings const DEFAULT_SPI_SETTINGS =
+        arduino::SPISettings(1000000, MSBFIRST, arduino::SPI_MODE0);
 
     cyhal_spi_mode_t getSpiMode() const;
 

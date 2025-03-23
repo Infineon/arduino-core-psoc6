@@ -1,22 +1,25 @@
 #include "SecSocket.h"
 #include <WiFi.h>
 
-#define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            _last_error = ret_code; \
-            return ret_code; \
-}
+#define wcm_assert_raise(cy_ret, ret_code) \
+    if (cy_ret != CY_RSLT_SUCCESS) {       \
+        _last_error = ret_code;            \
+        return ret_code;                   \
+    }
 
-#define wcm_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            _last_error = ret_code; \
-            return; \
-}
+#define wcm_assert(cy_ret, ret_code) \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        _last_error = ret_code;      \
+        return;                      \
+    }
 
-#define wifi_assert_raise(ret_code)  if (ret_code != WIFI_ERROR_NONE) { \
-            _last_error = ret_code; \
-            return ret_code; \
-}
+#define wifi_assert_raise(ret_code)    \
+    if (ret_code != WIFI_ERROR_NONE) { \
+        _last_error = ret_code;        \
+        return ret_code;               \
+    }
 
-WiFiClass & WiFiClass::get_instance() {
+WiFiClass &WiFiClass::get_instance() {
     static WiFiClass wifi_singleton;
     return wifi_singleton;
 }
@@ -34,8 +37,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
     _last_error = wcm_assert_interface_mode(CY_WCM_INTERFACE_TYPE_STA);
     wifi_assert_raise(_last_error);
 
-    if (_status == WIFI_STATUS_INITED ||
-        _status == WIFI_STATUS_STA_DISCONNECTED) {
+    if (_status == WIFI_STATUS_INITED || _status == WIFI_STATUS_STA_DISCONNECTED) {
         cy_wcm_connect_params_t connect_params;
         set_sta_connect_params(&connect_params, ssid, passphrase);
 
@@ -54,8 +56,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
 }
 
 int WiFiClass::disconnect(void) {
-    switch (_mode)
-    {
+    switch (_mode) {
         case CY_WCM_INTERFACE_TYPE_STA:
             return disconnect_sta();
         case CY_WCM_INTERFACE_TYPE_AP:
@@ -79,6 +80,7 @@ uint8_t WiFiClass::beginAP(const char *ssid) {
 uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel) {
     return beginAP(ssid, nullptr, channel);
 }
+
 uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase) {
     return beginAP(ssid, passphrase, 1);
 }
@@ -92,8 +94,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t cha
     _last_error = wcm_assert_interface_mode(CY_WCM_INTERFACE_TYPE_AP);
     wifi_assert_raise(_last_error);
 
-    if (_status == WIFI_STATUS_INITED ||
-        _status == WIFI_STATUS_AP_DISCONNECTED) {
+    if (_status == WIFI_STATUS_INITED || _status == WIFI_STATUS_AP_DISCONNECTED) {
         cy_wcm_ap_config_t ap_conf;
         set_ap_params(&ap_conf, ssid, passphrase, channel);
 
@@ -148,7 +149,7 @@ uint8_t WiFiClass::status() {
     return _status;
 }
 
-int WiFiClass::hostByName(const char *aHostname, IPAddress& ip) {
+int WiFiClass::hostByName(const char *aHostname, IPAddress &ip) {
     return Socket::hostByName(aHostname, ip);
 }
 
@@ -204,7 +205,9 @@ int WiFiClass::disconnect_ap(void) {
     return WIFI_ERROR_STATUS_INVALID;
 }
 
-void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase) {
+void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t *connect_params,
+                                       const char *ssid,
+                                       const char *passphrase) {
     /* Initialized all connect params to zero */
     memset(connect_params, 0, sizeof(cy_wcm_connect_params_t));
 
@@ -219,7 +222,10 @@ void WiFiClass::set_sta_connect_params(cy_wcm_connect_params_t *connect_params, 
     }
 }
 
-void WiFiClass::set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel) {
+void WiFiClass::set_ap_params(cy_wcm_ap_config_t *ap_config,
+                              const char *ssid,
+                              const char *passphrase,
+                              uint8_t channel) {
     /* Initialized all AP config params to zero */
     memset(ap_config, 0, sizeof(cy_wcm_ap_config_t));
 
@@ -236,4 +242,4 @@ void WiFiClass::set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, c
     }
 }
 
-WiFiClass & WiFi = WiFiClass::get_instance();
+WiFiClass &WiFi = WiFiClass::get_instance();

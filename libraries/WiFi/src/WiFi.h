@@ -6,9 +6,8 @@
 #include "IPAddress.h"
 #include "WiFiClient.h"
 #include "WiFiServer.h"
-
 #include "cy_wcm.h"
-#include <stdint.h>
+#include <Arduino.h>
 
 /**
  * TODO:
@@ -84,12 +83,11 @@ public:
     // */
     // int begin(const char* ssid, uint8_t key_idx, const char* key);
 
-
     /*
-    * Disconnect from the network
-    *
-    * return: one value of wl_status_t enum
-    */
+     * Disconnect from the network
+     *
+     * return: one value of wl_status_t enum
+     */
     int disconnect(void);
 
     void end(void);
@@ -139,8 +137,8 @@ public:
     wifi_error_t getLastError();
 
 private:
-    /* Extension of cy_wcm_interface_t enums. */
-    #define CY_WCM_INTERFACE_TYPE_UNKNOWN   (cy_wcm_interface_t)0xFF
+/* Extension of cy_wcm_interface_t enums. */
+#define CY_WCM_INTERFACE_TYPE_UNKNOWN (cy_wcm_interface_t)0xFF
 
     cy_wcm_interface_t _mode = CY_WCM_INTERFACE_TYPE_UNKNOWN;
     volatile wifi_status_t _status = WIFI_STATUS_UNINITED;
@@ -165,8 +163,13 @@ private:
     int disconnect_sta(void);
     int disconnect_ap(void);
 
-    static void set_sta_connect_params(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase);
-    static void set_ap_params(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel);
+    static void set_sta_connect_params(cy_wcm_connect_params_t *connect_params,
+                                       const char *ssid,
+                                       const char *passphrase);
+    static void set_ap_params(cy_wcm_ap_config_t *ap_config,
+                              const char *ssid,
+                              const char *passphrase,
+                              uint8_t channel);
 };
 
 extern WiFiClass &WiFi;

@@ -1,12 +1,21 @@
 #include "SPI.h"
 
-#define spi_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            return; \
-}
+#define spi_assert(cy_ret)           \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return;                      \
+    }
 
-
-SPIClassPSOC::SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel)
-    : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _ssel_pin(ssel), _is_initialized(false), _is_slave(false) {
+SPIClassPSOC::SPIClassPSOC(cyhal_gpio_t mosi,
+                           cyhal_gpio_t miso,
+                           cyhal_gpio_t sck,
+                           cyhal_gpio_t ssel)
+    : _mosi_pin(mosi),
+      _miso_pin(miso),
+      _sck_pin(sck),
+      _ssel_pin(ssel),
+      _is_initialized(false),
+      _is_slave(false),
+      status(CY_RSLT_SUCCESS) {
 }
 
 SPIClassPSOC::~SPIClassPSOC() {
@@ -19,7 +28,8 @@ void SPIClassPSOC::begin() {
         return;
     }
 
-    status = cyhal_spi_init(&_spi_obj, _mosi_pin, _miso_pin, _sck_pin, _ssel_pin, NULL, 8, getSpiMode(), _is_slave);
+    status = cyhal_spi_init(&_spi_obj, _mosi_pin, _miso_pin, _sck_pin, _ssel_pin, NULL, 8,
+                            getSpiMode(), _is_slave);
     spi_assert(status);
     status = cyhal_spi_set_frequency(&_spi_obj, _settings.getClockFreq());
     spi_assert(status);
@@ -40,16 +50,20 @@ cyhal_spi_mode_t SPIClassPSOC::getSpiMode() const {
 
     switch (_settings.getDataMode()) {
         case SPI_MODE0:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_00_MSB : CYHAL_SPI_MODE_00_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_00_MSB
+                                                         : CYHAL_SPI_MODE_00_LSB;
             break;
         case SPI_MODE1:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_01_MSB : CYHAL_SPI_MODE_01_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_01_MSB
+                                                         : CYHAL_SPI_MODE_01_LSB;
             break;
         case SPI_MODE2:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_10_MSB : CYHAL_SPI_MODE_10_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_10_MSB
+                                                         : CYHAL_SPI_MODE_10_LSB;
             break;
         case SPI_MODE3:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_11_MSB : CYHAL_SPI_MODE_11_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_11_MSB
+                                                         : CYHAL_SPI_MODE_11_LSB;
             break;
         default:
             break;
@@ -67,11 +81,14 @@ byte SPIClassPSOC::transfer(uint8_t data) {
 }
 
 uint16_t SPIClassPSOC::transfer16(uint16_t data) {
-// Union to split 16-bit data into two 8-bit data
-    union { uint16_t val;
-            struct { uint8_t lsb;
-                     uint8_t msb;
-            };
+    // Union to split 16-bit data into two 8-bit data
+    union {
+        uint16_t val;
+
+        struct {
+            uint8_t lsb;
+            uint8_t msb;
+        };
     } data_in_out;
 
     data_in_out.val = data;
@@ -88,7 +105,7 @@ uint16_t SPIClassPSOC::transfer16(uint16_t data) {
 }
 
 void SPIClassPSOC::transfer(void *buf, size_t count) {
-    uint8_t *buffer = reinterpret_cast < uint8_t * > (buf);
+    uint8_t *buffer = reinterpret_cast<uint8_t *>(buf);
     for (size_t i = 0; i < count; i++) {
         *buffer = transfer(*buffer);
         buffer++;
@@ -96,19 +113,19 @@ void SPIClassPSOC::transfer(void *buf, size_t count) {
 }
 
 void SPIClassPSOC::usingInterrupt(int interruptNumber) {
-// TODO: Implement
+    // TODO: Implement
 }
 
 void SPIClassPSOC::notUsingInterrupt(int interruptNumber) {
-// TODO: Implement
+    // TODO: Implement
 }
 
 void SPIClassPSOC::attachInterrupt() {
-// TODO: Implement
+    // TODO: Implement
 }
 
 void SPIClassPSOC::detachInterrupt() {
-// TODO: Implement
+    // TODO: Implement
 }
 
 void SPIClassPSOC::beginTransaction(arduino::SPISettings settings) {
@@ -117,6 +134,7 @@ void SPIClassPSOC::beginTransaction(arduino::SPISettings settings) {
         begin();
     }
 }
+
 void SPIClassPSOC::endTransaction() {
     end();
 }
