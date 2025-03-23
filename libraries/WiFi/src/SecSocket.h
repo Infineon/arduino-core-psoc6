@@ -1,5 +1,5 @@
-#ifndef CY_SECURE_SOCKET_H
-#define CY_SECURE_SOCKET_H
+#ifndef SECSOCKET_H
+#define SECSOCKET_H
 
 #include "cy_secure_sockets.h"
 #include "api/IPAddress.h"
@@ -74,4 +74,4 @@ private:
     friend class WiFiClient;
 };
 
-#endif /* CY_SECURE_SOCKET_H */
+#endif /* SECSOCKET_H */

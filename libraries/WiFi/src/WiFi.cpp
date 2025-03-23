@@ -3,15 +3,17 @@
 #include "SecSocket.h"
 #include "lwip/dns.h"
 
-#define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            _last_error = ret_code; \
-            return ret_code; \
-}
+#define wcm_assert_raise(cy_ret, ret_code) \
+    if (cy_ret != CY_RSLT_SUCCESS) {       \
+        _last_error = ret_code;            \
+        return ret_code;                   \
+    }
 
-#define wcm_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            _last_error = ret_code; \
-            return; \
-}
+#define wcm_assert(cy_ret, ret_code) \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        _last_error = ret_code;      \
+        return;                      \
+    }
 
 #define wcm_assert_raise_ret(cy_ret, ret_code, ret_value)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _last_error = ret_code; \
@@ -51,8 +53,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
     _last_error = wcm_assert_interface_mode(CY_WCM_INTERFACE_TYPE_STA);
     wifi_assert_raise(_last_error);
 
-    if (_status == WIFI_STATUS_INITED ||
-        _status == WIFI_STATUS_STA_DISCONNECTED) {
+    if (_status == WIFI_STATUS_INITED || _status == WIFI_STATUS_STA_DISCONNECTED) {
         cy_wcm_connect_params_t connect_params;
         set_connect_params_sta(&connect_params, ssid, passphrase);
         set_ip_settings_sta(&connect_params);
@@ -72,8 +73,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
 }
 
 int WiFiClass::disconnect(void) {
-    switch (_mode)
-    {
+    switch (_mode) {
         case CY_WCM_INTERFACE_TYPE_STA:
             return disconnectSTA();
         case CY_WCM_INTERFACE_TYPE_AP:
@@ -97,6 +97,7 @@ uint8_t WiFiClass::beginAP(const char *ssid) {
 uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel) {
     return beginAP(ssid, nullptr, channel);
 }
+
 uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase) {
     return beginAP(ssid, passphrase, 1);
 }
@@ -358,7 +359,7 @@ uint8_t WiFiClass::status() {
     return _status;
 }
 
-int WiFiClass::hostByName(const char *aHostname, IPAddress& ip) {
+int WiFiClass::hostByName(const char *aHostname, IPAddress &ip) {
     return Socket::hostByName(aHostname, ip);
 }
 

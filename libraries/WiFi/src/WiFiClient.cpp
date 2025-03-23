@@ -1,16 +1,17 @@
 #include <WiFiClient.h>
 
-#define wifi_client_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            return ret_code; \
-}
+#define wifi_client_assert_raise(cy_ret, ret_code) \
+    if (cy_ret != CY_RSLT_SUCCESS) {               \
+        return ret_code;                           \
+    }
 
-#define wifi_client_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            return; \
-}
+#define wifi_client_assert(cy_ret)   \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return;                      \
+    }
 
-WiFiClient::WiFiClient() :
-    socket(std::make_shared < Socket > ()) {
-
+WiFiClient::WiFiClient()
+    : socket(std::make_shared<Socket>()) {
 }
 
 int WiFiClient::connect(IPAddress ip, uint16_t port) {
@@ -106,7 +107,7 @@ WiFiClient::WiFiClient(const WiFiClient &other)
     : socket(other.socket) {
 }
 
-WiFiClient& WiFiClient::operator = (const WiFiClient& other) {
+WiFiClient &WiFiClient::operator=(const WiFiClient &other) {
     if (this != &other) {
         socket = other.socket;
     }

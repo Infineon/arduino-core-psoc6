@@ -1,8 +1,9 @@
 #include <WiFiServer.h>
 
-#define wifi_server_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            return; \
-}
+#define wifi_server_assert(cy_ret)   \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return;                      \
+    }
 
 WiFiServer::WiFiServer() {
     connected_clients.reserve(SERVER_MAX_CLIENTS);
@@ -24,7 +25,7 @@ void WiFiServer::begin() {
     begin(0);
 }
 
-WiFiClient & WiFiServer::available() {
+WiFiClient &WiFiServer::available() {
     /**
      * Keep track of the last returned available client.
      * Subsequent calls to available would return different
@@ -131,7 +132,7 @@ cy_rslt_t WiFiServer::receiveCallback(cy_socket_t socket_handle, void *arg) {
      * Find the client which has triggered the callback
      * and receive the data from the client.
      */
-    for (WiFiClient & client: server->connected_clients) {
+    for (WiFiClient &client : server->connected_clients) {
         if (client.isThisClient(socket_handle)) {
             client.socket->receiveCallback();
             break;
@@ -149,7 +150,7 @@ cy_rslt_t WiFiServer::disconnectionCallback(cy_socket_t socket_handle, void *arg
      * and stop the client.
      */
     for (uint16_t i = 0; i < server->connected_clients.size(); i++) {
-        WiFiClient & disconnecting_client = server->connected_clients[i];
+        WiFiClient &disconnecting_client = server->connected_clients[i];
         if (disconnecting_client.isThisClient(socket_handle)) {
             disconnecting_client.stop();
             server->connected_clients.erase(server->connected_clients.begin() + i);

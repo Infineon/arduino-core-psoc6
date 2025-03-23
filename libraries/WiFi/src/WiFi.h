@@ -6,7 +6,6 @@
 #include "api/IPAddress.h"
 #include "WiFiClient.h"
 #include "WiFiServer.h"
-
 #include "cy_wcm.h"
 
 /**
@@ -117,8 +116,8 @@ public:
     wifi_error_t getLastError();
 
 private:
-    /* Extension of cy_wcm_interface_t enums. */
-    #define CY_WCM_INTERFACE_TYPE_UNKNOWN   (cy_wcm_interface_t)0xFF
+/* Extension of cy_wcm_interface_t enums. */
+#define CY_WCM_INTERFACE_TYPE_UNKNOWN (cy_wcm_interface_t)0xFF
 
     cy_wcm_interface_t _mode = CY_WCM_INTERFACE_TYPE_UNKNOWN;
     volatile wifi_status_t _status = WIFI_STATUS_UNINITED;

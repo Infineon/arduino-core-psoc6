@@ -7,7 +7,7 @@
 
 #define ARDUINO_SPI_CLOCK 1000000
 
-class SPIClassPSOC: public arduino::HardwareSPI {
+class SPIClassPSOC : public arduino::HardwareSPI {
 public:
     SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel = SPI1_SSEL_PIN_DEFAULT, bool is_slave = false);
     ~SPIClassPSOC();
