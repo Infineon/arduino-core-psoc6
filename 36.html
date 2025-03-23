@@ -217,13 +217,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - CPPCheck: libraries/SPI/src/SPI.cpp</h1>
+      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/SPI/src/SPI.cpp</h1>
 
     </div>
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> SPI.cpp</p>
-<a href="11.html#line-0"> toomanyconfigs 0</a><a href="11.html#line-17"> misra-c2012-12.3 17</a><a href="11.html#line-26"> shadowVariable 26</a>
+<a href="36.html#line-8"> clang-tidy-cppcoreguidelines-macro-usage 8</a><a href="36.html#line-48"> clang-tidy-cppcoreguidelines-pro-type-member-init 48</a><a href="36.html#line-75"> clang-tidy-readability-convert-member-functions-to-static 75</a><a href="36.html#line-83"> clang-tidy-readability-convert-member-functions-to-static 83</a><a href="36.html#line-88"> clang-tidy-readability-convert-member-functions-to-static 88</a><a href="36.html#line-107"> clang-tidy-cppcoreguidelines-pro-type-member-init 107</a><a href="36.html#line-116"> clang-tidy-readability-convert-member-functions-to-static 116</a><a href="36.html#line-120"> clang-tidy-google-readability-todo 120</a><a href="36.html#line-124"> clang-tidy-google-readability-todo 124</a><a href="36.html#line-128"> clang-tidy-google-readability-todo 128</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
@@ -376,8 +376,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-5" name="line-5"></a><span class="cp">        return;                      \</span>
 <a id="line-6" name="line-6"></a><span class="cp">    }</span>
 <a id="line-7" name="line-7"></a>
-<a id="line-8" name="line-8"></a><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">SPIClassPSOC</span><span class="p">(</span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">mosi</span><span class="p">,</span>
-<a id="line-9" name="line-9"></a><span class="w">                           </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">miso</span><span class="p">,</span>
+<a id="line-8" name="line-8"></a><span class="hll"><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">SPIClassPSOC</span><span class="p">(</span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">mosi</span><span class="p">,</span><span class="error2">&lt;--- function-like macro 'spi_assert' used; consider a 'constexpr' template function</span>
+</span><a id="line-9" name="line-9"></a><span class="w">                           </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">miso</span><span class="p">,</span>
 <a id="line-10" name="line-10"></a><span class="w">                           </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">sck</span><span class="p">,</span>
 <a id="line-11" name="line-11"></a><span class="w">                           </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">ssel</span><span class="p">)</span>
 <a id="line-12" name="line-12"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">_mosi_pin</span><span class="p">(</span><span class="n">mosi</span><span class="p">),</span>
@@ -385,8 +385,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-14" name="line-14"></a><span class="w">      </span><span class="n">_sck_pin</span><span class="p">(</span><span class="n">sck</span><span class="p">),</span>
 <a id="line-15" name="line-15"></a><span class="w">      </span><span class="n">_ssel_pin</span><span class="p">(</span><span class="n">ssel</span><span class="p">),</span>
 <a id="line-16" name="line-16"></a><span class="w">      </span><span class="n">_is_initialized</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span>
-<a id="line-17" name="line-17"></a><span class="hll"><span class="w">      </span><span class="n">_is_slave</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span><span class="error2">&lt;--- misra violation (rule-texts-file not found: config/cppcheck/misra.txt)</span>
-</span><a id="line-18" name="line-18"></a><span class="w">      </span><span class="n">status</span><span class="p">(</span><span class="n">CY_RSLT_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-17" name="line-17"></a><span class="w">      </span><span class="n">_is_slave</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span>
+<a id="line-18" name="line-18"></a><span class="w">      </span><span class="n">status</span><span class="p">(</span><span class="n">CY_RSLT_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="line-19" name="line-19"></a><span class="p">}</span>
 <a id="line-20" name="line-20"></a>
 <a id="line-21" name="line-21"></a><span class="n">SPIClassPSOC</span><span class="o">::~</span><span class="n">SPIClassPSOC</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -394,8 +394,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-23" name="line-23"></a><span class="p">}</span>
 <a id="line-24" name="line-24"></a>
 <a id="line-25" name="line-25"></a><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-26" name="line-26"></a><span class="hll"><span class="w">    </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">status</span><span class="p">;</span><span class="error2">&lt;--- Shadow variable</span>
-</span><a id="line-27" name="line-27"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_is_initialized</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-26" name="line-26"></a><span class="w">    </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+<a id="line-27" name="line-27"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_is_initialized</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="line-28" name="line-28"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span>
 <a id="line-29" name="line-29"></a><span class="w">    </span><span class="p">}</span>
 <a id="line-30" name="line-30"></a>
@@ -416,8 +416,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-45" name="line-45"></a><span class="w">    </span><span class="n">_is_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <a id="line-46" name="line-46"></a><span class="p">}</span>
 <a id="line-47" name="line-47"></a>
-<a id="line-48" name="line-48"></a><span class="n">cyhal_spi_mode_t</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">getSpiMode</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
-<a id="line-49" name="line-49"></a><span class="w">    </span><span class="n">cyhal_spi_mode_t</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_SPI_MODE_00_MSB</span><span class="p">;</span>
+<a id="line-48" name="line-48"></a><span class="hll"><span class="n">cyhal_spi_mode_t</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">getSpiMode</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- constructor does not initialize these fields: status, _spi_obj, _mosi_pin, _miso_pin, _sck_pin, _ssel_pin</span>
+</span><a id="line-49" name="line-49"></a><span class="w">    </span><span class="n">cyhal_spi_mode_t</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_SPI_MODE_00_MSB</span><span class="p">;</span>
 <a id="line-50" name="line-50"></a>
 <a id="line-51" name="line-51"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">_settings</span><span class="p">.</span><span class="n">getDataMode</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <a id="line-52" name="line-52"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SPI_MODE0</span><span class="p">:</span>
@@ -443,21 +443,21 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-72" name="line-72"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">mode</span><span class="p">;</span>
 <a id="line-73" name="line-73"></a><span class="p">}</span>
 <a id="line-74" name="line-74"></a>
-<a id="line-75" name="line-75"></a><span class="n">byte</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">transfer</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-76" name="line-76"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">receive_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-75" name="line-75"></a><span class="hll"><span class="n">byte</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">transfer</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- method 'getSpiMode' can be made static</span>
+</span><a id="line-76" name="line-76"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">receive_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="line-77" name="line-77"></a><span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_spi_transfer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">_spi_obj</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">receive_data</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFF</span><span class="p">);</span>
 <a id="line-78" name="line-78"></a><span class="w">    </span><span class="n">spi_assert</span><span class="p">(</span><span class="n">status</span><span class="p">);</span>
 <a id="line-79" name="line-79"></a>
 <a id="line-80" name="line-80"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">receive_data</span><span class="p">;</span>
 <a id="line-81" name="line-81"></a><span class="p">}</span>
 <a id="line-82" name="line-82"></a>
-<a id="line-83" name="line-83"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">transfer16</span><span class="p">(</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-84" name="line-84"></a><span class="w">    </span><span class="c1">// Union to split 16-bit data into two 8-bit data</span>
+<a id="line-83" name="line-83"></a><span class="hll"><span class="kt">uint16_t</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">transfer16</span><span class="p">(</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- method 'transfer' can be made static</span>
+</span><a id="line-84" name="line-84"></a><span class="w">    </span><span class="c1">// Union to split 16-bit data into two 8-bit data</span>
 <a id="line-85" name="line-85"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="p">{</span>
 <a id="line-86" name="line-86"></a><span class="w">        </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
 <a id="line-87" name="line-87"></a>
-<a id="line-88" name="line-88"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="line-89" name="line-89"></a><span class="w">            </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">lsb</span><span class="p">;</span>
+<a id="line-88" name="line-88"></a><span class="hll"><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- method 'transfer16' can be made static</span>
+</span><a id="line-89" name="line-89"></a><span class="w">            </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">lsb</span><span class="p">;</span>
 <a id="line-90" name="line-90"></a><span class="w">            </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">msb</span><span class="p">;</span>
 <a id="line-91" name="line-91"></a><span class="w">        </span><span class="p">};</span>
 <a id="line-92" name="line-92"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">data_in_out</span><span class="p">;</span>
@@ -475,8 +475,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-104" name="line-104"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">data_in_out</span><span class="p">.</span><span class="n">val</span><span class="p">;</span>
 <a id="line-105" name="line-105"></a><span class="p">}</span>
 <a id="line-106" name="line-106"></a>
-<a id="line-107" name="line-107"></a><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">transfer</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-108" name="line-108"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+<a id="line-107" name="line-107"></a><span class="hll"><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">transfer</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- constructor does not initialize these fields: lsb, msb</span>
+</span><a id="line-108" name="line-108"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
 <a id="line-109" name="line-109"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="line-110" name="line-110"></a><span class="w">        </span><span class="o">*</span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transfer</span><span class="p">(</span><span class="o">*</span><span class="n">buffer</span><span class="p">);</span>
 <a id="line-111" name="line-111"></a><span class="w">        </span><span class="n">buffer</span><span class="o">++</span><span class="p">;</span>
@@ -484,20 +484,20 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-113" name="line-113"></a><span class="p">}</span>
 <a id="line-114" name="line-114"></a>
 <a id="line-115" name="line-115"></a><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">usingInterrupt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">interruptNumber</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-116" name="line-116"></a><span class="w">    </span><span class="c1">// TODO: Implement</span>
-<a id="line-117" name="line-117"></a><span class="p">}</span>
+<a id="line-116" name="line-116"></a><span class="hll"><span class="w">    </span><span class="c1">// TODO: Implement</span><span class="error2">&lt;--- method 'transfer' can be made static</span>
+</span><a id="line-117" name="line-117"></a><span class="p">}</span>
 <a id="line-118" name="line-118"></a>
 <a id="line-119" name="line-119"></a><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">notUsingInterrupt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">interruptNumber</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-120" name="line-120"></a><span class="w">    </span><span class="c1">// TODO: Implement</span>
-<a id="line-121" name="line-121"></a><span class="p">}</span>
+<a id="line-120" name="line-120"></a><span class="hll"><span class="w">    </span><span class="c1">// TODO: Implement</span><span class="error2">&lt;--- missing username/bug in TODO</span>
+</span><a id="line-121" name="line-121"></a><span class="p">}</span>
 <a id="line-122" name="line-122"></a>
 <a id="line-123" name="line-123"></a><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">attachInterrupt</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-124" name="line-124"></a><span class="w">    </span><span class="c1">// TODO: Implement</span>
-<a id="line-125" name="line-125"></a><span class="p">}</span>
+<a id="line-124" name="line-124"></a><span class="hll"><span class="w">    </span><span class="c1">// TODO: Implement</span><span class="error2">&lt;--- missing username/bug in TODO</span>
+</span><a id="line-125" name="line-125"></a><span class="p">}</span>
 <a id="line-126" name="line-126"></a>
 <a id="line-127" name="line-127"></a><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">detachInterrupt</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-128" name="line-128"></a><span class="w">    </span><span class="c1">// TODO: Implement</span>
-<a id="line-129" name="line-129"></a><span class="p">}</span>
+<a id="line-128" name="line-128"></a><span class="hll"><span class="w">    </span><span class="c1">// TODO: Implement</span><span class="error2">&lt;--- missing username/bug in TODO</span>
+</span><a id="line-129" name="line-129"></a><span class="p">}</span>
 <a id="line-130" name="line-130"></a>
 <a id="line-131" name="line-131"></a><span class="kt">void</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="o">::</span><span class="n">beginTransaction</span><span class="p">(</span><span class="n">arduino</span><span class="o">::</span><span class="n">SPISettings</span><span class="w"> </span><span class="n">settings</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="line-132" name="line-132"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">_is_initialized</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
