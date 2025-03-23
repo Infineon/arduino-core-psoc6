@@ -1,8 +1,9 @@
 #include "SPI.h"
 
-#define spi_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            return; \
-}
+#define spi_assert(cy_ret)           \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return;                      \
+    }
 
 SPIClassPSOC::SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel, bool is_slave)
     : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _is_slave(is_slave), _is_initialized(false) {
@@ -39,16 +40,20 @@ cyhal_spi_mode_t SPIClassPSOC::getSpiMode() const {
 
     switch (_settings.getDataMode()) {
         case SPI_MODE0:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_00_MSB : CYHAL_SPI_MODE_00_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_00_MSB
+                                                         : CYHAL_SPI_MODE_00_LSB;
             break;
         case SPI_MODE1:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_01_MSB : CYHAL_SPI_MODE_01_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_01_MSB
+                                                         : CYHAL_SPI_MODE_01_LSB;
             break;
         case SPI_MODE2:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_10_MSB : CYHAL_SPI_MODE_10_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_10_MSB
+                                                         : CYHAL_SPI_MODE_10_LSB;
             break;
         case SPI_MODE3:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_11_MSB : CYHAL_SPI_MODE_11_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_11_MSB
+                                                         : CYHAL_SPI_MODE_11_LSB;
             break;
         default:
             break;
@@ -64,11 +69,14 @@ byte SPIClassPSOC::transfer(uint8_t data) {
 }
 
 uint16_t SPIClassPSOC::transfer16(uint16_t data) {
-// Union to split 16-bit data into two 8-bit data
-    union { uint16_t val;
-            struct { uint8_t lsb;
-                     uint8_t msb;
-            };
+    // Union to split 16-bit data into two 8-bit data
+    union {
+        uint16_t val;
+
+        struct {
+            uint8_t lsb;
+            uint8_t msb;
+        };
     } data_in_out;
 
     data_in_out.val = data;
