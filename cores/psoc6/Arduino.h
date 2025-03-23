@@ -62,6 +62,10 @@ enum {
 
 #define abs(x) ((x) > 0 ? (x) : -(x))
 
+#ifndef nullptr
+    #define nullptr 0
+#endif
+
 // Globally enable or disable interrupts
 #define interrupts() __enable_irq()
 #define noInterrupts() __disable_irq()

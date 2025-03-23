@@ -54,8 +54,8 @@ private:
     cyhal_i2c_t i2c_obj;
     cy_rslt_t w_status;
     uint32_t timeout = 0; // Timeout in milliseconds
-    void (*user_onRequest)(void);
-    void (*user_onReceive)(int);
+    void (*user_onRequest)(void) = nullptr;
+    void (*user_onReceive)(int) = nullptr;
     void onRequestService(void);
     void onReceiveService(void);
     static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);
