@@ -74,6 +74,7 @@ public:
 
     uint8_t * macAddress(uint8_t *mac);
     IPAddress localIP();
+    IPAddress subnetMask();
     IPAddress gatewayIP();
     const char * SSID();
     uint8_t * BSSID(uint8_t *bssid);
