@@ -101,13 +101,10 @@ void wifiStatusPrint() {
   Serial.print("IP Address: ");
   Serial.println(ip);
 
-  /* TODO: Enable when functions are available. Not yet enabled */
-  /** 
   long rssi = WiFi.RSSI();
   Serial.print("signal strength (RSSI):");
   Serial.print(rssi);
   Serial.println(" dBm");
-  */
 
   /* Browser url to connected to server */
   Serial.print("To see this page in action, open a browser to http://");

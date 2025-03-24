@@ -76,9 +76,9 @@ void wifiConfigPrint() {
   Serial.print("BSSID: ");
   //TODO: Implement a readable print for MAC addresses.
   //printMacAddress(mac);
-
-  long rssi = WiFi.RSSI();y
+  */
+ 
+  long rssi = WiFi.RSSI();
   Serial.print("signal strength (RSSI):");
   Serial.println(rssi);
-  */
 }
