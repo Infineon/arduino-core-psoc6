@@ -122,6 +122,14 @@ public:
      */
     const char * SSID();
 
+    /*
+      * Return the current RSSI/Received Signal Strength in dBm)
+      * associated with the network
+      *
+      * return: signed value
+      */
+    int32_t RSSI();
+
     /**
      * Return Connection status
      * TODO: Clean up unused or irrelevant status codes for this core.

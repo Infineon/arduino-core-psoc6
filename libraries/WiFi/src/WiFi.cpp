@@ -38,7 +38,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
         _status == WIFI_STATUS_STA_DISCONNECTED) {
         cy_wcm_connect_params_t connect_params;
         set_connect_params_sta(&connect_params, ssid, passphrase);
-        
+
         cy_wcm_ip_address_t ipaddress;
         cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
         uint8_t retries = 3; /* This number has been selected arbitrarily. */
@@ -142,8 +142,8 @@ IPAddress WiFiClass::gatewayIP() {
     return ip;
 };
 
-const char* WiFiClass::SSID() {
-    switch(_mode)
+const char * WiFiClass::SSID() {
+    switch (_mode)
     {
         case CY_WCM_INTERFACE_TYPE_STA:
             return SSID_STA();
@@ -154,6 +154,30 @@ const char* WiFiClass::SSID() {
             or beginAP(). Return empty string. */
             _last_error = WIFI_ERROR_STATUS_INVALID;
             return "";
+    }
+}
+
+int32_t WiFiClass::RSSI() {
+    switch (_mode)
+    {
+        case CY_WCM_INTERFACE_TYPE_STA: {
+            cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
+            if (ret != CY_RSLT_SUCCESS) {
+                return INT32_MIN;
+            }
+            return (int32_t)(ap_info.signal_strength);
+        }
+        case CY_WCM_INTERFACE_TYPE_AP:
+            /* This function is not applicable. The return is not meaningful.
+               Return the lowest possible value, the closest to -inf dBm (no power).
+            */
+            _last_error = WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
+            return INT32_MIN;
+        default:
+            /* The instance has not yet called begin() or beginAP().
+            Return the lowest possible value, the closest to -inf dBm (no power). */
+            _last_error = WIFI_ERROR_STATUS_INVALID;
+            return INT32_MIN;
     }
 }
 
@@ -254,7 +278,7 @@ void WiFiClass::set_params_ap(cy_wcm_ap_config_t *ap_config, const char *ssid, c
 
 const char * WiFiClass::SSID_STA() {
     cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
-    if(ret != CY_RSLT_SUCCESS) {
+    if (ret != CY_RSLT_SUCCESS) {
         return "";
     }
     return (const char *)(&(ap_info.SSID));
