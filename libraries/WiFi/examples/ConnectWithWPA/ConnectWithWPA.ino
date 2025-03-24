@@ -45,12 +45,9 @@ void wifiConfigPrint() {
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
 
-  /* TODO: Enable when functions are available. Not yet enabled */
-  /** 
-  byte encryption = WiFi.encryptionType();
+  uint8_t encryption = WiFi.encryptionType();
   Serial.print("Encryption Type:");
   Serial.println(encryption, HEX);
-  */
  
   IPAddress ip = WiFi.localIP();
   Serial.print("IP Address: ");
