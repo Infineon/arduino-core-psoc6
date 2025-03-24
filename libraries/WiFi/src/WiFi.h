@@ -50,6 +50,17 @@ typedef enum {
     WIFI_ERROR_DEINIT_FAILED
 } wifi_error_t;
 
+typedef enum {
+    AUTH_MODE_INVALID,
+    AUTH_MODE_AUTO,
+    AUTH_MODE_OPEN_SYSTEM,
+    AUTH_MODE_SHARED_KEY,
+    AUTH_MODE_WPA,
+    AUTH_MODE_WPA2,
+    AUTH_MODE_WPA_WPA2,
+    AUTH_MODE_WPA3
+}wl_auth_mode;
+
 class WiFiClass {
 
 public:
@@ -79,6 +90,7 @@ public:
     const char * SSID();
     uint8_t * BSSID(uint8_t *bssid);
     int32_t RSSI();
+    uint8_t encryptionType();
     uint8_t status();
 
     int hostByName(const char *aHostname, IPAddress& ip);
@@ -124,6 +136,8 @@ private:
 
     const char * SSID_STA();
     const char * SSID_AP();
+
+    static wl_auth_mode convertEncryptType(cy_wcm_security_t wcm_sec);
 };
 
 extern WiFiClass & WiFi;
