@@ -54,13 +54,10 @@ void wifiConfigPrint() {
   Serial.print("IP Address: ");
   Serial.println(ip);
 
-  /* TODO: Enable when functions are available. Not yet enabled */
-  /** 
-
   IPAddress subnet = WiFi.subnetMask();
   Serial.print("NetMask: ");
   Serial.println(subnet);
- */
+ 
   IPAddress gateway = WiFi.gatewayIP();
   Serial.print("Gateway: ");
   Serial.println(gateway);
