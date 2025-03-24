@@ -98,11 +98,8 @@ void loop() {
   Serial.print("IP Address: ");
   Serial.println(ip);
 
-  /* TODO: Enable when functions are available. Not yet enabled */
-  /** 
   long rssi = WiFi.RSSI();
   Serial.print("signal strength (RSSI):");
   Serial.print(rssi);
   Serial.println(" dBm");
-  */
  }
