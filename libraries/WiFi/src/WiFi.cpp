@@ -110,6 +110,19 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t cha
     return _status;
 }
 
+uint8_t * WiFiClass::macAddress(uint8_t *mac) {
+    cy_wcm_mac_t wcm_mac;
+    cy_rslt_t ret = cy_wcm_get_mac_addr(_mode, &wcm_mac);
+    if (ret != CY_RSLT_SUCCESS) {
+        _last_error = WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
+        memset(mac, 0, CY_WCM_MAC_ADDR_LEN);
+    }
+
+    memcpy(mac, wcm_mac, CY_WCM_MAC_ADDR_LEN);
+
+    return mac;
+}
+
 IPAddress WiFiClass::localIP() {
     if (_status == WIFI_STATUS_UNINITED) {
         _last_error = WIFI_ERROR_STATUS_INVALID;
@@ -154,6 +167,30 @@ const char * WiFiClass::SSID() {
             or beginAP(). Return empty string. */
             _last_error = WIFI_ERROR_STATUS_INVALID;
             return "";
+    }
+}
+
+uint8_t * WiFiClass::BSSID(uint8_t *bssid) {
+    switch (_mode)
+    {
+        case CY_WCM_INTERFACE_TYPE_STA: {
+            cy_wcm_associated_ap_info_t ap_info;
+            cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
+            if (ret != CY_RSLT_SUCCESS) {
+                memset(bssid, 0, CY_WCM_MAC_ADDR_LEN);
+                return bssid;
+            }
+            memcpy(bssid, ap_info.BSSID, CY_WCM_MAC_ADDR_LEN);
+            return bssid;
+        }
+        case CY_WCM_INTERFACE_TYPE_AP:
+            return macAddress(bssid);
+        default:
+            /* The instance has not yet called begin() or beginAP().
+            Return nullptr. */
+            _last_error = WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
+            memset(bssid, 0, CY_WCM_MAC_ADDR_LEN);
+            return bssid;
     }
 }
 
