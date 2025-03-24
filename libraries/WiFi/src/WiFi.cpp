@@ -119,7 +119,6 @@ uint8_t * WiFiClass::macAddress(uint8_t *mac) {
     }
 
     memcpy(mac, wcm_mac, CY_WCM_MAC_ADDR_LEN);
-
     return mac;
 }
 
@@ -137,6 +136,21 @@ IPAddress WiFiClass::localIP() {
 
     IPAddress ip(ip_address.ip.v4);
     return ip;
+}
+
+IPAddress WiFiClass::subnetMask() {
+    if (_status == WIFI_STATUS_UNINITED) {
+        _last_error = WIFI_ERROR_STATUS_INVALID;
+        return IPAddress(0, 0, 0, 0);
+    }
+
+    cy_wcm_ip_address_t subnet_mask;
+    cy_rslt_t ret = cy_wcm_get_ip_netmask(_mode, &subnet_mask);
+    if (ret != CY_RSLT_SUCCESS) {
+        return IPAddress(0, 0, 0, 0);
+    }
+
+    return IPAddress(subnet_mask.ip.v4);
 }
 
 IPAddress WiFiClass::gatewayIP() {
