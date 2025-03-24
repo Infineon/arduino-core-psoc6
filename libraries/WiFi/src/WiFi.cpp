@@ -188,7 +188,6 @@ uint8_t * WiFiClass::BSSID(uint8_t *bssid) {
     switch (_mode)
     {
         case CY_WCM_INTERFACE_TYPE_STA: {
-            cy_wcm_associated_ap_info_t ap_info;
             cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
             if (ret != CY_RSLT_SUCCESS) {
                 memset(bssid, 0, CY_WCM_MAC_ADDR_LEN);
@@ -229,6 +228,25 @@ int32_t WiFiClass::RSSI() {
             Return the lowest possible value, the closest to -inf dBm (no power). */
             _last_error = WIFI_ERROR_STATUS_INVALID;
             return INT32_MIN;
+    }
+}
+
+uint8_t WiFiClass::encryptionType() {
+    switch (_mode)
+    {
+        case CY_WCM_INTERFACE_TYPE_STA: {
+            cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
+            if (ret != CY_RSLT_SUCCESS) {
+                return AUTH_MODE_INVALID;
+            }
+            return convertEncryptType(ap_info.security);
+        }
+        case CY_WCM_INTERFACE_TYPE_AP:
+            return convertEncryptType(ap_conf.ap_credentials.security);
+        default:
+            /* The instance has not yet called begin() or beginAP().*/
+            _last_error = WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
+            return AUTH_MODE_INVALID;
     }
 }
 
@@ -337,6 +355,54 @@ const char * WiFiClass::SSID_STA() {
 
 const char * WiFiClass::SSID_AP() {
     return (const char *)(&(ap_conf.ap_credentials.SSID));
+}
+
+wl_auth_mode WiFiClass::convertEncryptType(cy_wcm_security_t wcm_sec) {
+    wl_auth_mode sec_type = AUTH_MODE_INVALID;
+
+    switch (wcm_sec)
+    {
+        case CY_WCM_SECURITY_OPEN:
+            sec_type = AUTH_MODE_OPEN_SYSTEM;
+            break;
+        case CY_WCM_SECURITY_WEP_PSK:
+        case CY_WCM_SECURITY_WEP_SHARED:
+        case CY_WCM_SECURITY_IBSS_OPEN:
+            sec_type = AUTH_MODE_SHARED_KEY;
+            break;
+        case CY_WCM_SECURITY_WPA_AES_PSK:
+        case CY_WCM_SECURITY_WPA_MIXED_PSK:
+        case CY_WCM_SECURITY_WPA_TKIP_PSK:
+        case CY_WCM_SECURITY_WPA_TKIP_ENT:
+        case CY_WCM_SECURITY_WPA_AES_ENT:
+        case CY_WCM_SECURITY_WPA_MIXED_ENT:
+            sec_type = AUTH_MODE_WPA;
+            break;
+        case CY_WCM_SECURITY_WPA2_AES_PSK:
+        case CY_WCM_SECURITY_WPA2_TKIP_PSK:
+        case CY_WCM_SECURITY_WPA2_MIXED_PSK:
+        case CY_WCM_SECURITY_WPA2_FBT_PSK:
+        case CY_WCM_SECURITY_WPA2_TKIP_ENT:
+        case CY_WCM_SECURITY_WPA2_AES_ENT:
+        case CY_WCM_SECURITY_WPA2_MIXED_ENT:
+        case CY_WCM_SECURITY_WPA2_FBT_ENT:
+            sec_type = AUTH_MODE_WPA2;
+            break;
+        case CY_WCM_SECURITY_WPA2_WPA_AES_PSK:
+        case CY_WCM_SECURITY_WPA2_WPA_MIXED_PSK:
+            sec_type = AUTH_MODE_WPA_WPA2;
+            break;
+        case CY_WCM_SECURITY_WPA3_SAE:
+        case CY_WCM_SECURITY_WPA3_WPA2_PSK:
+            sec_type = AUTH_MODE_WPA3;
+            break;
+        case CY_WCM_SECURITY_WPS_SECURE:
+        case CY_WCM_SECURITY_UNKNOWN:
+        default:
+            sec_type = AUTH_MODE_INVALID;
+            break;
+    }
+    return sec_type;
 }
 
 WiFiClass & WiFi = WiFiClass::get_instance();
