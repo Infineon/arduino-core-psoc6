@@ -60,25 +60,32 @@ void wifiConfigPrint() {
   IPAddress subnet = WiFi.subnetMask();
   Serial.print("NetMask: ");
   Serial.println(subnet);
-
+ */
   IPAddress gateway = WiFi.gatewayIP();
   Serial.print("Gateway: ");
   Serial.println(gateway);
 
-  byte mac[6];
+  uint8_t mac[6];
   WiFi.macAddress(mac);
   Serial.print("MAC address: ");
-  //TODO: Implement a readable print for MAC addresses.
-  //printMacAddress(mac);
+  macAddressPrint(mac);
 
-  byte bssid[6];
+  uint8_t bssid[6];
   WiFi.BSSID(bssid);
   Serial.print("BSSID: ");
-  //TODO: Implement a readable print for MAC addresses.
-  //printMacAddress(mac);
-  */
+  macAddressPrint(bssid);
  
   long rssi = WiFi.RSSI();
   Serial.print("signal strength (RSSI):");
   Serial.println(rssi);
+}
+
+void macAddressPrint(uint8_t *mac) {
+  for (int i = 0; i < 6; i++) {
+    Serial.print(mac[i], HEX);
+    if (i < 5) {
+      Serial.print(":");
+    }
+  }
+  Serial.println();
 }

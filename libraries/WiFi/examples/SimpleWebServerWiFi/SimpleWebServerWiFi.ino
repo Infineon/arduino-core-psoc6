@@ -42,7 +42,6 @@ void setup() {
   wifiStatusPrint();                      
 }
 
-
 void loop() {
   WiFiClient client = server.available();  
 
