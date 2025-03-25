@@ -16,6 +16,11 @@
             return ret_code; \
 }
 
+#define wcm_config_assert_raise(cy_ret, ret_value)   if (cy_ret != CY_RSLT_SUCCESS) { \
+            _last_error = WIFI_ERROR_READ_WRITE_CONFIG_FAILED; \
+            return ret_value; \
+}
+
 WiFiClass & WiFiClass::get_instance() {
     static WiFiClass wifi_singleton;
     return wifi_singleton;
@@ -112,11 +117,10 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t cha
 
 uint8_t * WiFiClass::macAddress(uint8_t *mac) {
     cy_wcm_mac_t wcm_mac;
+    memset(mac, 0, CY_WCM_MAC_ADDR_LEN);
+
     cy_rslt_t ret = cy_wcm_get_mac_addr(_mode, &wcm_mac);
-    if (ret != CY_RSLT_SUCCESS) {
-        _last_error = WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE;
-        memset(mac, 0, CY_WCM_MAC_ADDR_LEN);
-    }
+    wcm_config_assert_raise(ret, mac);
 
     memcpy(mac, wcm_mac, CY_WCM_MAC_ADDR_LEN);
     return mac;
@@ -130,9 +134,7 @@ IPAddress WiFiClass::localIP() {
 
     cy_wcm_ip_address_t ip_address;
     cy_rslt_t ret = cy_wcm_get_ip_addr(_mode, &ip_address);
-    if (ret != CY_RSLT_SUCCESS) {
-        return IPAddress(0, 0, 0, 0);
-    }
+    wcm_config_assert_raise(ret, IPAddress(0, 0, 0, 0));
 
     IPAddress ip(ip_address.ip.v4);
     return ip;
@@ -146,9 +148,7 @@ IPAddress WiFiClass::subnetMask() {
 
     cy_wcm_ip_address_t subnet_mask;
     cy_rslt_t ret = cy_wcm_get_ip_netmask(_mode, &subnet_mask);
-    if (ret != CY_RSLT_SUCCESS) {
-        return IPAddress(0, 0, 0, 0);
-    }
+    wcm_config_assert_raise(ret, IPAddress(0, 0, 0, 0));
 
     return IPAddress(subnet_mask.ip.v4);
 }
@@ -161,9 +161,7 @@ IPAddress WiFiClass::gatewayIP() {
 
     cy_wcm_ip_address_t gateway_ip;
     cy_rslt_t ret = cy_wcm_get_gateway_ip_address(_mode, &gateway_ip);
-    if (ret != CY_RSLT_SUCCESS) {
-        return IPAddress(0, 0, 0, 0);
-    }
+    wcm_config_assert_raise(ret, IPAddress(0, 0, 0, 0));
 
     IPAddress ip(gateway_ip.ip.v4);
     return ip;
@@ -185,14 +183,13 @@ const char * WiFiClass::SSID() {
 }
 
 uint8_t * WiFiClass::BSSID(uint8_t *bssid) {
+    memset(bssid, 0, CY_WCM_MAC_ADDR_LEN);
     switch (_mode)
     {
         case CY_WCM_INTERFACE_TYPE_STA: {
             cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
-            if (ret != CY_RSLT_SUCCESS) {
-                memset(bssid, 0, CY_WCM_MAC_ADDR_LEN);
-                return bssid;
-            }
+            wcm_config_assert_raise(ret, bssid);
+
             memcpy(bssid, ap_info.BSSID, CY_WCM_MAC_ADDR_LEN);
             return bssid;
         }
@@ -212,9 +209,8 @@ int32_t WiFiClass::RSSI() {
     {
         case CY_WCM_INTERFACE_TYPE_STA: {
             cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
-            if (ret != CY_RSLT_SUCCESS) {
-                return INT32_MIN;
-            }
+            wcm_config_assert_raise(ret, INT32_MIN);
+
             return (int32_t)(ap_info.signal_strength);
         }
         case CY_WCM_INTERFACE_TYPE_AP:
@@ -236,9 +232,8 @@ uint8_t WiFiClass::encryptionType() {
     {
         case CY_WCM_INTERFACE_TYPE_STA: {
             cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
-            if (ret != CY_RSLT_SUCCESS) {
-                return AUTH_MODE_INVALID;
-            }
+            wcm_config_assert_raise(ret, AUTH_MODE_INVALID);
+
             return convertEncryptType(ap_info.security);
         }
         case CY_WCM_INTERFACE_TYPE_AP:
@@ -347,9 +342,8 @@ void WiFiClass::set_params_ap(cy_wcm_ap_config_t *ap_config, const char *ssid, c
 
 const char * WiFiClass::SSID_STA() {
     cy_rslt_t ret = cy_wcm_get_associated_ap_info(&ap_info);
-    if (ret != CY_RSLT_SUCCESS) {
-        return "";
-    }
+    wcm_config_assert_raise(ret, "");
+
     return (const char *)(&(ap_info.SSID));
 }
 
