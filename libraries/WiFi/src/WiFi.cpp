@@ -253,6 +253,40 @@ int WiFiClass::hostByName(const char *aHostname, IPAddress& ip) {
     return Socket::hostByName(aHostname, ip);
 }
 
+int WiFiClass::ping(const char *hostname, uint8_t ttl) {
+    IPAddress ip;
+
+    if (!hostByName(hostname, ip)) {
+        return WIFI_ERROR_PING_FAILED;
+    }
+
+    return ping(ip, ttl);
+}
+
+int WiFiClass::ping(const String &hostname, uint8_t ttl) {
+    return ping(hostname.c_str(), ttl);
+}
+
+int WiFiClass::ping(IPAddress host, uint8_t ttl) {
+    (void)ttl; /* Unused parameters. Not available in wcm ping() API.
+                  Preserved for compatibility with other cores. */
+
+    if (_status == WIFI_STATUS_UNINITED) {
+        _last_error = WIFI_ERROR_STATUS_INVALID;
+        return WIFI_ERROR_PING_FAILED;
+    }
+
+    const uint32_t timeout_ms = 10000;
+    uint32_t elapsed_ms = 0; /* Unused */
+    uint32_t ip_u32 = (host[3] << 24) | (host[2] << 16) | (host[1] << 8) | host[0];
+    cy_wcm_ip_address_t ip_addr = { .version = CY_WCM_IP_VER_V4, .ip = {.v4 = ip_u32} };
+
+    cy_rslt_t ret = cy_wcm_ping(_mode, &ip_addr, timeout_ms, &elapsed_ms);
+    wcm_assert_raise(ret, WIFI_ERROR_PING_FAILED);
+
+    return WIFI_ERROR_NONE;
+}
+
 wifi_error_t WiFiClass::getLastError() {
     return _last_error;
 }
