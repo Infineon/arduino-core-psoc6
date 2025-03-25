@@ -48,7 +48,8 @@ typedef enum {
     WIFI_ERROR_STA_AP_MODE_INCOMPATIBLE,
     WIFI_ERROR_STATUS_INVALID,
     WIFI_ERROR_DEINIT_FAILED,
-    WIFI_ERROR_READ_WRITE_CONFIG_FAILED
+    WIFI_ERROR_READ_WRITE_CONFIG_FAILED,
+    WIFI_ERROR_PING_FAILED
 } wifi_error_t;
 
 typedef enum {
@@ -95,6 +96,10 @@ public:
     uint8_t status();
 
     int hostByName(const char *aHostname, IPAddress& ip);
+
+    int ping(const char *hostname, uint8_t ttl = 128);
+    int ping(const String &hostname, uint8_t ttl = 128);
+    int ping(IPAddress host, uint8_t ttl = 128);
 
     wifi_error_t getLastError();
 
