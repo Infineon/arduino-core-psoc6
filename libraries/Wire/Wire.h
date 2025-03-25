@@ -3,14 +3,15 @@
 
 #include <Arduino.h>
 #include "cyhal_i2c.h"
+#include "RingBuffer.h"
 
 class TwoWire {
 public:
 
-    static const size_t BUFFER_LENGTH = 32;
+    static const size_t BUFFER_LENGTH = 256;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
-    TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance = 0);
+    TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl);
 
     enum I2C_ErrorCodes {
         I2C_SUCCESS = CY_RSLT_SUCCESS,
@@ -38,19 +39,13 @@ public:
     void onRequest(void (*function)(void));
 
 private:
-    static TwoWire * instances[I2C_HOWMANY];
     void _begin();
     cyhal_gpio_t sda_pin;
     cyhal_gpio_t scl_pin;
-    uint8_t instance;
     bool is_master;
     uint16_t slave_address;
-    uint8_t rxBuffer[BUFFER_LENGTH];
-    uint8_t txBuffer[BUFFER_LENGTH];
-    size_t rxBufferIndex = 0;
-    size_t rxBufferLength = 0;
-    size_t txBufferIndex = 0;
-    size_t txBufferLength = 0;
+    arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
+    arduino::RingBufferN < BUFFER_LENGTH > txBuffer;
     uint8_t txAddress;
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
