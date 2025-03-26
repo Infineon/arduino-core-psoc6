@@ -11,9 +11,19 @@
             return; \
 }
 
+#define wcm_assert_raise_ret(cy_ret, ret_code, ret_value)   if (cy_ret != CY_RSLT_SUCCESS) { \
+            _last_error = ret_code; \
+            return ret_value; \
+}
+
 #define wifi_assert_raise(ret_code)  if (ret_code != WIFI_ERROR_NONE) { \
             _last_error = ret_code; \
             return ret_code; \
+}
+
+#define wifi_assert_raise_ret(ret_code, ret_value)  if (ret_code != WIFI_ERROR_NONE) { \
+            _last_error = ret_code; \
+            return ret_value; \
 }
 
 #define wcm_config_assert_raise(cy_ret, ret_value)   if (cy_ret != CY_RSLT_SUCCESS) { \
@@ -245,6 +255,68 @@ uint8_t WiFiClass::encryptionType() {
     }
 }
 
+int8_t WiFiClass::scanNetworks() {
+    /* This function can be called before setting
+    the instance as access point (begin()) or station
+    (beginAP()). This is the unitialization status.
+    Therefore we have to initialize the WCM. */
+    bool uninited = (_status == WIFI_STATUS_UNINITED);
+    if (uninited) {
+        /* Set mode as Access Point + Station.
+           It does not matter. */
+        _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_AP_STA);
+        wifi_assert_raise_ret(_last_error, 0);
+    }
+
+    cy_rslt_t ret = cy_wcm_start_scan(WiFiClass::wcm_scan_cb, (void *)&scan_results, NULL);
+    wcm_assert_raise_ret(ret, WIFI_ERROR_SCAN_FAILED, 0);
+
+    while (scan_results.status == CY_WCM_SCAN_INCOMPLETE) {
+    }
+
+    /* Deinitialize if it was not already assigned as access
+    point or station. */
+    if (uninited) {
+        end();
+    }
+
+    return scan_results.result_count;
+}
+
+const char * WiFiClass::SSID(uint8_t networkItem) {
+    if (networkItem >= scan_results.result_count) {
+        return "";
+    }
+
+    return (const char *)scan_results.results[networkItem].SSID;
+}
+
+uint8_t * WiFiClass::BSSID(uint8_t networkItem, uint8_t *bssid) {
+    if (networkItem >= scan_results.result_count) {
+        memset(bssid, 0, CY_WCM_MAC_ADDR_LEN);
+        return bssid;
+    }
+
+    memcpy(bssid, (uint8_t *)scan_results.results[networkItem].BSSID, CY_WCM_MAC_ADDR_LEN);
+    return bssid;
+}
+
+int32_t WiFiClass::RSSI(uint8_t networkItem) {
+    if (networkItem >= scan_results.result_count) {
+        return INT32_MIN;
+    }
+
+    return (int32_t)scan_results.results[networkItem].signal_strength;
+}
+
+uint8_t WiFiClass::encryptionType(uint8_t networkItem) {
+    if (networkItem >= scan_results.result_count) {
+        return AUTH_MODE_INVALID;
+    }
+
+    return convertEncryptType(scan_results.results[networkItem].security);
+}
+
 uint8_t WiFiClass::status() {
     return _status;
 }
@@ -431,6 +503,24 @@ wl_auth_mode WiFiClass::convertEncryptType(cy_wcm_security_t wcm_sec) {
             break;
     }
     return sec_type;
+}
+/* Callback function for scanNetworks() method. After each scan result, the scan callback is executed.*/
+void WiFiClass::wcm_scan_cb(cy_wcm_scan_result_t *result_ptr, void *user_data, cy_wcm_scan_status_t status) {
+    scan_results_t *scan_user_data = (scan_results_t *)user_data;
+
+    /* Stop after if more results than the maximum are available */
+    if (scan_user_data->result_count > CY_MAX_SCAN_RESULTS) {
+        cy_wcm_stop_scan();
+        scan_user_data->status = CY_WCM_SCAN_COMPLETE;
+        return;
+    }
+
+    if (status == CY_WCM_SCAN_INCOMPLETE) {
+        memcpy(&(scan_user_data->results[scan_user_data->result_count]), result_ptr, sizeof(cy_wcm_scan_result_t));
+        (scan_user_data->result_count)++;
+    }
+
+    scan_user_data->status = status;
 }
 
 WiFiClass & WiFi = WiFiClass::get_instance();
