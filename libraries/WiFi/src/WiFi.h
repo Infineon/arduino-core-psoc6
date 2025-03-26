@@ -41,6 +41,7 @@ typedef enum {
 typedef enum {
     WIFI_ERROR_NONE = 0,
     WIFI_ERROR_INIT_FAILED = WL_NO_SHIELD,
+    WIFI_ERROR_SCAN_FAILED,
     WIFI_ERROR_STA_CONNECT_FAILED = WL_CONNECT_FAILED,
     WIFI_ERROR_AP_LISTENING_FAILED = WL_AP_FAILED,
     WIFI_ERROR_STA_DISCONNECT_FAILED,
@@ -93,6 +94,13 @@ public:
     uint8_t * BSSID(uint8_t *bssid);
     int32_t RSSI();
     uint8_t encryptionType();
+
+    int8_t scanNetworks();
+    const char * SSID(uint8_t networkItem);
+    uint8_t * BSSID(uint8_t networkItem, uint8_t *bssid);
+    int32_t RSSI(uint8_t networkItem);
+    uint8_t     encryptionType(uint8_t networkItem);
+
     uint8_t status();
 
     int hostByName(const char *aHostname, IPAddress& ip);
@@ -144,6 +152,17 @@ private:
     const char * SSID_AP();
 
     static wl_auth_mode convertEncryptType(cy_wcm_security_t wcm_sec);
+
+    static const uint8_t CY_MAX_SCAN_RESULTS = 10;
+    typedef struct {
+        cy_wcm_scan_status_t status;
+        int8_t result_count;
+        cy_wcm_scan_result_t results[CY_MAX_SCAN_RESULTS];
+    }scan_results_t;
+
+    volatile scan_results_t scan_results = {CY_WCM_SCAN_INCOMPLETE, 0, {}};
+
+    static void wcm_scan_cb(cy_wcm_scan_result_t *result_ptr, void *user_data, cy_wcm_scan_status_t status);
 };
 
 extern WiFiClass & WiFi;
