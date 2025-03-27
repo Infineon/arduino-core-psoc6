@@ -83,6 +83,11 @@ public:
     uint8_t beginAP(const char *ssid, const char *passphrase);
     uint8_t beginAP(const char *ssid, const char *passphrase, uint8_t channel);
 
+    void config(IPAddress local_ip);
+    void config(IPAddress local_ip, IPAddress dns_server);
+    void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway);
+    void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet);
+
     int disconnect(void);
     void end(void);
 
@@ -90,6 +95,7 @@ public:
     IPAddress localIP();
     IPAddress subnetMask();
     IPAddress gatewayIP();
+    IPAddress dnsIP(int n = 0);
     const char * SSID();
     uint8_t * BSSID(uint8_t *bssid);
     int32_t RSSI();
@@ -99,7 +105,7 @@ public:
     const char * SSID(uint8_t networkItem);
     uint8_t * BSSID(uint8_t networkItem, uint8_t *bssid);
     int32_t RSSI(uint8_t networkItem);
-    uint8_t     encryptionType(uint8_t networkItem);
+    uint8_t encryptionType(uint8_t networkItem);
 
     uint8_t status();
 
@@ -120,7 +126,14 @@ private:
     volatile wifi_status_t _status = WIFI_STATUS_UNINITED;
     wifi_error_t _last_error = WIFI_ERROR_NONE;
 
+    /* IP settings */
+    bool user_static_ip_settings = false;
+    cy_wcm_ip_setting_t ip_settings = {{}, {}, {}};
+
     /* AP configuration */
+    const char *DEFAULT_AP_IP = "192.168.0.1";
+    const char *DEFAULT_AP_GATEWAY_IP = "192.168.0.1";
+    const char *DEFAULT_AP_SUBNET_MASK = "255.255.255.0";
     cy_wcm_ap_config_t ap_conf;
 
     /* STA configuration */
@@ -146,7 +159,10 @@ private:
     int disconnectAP(void);
 
     static void set_connect_params_sta(cy_wcm_connect_params_t *connect_params, const char *ssid, const char *passphrase);
-    void set_params_ap(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel);
+    void set_params_ap(const char *ssid, const char *passphrase, uint8_t channel);
+
+    void set_ip_settings_ap();
+    void set_ip_settings_sta(cy_wcm_connect_params_t *connect_params);
 
     const char * SSID_STA();
     const char * SSID_AP();
