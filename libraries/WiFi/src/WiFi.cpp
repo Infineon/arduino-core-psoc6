@@ -1,6 +1,7 @@
 #include <WiFi.h>
 #include "api/Common.h"
 #include "SecSocket.h"
+#include "lwip/dns.h"
 
 #define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _last_error = ret_code; \
@@ -54,6 +55,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
         _status == WIFI_STATUS_STA_DISCONNECTED) {
         cy_wcm_connect_params_t connect_params;
         set_connect_params_sta(&connect_params, ssid, passphrase);
+        set_ip_settings_sta(&connect_params);
 
         cy_wcm_ip_address_t ipaddress;
         cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
@@ -111,11 +113,8 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t cha
 
     if (_status == WIFI_STATUS_INITED ||
         _status == WIFI_STATUS_AP_DISCONNECTED) {
-        set_params_ap(&ap_conf, ssid, passphrase, channel);
-
-        /** TODO: This can be added to set_params_ap? Wait for the development of config function() */
-        /* The AP requires some default IP settings */
-        cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), "192.168.0.1", "255.255.255.0", "192.168.0.1", CY_WCM_IP_VER_V4);
+        set_params_ap(ssid, passphrase, channel);
+        set_ip_settings_ap();
 
         cy_rslt_t ret = cy_wcm_start_ap(&ap_conf);
         wcm_assert_raise(ret, WIFI_ERROR_AP_LISTENING_FAILED);
@@ -124,6 +123,35 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t cha
     }
 
     return _status;
+}
+
+void WiFiClass::config(IPAddress local_ip) {
+    const ip_addr_t *dns = dns_getserver(0);
+    config(local_ip, IPAddress(dns->addr));
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server) {
+    config(local_ip, dns_server, IPAddress(DEFAULT_AP_GATEWAY_IP));
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway) {
+    config(local_ip, dns_server, gateway, IPAddress(DEFAULT_AP_SUBNET_MASK));
+}
+
+void WiFiClass::config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet) {
+    user_static_ip_settings = true;
+
+    ip_settings.ip_address.version = CY_WCM_IP_VER_V4;
+    ip_settings.ip_address.ip.v4 = uint32_t(local_ip);
+
+    const ip_addr_t dns = {.addr = uint32_t(dns_server)};
+    dns_setserver(0, &dns);
+
+    ip_settings.netmask.version = CY_WCM_IP_VER_V4;
+    ip_settings.netmask.ip.v4 = uint32_t(subnet);
+
+    ip_settings.gateway.version = CY_WCM_IP_VER_V4;
+    ip_settings.gateway.ip.v4 = uint32_t(gateway);
 }
 
 uint8_t * WiFiClass::macAddress(uint8_t *mac) {
@@ -177,6 +205,11 @@ IPAddress WiFiClass::gatewayIP() {
     IPAddress ip(gateway_ip.ip.v4);
     return ip;
 };
+
+IPAddress WiFiClass::dnsIP(int n) {
+    const ip_addr_t *dns = dns_getserver(n);
+    return IPAddress(dns->addr);
+}
 
 const char * WiFiClass::SSID() {
     switch (_mode)
@@ -434,20 +467,44 @@ void WiFiClass::set_connect_params_sta(cy_wcm_connect_params_t *connect_params, 
     }
 }
 
-void WiFiClass::set_params_ap(cy_wcm_ap_config_t *ap_config, const char *ssid, const char *passphrase, uint8_t channel) {
+void WiFiClass::set_params_ap(const char *ssid, const char *passphrase, uint8_t channel) {
     /* Initialized all AP config params to zero */
-    memset(ap_config, 0, sizeof(cy_wcm_ap_config_t));
+    memset(&ap_conf, 0, sizeof(cy_wcm_ap_config_t));
 
-    ap_config->channel = channel;
-    memcpy(ap_config->ap_credentials.SSID, ssid, strlen(ssid));
+    ap_conf.channel = channel;
+    memcpy(ap_conf.ap_credentials.SSID, ssid, strlen(ssid));
 
     /* If no passphrase is provided set configuration to open. */
     if (passphrase != nullptr) {
-        memcpy(ap_config->ap_credentials.password, passphrase, strlen(passphrase));
+        memcpy(ap_conf.ap_credentials.password, passphrase, strlen(passphrase));
         /* Default security is WPA2_AES_PSK */
-        ap_config->ap_credentials.security = CY_WCM_SECURITY_WPA2_AES_PSK;
+        ap_conf.ap_credentials.security = CY_WCM_SECURITY_WPA2_AES_PSK;
     } else {
-        ap_config->ap_credentials.security = CY_WCM_SECURITY_OPEN;
+        ap_conf.ap_credentials.security = CY_WCM_SECURITY_OPEN;
+    }
+}
+
+void WiFiClass::set_ip_settings_ap() {
+    IPAddress ip;
+    IPAddress gateway_ip;
+    IPAddress subnet_mask;
+
+    if (user_static_ip_settings) {
+        ip = IPAddress(ip_settings.ip_address.ip.v4);
+        gateway_ip = IPAddress(ip_settings.gateway.ip.v4);
+        subnet_mask = IPAddress(ip_settings.netmask.ip.v4);
+    } else {
+        ip = IPAddress(DEFAULT_AP_IP);
+        gateway_ip = IPAddress(DEFAULT_AP_GATEWAY_IP);
+        subnet_mask = IPAddress(DEFAULT_AP_SUBNET_MASK);
+    }
+
+    cy_wcm_set_ap_ip_setting(&(ap_conf.ip_settings), ip.toString().c_str(), subnet_mask.toString().c_str(), gateway_ip.toString().c_str(), CY_WCM_IP_VER_V4);
+}
+
+void WiFiClass::set_ip_settings_sta(cy_wcm_connect_params_t *connect_params) {
+    if (user_static_ip_settings) {
+        connect_params->static_ip_settings = &ip_settings;
     }
 }
 
