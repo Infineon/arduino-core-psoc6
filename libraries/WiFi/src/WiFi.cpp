@@ -1,4 +1,5 @@
 #include <WiFi.h>
+#include "api/Common.h"
 #include "SecSocket.h"
 
 #define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
@@ -271,7 +272,11 @@ int8_t WiFiClass::scanNetworks() {
     cy_rslt_t ret = cy_wcm_start_scan(WiFiClass::wcm_scan_cb, (void *)&scan_results, NULL);
     wcm_assert_raise_ret(ret, WIFI_ERROR_SCAN_FAILED, 0);
 
-    while (scan_results.status == CY_WCM_SCAN_INCOMPLETE) {
+    constexpr uint16_t timeout = 1000; /* 1000 times by 10 ms delay = 10 seconds */
+    uint16_t timer = 0;
+    while (scan_results.status == CY_WCM_SCAN_INCOMPLETE || timer < timeout) {
+        delay(10);
+        timer++;
     }
 
     /* Deinitialize if it was not already assigned as access
