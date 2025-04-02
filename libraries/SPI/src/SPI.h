@@ -7,7 +7,7 @@
 
 class SPIClassPSOC: public arduino::HardwareSPI {
 public:
-    SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel);
+    SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel = SPI1_SSEL_PIN_DEFAULT, bool is_slave = false);
     ~SPIClassPSOC();
 
     virtual byte transfer(uint8_t data);
@@ -25,7 +25,7 @@ public:
     virtual void begin();
     virtual void end();
 
-    cy_rslt_t status;
+    cy_rslt_t status = CY_RSLT_TYPE_ERROR;
 
 private:
     arduino::SPISettings const DEFAULT_SPI_SETTINGS = arduino::SPISettings(1000000, MSBFIRST, arduino::SPI_MODE0);
@@ -45,6 +45,7 @@ private:
 
 #if (SPI_HOWMANY > 0)
 extern SPIClassPSOC SPI;
+extern SPIClassPSOC SPI1;
 #endif
 
 #endif // SPI_H
