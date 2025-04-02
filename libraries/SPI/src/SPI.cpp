@@ -5,8 +5,9 @@
 }
 
 
-SPIClassPSOC::SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel)
-    : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _ssel_pin(ssel), _is_initialized(false), _is_slave(false) {
+SPIClassPSOC::SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel, bool is_slave)
+    : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _is_initialized(false), _is_slave(is_slave) {
+    _ssel_pin = _is_slave ? ssel : NC;
 }
 
 SPIClassPSOC::~SPIClassPSOC() {
@@ -14,12 +15,11 @@ SPIClassPSOC::~SPIClassPSOC() {
 }
 
 void SPIClassPSOC::begin() {
-    cy_rslt_t status;
     if (_is_initialized) {
         return;
     }
-
     status = cyhal_spi_init(&_spi_obj, _mosi_pin, _miso_pin, _sck_pin, _ssel_pin, NULL, 8, getSpiMode(), _is_slave);
+
     spi_assert(status);
     status = cyhal_spi_set_frequency(&_spi_obj, _settings.getClockFreq());
     spi_assert(status);
@@ -62,7 +62,6 @@ byte SPIClassPSOC::transfer(uint8_t data) {
     uint8_t receive_data = 0;
     status = cyhal_spi_transfer(&_spi_obj, &data, 1, &receive_data, 1, 0xFF);
     spi_assert(status);
-
     return receive_data;
 }
 
@@ -117,10 +116,12 @@ void SPIClassPSOC::beginTransaction(arduino::SPISettings settings) {
         begin();
     }
 }
+
 void SPIClassPSOC::endTransaction() {
     end();
 }
 
 #if SPI_HOWMANY > 0
-SPIClassPSOC SPI = SPIClassPSOC(SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_SCK_PIN, SPI1_SSEL_PIN);
+SPIClassPSOC SPI = SPIClassPSOC(SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_SCK_PIN);
+// SPIClassPSOC SPI1 = SPIClassPSOC(SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_SCK_PIN, SPI1_SSEL_PIN_DEFAULT, true);
 #endif
