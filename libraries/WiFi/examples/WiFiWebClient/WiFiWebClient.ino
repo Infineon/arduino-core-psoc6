@@ -22,7 +22,6 @@
 
 
 #include <WiFi.h>
-#include <IPAddress.h>
 #include "secrets.h" 
  
 /* Add the SSID name and PASSWORD to the secrets.h file */
