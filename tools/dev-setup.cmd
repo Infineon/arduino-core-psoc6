@@ -19,21 +19,4 @@ set "core_api_submodule_dir=%cd%\..\extras\arduino-core-api"
 
 xcopy /e /i /y "%core_api_submodule_dir%\api" "%cores_psoc6_dir%\api"
 
-
-REM Function to replace String.h with WString.h in Arduino core APIs
-:replace_string_h_with_wstring_h
-
-REM This statements replace String.h with WString.h in Arduino core APIs
-REM to avoid the issues with case insensitivity in windows.
-REM Issue can be followed here: https://github.com/arduino/ArduinoCore-API/issues/37
-REM Find and rename String.h to WString.h
-for /r "%cores_psoc6_dir%\api" %%f in (String.h) do (
-    rename "%%f" WString.h
-)
-
-REM Update include statements to reflect the new name
-for /r "%cores_psoc6_dir%\api" %%f in (*.h *.cpp) do (
-    powershell -Command "(Get-Content -Path '%%f') -replace '#include \"String.h\"', '#include \"WString.h\"' | Set-Content -Path '%%f'"
-)
-
 exit /b 0

@@ -18,19 +18,6 @@ function core_api_setup {
     cp -r ${core_api_submodule_dir}/api ${cores_psoc6_dir}/api
 }
 
-function replace_string_h_with_wstring_h {
-    # This function replaces String.h with WString.h in Arduino core APIs
-    # to avoid the issues with case insensitivity in windows.
-    # Issue can be followed here: https://github.com/arduino/ArduinoCore-API/issues/37
-    echo "Replacing String_h with WString_h in Arduino core APIs..."
-
-    # Find and rename String.h to WString.h
-    find ${cores_psoc6_dir}/api -type f -name 'String.h' -execdir mv {} WString.h \;
-
-    # Find and update include statements in C++ source files
-    find ${cores_psoc6_dir}/api -type f \( -name '*.cpp' -o -name '*.h' \) -exec sed -i 's/#include "String.h"/#include "WString.h"/g' {} \;
-}
-
 function bsps_setup {
     bsps_dir="${PWD}/../extras/mtb-integration/bsps"
     variants_dir="${PWD}/../variants"
@@ -58,6 +45,5 @@ if [ $# -gt 0 ]; then
 else
     git_submodule_setup
     core_api_setup
-    replace_string_h_with_wstring_h
     # bsps_setup #TODO: Remove this after discussion on how to include MTB sources (symlink or copy)
 fi
