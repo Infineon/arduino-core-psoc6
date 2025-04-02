@@ -1,0 +1,11 @@
+name: Package Core
+
+on:
+  push:
+    
+jobs:
+  package-core:
+    uses: Infineon/arduino-devops/.github/workflows/package-core.yml@split-package-core
+    with:
+      setup-script: bash ./tools/dev-setup.sh
+      release: false
