@@ -34,8 +34,7 @@ compiler.define=-DARDUINO=
 compiler.arduino_core.path={runtime.platform.path}/cores/psoc6/api
 compiler.arduino_core_dep.path={compiler.arduino_core.path}/deprecated
 compiler.arduino_core_dep_avr.path={compiler.arduino_core.path}/deprecated-avr-comp/avr
-compiler.arduino_core_api.path= "-I{compiler.arduino_core_dep_avr.path}" "-I{compiler.arduino_core_dep.path}"  "-I{compiler.arduino_core.path}" 
-
+compiler.arduino_core_api.path= "-I{compiler.arduino_core_dep_avr.path}" "-I{compiler.arduino_core_dep.path}"
 
 # GCC related definitions
 # Some flags might not be required : -mtune={build.mcu}
