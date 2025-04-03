@@ -5,7 +5,7 @@ on:
     
 jobs:
   arduino-devops:
-    uses: Infineon/arduino-devops/.github/workflows/compile-examples.yml@latest
+    uses: Infineon/arduino-devops/.github/workflows/compile-examples.yml@split-package-core
     with:
       ci-matrix-file-json: ci-build-matrix.json
       setup-script: bash ./tools/dev-setup.sh
