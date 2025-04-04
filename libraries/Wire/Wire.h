@@ -4,8 +4,12 @@
 #include <Arduino.h>
 #include "cyhal_i2c.h"
 #include "RingBuffer.h"
+#include "api/HardwareI2C.h"
+#include <map>
 
-class TwoWire {
+#define MAX_I2C 10
+
+class TwoWire: public arduino::HardwareI2C {
 public:
 
     static const size_t BUFFER_LENGTH = 256;
@@ -46,11 +50,11 @@ private:
     uint16_t slave_address;
     arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
     arduino::RingBufferN < BUFFER_LENGTH > txBuffer;
-    uint8_t txAddress;
+    uint8_t temp_rx_buff[32];
+    uint8_t temp_tx_buff[32];
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
     cy_rslt_t w_status;
-    static uint8_t bytesSent;
     uint32_t timeout = 0; // Timeout in milliseconds
     void (*user_onRequest)(void);
     void (*user_onReceive)(int);
