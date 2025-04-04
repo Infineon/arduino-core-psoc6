@@ -46,6 +46,8 @@ private:
     uint16_t slave_address;
     arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
     arduino::RingBufferN < BUFFER_LENGTH > txBuffer;
+    uint8_t temp_rx_buff[32];
+    uint8_t temp_tx_buff[32];
     uint8_t txAddress;
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;

@@ -38,9 +38,9 @@ void TwoWire::_begin() {
 
     if (!is_master) {
         // Configure the read and write buffers for the I2C slave
-        w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj,  txBuffer._aucBuffer, BUFFER_LENGTH);
+        w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj,  temp_tx_buff, BUFFER_LENGTH);
         Wire_assert(w_status);
-        w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, rxBuffer._aucBuffer, BUFFER_LENGTH);
+        w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, temp_rx_buff, BUFFER_LENGTH);
         Wire_assert(w_status);
     }
 
@@ -88,7 +88,7 @@ uint8_t TwoWire::endTransmission(bool sendStop) {
     cy_rslt_t result;
     uint16_t bytes_rcvd_request = txBuffer.available();
     bytesSent = bytes_rcvd_request;
-    uint8_t temp_tx_buff[bytes_rcvd_request] = {0};
+    // uint8_t temp_tx_buff[bytes_rcvd_request] = {0};
 
     for (uint16_t i = 0; i < bytes_rcvd_request; i++) {
         temp_tx_buff[i] = txBuffer.read_char();
@@ -117,8 +117,8 @@ size_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool stopBit) {
     if (quantity > BUFFER_LENGTH) {
         quantity = BUFFER_LENGTH;
     }
-    uint32_t bytes_rcvd_request = rxBuffer.availableForStore();
-    uint8_t temp_rx_buff[bytes_rcvd_request] = {0};
+    // uint32_t bytes_rcvd_request = rxBuffer.availableForStore();
+    // uint8_t temp_rx_buff[bytes_rcvd_request] = {0};
 
     cy_rslt_t result = cyhal_i2c_master_read(&i2c_obj, address, temp_rx_buff, quantity, timeout, stopBit);
     if (result == CY_RSLT_SUCCESS) {
@@ -197,6 +197,8 @@ void TwoWire::i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event) {
 void TwoWire::i2c_event_handler_member(cyhal_i2c_event_t event) {
     if (event == CYHAL_I2C_SLAVE_WR_CMPLT_EVENT) {    // master wants to write data
         int availableBytes = bytesSent;
+        Serial.print("Bytes sent: ");
+        Serial.println(availableBytes);
         if (availableBytes > 0) {
             onReceiveService(availableBytes);
         } else {
@@ -224,7 +226,7 @@ void TwoWire::onReceiveService(int numBytes) {
     // Manually update rxBuffer to reflect the number of bytes received
     for (uint8_t i = 0; i < numBytes; i++) {
         if (i < BUFFER_LENGTH) {
-            rxBuffer.store_char(rxBuffer._aucBuffer[i]);
+            rxBuffer.store_char(temp_rx_buff[i]);
         } else {
             break;
         }
@@ -234,7 +236,7 @@ void TwoWire::onReceiveService(int numBytes) {
     user_onReceive(numBytes);
 
     // Reconfigure the write buffer after the transaction
-    w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, rxBuffer._aucBuffer, BUFFER_LENGTH);
+    w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, temp_rx_buff, BUFFER_LENGTH);
     Wire_assert(w_status);
 }
 
@@ -250,8 +252,14 @@ void TwoWire::onRequestService(void) {
     // Alert user program
     user_onRequest();
 
+    // Copy the data from the txBuffer to the temp_tx_buff array
+    uint16_t bytesToSend = txBuffer.available();
+    for (uint16_t i = 0; i < bytesToSend; i++) {
+        temp_tx_buff[i] = txBuffer.read_char();
+    }
+
     // Reconfigure the read buffer after the transaction
-    w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj, txBuffer._aucBuffer, BUFFER_LENGTH);
+    w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj, temp_tx_buff, BUFFER_LENGTH);
     Wire_assert(w_status);
 
 }
