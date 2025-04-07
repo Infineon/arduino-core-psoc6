@@ -33,7 +33,7 @@ public:
 
     static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
 
-    static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
+    static void uart_event_handler(void* handler_arg, cyhal_uart_event_t event);
 
 private:
 

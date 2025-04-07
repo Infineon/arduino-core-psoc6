@@ -167,7 +167,7 @@ void TwoWire::onRequest(void (*function)(void)) {
     cyhal_i2c_enable_event(&i2c_obj, CYHAL_I2C_SLAVE_READ_EVENT, 7, true);
 }
 
-void TwoWire::i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event) {
+void TwoWire::i2c_event_handler(void* callback_arg, cyhal_i2c_event_t event) {
     // Call the non-static member function
     TwoWire *wire = static_cast < TwoWire * > (callback_arg);
     wire->i2c_event_handler_member(event);

@@ -153,8 +153,8 @@ uart_error_t Uart::getLastError() {
     return last_error;
 }
 
-void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
-    Uart *uart = static_cast<Uart *>(handler_arg);
+void Uart::uart_event_handler(void* handler_arg, cyhal_uart_event_t event) {
+    Uart* uart = static_cast<Uart*>(handler_arg);
     uart->IrqHandler();
 }
 

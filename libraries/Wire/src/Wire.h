@@ -1,6 +1,7 @@
 #ifndef WIRE_H
 #define WIRE_H
 
+#include "Arduino.h"
 #include "cyhal_i2c.h"
 #include "api/RingBuffer.h"
 #include "api/HardwareI2C.h"
