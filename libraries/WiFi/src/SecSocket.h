@@ -1,5 +1,5 @@
-#ifndef SECSOCKET_H
-#define SECSOCKET_H
+#ifndef CY_SECURE_SOCKET_H
+#define CY_SECURE_SOCKET_H
 
 #include "cy_secure_sockets.h"
 #include "api/IPAddress.h"
@@ -25,26 +25,26 @@ public:
     void end();
 
     void setTimeout(uint32_t timeout);
-    void setConnectOptCallback(cy_socket_callback_t cback, void *arg);
-    void setReceiveOptCallback(cy_socket_callback_t cback, void *arg);
-    void setDisconnectOptCallback(cy_socket_callback_t cback, void *arg);
+    void setConnectOptCallback(cy_socket_callback_t cback, void* arg);
+    void setReceiveOptCallback(cy_socket_callback_t cback, void* arg);
+    void setDisconnectOptCallback(cy_socket_callback_t cback, void* arg);
 
     void bind(uint16_t port);
     bool connect(IPAddress ip, uint16_t port);
-    bool connect(const char *host, uint16_t port);
+    bool connect(const char* host, uint16_t port);
 
     void listen(int max_connections);
-    bool accept(Socket &client_socket);
-    uint32_t send(const void *data, uint32_t len);
+    bool accept(Socket& client_socket);
+    uint32_t send(const void* data, uint32_t len);
     uint32_t available();
     int peek();
-    uint32_t receive(uint8_t *data, uint32_t len);
+    uint32_t receive(uint8_t* data, uint32_t len);
     void flush();
 
     IPAddress remoteIP();
     uint16_t port();
 
-    static int hostByName(const char *aHostname, IPAddress &ip);
+    static int hostByName(const char* aHostname, IPAddress& ip);
 
     uint8_t status();
     cy_rslt_t getLastError();
@@ -57,12 +57,12 @@ private:
     IPAddress remote_ip;
     uint16_t _port;
 
-    void setOptCallback(int optname, cy_socket_callback_t cback, void *arg);
+    void setOptCallback(int optname, cy_socket_callback_t cback, void* arg);
 
     static const uint16_t RX_BUFFER_SIZE = 256;
     arduino::RingBufferN<RX_BUFFER_SIZE> rx_buf;
 
-    bool connect(cy_socket_sockaddr_t *addr);
+    bool connect(cy_socket_sockaddr_t* addr);
     void receiveCallback();
 
     static bool global_socket_initialized;
@@ -74,4 +74,4 @@ private:
     friend class WiFiClient;
 };
 
-#endif /* SECSOCKET_H */
+#endif /* CY_SECURE_SOCKET_H */

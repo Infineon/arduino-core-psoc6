@@ -13,12 +13,12 @@ public:
     WiFiClient();
 
     int connect(IPAddress ip, uint16_t port);
-    int connect(const char *host, uint16_t port);
+    int connect(const char* host, uint16_t port);
     size_t write(uint8_t data) override;
-    size_t write(const uint8_t *buf, size_t size) override;
+    size_t write(const uint8_t* buf, size_t size) override;
     int available();
     int read();
-    int read(uint8_t *buf, size_t size);
+    int read(uint8_t* buf, size_t size);
     int peek();
     void flush();
     void stop();
@@ -32,8 +32,8 @@ public:
     using Print::print;
     using Print::println;
 
-    WiFiClient(const WiFiClient &other);
-    WiFiClient &operator=(const WiFiClient &other);
+    WiFiClient(const WiFiClient& other);
+    WiFiClient& operator=(const WiFiClient& other);
 
 private:
     /**
@@ -45,8 +45,8 @@ private:
      */
     std::shared_ptr<Socket> socket;
 
-    static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
-    static cy_rslt_t disconnectionCallback(cy_socket_t socket_handle, void *arg);
+    static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void* arg);
+    static cy_rslt_t disconnectionCallback(cy_socket_t socket_handle, void* arg);
 
     bool isThisClient(cy_socket_t socket_handle);
 

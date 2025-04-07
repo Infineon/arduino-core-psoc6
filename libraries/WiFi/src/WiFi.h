@@ -67,7 +67,7 @@ class WiFiClass {
 
 public:
     /* Return the WiFi class singleton */
-    static WiFiClass &get_instance();
+    static WiFiClass& get_instance();
 
 
     int begin(const char *ssid);
@@ -107,7 +107,7 @@ public:
 
     uint8_t status();
 
-    int hostByName(const char *aHostname, IPAddress &ip);
+    int hostByName(const char* aHostname, IPAddress& ip);
 
     int ping(const char *hostname, uint8_t ttl = 128);
     int ping(const String &hostname, uint8_t ttl = 128);
@@ -142,8 +142,8 @@ private:
     ~WiFiClass();
 
     /* Delete copy constructor and assignment operator  */
-    WiFiClass(const WiFiClass &) = delete;
-    WiFiClass &operator=(const WiFiClass &) = delete;
+    WiFiClass(const WiFiClass&) = delete;
+    WiFiClass& operator=(const WiFiClass&) = delete;
 
     /**
      * Initialize the WiFi connection manager.
@@ -178,6 +178,6 @@ private:
     static void wcm_scan_cb(cy_wcm_scan_result_t *result_ptr, void *user_data, cy_wcm_scan_status_t status);
 };
 
-extern WiFiClass &WiFi;
+extern WiFiClass& WiFi;
 
 #endif /* WIFI_H */

@@ -48,15 +48,15 @@ void Socket::setTimeout(uint32_t timeout) {
     socket_assert(_last_error);
 }
 
-void Socket::setConnectOptCallback(cy_socket_callback_t cback, void *arg) {
+void Socket::setConnectOptCallback(cy_socket_callback_t cback, void* arg) {
     setOptCallback(CY_SOCKET_SO_CONNECT_REQUEST_CALLBACK, cback, arg);
 }
 
-void Socket::setReceiveOptCallback(cy_socket_callback_t cback, void *arg) {
+void Socket::setReceiveOptCallback(cy_socket_callback_t cback, void* arg) {
     setOptCallback(CY_SOCKET_SO_RECEIVE_CALLBACK, cback, arg);
 }
 
-void Socket::setDisconnectOptCallback(cy_socket_callback_t cback, void *arg) {
+void Socket::setDisconnectOptCallback(cy_socket_callback_t cback, void* arg) {
     setOptCallback(CY_SOCKET_SO_DISCONNECT_CALLBACK, cback, arg);
 }
 
@@ -80,7 +80,7 @@ bool Socket::connect(IPAddress ip, uint16_t port) {
     return connect(&address);
 }
 
-bool Socket::connect(const char *host, uint16_t port) {
+bool Socket::connect(const char* host, uint16_t port) {
     cy_socket_sockaddr_t address = {.port = port, .ip_address = {.version = CY_SOCKET_IP_VER_V4}};
     _last_error = cy_socket_gethostbyname(host, CY_SOCKET_IP_VER_V4, &(address.ip_address));
     if (_last_error != CY_RSLT_SUCCESS) {
@@ -98,7 +98,7 @@ void Socket::listen(int max_connections) {
     _status = SOCKET_STATUS_LISTENING;
 }
 
-bool Socket::accept(Socket &client_socket) {
+bool Socket::accept(Socket& client_socket) {
     cy_socket_sockaddr_t peer_addr;
     uint32_t peer_addr_len;
 
@@ -121,7 +121,7 @@ bool Socket::accept(Socket &client_socket) {
     return true;
 }
 
-uint32_t Socket::send(const void *data, uint32_t len) {
+uint32_t Socket::send(const void* data, uint32_t len) {
     uint32_t bytes_sent = 0;
     _last_error = cy_socket_send(socket, data, len, CY_SOCKET_FLAGS_NONE, &bytes_sent);
     if (_last_error != CY_RSLT_SUCCESS) {
@@ -143,7 +143,7 @@ int Socket::peek() {
     return rx_buf.peek();
 }
 
-uint32_t Socket::receive(uint8_t *data, uint32_t len) {
+uint32_t Socket::receive(uint8_t* data, uint32_t len) {
     uint32_t bytes_to_read = (uint32_t)rx_buf.available() > len ? len : rx_buf.available();
 
     for (uint32_t i = 0; i < bytes_to_read; i++) {
@@ -165,7 +165,7 @@ uint16_t Socket::port() {
     return _port;
 }
 
-int Socket::hostByName(const char *aHostname, IPAddress &ip) {
+int Socket::hostByName(const char* aHostname, IPAddress& ip) {
     cy_socket_sockaddr_t address;
 
     cy_rslt_t ret = cy_socket_gethostbyname(aHostname, CY_SOCKET_IP_VER_V4, &(address.ip_address));
@@ -186,7 +186,7 @@ cy_rslt_t Socket::getLastError() {
     return _last_error;
 }
 
-bool Socket::connect(cy_socket_sockaddr_t *addr) {
+bool Socket::connect(cy_socket_sockaddr_t* addr) {
     _last_error = cy_socket_connect(socket, addr, sizeof(cy_socket_sockaddr_t));
     if (_last_error != CY_RSLT_SUCCESS) {
         _status = SOCKET_STATUS_ERROR;
@@ -216,7 +216,7 @@ void Socket::receiveCallback() {
     }
 }
 
-void Socket::setOptCallback(int optname, cy_socket_callback_t cback, void *arg) {
+void Socket::setOptCallback(int optname, cy_socket_callback_t cback, void* arg) {
     cy_socket_opt_callback_t cy_opt_callback;
 
     cy_opt_callback.callback = cback;

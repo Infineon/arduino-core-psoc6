@@ -5,7 +5,7 @@
     #undef Serial
 #endif
 
-Uart *Uart::g_uarts[MAX_UARTS] = {nullptr};
+Uart* Uart::g_uarts[MAX_UARTS] = {nullptr};
 
 Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts)
     : tx_pin(tx),
@@ -120,16 +120,16 @@ size_t Uart::write(uint8_t c) {
     return 1;
 }
 
-size_t Uart::write(const uint8_t *buffer, size_t size) {
-    cy_rslt_t result = cyhal_uart_write(&uart_obj, (void *)buffer, &size);
+size_t Uart::write(const uint8_t* buffer, size_t size) {
+    cy_rslt_t result = cyhal_uart_write(&uart_obj, (void*)buffer, &size);
     if (result != CY_RSLT_SUCCESS) {
         return 0;
     }
     return size;
 }
 
-void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
-    Uart *uart = static_cast<Uart *>(handler_arg);
+void Uart::uart_event_handler(void* handler_arg, cyhal_uart_event_t event) {
+    Uart* uart = static_cast<Uart*>(handler_arg);
     uart->IrqHandler();
 }
 
