@@ -14,7 +14,7 @@ public:
 
     virtual byte transfer(uint8_t data);
     virtual uint16_t transfer16(uint16_t data);
-    virtual void transfer(void *buf, size_t count);
+    virtual void transfer(void* buf, size_t count);
 
     virtual void usingInterrupt(int interruptNumber);
     virtual void notUsingInterrupt(int interruptNumber);

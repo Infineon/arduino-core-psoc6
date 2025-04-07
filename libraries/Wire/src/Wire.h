@@ -1,8 +1,8 @@
 #ifndef WIRE_H
 #define WIRE_H
 
+#include "Arduino.h"
 #include "cyhal_i2c.h"
-#include <Arduino.h>
 
 class TwoWire {
 public:
@@ -28,8 +28,8 @@ public:
     size_t requestFrom(uint8_t address, size_t quantity, bool stopBit);
     size_t requestFrom(uint8_t address, size_t len);
     size_t write(uint8_t data);
-    size_t write(const uint8_t *data, size_t quantity);
-    size_t write(const char *str);
+    size_t write(const uint8_t* data, size_t quantity);
+    size_t write(const char* str);
     int available(void);
     int read(void);
     int peek(void);
@@ -37,7 +37,7 @@ public:
     void onRequest(void (*function)(void));
 
 private:
-    static TwoWire *instances[I2C_HOWMANY];
+    static TwoWire* instances[I2C_HOWMANY];
     void _begin();
     cyhal_gpio_t sda_pin;
     cyhal_gpio_t scl_pin;
@@ -60,7 +60,7 @@ private:
     void (*user_onReceive)(int) = nullptr;
     void onRequestService(void);
     void onReceiveService(int);
-    static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);
+    static void i2c_event_handler(void* callback_arg, cyhal_i2c_event_t event);
     void i2c_event_handler_member(cyhal_i2c_event_t event);
 };
 

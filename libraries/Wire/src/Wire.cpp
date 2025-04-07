@@ -5,7 +5,7 @@
         return;                      \
     }
 
-TwoWire *TwoWire::instances[I2C_HOWMANY] = {nullptr};
+TwoWire* TwoWire::instances[I2C_HOWMANY] = {nullptr};
 uint8_t TwoWire::bytesSent = 0;
 
 TwoWire::TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance)
@@ -148,7 +148,7 @@ size_t TwoWire::write(uint8_t data) {
     return 1;
 }
 
-size_t TwoWire::write(const uint8_t *data, size_t quantity) {
+size_t TwoWire::write(const uint8_t* data, size_t quantity) {
     for (size_t i = 0; i < quantity; i++) {
         if (write(data[i]) == 0) {
             return i; // Return the number of bytes successfully written
@@ -158,11 +158,11 @@ size_t TwoWire::write(const uint8_t *data, size_t quantity) {
 }
 
 // New overloaded write function to accept a string
-size_t TwoWire::write(const char *str) {
+size_t TwoWire::write(const char* str) {
     if (str == nullptr) {
         return 0;
     }
-    return write((const uint8_t *)str, strlen(str));
+    return write((const uint8_t*)str, strlen(str));
 }
 
 int TwoWire::available(void) {
@@ -200,9 +200,9 @@ void TwoWire::onRequest(void (*function)(void)) {
     cyhal_i2c_enable_event(&i2c_obj, CYHAL_I2C_SLAVE_READ_EVENT, 7, true);
 }
 
-void TwoWire::i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event) {
+void TwoWire::i2c_event_handler(void* callback_arg, cyhal_i2c_event_t event) {
     // Call the non-static member function
-    static_cast<TwoWire *>(callback_arg)->i2c_event_handler_member(event);
+    static_cast<TwoWire*>(callback_arg)->i2c_event_handler_member(event);
 }
 
 void TwoWire::i2c_event_handler_member(cyhal_i2c_event_t event) {

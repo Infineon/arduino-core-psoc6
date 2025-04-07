@@ -1,4 +1,4 @@
-#include <WiFiClient.h>
+#include "WiFiClient.h"
 
 #define wifi_client_assert_raise(cy_ret, ret_code) \
     if (cy_ret != CY_RSLT_SUCCESS) {               \
@@ -23,7 +23,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port) {
     return socket->connect(ip, port);
 }
 
-int WiFiClient::connect(const char *host, uint16_t port) {
+int WiFiClient::connect(const char* host, uint16_t port) {
     socket->begin();
 
     socket->setReceiveOptCallback(receiveCallback, this);
@@ -36,7 +36,7 @@ size_t WiFiClient::write(uint8_t data) {
     return write(&data, 1);
 }
 
-size_t WiFiClient::write(const uint8_t *buf, size_t size) {
+size_t WiFiClient::write(const uint8_t* buf, size_t size) {
     return (size_t)socket->send(buf, size);
 }
 
@@ -55,7 +55,7 @@ int WiFiClient::read() {
     return (int)data;
 }
 
-int WiFiClient::read(uint8_t *buf, size_t size) {
+int WiFiClient::read(uint8_t* buf, size_t size) {
     uint32_t received_data = socket->receive(buf, size);
 
     if (received_data == 0) {
@@ -103,27 +103,27 @@ uint16_t WiFiClient::remotePort() {
     return socket->port();
 };
 
-WiFiClient::WiFiClient(const WiFiClient &other)
+WiFiClient::WiFiClient(const WiFiClient& other)
     : socket(other.socket) {
 }
 
-WiFiClient &WiFiClient::operator=(const WiFiClient &other) {
+WiFiClient& WiFiClient::operator=(const WiFiClient& other) {
     if (this != &other) {
         socket = other.socket;
     }
     return *this;
 }
 
-cy_rslt_t WiFiClient::receiveCallback(cy_socket_t socket_handle, void *arg) {
-    WiFiClient *client = (WiFiClient *)arg;
+cy_rslt_t WiFiClient::receiveCallback(cy_socket_t socket_handle, void* arg) {
+    WiFiClient* client = (WiFiClient*)arg;
 
     client->socket->receiveCallback();
 
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t WiFiClient::disconnectionCallback(cy_socket_t socket_handle, void *arg) {
-    WiFiClient *client = (WiFiClient *)arg;
+cy_rslt_t WiFiClient::disconnectionCallback(cy_socket_t socket_handle, void* arg) {
+    WiFiClient* client = (WiFiClient*)arg;
 
     client->stop();
 

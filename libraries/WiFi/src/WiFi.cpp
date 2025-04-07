@@ -40,11 +40,11 @@ WiFiClass & WiFiClass::get_instance() {
     return wifi_singleton;
 }
 
-int WiFiClass::begin(const char *ssid) {
+int WiFiClass::begin(const char* ssid) {
     return begin(ssid, nullptr);
 }
 
-int WiFiClass::begin(const char *ssid, const char *passphrase) {
+int WiFiClass::begin(const char* ssid, const char* passphrase) {
     _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_STA);
     wifi_assert_raise(_last_error);
 
@@ -90,19 +90,19 @@ void WiFiClass::end(void) {
     _status = WIFI_STATUS_UNINITED;
 }
 
-uint8_t WiFiClass::beginAP(const char *ssid) {
+uint8_t WiFiClass::beginAP(const char* ssid) {
     return beginAP(ssid, nullptr, 1);
 }
 
-uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel) {
+uint8_t WiFiClass::beginAP(const char* ssid, uint8_t channel) {
     return beginAP(ssid, nullptr, channel);
 }
 
-uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase) {
+uint8_t WiFiClass::beginAP(const char* ssid, const char* passphrase) {
     return beginAP(ssid, passphrase, 1);
 }
 
-uint8_t WiFiClass::beginAP(const char *ssid, const char *passphrase, uint8_t channel) {
+uint8_t WiFiClass::beginAP(const char* ssid, const char* passphrase, uint8_t channel) {
     _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_AP);
     wifi_assert_raise(_last_error);
 
@@ -359,7 +359,7 @@ uint8_t WiFiClass::status() {
     return _status;
 }
 
-int WiFiClass::hostByName(const char *aHostname, IPAddress &ip) {
+int WiFiClass::hostByName(const char* aHostname, IPAddress& ip) {
     return Socket::hostByName(aHostname, ip);
 }
 
