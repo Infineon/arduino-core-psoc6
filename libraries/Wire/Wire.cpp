@@ -105,6 +105,12 @@ uint8_t TwoWire::endTransmission(bool sendStop) {
         txBufferIndex = 0;
         txBufferLength = 0;
     }
+    // Fix BMI270 errors during startup
+    // Avoid sending stop bit if the device is not ready
+    return 0;
+
+    // leave this code for future reference
+
     // Handle specific error codes
     switch (result) {
         case I2C_SUCCESS:
