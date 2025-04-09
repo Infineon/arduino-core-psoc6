@@ -42,11 +42,11 @@
 #define I2C2_SDA_PIN    P9_1
 #define I2C2_SCL_PIN    P9_0
 
-#define SPI_HOWMANY    1
-#define SPI1_MOSI_PIN    P9_0
-#define SPI1_MISO_PIN    P9_1
-#define SPI1_SCK_PIN     P9_2
-#define SPI1_SSEL_PIN    P9_3
+#define SPI_HOWMANY              1
+#define SPI1_MOSI_PIN            P9_0
+#define SPI1_MISO_PIN            P9_1
+#define SPI1_SCK_PIN             P9_2
+#define SPI1_SSEL_PIN_DEFAULT    P9_3
 
 #define A0 0 // ADC P10.1
 #define A1 1 // ADC P10.0
