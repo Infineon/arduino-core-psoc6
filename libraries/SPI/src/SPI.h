@@ -1,9 +1,11 @@
 #ifndef SPI_H
 #define SPI_H
 
-#include <Arduino.h>
+#include "Arduino.h"
 #include "cyhal_spi.h"
-#include <HardwareSPI.h>
+#include "HardwareSPI.h"
+
+#define ARDUINO_SPI_CLOCK 1000000
 
 class SPIClassPSOC: public arduino::HardwareSPI {
 public:
@@ -25,10 +27,14 @@ public:
     virtual void begin();
     virtual void end();
 
+    void setDataMode(uint8_t dataMode);
+    void setBitOrder(uint8_t bitOrder);
+    void setClockDivider(uint8_t div);
+
     cy_rslt_t status = CY_RSLT_TYPE_ERROR;
 
 private:
-    arduino::SPISettings const DEFAULT_SPI_SETTINGS = arduino::SPISettings(1000000, MSBFIRST, arduino::SPI_MODE0);
+    arduino::SPISettings const DEFAULT_SPI_SETTINGS = arduino::SPISettings(ARDUINO_SPI_CLOCK, MSBFIRST, arduino::SPI_MODE0);
 
     cyhal_spi_mode_t getSpiMode() const;
 
@@ -45,7 +51,6 @@ private:
 
 #if (SPI_HOWMANY > 0)
 extern SPIClassPSOC SPI;
-extern SPIClassPSOC SPI1;
 #endif
 
 #endif // SPI_H
