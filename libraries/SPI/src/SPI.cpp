@@ -4,9 +4,8 @@
             return; \
 }
 
-
 SPIClassPSOC::SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel, bool is_slave)
-    : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _is_initialized(false), _is_slave(is_slave) {
+    : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _is_slave(is_slave), _is_initialized(false) {
     _ssel_pin = _is_slave ? ssel : NC;
 }
 
@@ -30,7 +29,7 @@ void SPIClassPSOC::end() {
     if (!_is_initialized) {
         return;
     }
-
+    status = cyhal_spi_clear(&_spi_obj);
     cyhal_spi_free(&_spi_obj);
     _is_initialized = false;
 }
@@ -59,10 +58,9 @@ cyhal_spi_mode_t SPIClassPSOC::getSpiMode() const {
 }
 
 byte SPIClassPSOC::transfer(uint8_t data) {
-    uint8_t receive_data = 0;
-    status = cyhal_spi_transfer(&_spi_obj, &data, 1, &receive_data, 1, 0xFF);
-    spi_assert(status);
-    return receive_data;
+    uint8_t tranceive_data = data;
+    transfer(&tranceive_data, 1);
+    return tranceive_data;
 }
 
 uint16_t SPIClassPSOC::transfer16(uint16_t data) {
@@ -76,11 +74,11 @@ uint16_t SPIClassPSOC::transfer16(uint16_t data) {
     data_in_out.val = data;
 
     if (_settings.getBitOrder() == LSBFIRST) {
-        data_in_out.lsb = transfer(data_in_out.lsb);
-        data_in_out.msb = transfer(data_in_out.msb);
+        transfer(&data_in_out.lsb, 1);
+        transfer(&data_in_out.msb, 1);
     } else {
-        data_in_out.msb = transfer(data_in_out.msb);
-        data_in_out.lsb = transfer(data_in_out.lsb);
+        transfer(&data_in_out.msb, 1);
+        transfer(&data_in_out.lsb, 1);
     }
 
     return data_in_out.val;
@@ -88,26 +86,44 @@ uint16_t SPIClassPSOC::transfer16(uint16_t data) {
 
 void SPIClassPSOC::transfer(void *buf, size_t count) {
     uint8_t *buffer = reinterpret_cast < uint8_t * > (buf);
-    for (size_t i = 0; i < count; i++) {
-        *buffer = transfer(*buffer);
-        buffer++;
+    const uint8_t *tx_buf;
+    uint8_t tx_temp_buf[count];
+
+    memcpy(tx_temp_buf, buffer, count);
+    tx_buf = tx_temp_buf;
+
+    if (count > 0) {
+        status = cyhal_spi_transfer(&_spi_obj, tx_buf, count, buffer, count, 0xFF);
+        spi_assert(status);
     }
 }
 
 void SPIClassPSOC::usingInterrupt(int interruptNumber) {
-// TODO: Implement
+// not used
 }
 
 void SPIClassPSOC::notUsingInterrupt(int interruptNumber) {
-// TODO: Implement
+// not used
 }
 
 void SPIClassPSOC::attachInterrupt() {
-// TODO: Implement
+// not used
 }
 
 void SPIClassPSOC::detachInterrupt() {
-// TODO: Implement
+// not used
+}
+
+void SPIClassPSOC::setDataMode(uint8_t dataMode) {
+    // not used
+}
+
+void SPIClassPSOC::setBitOrder(uint8_t bitOrder) {
+    // not used
+}
+
+void SPIClassPSOC::setClockDivider(uint8_t div) {
+    // not used
 }
 
 void SPIClassPSOC::beginTransaction(arduino::SPISettings settings) {
@@ -115,13 +131,17 @@ void SPIClassPSOC::beginTransaction(arduino::SPISettings settings) {
         _settings = settings;
         begin();
     }
+    if (_settings != settings) {
+        end();
+        _settings = settings;
+        begin();
+    }
 }
 
 void SPIClassPSOC::endTransaction() {
-    end();
+    // do nothing
 }
 
 #if SPI_HOWMANY > 0
 SPIClassPSOC SPI = SPIClassPSOC(SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_SCK_PIN);
-// SPIClassPSOC SPI1 = SPIClassPSOC(SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_SCK_PIN, SPI1_SSEL_PIN_DEFAULT, true);
 #endif
