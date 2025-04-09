@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 #include "cyhal_spi.h"
-#include "HardwareSPI.h"
+#include "api/HardwareSPI.h"
 
 #define ARDUINO_SPI_CLOCK 1000000
 
