@@ -13,7 +13,12 @@
 #include <stdint.h>
 
 // test defines
-const uint8_t TEST_DIGITALIO_OUTPUT = 7;  // IO0
-const uint8_t TEST_DIGITALIO_INPUT = 6;   // IO1
+const uint8_t TEST_DIGITALIO_OUTPUT = 7;  // IO_4
+const uint8_t TEST_DIGITALIO_INPUT = 6;   // IO_3
+
+
+const uint8_t TEST_SYNC_INPUT_OUTPUT = 4;   // IO_1
+
+const uint8_t TEST_SPI_SLAVE_SELECT = 3;   // IO_0
 
 #endif // TEST_CONFIG_H
