@@ -22,8 +22,8 @@
 extern "C" {
 #endif
 
-void pinMode(pin_size_t pin, PinMode mode) {
-    if (pin > GPIO_PIN_COUNT) {
+void pinMode(pin_size_t pinNumber, PinMode pinMode) {
+    if (pinNumber > GPIO_PIN_COUNT) {
         return; // Invalid pin number
     }
 
@@ -31,7 +31,7 @@ void pinMode(pin_size_t pin, PinMode mode) {
     cyhal_gpio_drive_mode_t drive_mode;
     bool initPinValue = false;
 
-    switch (mode)
+    switch (pinMode)
     {
         case INPUT:
             direction = CYHAL_GPIO_DIR_INPUT;
@@ -64,15 +64,15 @@ void pinMode(pin_size_t pin, PinMode mode) {
     }
 
     // Initialize the GPIO pin with the specified direction, drive mode and set initial value
-    (void)cyhal_gpio_init(mapping_gpio_pin[pin], direction, drive_mode, initPinValue);
+    (void)cyhal_gpio_init(mapping_gpio_pin[pinNumber], direction, drive_mode, initPinValue);
 }
 
-uint8_t digitalRead(uint8_t pin) {
-    return cyhal_gpio_read(mapping_gpio_pin[pin]) ? HIGH : LOW;
+PinStatus digitalRead(pin_size_t pinNumber) {
+    return cyhal_gpio_read(mapping_gpio_pin[pinNumber]) ? HIGH : LOW;
 }
 
-void digitalWrite(uint8_t pin, uint8_t value) {
-    cyhal_gpio_write(mapping_gpio_pin[pin], value);
+void digitalWrite(pin_size_t pinNumber, PinStatus status) {
+    cyhal_gpio_write(mapping_gpio_pin[pinNumber], status);
 }
 
 #ifdef __cplusplus
