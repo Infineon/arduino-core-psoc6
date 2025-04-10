@@ -9,7 +9,7 @@
 
 class SPIClassPSOC: public arduino::HardwareSPI {
 public:
-    SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel = SPI1_SSEL_PIN_DEFAULT, bool is_slave = false);
+    SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel = SPI1_SSEL_PIN_DEFAULT, bool is_slave = false);
     ~SPIClassPSOC();
 
     virtual byte transfer(uint8_t data);
@@ -40,10 +40,10 @@ private:
 
     arduino::SPISettings _settings = arduino::SPISettings();
     cyhal_spi_t _spi_obj;
-    cyhal_gpio_t _mosi_pin;
-    cyhal_gpio_t _miso_pin;
-    cyhal_gpio_t _sck_pin;
-    cyhal_gpio_t _ssel_pin;
+    pin_size_t _mosi_pin;
+    pin_size_t _miso_pin;
+    pin_size_t _sck_pin;
+    pin_size_t _ssel_pin;
 
     bool _is_slave;
     bool _is_initialized;

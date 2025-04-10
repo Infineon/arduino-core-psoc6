@@ -42,20 +42,20 @@
 #define I2C2_SDA_PIN    P9_1
 #define I2C2_SCL_PIN    P9_0
 
-#define SPI_HOWMANY              1
-#define SPI1_MOSI_PIN            P9_0
-#define SPI1_MISO_PIN            P9_1
-#define SPI1_SCK_PIN             P9_2
-#define SPI1_SSEL_PIN_DEFAULT    P9_3
+#define SPI_HOWMANY             1
+#define SPI1_MOSI_PIN           0 // SPI-MOSI P9_0
+#define SPI1_MISO_PIN           1 // SPI-MISO P9_1
+#define SPI1_SCK_PIN            2 // SPI-SCLK P9_2
+#define SPI1_SSEL_PIN_DEFAULT   3 // IO_0     P9_3
 
-#define A0 0 // ADC P10.1
-#define A1 1 // ADC P10.0
+#define A0                      0 // ADC P10.1
+#define A1                      1 // ADC P10.0
 
-#define LED1 12               // Additional LED1
-#define LED_BUILTIN LED1      // Standard Arduino LED: Uses LED1
-#define LED2 13
-#define BUTTON1 14            // Additional BUTTON1
-#define USER_BUTTON BUTTON1   // Standard Arduino USER_BUTTON: Uses BUTTON1
+#define LED1                    12 // Additional LED1
+#define LED_BUILTIN             LED1 // Standard Arduino LED: Uses LED1
+#define LED2                    13 // Additional LED2
+#define BUTTON1                 14 // Additional BUTTON1
+#define USER_BUTTON             BUTTON1 // Standard Arduino USER_BUTTON: Uses BUTTON1
 
 //****************************************************************************
 
