@@ -62,7 +62,7 @@ Built-in Libraries
       - ✅ Implemented
     * - SPI
       - | `SPI <https://docs.arduino.cc/language-reference/en/functions/communication/SPI/>`_
-      - ❌ Not Implemented
+      - ✅ Implemented
     * - Analog I/O
       - | `analogRead <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogRead/>`_
         | `analogReadResolution <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogReadResolution/>`_
