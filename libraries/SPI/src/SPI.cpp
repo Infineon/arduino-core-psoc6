@@ -4,7 +4,7 @@
             return; \
 }
 
-SPIClassPSOC::SPIClassPSOC(cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sck, cyhal_gpio_t ssel, bool is_slave)
+SPIClassPSOC::SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel, bool is_slave)
     : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _is_slave(is_slave), _is_initialized(false) {
     _ssel_pin = _is_slave ? ssel : NC;
 }
@@ -17,7 +17,7 @@ void SPIClassPSOC::begin() {
     if (_is_initialized) {
         return;
     }
-    status = cyhal_spi_init(&_spi_obj, _mosi_pin, _miso_pin, _sck_pin, _ssel_pin, NULL, 8, getSpiMode(), _is_slave);
+    status = cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin], mapping_gpio_pin[_sck_pin], mapping_gpio_pin[_ssel_pin], NULL, 8, getSpiMode(), _is_slave);
 
     spi_assert(status);
     status = cyhal_spi_set_frequency(&_spi_obj, _settings.getClockFreq());
@@ -99,31 +99,34 @@ void SPIClassPSOC::transfer(void *buf, size_t count) {
 }
 
 void SPIClassPSOC::usingInterrupt(int interruptNumber) {
-// not used
+    // The SPI transfer functions are interrupt-driven, so this operation is not supported.
 }
 
 void SPIClassPSOC::notUsingInterrupt(int interruptNumber) {
-// not used
+    // The SPI transfer functions are interrupt-driven, so this operation is not supported.
 }
 
 void SPIClassPSOC::attachInterrupt() {
-// not used
+    // Since SPI transfer functions rely on interrupts, attaching a separate interrupt is not applicable.
 }
 
 void SPIClassPSOC::detachInterrupt() {
-// not used
+    // Detaching interrupts is not applicable as SPI transfer functions are already interrupt-driven.
 }
 
 void SPIClassPSOC::setDataMode(uint8_t dataMode) {
-    // not used
+    // This functionality is deprecated in the Arduino core API,
+    // retained only for backward compatibility and no longer recommended for use.
 }
 
 void SPIClassPSOC::setBitOrder(uint8_t bitOrder) {
-    // not used
+    // This functionality is deprecated in the Arduino core API,
+    // retained only for backward compatibility and no longer recommended for use.
 }
 
 void SPIClassPSOC::setClockDivider(uint8_t div) {
-    // not used
+    // This functionality is deprecated in the Arduino core API,
+    // retained only for backward compatibility and no longer recommended for use.
 }
 
 void SPIClassPSOC::beginTransaction(arduino::SPISettings settings) {

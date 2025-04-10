@@ -9,7 +9,12 @@
 |               | P0.3          | P0.3          | I2C SDA to SDA (with pullup)   |
 |               | GND           | GND           | Common Ground                  |
 |               |               |               |                                |
-   
+| SPI           | P9_0          | P9_0          | MOSI to MOSI                   |
+|               | P9_1          | P9_1          | MISO to MISO                   |
+|               | P9_2          | P9_2          | SCLK to SCLK                   |
+|               | P9_3 (IO_0)   | P9_3 (IO_0)   | GPIO pin as SPI SSEL           |
+|               | GND           | GND           | Common Ground                  |
+|               |               |               |                                |
 
 # Pin Connections for HIL Test Setup on Single Board
 
@@ -19,3 +24,7 @@
 |               |               |               |                                |
 | Wire 2        | P0.2          | P9.0          | I2C SCL to SCL (with pullup)   |
 |               | P0.3          | P9.1          | I2C SDA TO SDA (with pullup)   |
+|               |               |               |                                |
+| SPI           | P9_0          | P9_1          | MOSI and MISO shorted          |
+|               | P9_2          | NC            | SCLK to SCLK                   |
+|               |               |               |                                |
