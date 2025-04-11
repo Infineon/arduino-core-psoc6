@@ -8,6 +8,8 @@
     ],
     "example" : [
         "examples/testSketch/testSketch.ino",
+        "libraries/SPI/examples/master/master.ino",
+        "libraries/SPI/examples/slave/slave.ino",
         "libraries/WiFi/examples/ConnectNoEncryption/ConnectNoEncryption.ino",
         "libraries/WiFi/examples/ConnectWithWPA/ConnectWithWPA.ino",
         "libraries/WiFi/examples/ScanNetworks/ScanNetworks.ino",
