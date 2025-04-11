@@ -40,7 +40,7 @@
 #define UART2_CTS_PIN     NC  // NOT CONNECTED
 #define UART2_RTS_PIN     NC  // NOT CONNECTED
 
-#define I2C_HOWMANY    2
+#define I2C_HOWMANY     2
 #define I2C1_SDA_PIN    CYBSP_I2C_SDA
 #define I2C1_SCL_PIN    CYBSP_I2C_SCL
 #define I2C2_SDA_PIN    P9_1
@@ -57,8 +57,9 @@ static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO; 
 static const uint8_t SCK = PIN_SPI_SCK;
 
-#define A0                      0 // ADC P10.1
-#define A1                      1 // ADC P10.0
+#define ADC_HOWMANY             2
+#define A0                      10 // ADC P10.0
+#define A1                      11 // ADC P10.1
 
 #define LED1                    12 // Additional LED1
 #define LED_BUILTIN             LED1 // Standard Arduino LED: Uses LED1
@@ -87,8 +88,8 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
 		   
     /* 8   */ P0_2, // I2C-SCL         
     /* 9   */ P0_3, // I2C-SDA         
-    /* 10  */ P10_1,// A1 / UART_TX    
-    /* 11  */ P10_0,// A0 / UART_RX    
+    /* 10  */ P10_0,// A0 / UART_RX    
+    /* 11  */ P10_1,// A1 / UART_TX    
 
     // on board LEDs and USER BUTTON
 
