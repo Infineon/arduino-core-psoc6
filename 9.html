@@ -217,13 +217,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - CPPCheck: cores/psoc6/time.h</h1>
+      <h1>Cppcheck report - CPPCheck: cores/psoc6/yield.c</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> time.h</p>
-<a href="9.html#line-27"> misra-c2012-8.2 27</a>
+     <p><a href="index.html">Defects:</a> yield.c</p>
+<a href="9.html#line-28"> misra-c2012-8.2 28</a><a href="9.html#line-32"> misra-c2012-8.2 32</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -257,8 +257,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cm">/*</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cm">/*</span>
 <a id="line-2" name="line-2"></a><span class="cm">  Copyright (c) 2015 Arduino LLC.  All right reserved.</span>
 <a id="line-3" name="line-3"></a>
 <a id="line-4" name="line-4"></a><span class="cm">  This library is free software; you can redistribute it and/or</span>
@@ -276,22 +275,21 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-16" name="line-16"></a><span class="cm">  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
 <a id="line-17" name="line-17"></a><span class="cm">*/</span>
 <a id="line-18" name="line-18"></a>
-<a id="line-19" name="line-19"></a><span class="cp">#ifndef TIME_H</span>
-<a id="line-20" name="line-20"></a><span class="cp">#define TIME_H</span>
-<a id="line-21" name="line-21"></a>
-<a id="line-22" name="line-22"></a><span class="cp">#ifdef __cplusplus</span>
-<a id="line-23" name="line-23"></a><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
-<a id="line-24" name="line-24"></a><span class="cp">#endif</span>
-<a id="line-25" name="line-25"></a>
-<a id="line-26" name="line-26"></a><span class="cm">/* Function declarations */</span>
-<a id="line-27" name="line-27"></a><span class="hll"><span class="kt">void</span><span class="w"> </span><span class="nf">time_init</span><span class="p">();</span><span class="error2">&lt;--- misra violation (rule-texts-file not found: config/cppcheck/misra.txt)</span>
-</span><a id="line-28" name="line-28"></a>
-<a id="line-29" name="line-29"></a><span class="cp">#ifdef __cplusplus</span>
+<a id="line-19" name="line-19"></a><span class="cm">/**</span>
+<a id="line-20" name="line-20"></a><span class="cm"> * Empty yield() hook.</span>
+<a id="line-21" name="line-21"></a><span class="cm"> *</span>
+<a id="line-22" name="line-22"></a><span class="cm"> * This function is intended to be used by library writers to build</span>
+<a id="line-23" name="line-23"></a><span class="cm"> * libraries or sketches that supports cooperative threads.</span>
+<a id="line-24" name="line-24"></a><span class="cm"> *</span>
+<a id="line-25" name="line-25"></a><span class="cm"> * Its defined as a weak symbol and it can be redefined to implement a</span>
+<a id="line-26" name="line-26"></a><span class="cm"> * real cooperative scheduler.</span>
+<a id="line-27" name="line-27"></a><span class="cm"> */</span>
+<a id="line-28" name="line-28"></a><span class="hll"><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">__empty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- misra violation (rule-texts-file not found: config/cppcheck/misra.txt)</span>
+</span><a id="line-29" name="line-29"></a><span class="w">    </span><span class="c1">// Empty</span>
 <a id="line-30" name="line-30"></a><span class="p">}</span>
-<a id="line-31" name="line-31"></a><span class="cp">#endif</span>
-<a id="line-32" name="line-32"></a>
-<a id="line-33" name="line-33"></a><span class="cp">#endif </span><span class="c1">// TIME_H</span>
-</pre></div></td></tr></table></div>
+<a id="line-31" name="line-31"></a>
+<a id="line-32" name="line-32"></a><span class="hll"><span class="kt">void</span><span class="w"> </span><span class="n">yield</span><span class="p">()</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">weak</span><span class="p">,</span><span class="w"> </span><span class="n">alias</span><span class="p">(</span><span class="s">&quot;__empty&quot;</span><span class="p">)));</span><span class="error2">&lt;--- misra violation (rule-texts-file not found: config/cppcheck/misra.txt)</span>
+</span></pre></div></td></tr></table></div>
 
     </div>
     <div id="footer" class="footer">

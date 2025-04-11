@@ -217,13 +217,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/cores/psoc6/Arduino.h</h1>
+      <h1>Cppcheck report - CPPCheck: /__w/arduino-core-psoc6/arduino-core-psoc6/cores/psoc6/time.c</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> Arduino.h</p>
-<a href="24.html#line-43"> clang-tidy-clang-diagnostic-error 43</a><a href="24.html#line-47"> clang-tidy-performance-enum-size 47</a><a href="24.html#line-51"> clang-tidy-cppcoreguidelines-macro-usage 51</a><a href="24.html#line-52"> clang-tidy-cppcoreguidelines-macro-usage 52</a><a href="24.html#line-53"> clang-tidy-cppcoreguidelines-macro-usage 53</a><a href="24.html#line-63"> clang-tidy-cppcoreguidelines-macro-usage 63</a><a href="24.html#line-66"> clang-tidy-cppcoreguidelines-macro-usage 66</a><a href="24.html#line-70"> clang-tidy-cppcoreguidelines-macro-usage 70</a><a href="24.html#line-71"> clang-tidy-cppcoreguidelines-macro-usage 71</a>
+     <p><a href="index.html">Defects:</a> time.c</p>
+<a href="24.html#line-31"> clang-tidy-clang-diagnostic-error 31</a><a href="24.html#line-60"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 60</a><a href="24.html#line-68"> clang-tidy-readability-identifier-length 68</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -303,114 +303,84 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cm">/*</span>
-<a id="line-2" name="line-2"></a><span class="cm">  Arduino.h - Main include file for the Arduino SDK</span>
-<a id="line-3" name="line-3"></a><span class="cm">  Copyright (c) 2014 Arduino LLC.  All right reserved.</span>
-<a id="line-4" name="line-4"></a>
-<a id="line-5" name="line-5"></a><span class="cm">  This library is free software; you can redistribute it and/or</span>
-<a id="line-6" name="line-6"></a><span class="cm">  modify it under the terms of the GNU Lesser General Public</span>
-<a id="line-7" name="line-7"></a><span class="cm">  License as published by the Free Software Foundation; either</span>
-<a id="line-8" name="line-8"></a><span class="cm">  version 2.1 of the License, or (at your option) any later version.</span>
-<a id="line-9" name="line-9"></a>
-<a id="line-10" name="line-10"></a><span class="cm">  This library is distributed in the hope that it will be useful,</span>
-<a id="line-11" name="line-11"></a><span class="cm">  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<a id="line-12" name="line-12"></a><span class="cm">  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
-<a id="line-13" name="line-13"></a><span class="cm">  Lesser General Public License for more details.</span>
-<a id="line-14" name="line-14"></a>
-<a id="line-15" name="line-15"></a><span class="cm">  You should have received a copy of the GNU Lesser General Public</span>
-<a id="line-16" name="line-16"></a><span class="cm">  License along with this library; if not, write to the Free Software</span>
-<a id="line-17" name="line-17"></a><span class="cm">  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
-<a id="line-18" name="line-18"></a><span class="cm">*/</span>
-<a id="line-19" name="line-19"></a>
-<a id="line-20" name="line-20"></a><span class="cp">#ifndef Arduino_h</span>
-<a id="line-21" name="line-21"></a><span class="cp">#define Arduino_h</span>
-<a id="line-22" name="line-22"></a>
-<a id="line-23" name="line-23"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ArduinoAPI.h&quot;</span>
-<a id="line-24" name="line-24"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_gpio.h&quot;</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cm">/*</span>
+<a id="line-2" name="line-2"></a><span class="cm">  Copyright (c) 2015 Arduino LLC.  All right reserved.</span>
+<a id="line-3" name="line-3"></a>
+<a id="line-4" name="line-4"></a><span class="cm">  This library is free software; you can redistribute it and/or</span>
+<a id="line-5" name="line-5"></a><span class="cm">  modify it under the terms of the GNU Lesser General Public</span>
+<a id="line-6" name="line-6"></a><span class="cm">  License as published by the Free Software Foundation; either</span>
+<a id="line-7" name="line-7"></a><span class="cm">  version 2.1 of the License, or (at your option) any later version.</span>
+<a id="line-8" name="line-8"></a>
+<a id="line-9" name="line-9"></a><span class="cm">  This library is distributed in the hope that it will be useful,</span>
+<a id="line-10" name="line-10"></a><span class="cm">  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<a id="line-11" name="line-11"></a><span class="cm">  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<a id="line-12" name="line-12"></a><span class="cm">  See the GNU Lesser General Public License for more details.</span>
+<a id="line-13" name="line-13"></a>
+<a id="line-14" name="line-14"></a><span class="cm">  You should have received a copy of the GNU Lesser General Public</span>
+<a id="line-15" name="line-15"></a><span class="cm">  License along with this library; if not, write to the Free Software</span>
+<a id="line-16" name="line-16"></a><span class="cm">  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
+<a id="line-17" name="line-17"></a><span class="cm">*/</span>
+<a id="line-18" name="line-18"></a>
+<a id="line-19" name="line-19"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Arduino.h&quot;</span>
+<a id="line-20" name="line-20"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cy_systick.h&quot;</span>
+<a id="line-21" name="line-21"></a>
+<a id="line-22" name="line-22"></a><span class="cp">#ifdef __cplusplus</span>
+<a id="line-23" name="line-23"></a><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
+<a id="line-24" name="line-24"></a><span class="cp">#endif</span>
 <a id="line-25" name="line-25"></a>
-<a id="line-26" name="line-26"></a><span class="cp">#define RAMSTART (HMCRAMC0_ADDR)</span>
-<a id="line-27" name="line-27"></a><span class="cp">#define RAMSIZE (HMCRAMC0_SIZE)</span>
-<a id="line-28" name="line-28"></a><span class="cp">#define RAMEND (RAMSTART + RAMSIZE - 1)</span>
-<a id="line-29" name="line-29"></a>
-<a id="line-30" name="line-30"></a><span class="cp">#ifdef __cplusplus</span>
-<a id="line-31" name="line-31"></a>
-<a id="line-32" name="line-32"></a><span class="n">using</span><span class="w"> </span><span class="n">namespace</span><span class="w"> </span><span class="n">arduino</span><span class="p">;</span>
-<a id="line-33" name="line-33"></a>
-<a id="line-34" name="line-34"></a><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
-<a id="line-35" name="line-35"></a><span class="cp">#endif </span><span class="c1">// __cplusplus</span>
+<a id="line-26" name="line-26"></a><span class="cm">/* Defines */</span>
+<a id="line-27" name="line-27"></a><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">CLOCK_FREQUENCY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8000000</span><span class="p">,</span><span class="w"> </span><span class="n">MILLISECONDS_PER_SECOND</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="p">};</span>
+<a id="line-28" name="line-28"></a>
+<a id="line-29" name="line-29"></a><span class="cp">#define SYSTICK_RELOAD_VAL (CLOCK_FREQUENCY / MILLISECONDS_PER_SECOND - 1) </span><span class="c1">// For 1 ms tick</span>
+<a id="line-30" name="line-30"></a>
+<a id="line-31" name="line-31"></a><span class="hll"><span class="k">volatile</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">systick_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Counter to keep track of milliseconds</span><span class="error2">&lt;--- 'ArduinoAPI.h' file not found</span>
+</span><a id="line-32" name="line-32"></a>
+<a id="line-33" name="line-33"></a><span class="kt">void</span><span class="w"> </span><span class="nf">time_increment_millisecond_counter</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-34" name="line-34"></a><span class="w">    </span><span class="n">systick_count</span><span class="o">++</span><span class="p">;</span>
+<a id="line-35" name="line-35"></a><span class="p">}</span>
 <a id="line-36" name="line-36"></a>
-<a id="line-37" name="line-37"></a><span class="c1">// ****************************************************************************</span>
-<a id="line-38" name="line-38"></a><span class="c1">// @Imported Global Variables</span>
-<a id="line-39" name="line-39"></a><span class="c1">// ****************************************************************************</span>
-<a id="line-40" name="line-40"></a><span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">cyhal_gpio_t</span><span class="w"> </span><span class="n">mapping_gpio_pin</span><span class="p">[];</span>
-<a id="line-41" name="line-41"></a><span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">GPIO_PIN_COUNT</span><span class="p">;</span>
-<a id="line-42" name="line-42"></a>
-<a id="line-43" name="line-43"></a><span class="hll"><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'ArduinoAPI.h' file not found</span>
-</span><a id="line-44" name="line-44"></a><span class="w">    </span><span class="n">GPIO_INTERRUPT_PRIORITY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="c1">// GPIO interrupt priority</span>
-<a id="line-45" name="line-45"></a><span class="p">};</span>
-<a id="line-46" name="line-46"></a>
-<a id="line-47" name="line-47"></a><span class="hll"><span class="cp">#define digitalPinToInterrupt(p) ((p) &lt; GPIO_PIN_COUNT ? (p) : -1)</span><span class="error2">&lt;--- enum '(unnamed enum at /__w/arduino-core-psoc6/arduino-core-psoc6/cores/psoc6/Arduino.h:43:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size</span>
-</span><a id="line-48" name="line-48"></a>
-<a id="line-49" name="line-49"></a><span class="cp">#undef LITTLE_ENDIAN</span>
-<a id="line-50" name="line-50"></a>
-<a id="line-51" name="line-51"></a><span class="hll"><span class="cp">#define clockCyclesPerMicrosecond() (SystemCoreClock / 1000000L)</span><span class="error2">&lt;--- function-like macro 'digitalPinToInterrupt' used; consider a 'constexpr' template function</span>
-</span><a id="line-52" name="line-52"></a><span class="hll"><span class="cp">#define clockCyclesToMicroseconds(a) (((a) * 1000L) / (SystemCoreClock / 1000L))</span><span class="error2">&lt;--- function-like macro 'clockCyclesPerMicrosecond' used; consider a 'constexpr' template function</span>
-</span><a id="line-53" name="line-53"></a><span class="hll"><span class="cp">#define microsecondsToClockCycles(a) ((a) * (SystemCoreClock / 1000000L))</span><span class="error2">&lt;--- function-like macro 'clockCyclesToMicroseconds' used; consider a 'constexpr' template function</span>
-</span><a id="line-54" name="line-54"></a>
-<a id="line-55" name="line-55"></a><span class="cp">#ifdef __cplusplus</span>
-<a id="line-56" name="line-56"></a><span class="p">}</span><span class="w"> </span><span class="c1">// extern &quot;C&quot;</span>
-<a id="line-57" name="line-57"></a><span class="cp">#endif</span>
-<a id="line-58" name="line-58"></a>
-<a id="line-59" name="line-59"></a><span class="cp">#ifdef abs</span>
-<a id="line-60" name="line-60"></a><span class="w">    </span><span class="cp">#undef abs</span>
-<a id="line-61" name="line-61"></a><span class="cp">#endif </span><span class="c1">// abs</span>
-<a id="line-62" name="line-62"></a>
-<a id="line-63" name="line-63"></a><span class="hll"><span class="cp">#define abs(x) ((x) &gt; 0 ? (x) : -(x))</span><span class="error2">&lt;--- function-like macro 'microsecondsToClockCycles' used; consider a 'constexpr' template function</span>
-</span><a id="line-64" name="line-64"></a>
-<a id="line-65" name="line-65"></a><span class="cp">#ifndef nullptr</span>
-<a id="line-66" name="line-66"></a><span class="hll"><span class="w">    </span><span class="cp">#define nullptr 0</span><span class="error2">&lt;--- function-like macro 'abs' used; consider a 'constexpr' template function</span>
-</span><a id="line-67" name="line-67"></a><span class="cp">#endif</span>
-<a id="line-68" name="line-68"></a>
-<a id="line-69" name="line-69"></a><span class="c1">// Globally enable or disable interrupts</span>
-<a id="line-70" name="line-70"></a><span class="hll"><span class="cp">#define interrupts() __enable_irq()</span><span class="error2">&lt;--- macro 'nullptr' used to declare a constant; consider using a 'constexpr' constant</span>
-</span><a id="line-71" name="line-71"></a><span class="hll"><span class="cp">#define noInterrupts() __disable_irq()</span><span class="error2">&lt;--- function-like macro 'interrupts' used; consider a 'constexpr' template function</span>
-</span><a id="line-72" name="line-72"></a>
-<a id="line-73" name="line-73"></a><span class="cp">#ifdef __cplusplus</span>
-<a id="line-74" name="line-74"></a><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
-<a id="line-75" name="line-75"></a><span class="cp">#endif</span>
-<a id="line-76" name="line-76"></a>
-<a id="line-77" name="line-77"></a><span class="cp">#ifdef __cplusplus</span>
-<a id="line-78" name="line-78"></a><span class="p">}</span>
-<a id="line-79" name="line-79"></a><span class="cp">#endif</span>
-<a id="line-80" name="line-80"></a>
-<a id="line-81" name="line-81"></a><span class="c1">// ARM toolchain doesn&#39;t provide itoa etc, provide them</span>
-<a id="line-82" name="line-82"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;itoa.h&quot;</span>
-<a id="line-83" name="line-83"></a>
-<a id="line-84" name="line-84"></a><span class="cp">#ifdef __cplusplus</span>
-<a id="line-85" name="line-85"></a><span class="w">    </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Uart.h&quot;</span>
-<a id="line-86" name="line-86"></a><span class="cp">#endif</span>
-<a id="line-87" name="line-87"></a>
-<a id="line-88" name="line-88"></a><span class="cp">#define Serial _UART1_</span>
-<a id="line-89" name="line-89"></a><span class="cp">#define Serial1 _UART2_</span>
-<a id="line-90" name="line-90"></a>
-<a id="line-91" name="line-91"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;pins_arduino.h&quot;</span>
-<a id="line-92" name="line-92"></a>
-<a id="line-93" name="line-93"></a><span class="cp">#endif </span><span class="c1">// Arduino_h</span>
+<a id="line-37" name="line-37"></a><span class="kt">void</span><span class="w"> </span><span class="nf">time_init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="line-38" name="line-38"></a><span class="w">    </span><span class="cm">/* Initialize the systick, set the 8MHz IMO as clock source */</span>
+<a id="line-39" name="line-39"></a><span class="w">    </span><span class="n">Cy_SysTick_Init</span><span class="p">(</span><span class="n">CY_SYSTICK_CLOCK_SOURCE_CLK_IMO</span><span class="p">,</span><span class="w"> </span><span class="n">SYSTICK_RELOAD_VAL</span><span class="p">);</span>
+<a id="line-40" name="line-40"></a>
+<a id="line-41" name="line-41"></a><span class="w">    </span><span class="cm">/* Set Systick interrupt callback */</span>
+<a id="line-42" name="line-42"></a><span class="w">    </span><span class="n">Cy_SysTick_SetCallback</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">time_increment_millisecond_counter</span><span class="p">);</span>
+<a id="line-43" name="line-43"></a>
+<a id="line-44" name="line-44"></a><span class="w">    </span><span class="cm">/* Enable Systick and the Systick interrupt */</span>
+<a id="line-45" name="line-45"></a><span class="w">    </span><span class="n">Cy_SysTick_Enable</span><span class="p">();</span>
+<a id="line-46" name="line-46"></a><span class="p">}</span>
+<a id="line-47" name="line-47"></a>
+<a id="line-48" name="line-48"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">millis</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="line-49" name="line-49"></a><span class="w">    </span><span class="c1">// Return the number of milliseconds since the program started</span>
+<a id="line-50" name="line-50"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">systick_count</span><span class="p">;</span>
+<a id="line-51" name="line-51"></a><span class="p">}</span>
+<a id="line-52" name="line-52"></a>
+<a id="line-53" name="line-53"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">micros</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="line-54" name="line-54"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cy_SysTick_GetValue</span><span class="p">();</span>
+<a id="line-55" name="line-55"></a><span class="w">    </span><span class="c1">// Calculate the number of microseconds since the program started</span>
+<a id="line-56" name="line-56"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">systick_count</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">MILLISECONDS_PER_SECOND</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<a id="line-57" name="line-57"></a><span class="w">           </span><span class="p">((</span><span class="n">SYSTICK_RELOAD_VAL</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ticks</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">MILLISECONDS_PER_SECOND</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">SYSTICK_RELOAD_VAL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<a id="line-58" name="line-58"></a><span class="p">}</span>
+<a id="line-59" name="line-59"></a>
+<a id="line-60" name="line-60"></a><span class="hll"><span class="kt">void</span><span class="w"> </span><span class="nf">delay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ms</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- variable 'systick_count' is non-const and globally accessible, consider making it const</span>
+</span><a id="line-61" name="line-61"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="line-62" name="line-62"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ms</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-63" name="line-63"></a><span class="w">        </span><span class="c1">// Yield to allow other processes to run</span>
+<a id="line-64" name="line-64"></a><span class="w">        </span><span class="n">yield</span><span class="p">();</span>
+<a id="line-65" name="line-65"></a><span class="w">    </span><span class="p">}</span>
+<a id="line-66" name="line-66"></a><span class="p">}</span>
+<a id="line-67" name="line-67"></a>
+<a id="line-68" name="line-68"></a><span class="hll"><span class="kt">void</span><span class="w"> </span><span class="nf">delayMicroseconds</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">us</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- parameter name 'ms' is too short, expected at least 3 characters</span>
+</span><a id="line-69" name="line-69"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">micros</span><span class="p">();</span>
+<a id="line-70" name="line-70"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">micros</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">us</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-71" name="line-71"></a><span class="w">        </span><span class="c1">// Yield to allow other processes to run</span>
+<a id="line-72" name="line-72"></a><span class="w">        </span><span class="n">yield</span><span class="p">();</span>
+<a id="line-73" name="line-73"></a><span class="w">    </span><span class="p">}</span>
+<a id="line-74" name="line-74"></a><span class="p">}</span>
+<a id="line-75" name="line-75"></a>
+<a id="line-76" name="line-76"></a><span class="cp">#ifdef __cplusplus</span>
+<a id="line-77" name="line-77"></a><span class="p">}</span>
+<a id="line-78" name="line-78"></a><span class="cp">#endif</span>
 </pre></div></td></tr></table></div>
 
     </div>
