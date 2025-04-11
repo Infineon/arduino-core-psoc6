@@ -43,10 +43,15 @@
 #define I2C2_SCL_PIN    P9_0
 
 #define SPI_HOWMANY             1
-#define SPI1_MOSI_PIN           0 // SPI-MOSI P9_0
-#define SPI1_MISO_PIN           1 // SPI-MISO P9_1
-#define SPI1_SCK_PIN            2 // SPI-SCLK P9_2
-#define SPI1_SSEL_PIN_DEFAULT   3 // IO_0     P9_3
+#define PIN_SPI_SS              0 // SPI-MOSI P9_0
+#define PIN_SPI_MOSI            1 // SPI-MISO P9_1
+#define PIN_SPI_MISO            2 // SPI-SCLK P9_2
+#define PIN_SPI_SCK             3 // IO_0     P9_3
+
+static const uint8_t SS = PIN_SPI_SS;
+static const uint8_t MOSI = PIN_SPI_MOSI; 
+static const uint8_t MISO = PIN_SPI_MISO; 
+static const uint8_t SCK = PIN_SPI_SCK;
 
 #define A0                      0 // ADC P10.1
 #define A1                      1 // ADC P10.0
