@@ -223,7 +223,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> WiFiClient.cpp</p>
-<a href="19.html#line-118"> cstyleCast 118</a><a href="19.html#line-126"> cstyleCast 126</a>
+<a href="19.html#line-0"> toomanyconfigs 0</a><a href="19.html#line-17"> passedByValue 17</a><a href="19.html#line-118"> cstyleCast 118</a><a href="19.html#line-126"> cstyleCast 126</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
@@ -380,8 +380,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-14" name="line-14"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Socket</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <a id="line-15" name="line-15"></a><span class="p">}</span>
 <a id="line-16" name="line-16"></a>
-<a id="line-17" name="line-17"></a><span class="kt">int</span><span class="w"> </span><span class="n">WiFiClient</span><span class="o">::</span><span class="n">connect</span><span class="p">(</span><span class="n">IPAddress</span><span class="w"> </span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">port</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-18" name="line-18"></a><span class="w">    </span><span class="n">socket</span><span class="o">-&gt;</span><span class="n">begin</span><span class="p">();</span>
+<a id="line-17" name="line-17"></a><span class="hll"><span class="kt">int</span><span class="w"> </span><span class="n">WiFiClient</span><span class="o">::</span><span class="n">connect</span><span class="p">(</span><span class="n">IPAddress</span><span class="w"> </span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">port</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- Function parameter 'ip' should be passed by const reference.</span>
+</span><a id="line-18" name="line-18"></a><span class="w">    </span><span class="n">socket</span><span class="o">-&gt;</span><span class="n">begin</span><span class="p">();</span>
 <a id="line-19" name="line-19"></a>
 <a id="line-20" name="line-20"></a><span class="w">    </span><span class="n">socket</span><span class="o">-&gt;</span><span class="n">setReceiveOptCallback</span><span class="p">(</span><span class="n">receiveCallback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">);</span>
 <a id="line-21" name="line-21"></a><span class="w">    </span><span class="n">socket</span><span class="o">-&gt;</span><span class="n">setDisconnectOptCallback</span><span class="p">(</span><span class="n">disconnectionCallback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">);</span>
