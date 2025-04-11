@@ -9,7 +9,7 @@
 
 class SPIClassPSOC: public arduino::HardwareSPI {
 public:
-    SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel = SPI1_SSEL_PIN_DEFAULT, bool is_slave = false);
+    SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel = PIN_SPI_SS, bool is_slave = false);
     ~SPIClassPSOC();
 
     virtual byte transfer(uint8_t data);
