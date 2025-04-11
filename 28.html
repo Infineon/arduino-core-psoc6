@@ -223,7 +223,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> SecSocket.h</p>
-<a href="28.html#line-4"> clang-tidy-readability-convert-member-functions-to-static 4</a><a href="28.html#line-8"> clang-tidy-modernize-use-using 8</a><a href="28.html#line-8"> clang-tidy-performance-enum-size 8</a><a href="28.html#line-8"> clang-tidy-clang-diagnostic-error 8</a><a href="28.html#line-8"> clang-tidy-clang-diagnostic-error 8</a><a href="28.html#line-19"> clang-tidy-readability-enum-initial-value 19</a><a href="28.html#line-33"> clang-tidy-readability-enum-initial-value 33</a><a href="28.html#line-47"> clang-tidy-readability-identifier-length 47</a><a href="28.html#line-54"> clang-tidy-readability-identifier-length 54</a>
+<a href="28.html#line-4"> clang-tidy-readability-convert-member-functions-to-static 4</a><a href="28.html#line-8"> clang-tidy-clang-diagnostic-error 8</a><a href="28.html#line-8"> clang-tidy-clang-diagnostic-error 8</a><a href="28.html#line-8"> clang-tidy-modernize-use-using 8</a><a href="28.html#line-8"> clang-tidy-performance-enum-size 8</a><a href="28.html#line-19"> clang-tidy-readability-enum-initial-value 19</a><a href="28.html#line-33"> clang-tidy-readability-enum-initial-value 33</a><a href="28.html#line-47"> clang-tidy-readability-identifier-length 47</a><a href="28.html#line-54"> clang-tidy-readability-identifier-length 54</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -305,11 +305,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef CY_SECURE_SOCKET_H</span>
 <a id="line-2" name="line-2"></a><span class="cp">#define CY_SECURE_SOCKET_H</span>
 <a id="line-3" name="line-3"></a>
-<a id="line-4" name="line-4"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cy_secure_sockets.h&quot;</span><span class="error2">&lt;--- method 'global_sockets_deinit' can be made static</span>
-</span><a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/IPAddress.h&quot;</span>
-<a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/RingBuffer.h&quot;</span>
+<a id="line-4" name="line-4"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/IPAddress.h&quot;</span><span class="error2">&lt;--- method 'global_sockets_deinit' can be made static</span>
+</span><a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/RingBuffer.h&quot;</span>
+<a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cy_secure_sockets.h&quot;</span>
 <a id="line-7" name="line-7"></a>
-<a id="line-8" name="line-8"></a><span class="hll"><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- use 'using' instead of 'typedef'</span><span class="error2">&lt;--- enum 'socket_status_t' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::int8_t' (1 byte) as the base type to reduce its size</span><span class="error2">&lt;--- 'cy_secure_sockets.h' file not found</span><span class="error2">&lt;--- 'cy_secure_sockets.h' file not found</span>
+<a id="line-8" name="line-8"></a><span class="hll"><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'api/IPAddress.h' file not found</span><span class="error2">&lt;--- 'api/IPAddress.h' file not found</span><span class="error2">&lt;--- use 'using' instead of 'typedef'</span><span class="error2">&lt;--- enum 'socket_status_t' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::int8_t' (1 byte) as the base type to reduce its size</span>
 </span><a id="line-9" name="line-9"></a><span class="w">    </span><span class="n">SOCKET_STATUS_UNINITED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <a id="line-10" name="line-10"></a><span class="w">    </span><span class="n">SOCKET_STATUS_CREATED</span><span class="p">,</span>
 <a id="line-11" name="line-11"></a><span class="w">    </span><span class="n">SOCKET_STATUS_DELETED</span><span class="p">,</span>

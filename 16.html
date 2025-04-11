@@ -223,7 +223,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> WiFiClient.h</p>
-<a href="16.html#line-5"> missingIncludeSystem 5</a><a href="16.html#line-17"> misc-implicitlyVirtual 17</a><a href="16.html#line-18"> misc-implicitlyVirtual 18</a><a href="16.html#line-32"> misra-c2012-5.6 32</a><a href="16.html#line-33"> misra-c2012-5.6 33</a><a href="16.html#line-51"> functionConst 51</a>
+<a href="16.html#line-8"> missingIncludeSystem 8</a><a href="16.html#line-17"> misc-implicitlyVirtual 17</a><a href="16.html#line-18"> misc-implicitlyVirtual 18</a><a href="16.html#line-32"> misra-c2012-5.6 32</a><a href="16.html#line-33"> misra-c2012-5.6 33</a><a href="16.html#line-51"> functionConst 51</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -285,11 +285,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-2" name="line-2"></a><span class="cp">#ifndef WIFI_CLIENT_H</span>
 <a id="line-3" name="line-3"></a><span class="cp">#define WIFI_CLIENT_H</span>
 <a id="line-4" name="line-4"></a>
-<a id="line-5" name="line-5"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="error2">&lt;--- Include file: <memory> not found. Please note: Cppcheck does not need standard library headers to get proper results.</span>
-</span><a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SecSocket.h&gt;</span>
-<a id="line-7" name="line-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/Client.h&quot;</span>
-<a id="line-8" name="line-8"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/Print.h&quot;</span>
-<a id="line-9" name="line-9"></a>
+<a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;SecSocket.h&quot;</span>
+<a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/Client.h&quot;</span>
+<a id="line-7" name="line-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/Print.h&quot;</span>
+<a id="line-8" name="line-8"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="error2">&lt;--- Include file: <memory> not found. Please note: Cppcheck does not need standard library headers to get proper results.</span>
+</span><a id="line-9" name="line-9"></a>
 <a id="line-10" name="line-10"></a><span class="n">class</span><span class="w"> </span><span class="n">WiFiClient</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">Client</span><span class="w"> </span><span class="p">{</span>
 <a id="line-11" name="line-11"></a>
 <a id="line-12" name="line-12"></a><span class="n">public</span><span class="o">:</span>
