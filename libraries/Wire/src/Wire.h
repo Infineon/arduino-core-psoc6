@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "cyhal_i2c.h"
-#include "RingBuffer.h"
+#include "api/RingBuffer.h"
 #include "api/HardwareI2C.h"
 #include <map>
 
