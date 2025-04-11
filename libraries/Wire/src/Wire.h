@@ -3,14 +3,19 @@
 
 #include <Arduino.h>
 #include "cyhal_i2c.h"
+#include "api/RingBuffer.h"
+#include "api/HardwareI2C.h"
+#include <map>
 
-class TwoWire {
+#define MAX_I2C 10
+
+class TwoWire: public arduino::HardwareI2C {
 public:
 
-    static const size_t BUFFER_LENGTH = 32;
+    static const size_t BUFFER_LENGTH = 256;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
-    TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl, uint8_t instance = 0);
+    TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl);
 
     enum I2C_ErrorCodes {
         I2C_SUCCESS = CY_RSLT_SUCCESS,
@@ -38,24 +43,18 @@ public:
     void onRequest(void (*function)(void));
 
 private:
-    static TwoWire * instances[I2C_HOWMANY];
     void _begin();
     cyhal_gpio_t sda_pin;
     cyhal_gpio_t scl_pin;
-    uint8_t instance;
     bool is_master;
     uint16_t slave_address;
-    uint8_t rxBuffer[BUFFER_LENGTH];
-    uint8_t txBuffer[BUFFER_LENGTH];
-    size_t rxBufferIndex = 0;
-    size_t rxBufferLength = 0;
-    size_t txBufferIndex = 0;
-    size_t txBufferLength = 0;
-    uint8_t txAddress;
+    arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
+    arduino::RingBufferN < BUFFER_LENGTH > txBuffer;
+    uint8_t temp_rx_buff[32];
+    uint8_t temp_tx_buff[32];
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
     cy_rslt_t w_status;
-    static uint8_t bytesSent;
     uint32_t timeout = 0; // Timeout in milliseconds
     void (*user_onRequest)(void);
     void (*user_onReceive)(int);
