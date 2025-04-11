@@ -4,10 +4,10 @@ extern "C" {
 #include <inttypes.h>
 }
 
-  #include "Wire.h"
+      #include "Wire.h"
 
-  #define Wire_assert(cy_ret) if (cy_ret != CY_RSLT_SUCCESS) { \
-              return; \
+      #define Wire_assert(cy_ret) if (cy_ret != CY_RSLT_SUCCESS) { \
+                  return; \
 }
 
 
@@ -41,9 +41,8 @@ void TwoWire::_begin() {
         Wire_assert(w_status);
         w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, temp_rx_buff, BUFFER_LENGTH);
         Wire_assert(w_status);
+        cyhal_i2c_register_callback(&i2c_obj, i2c_event_handler, this);
     }
-
-    cyhal_i2c_register_callback(&i2c_obj, i2c_event_handler, this);
 }
 
 void TwoWire::begin() {
@@ -90,19 +89,20 @@ uint8_t TwoWire::endTransmission(bool sendStop) {
     for (uint16_t i = 0; i < bytes_rcvd_request; i++) {
         temp_tx_buff[i] = txBuffer.read_char();
     }
+
     result = cyhal_i2c_master_write(&i2c_obj, slave_address, temp_tx_buff, bytes_rcvd_request, timeout, sendStop);
     // Handle specific error codes
     switch (result) {
         case I2C_SUCCESS:
-            return 0;       // Success
+            return 0;           // Success
         case I2C_NO_DEVICE_ATTACHED_PULL_UP:
-            return 2;       // NACK on transmit of address . Error: No device attached to SDA/SCL, but they are pulled-up
+            return 2;           // NACK on transmit of address . Error: No device attached to SDA/SCL, but they are pulled-up
         case I2C_NO_DEVICE_ATTACHED_NO_PULL_UP:
-            return 2;       // NACK on transmit of address. Error: No device attached to SDA/SCL, and they are not pulled-up
+            return 2;           // NACK on transmit of address. Error: No device attached to SDA/SCL, and they are not pulled-up
         case I2C_TIMEOUT:
-            return 5;       // Timeout
+            return 5;           // Timeout
         default:
-            return 4;       // Other error
+            return 4;           // Other error
     }
 }
 
@@ -111,6 +111,7 @@ uint8_t TwoWire::endTransmission(void) {
 }
 
 size_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool stopBit) {
+    rxBuffer.clear();
     if (quantity > BUFFER_LENGTH) {
         quantity = BUFFER_LENGTH;
     }
@@ -120,9 +121,9 @@ size_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool stopBit) {
         for (uint32_t i = 0; i < quantity; i++) {
             rxBuffer.store_char(temp_rx_buff[i]);
         }
-        return quantity;   // Return number of bytes read
+        return quantity;       // Return number of bytes read
     } else {
-        return 0;   // Return 0 on failure of read operation
+        return 0;       // Return 0 on failure of read operation
     }
 }
 
@@ -132,7 +133,7 @@ size_t TwoWire::requestFrom(uint8_t address, size_t len) {
 
 size_t TwoWire::write(uint8_t data) {
     if (txBuffer.isFull()) {
-        return 0;   // Buffer is full
+        return 0;       // Buffer is full
     }
 
     txBuffer.store_char(data);
@@ -142,10 +143,10 @@ size_t TwoWire::write(uint8_t data) {
 size_t TwoWire::write(const uint8_t *data, size_t quantity) {
     for (size_t i = 0; i < quantity; i++) {
         if (write(data[i]) == 0) {
-            return i;   // Return the number of bytes successfully written
+            return i;       // Return the number of bytes successfully written
         }
     }
-    return quantity;   // All bytes were successfully written
+    return quantity;       // All bytes were successfully written
 }
 
 // New overloaded write function to accept a string
@@ -162,14 +163,14 @@ int TwoWire::available(void) {
 
 int TwoWire::read(void) {
     if (rxBuffer.available() == 0) {
-        return -1;   // Buffer is empty
+        return -1;       // Buffer is empty
     }
     return rxBuffer.read_char();
 }
 
 int TwoWire::peek(void) {
     if (rxBuffer.available() == 0) {
-        return -1;   // Buffer is empty
+        return -1;       // Buffer is empty
     }
     return rxBuffer.peek();
 }
@@ -191,14 +192,9 @@ void TwoWire::i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event) {
 }
 
 void TwoWire::i2c_event_handler_member(cyhal_i2c_event_t event) {
-    if (event == CYHAL_I2C_SLAVE_WR_CMPLT_EVENT) {    // master wants to write data
-        uint16_t availableBytes = cyhal_i2c_slave_readable(&i2c_obj);
-        if (availableBytes > 0) {
-            onReceiveService(availableBytes);
-        } else {
-            return;
-        }
-    } else if (event == CYHAL_I2C_SLAVE_READ_EVENT) {   // master wants to read data
+    if (event == CYHAL_I2C_SLAVE_WR_CMPLT_EVENT) {        // master wants to write data
+        onReceiveService();
+    } else if (event == CYHAL_I2C_SLAVE_READ_EVENT) {       // master wants to read data
         onRequestService();
     } else {
         return;
@@ -206,28 +202,25 @@ void TwoWire::i2c_event_handler_member(cyhal_i2c_event_t event) {
 }
 
 // This function is called when the master wants to write data to the slave
-void TwoWire::onReceiveService(int numBytes) {
-    // Don't bother if user hasn't registered a callback
-    if (!user_onReceive) {
-        return;
-    }
+void TwoWire::onReceiveService(void) {
 
-    // Don't bother if rx buffer is in use by a master requestFrom() op
-    if (rxBuffer.available() > 0) {
-        return;
-    }
+    uint16_t numBytes = cyhal_i2c_slave_readable(&i2c_obj);
+
+    // Ensure numBytes does not exceed BUFFER_LENGTH
+    numBytes = (numBytes > BUFFER_LENGTH) ? BUFFER_LENGTH : numBytes;
 
     // Manually update rxBuffer to reflect the number of bytes received
     for (uint8_t i = 0; i < numBytes; i++) {
-        if (i < BUFFER_LENGTH) {
+        if (i < rxBuffer.availableForStore()) {
             rxBuffer.store_char(temp_rx_buff[i]);
         } else {
             break;
         }
     }
-
-    // Alert user program
-    user_onReceive(numBytes);
+    // Alert user program if registered by user
+    if (user_onReceive) {
+        user_onReceive(numBytes);
+    }
 
     // Reconfigure the write buffer after the transaction
     w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, temp_rx_buff, BUFFER_LENGTH);
@@ -236,18 +229,19 @@ void TwoWire::onReceiveService(int numBytes) {
 
 // This function is called when the master wants to read data from the slave
 void TwoWire::onRequestService(void) {
-    // Don't bother if user hasn't registered a callback
-    if (!user_onRequest) {
-        return;
-    }
-    // Reset slave write buffer iterator var
-    txBuffer.clear();
 
-    // Alert user program
-    user_onRequest();
+    // Alert user program if registered
+    if (user_onRequest) {
+        user_onRequest();
+    }
+
+    uint16_t bytesToSend = cyhal_i2c_slave_writable(&i2c_obj);
+
+    // Check if the buffer is empty
+    uint16_t bytesToSend_available = txBuffer.available();
+    bytesToSend = (bytesToSend > bytesToSend_available) ? bytesToSend_available : bytesToSend;
 
     // Copy the data from the txBuffer to the temp_tx_buff array
-    uint16_t bytesToSend = txBuffer.available();
     for (uint16_t i = 0; i < bytesToSend; i++) {
         temp_tx_buff[i] = txBuffer.read_char();
     }
@@ -255,13 +249,12 @@ void TwoWire::onRequestService(void) {
     // Reconfigure the read buffer after the transaction
     w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj, temp_tx_buff, BUFFER_LENGTH);
     Wire_assert(w_status);
-
 }
 
-  #if I2C_HOWMANY > 0
+      #if I2C_HOWMANY > 0
 TwoWire Wire(I2C1_SDA_PIN, I2C1_SCL_PIN);
-  #endif
+      #endif
 
-  #if I2C_HOWMANY > 1
+      #if I2C_HOWMANY > 1
 TwoWire Wire1(I2C2_SDA_PIN, I2C2_SCL_PIN);
-  #endif
+      #endif
