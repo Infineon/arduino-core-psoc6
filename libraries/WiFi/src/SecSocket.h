@@ -1,9 +1,10 @@
 #ifndef CY_SECURE_SOCKET_H
 #define CY_SECURE_SOCKET_H
 
-#include "cy_secure_sockets.h"
+#include "Arduino.h"
 #include "api/IPAddress.h"
 #include "api/RingBuffer.h"
+#include "cy_secure_sockets.h"
 
 typedef enum {
     SOCKET_STATUS_UNINITED = 0,

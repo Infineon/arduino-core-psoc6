@@ -5,8 +5,13 @@
         return;                      \
     }
 
-SPIClassPSOC::SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel, bool is_slave)
-    : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _is_slave(is_slave), _is_initialized(false) {
+SPIClassPSOC::SPIClassPSOC(
+    pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel, bool is_slave)
+    : _mosi_pin(mosi),
+      _miso_pin(miso),
+      _sck_pin(sck),
+      _is_slave(is_slave),
+      _is_initialized(false) {
     _ssel_pin = _is_slave ? ssel : NC;
 }
 
@@ -18,7 +23,9 @@ void SPIClassPSOC::begin() {
     if (_is_initialized) {
         return;
     }
-    status = cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin], mapping_gpio_pin[_sck_pin], mapping_gpio_pin[_ssel_pin], NULL, 8, getSpiMode(), _is_slave);
+    status = cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin],
+                            mapping_gpio_pin[_sck_pin], mapping_gpio_pin[_ssel_pin], NULL, 8,
+                            getSpiMode(), _is_slave);
 
     spi_assert(status);
     status = cyhal_spi_set_frequency(&_spi_obj, _settings.getClockFreq());
@@ -92,9 +99,9 @@ uint16_t SPIClassPSOC::transfer16(uint16_t data) {
     return data_in_out.val;
 }
 
-void SPIClassPSOC::transfer(void *buf, size_t count) {
-    uint8_t *buffer = reinterpret_cast < uint8_t * > (buf);
-    const uint8_t *tx_buf;
+void SPIClassPSOC::transfer(void* buf, size_t count) {
+    uint8_t* buffer = reinterpret_cast<uint8_t*>(buf);
+    const uint8_t* tx_buf;
     uint8_t tx_temp_buf[count];
 
     memcpy(tx_temp_buf, buffer, count);
@@ -115,11 +122,13 @@ void SPIClassPSOC::notUsingInterrupt(int interruptNumber) {
 }
 
 void SPIClassPSOC::attachInterrupt() {
-    // Since SPI transfer functions rely on interrupts, attaching a separate interrupt is not applicable.
+    // Since SPI transfer functions rely on interrupts, attaching a separate interrupt is not
+    // applicable.
 }
 
 void SPIClassPSOC::detachInterrupt() {
-    // Detaching interrupts is not applicable as SPI transfer functions are already interrupt-driven.
+    // Detaching interrupts is not applicable as SPI transfer functions are already
+    // interrupt-driven.
 }
 
 void SPIClassPSOC::setDataMode(uint8_t dataMode) {
