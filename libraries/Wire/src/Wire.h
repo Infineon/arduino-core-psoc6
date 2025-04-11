@@ -7,12 +7,11 @@
 #include "api/HardwareI2C.h"
 #include <map>
 
-#define MAX_I2C 10
 
 class TwoWire: public arduino::HardwareI2C {
 public:
 
-    static const size_t BUFFER_LENGTH = 256;
+    static const size_t BUFFER_LENGTH = 32;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
     TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl);
@@ -50,8 +49,8 @@ private:
     uint16_t slave_address;
     arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
     arduino::RingBufferN < BUFFER_LENGTH > txBuffer;
-    uint8_t temp_rx_buff[32];
-    uint8_t temp_tx_buff[32];
+    uint8_t temp_rx_buff[256] = {0};
+    uint8_t temp_tx_buff[256] = {0};
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
     cy_rslt_t w_status;
@@ -59,7 +58,7 @@ private:
     void (*user_onRequest)(void);
     void (*user_onReceive)(int);
     void onRequestService(void);
-    void onReceiveService(int);
+    void onReceiveService(void);
     static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);
     void i2c_event_handler_member(cyhal_i2c_event_t event);
 
