@@ -140,23 +140,6 @@ size_t TwoWire::write(uint8_t data) {
     return 1;
 }
 
-size_t TwoWire::write(const uint8_t *data, size_t quantity) {
-    for (size_t i = 0; i < quantity; i++) {
-        if (write(data[i]) == 0) {
-            return i;       // Return the number of bytes successfully written
-        }
-    }
-    return quantity;       // All bytes were successfully written
-}
-
-// New overloaded write function to accept a string
-size_t TwoWire::write(const char *str) {
-    if (str == nullptr) {
-        return 0;
-    }
-    return write((const uint8_t *)str, strlen(str));
-}
-
 int TwoWire::available(void) {
     return rxBuffer.available();
 }
