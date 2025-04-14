@@ -11,7 +11,7 @@
 class TwoWire: public arduino::HardwareI2C {
 public:
 
-    static const size_t BUFFER_LENGTH = 32;
+    static const size_t BUFFER_LENGTH = 256;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
     TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl);
@@ -33,8 +33,8 @@ public:
     size_t requestFrom(uint8_t address, size_t quantity, bool stopBit);
     size_t requestFrom(uint8_t address, size_t len);
     size_t write(uint8_t data);
-    size_t write(const uint8_t *data, size_t quantity);
-    size_t write(const char *str);
+    using Print::write;   // pull in write(str) and write(buf, size) from Print
+
     int available(void);
     int read(void);
     int peek(void);
@@ -49,8 +49,8 @@ private:
     uint16_t slave_address;
     arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
     arduino::RingBufferN < BUFFER_LENGTH > txBuffer;
-    uint8_t temp_rx_buff[256] = {0};
-    uint8_t temp_tx_buff[256] = {0};
+    uint8_t temp_rx_buff[BUFFER_LENGTH] = {0};
+    uint8_t temp_tx_buff[BUFFER_LENGTH] = {0};
     cyhal_i2c_cfg_t i2c_config;
     cyhal_i2c_t i2c_obj;
     cy_rslt_t w_status;
