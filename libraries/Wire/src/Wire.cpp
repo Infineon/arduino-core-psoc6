@@ -233,10 +233,10 @@ void TwoWire::onRequestService(void) {
     Wire_assert(w_status);
 }
 
-      #if I2C_HOWMANY > 0
+#if I2C_HOWMANY > 0
 TwoWire Wire(I2C1_SDA_PIN, I2C1_SCL_PIN);
-      #endif
+#endif
 
-      #if I2C_HOWMANY > 1
+#if I2C_HOWMANY > 1
 TwoWire Wire1(I2C2_SDA_PIN, I2C2_SCL_PIN);
-      #endif
+#endif
