@@ -4,10 +4,10 @@ extern "C" {
 #include <inttypes.h>
 }
 
-      #include "Wire.h"
+#include "Wire.h"
 
-      #define Wire_assert(cy_ret) if (cy_ret != CY_RSLT_SUCCESS) { \
-                  return; \
+#define Wire_assert(cy_ret) if (cy_ret != CY_RSLT_SUCCESS) { \
+            return; \
 }
 
 
@@ -111,7 +111,6 @@ uint8_t TwoWire::endTransmission(void) {
 }
 
 size_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool stopBit) {
-    rxBuffer.clear();
     if (quantity > BUFFER_LENGTH) {
         quantity = BUFFER_LENGTH;
     }
