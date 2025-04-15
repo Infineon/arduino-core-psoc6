@@ -24,7 +24,13 @@ void setup()
 
 void loop()
 {
+  /**
+   * This delay is preventing the slave interrupts 
+   * to be executed. Currently commented out.
+   * TODO: Conflict with RTOS delay and interrupts prio operation
+   * to be resolved.
   delay(100);
+  */
 }
 
 // function that executes whenever data is received from master
