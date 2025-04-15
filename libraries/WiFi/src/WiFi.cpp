@@ -59,11 +59,12 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
 
         cy_wcm_ip_address_t ipaddress;
         cy_rslt_t ret = CY_WCM_EVENT_CONNECT_FAILED;
-        uint8_t retries = 3; /* This number has been selected arbitrarily. */
-        do
-        {
+
+        uint32_t start_time = millis();
+
+        while ((millis() - start_time) < _timeout && ret != CY_RSLT_SUCCESS) {
             ret = cy_wcm_connect_ap(&connect_params, &ipaddress);
-        } while (--retries < 0 && ret != CY_RSLT_SUCCESS);
+        }
         wcm_assert_raise(ret, WIFI_ERROR_STA_CONNECT_FAILED);
 
         _status = WIFI_STATUS_STA_CONNECTED;
@@ -89,6 +90,10 @@ void WiFiClass::end(void) {
     wcm_assert(ret, WIFI_ERROR_DEINIT_FAILED);
 
     _status = WIFI_STATUS_UNINITED;
+}
+
+void WiFiClass::setTimeout(unsigned long timeout) {
+    _timeout = timeout;
 }
 
 uint8_t WiFiClass::beginAP(const char *ssid) {
