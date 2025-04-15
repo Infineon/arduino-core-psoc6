@@ -90,6 +90,7 @@ public:
 
     int disconnect(void);
     void end(void);
+    void setTimeout(unsigned long timeout);
 
     uint8_t * macAddress(uint8_t *mac);
     IPAddress localIP();
@@ -166,6 +167,9 @@ private:
 
     void set_ip_settings_ap();
     void set_ip_settings_sta(cy_wcm_connect_params_t *connect_params);
+
+    // timeout configuration
+    unsigned long _timeout = 10000; // 10 seconds
 
     const char * SSID_STA();
     const char * SSID_AP();
