@@ -117,6 +117,9 @@ public:
 
     wifi_error_t getLastError();
 
+    void setDNS(IPAddress dns_server1);
+    void setDNS(IPAddress dns_server1, IPAddress dns_server2);
+
 private:
 
     /* Extension of cy_wcm_interface_t enums. */
