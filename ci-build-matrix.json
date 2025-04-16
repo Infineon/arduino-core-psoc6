@@ -7,7 +7,7 @@
         "infineon:psoc6:cy8ckit_062s2_ai"
     ],
     "example" : [
-        "examples/testSketch/testSketch.ino",
+        "extras/arduino-examples/examples/01.Basics/Blink/Blink.ino",
         "libraries/SPI/examples/master/master.ino",
         "libraries/SPI/examples/slave/slave.ino",
         "libraries/WiFi/examples/ConnectNoEncryption/ConnectNoEncryption.ino",
