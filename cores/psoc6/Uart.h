@@ -2,6 +2,7 @@
 
 #include "Arduino.h"
 #include "api/HardwareSerial.h"
+#include "api/RingBuffer.h"
 #include "cyhal_uart.h"
 #include "cyhal_gpio.h"
 
@@ -42,6 +43,8 @@ public:
 
 
 private:
+
+    static constexpr size_t BUFFER_LENGTH = 512;
     cyhal_gpio_t tx_pin;
     cyhal_gpio_t rx_pin;
     cyhal_gpio_t cts_pin;
@@ -54,11 +57,7 @@ private:
     uint32_t extractParity(uint16_t config);
     uint32_t extractDataBits(uint16_t config);
 
-    // Software buffer
-    static const int bufferSize = 512;
-    uint8_t buffer[bufferSize];
-    volatile int bufferHead;
-    volatile int bufferTail;
+    arduino::RingBufferN < BUFFER_LENGTH > rx_buffer;
 
     void IrqHandler();
 };

@@ -8,7 +8,7 @@
 
 Uart *Uart::g_uarts[MAX_UARTS] = {nullptr};
 
-Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts), bufferHead(0), bufferTail(0) {
+Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts) {
 }
 
 void Uart::begin(unsigned long baud) {
@@ -55,9 +55,10 @@ void Uart::begin(unsigned long baud, uint16_t config) {
             break;
     }
 
-    // Initialize the UART Block
+    /**
+     * TODO: Error handling of cyhal return is not implemented.
+     */
     cyhal_uart_init(&uart_obj, tx_pin, rx_pin, cts_pin, rts_pin, NULL, &uart_config);
-    // set the baud rate
     cyhal_uart_set_baud(&uart_obj, baud, &actualbaud);
 
     cyhal_uart_register_callback(&uart_obj, Uart::uart_event_handler, this);
@@ -65,7 +66,7 @@ void Uart::begin(unsigned long baud, uint16_t config) {
 }
 
 int Uart::available(void) {
-    return (bufferHead - bufferTail + bufferSize) % bufferSize;
+    return rx_buffer.available();
 }
 
 int Uart::availableForWrite() {
@@ -74,17 +75,16 @@ int Uart::availableForWrite() {
 }
 
 void Uart::end() {
-    // Clear the UART buffer
     cyhal_uart_clear(&uart_obj);
     cyhal_uart_free(&uart_obj);
-    bufferHead = bufferTail;
+    rx_buffer.clear();
 }
 
 void Uart::flush() {
-    unsigned long startMillis = millis();
-    unsigned long timeout = 1000; // Timeout period in milliseconds
+    unsigned long time_start_ms = millis();
+    unsigned long timeout_ms = 1000;
     while (cyhal_uart_is_tx_active(&uart_obj)) {
-        if (millis() - startMillis >= timeout) {
+        if (millis() - time_start_ms >= timeout_ms) {
             // Timeout occurred
             break;
         }
@@ -92,24 +92,17 @@ void Uart::flush() {
 }
 
 int Uart::peek(void) {
-    if (bufferHead == bufferTail) {
-        return -1;                  // Buffer is empty
-    } else {
-        return buffer[bufferTail];  // Return the next byte without removing it from the buffer
+    if (rx_buffer.available() == 0) {
+        return -1;       // Buffer is empty
     }
+    return rx_buffer.peek();
 }
 
 int Uart::read(void) {
-    noInterrupts();
-    if (bufferHead == bufferTail) {
-        interrupts();
-        return -1;                  // Buffer is empty
-    } else {
-        uint8_t c = buffer[bufferTail];
-        bufferTail = (bufferTail + 1) % bufferSize;
-        interrupts();
-        return c;
+    if (rx_buffer.available() == 0) {
+        return -1;       // Buffer is empty
     }
+    return rx_buffer.read_char();
 }
 
 size_t Uart::write(uint8_t c) {
@@ -152,13 +145,8 @@ void Uart::IrqHandler() {
     size_t size = 1;
     while (cyhal_uart_readable(&uart_obj) > 0) {
         cyhal_uart_read(&uart_obj, &c, &size);
-        int nextHead = (bufferHead + 1) % bufferSize;
-        if (nextHead != bufferTail) {
-            buffer[bufferHead] = c;
-            bufferHead = nextHead;
-        } else {
-            // Buffer overflow, discard the byte
+        if (rx_buffer.availableForStore() > 0) {
+            rx_buffer.store_char(c);
         }
     }
 }
-// #endif
