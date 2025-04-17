@@ -519,6 +519,19 @@ const char * WiFiClass::SSID_AP() {
     return (const char *)(&(ap_conf.ap_credentials.SSID));
 }
 
+void WiFiClass::setDNS(IPAddress dns_server1) {
+    const ip_addr_t dns1 = {.addr = uint32_t(dns_server1)};
+    dns_setserver(0, &dns1);
+}
+
+void WiFiClass::setDNS(IPAddress dns_server1, IPAddress dns_server2) {
+    const ip_addr_t dns1 = {.addr = uint32_t(dns_server1)};
+    const ip_addr_t dns2 = {.addr = uint32_t(dns_server2)};
+
+    dns_setserver(0, &dns1);
+    dns_setserver(1, &dns2);
+}
+
 wl_auth_mode WiFiClass::convertEncryptType(cy_wcm_security_t wcm_sec) {
     wl_auth_mode sec_type = AUTH_MODE_INVALID;
 
