@@ -113,19 +113,33 @@ int Uart::read(void) {
 }
 
 size_t Uart::write(uint8_t c) {
-    cy_rslt_t result = cyhal_uart_putc(&uart_obj, c);
-    if (result != CY_RSLT_SUCCESS) {
-        return 0;
-    }
-    return 1;
+    return write((const uint8_t *)&c, 1);
 }
 
 size_t Uart::write(const uint8_t *buffer, size_t size) {
-    cy_rslt_t result = cyhal_uart_write(&uart_obj, (void *)buffer, &size);
-    if (result != CY_RSLT_SUCCESS) {
-        return 0;
-    }
-    return size;
+    size_t left_to_write = size;
+    unsigned long time_start_ms = millis();
+    uint32_t constexpr timeout_ms = 500;
+    /* Flow control is implemented by checking the available capacity of the
+    UART for writing. Iterate in case of the amount of requested bytes exceed the
+    available. To avoid and infinite loop a timeout of is implemented.
+    For very longer transaction the application needs to to implement a similar
+     */
+    do {
+        uint32_t num_bytes_writable = cyhal_uart_writable(&uart_obj);
+        size_t bytes_to_write = left_to_write > num_bytes_writable ? num_bytes_writable : left_to_write;
+        /* Trying to write 0 size will throw an exception. */
+        if (bytes_to_write > 0) {
+            cy_rslt_t result = cyhal_uart_write(&uart_obj, (void *)buffer, &bytes_to_write);
+            if (result != CY_RSLT_SUCCESS) {
+                break;
+            }
+            left_to_write -= bytes_to_write;
+            buffer += bytes_to_write;
+        }
+    } while (left_to_write > 0 && (millis() - time_start_ms) < timeout_ms);
+
+    return size - left_to_write;
 }
 
 void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
