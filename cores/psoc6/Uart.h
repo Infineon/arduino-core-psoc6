@@ -16,7 +16,7 @@ public:
     void begin(unsigned long baud, uint16_t config);
     void end();
     int available(void);
-    int availableForWrite();
+    virtual int availableForWrite();
     int peek(void);
     int read(void);
     void flush(void);
@@ -34,7 +34,7 @@ public:
     inline size_t write(int n) {
         return write((uint8_t)n);
     }
-    using Print::write;     // pull in write(str) and write(buf, size) from Print
+    using Print::write;
     operator bool() {
         return true;
     }
@@ -55,10 +55,11 @@ private:
     uint32_t extractDataBits(uint16_t config);
 
     // Software buffer
-    static const int bufferSize = 128;
+    static const int bufferSize = 512;
     uint8_t buffer[bufferSize];
     volatile int bufferHead;
     volatile int bufferTail;
+
     void IrqHandler();
 };
 
