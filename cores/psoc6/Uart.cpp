@@ -1,13 +1,6 @@
 #include "Uart.h"
 #include "cybsp.h"
 
-
-#ifdef Serial
-#undef Serial
-#endif
-
-Uart *Uart::g_uarts[MAX_UARTS] = {nullptr};
-
 Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts) {
 }
 
@@ -70,8 +63,7 @@ int Uart::available(void) {
 }
 
 int Uart::availableForWrite() {
-    uint32_t ret = cyhal_uart_writable(&uart_obj);
-    return ret;
+    return cyhal_uart_writable(&uart_obj);
 }
 
 void Uart::end() {
