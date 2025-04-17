@@ -406,6 +406,9 @@ wifi_error_t WiFiClass::getLastError() {
     return _last_error;
 }
 
+uint8_t WiFiClass::reasonCode() {
+    return getLastError();
+}
 
 WiFiClass::WiFiClass() {
 

@@ -116,6 +116,8 @@ public:
     int ping(const String &hostname, uint8_t ttl = 128);
     int ping(IPAddress host, uint8_t ttl = 128);
 
+    uint8_t reasonCode();
+
     wifi_error_t getLastError();
 
     void setDNS(IPAddress dns_server1);
