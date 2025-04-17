@@ -1,7 +1,9 @@
+#include "Arduino.h"
 #include "Uart.h"
-#include "cybsp.h"
+#include "cyhal_gpio.h"
 
-Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts) {
+Uart::Uart(pin_size_t tx, pin_size_t rx, pin_size_t cts, pin_size_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts) {
+
 }
 
 void Uart::begin(unsigned long baud) {
@@ -48,10 +50,15 @@ void Uart::begin(unsigned long baud, uint16_t config) {
             break;
     }
 
+
+    /* If the user does not define them (or pass NC), they are not connected. No Arduino GPIO mapping */
+    cyhal_gpio_t cy_cts_pin = (cts_pin == NC) ? NC : mapping_gpio_pin[cts_pin];
+    cyhal_gpio_t cy_rts_pin = (rts_pin == NC) ? NC : mapping_gpio_pin[rts_pin];
+
     /**
      * TODO: Error handling of cyhal return is not implemented.
      */
-    cyhal_uart_init(&uart_obj, tx_pin, rx_pin, cts_pin, rts_pin, NULL, &uart_config);
+    cyhal_uart_init(&uart_obj, mapping_gpio_pin[tx_pin], mapping_gpio_pin[rx_pin], cy_cts_pin, cy_rts_pin, NULL, &uart_config);
     cyhal_uart_set_baud(&uart_obj, baud, &actualbaud);
 
     cyhal_uart_register_callback(&uart_obj, Uart::uart_event_handler, this);
@@ -144,9 +151,9 @@ void Uart::IrqHandler() {
 }
 
 #if SERIAL_HOWMANY > 0
-Uart _UART1_(UART1_TX_PIN, UART1_RX_PIN, NC, NC);
+Uart _UART1_(UART1_TX_PIN, UART1_RX_PIN, UART1_CTS_PIN, UART1_RTS_PIN);
 #endif
 
 #if SERIAL_HOWMANY > 1
-Uart _UART2_(UART2_TX_PIN, UART2_RX_PIN, NC, NC);
+Uart _UART2_(UART2_TX_PIN, UART2_RX_PIN, UART2_CTS_PIN, UART2_RTS_PIN);
 #endif

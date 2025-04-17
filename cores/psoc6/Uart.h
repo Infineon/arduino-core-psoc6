@@ -1,16 +1,14 @@
 #pragma once
 
-#include "Arduino.h"
 #include "api/HardwareSerial.h"
 #include "api/RingBuffer.h"
 #include "cyhal_uart.h"
-#include "cyhal_gpio.h"
 
 class Uart: public arduino::HardwareSerial
 {
 public:
 
-    Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts);
+    Uart(pin_size_t tx, pin_size_t rx, pin_size_t cts = NC, pin_size_t rts = NC);
     void begin(unsigned long baud);
     void begin(unsigned long baud, uint16_t config);
     void end();
@@ -31,10 +29,10 @@ public:
 
 private:
 
-    cyhal_gpio_t tx_pin;
-    cyhal_gpio_t rx_pin;
-    cyhal_gpio_t cts_pin;
-    cyhal_gpio_t rts_pin;
+    pin_size_t tx_pin;
+    pin_size_t rx_pin;
+    pin_size_t cts_pin;
+    pin_size_t rts_pin;
     cyhal_uart_t uart_obj;
     cyhal_uart_cfg_t uart_config;
     uint32_t actualbaud;
@@ -49,5 +47,10 @@ private:
     void IrqHandler();
 };
 
+#if (SERIAL_HOWMANY > 0)
 extern Uart _UART1_;
+#endif
+
+#if (SERIAL_HOWMANY > 1)
 extern Uart _UART2_;
+#endif

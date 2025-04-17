@@ -77,13 +77,13 @@ extern "C" {
 // ARM toolchain doesn't provide itoa etc, provide them
 #include "api/itoa.h"
 
+#include "pins_arduino.h"
+
 #ifdef __cplusplus
 #include "Uart.h"
 #endif
 
 #define Serial _UART1_
 #define Serial1 _UART2_
-
-#include "pins_arduino.h"
 
 #endif // Arduino_h
