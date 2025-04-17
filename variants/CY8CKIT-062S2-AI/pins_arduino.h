@@ -31,10 +31,14 @@
 /****** UART CORE DEFINES ******/
 
 #define SERIAL_HOWMANY		2
-#define UART1_TX_PIN      CYBSP_DEBUG_UART_TX
-#define UART1_RX_PIN      CYBSP_DEBUG_UART_RX
-#define UART2_TX_PIN      P10_1
-#define UART2_RX_PIN      P10_0
+#define UART1_TX_PIN      32  // UART_TX P5_1
+#define UART1_RX_PIN      31  // UART_RX P5_0
+#define UART1_CTS_PIN     NC  // NOT CONNECTED
+#define UART1_RTS_PIN     NC  // NOT CONNECTED
+#define UART2_TX_PIN      10  // UART_TX P10_1
+#define UART2_RX_PIN      11  // UART_RX P10_0
+#define UART2_CTS_PIN     NC  // NOT CONNECTED
+#define UART2_RTS_PIN     NC  // NOT CONNECTED
 
 #define I2C_HOWMANY    2
 #define I2C1_SDA_PIN    CYBSP_I2C_SDA
@@ -109,7 +113,12 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
     /* 27  */ P8_4,// UART_RX / I2C-SCL / IO /PWM                     
     /* 28  */ P8_5,// UART_TX / I2C-SDA / IO /PWM                     
     /* 29  */ P12_4,// SDHC_CMD / IO /PWM                             
-    /* 30  */ P12_5,// SDHC_CLK / IO /PWM                             
+    /* 30  */ P12_5,// SDHC_CLK / IO /PWM
+
+    // Debugger Serial UART pins (not available on connector) 
+    
+    /* 31  */ P5_0, // DEBUG_UART_RX 
+    /* 32  */ P5_1, // DEBUG_UART_TX 
 };
 
 const uint8_t GPIO_PIN_COUNT = (sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) - 1;
