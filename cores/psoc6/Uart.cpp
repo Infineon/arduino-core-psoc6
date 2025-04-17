@@ -142,3 +142,11 @@ void Uart::IrqHandler() {
         }
     }
 }
+
+#if SERIAL_HOWMANY > 0
+Uart _UART1_(UART1_TX_PIN, UART1_RX_PIN, NC, NC);
+#endif
+
+#if SERIAL_HOWMANY > 1
+Uart _UART2_(UART2_TX_PIN, UART2_RX_PIN, NC, NC);
+#endif
