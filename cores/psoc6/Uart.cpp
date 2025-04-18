@@ -1,14 +1,19 @@
+#include "Arduino.h"
 #include "Uart.h"
-#include "cybsp.h"
+#include "cyhal_gpio.h"
+
+#define uart_assert(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
+            last_error = ret_code; \
+            return; \
+}
 
 
-#ifdef Serial
-#undef Serial
-#endif
+Uart::Uart(pin_size_t tx, pin_size_t rx, pin_size_t cts, pin_size_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts) {
 
-Uart *Uart::g_uarts[MAX_UARTS] = {nullptr};
+}
 
-Uart::Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts) : tx_pin(tx), rx_pin(rx), cts_pin(cts), rts_pin(rts), bufferHead(0), bufferTail(0) {
+Uart::~Uart() {
+    end();
 }
 
 void Uart::begin(unsigned long baud) {
@@ -55,36 +60,42 @@ void Uart::begin(unsigned long baud, uint16_t config) {
             break;
     }
 
-    // Initialize the UART Block
-    cyhal_uart_init(&uart_obj, tx_pin, rx_pin, cts_pin, rts_pin, NULL, &uart_config);
-    // set the baud rate
-    cyhal_uart_set_baud(&uart_obj, baud, &actualbaud);
+
+    /* If the user does not define them (or pass NC), they are not connected. No Arduino GPIO mapping */
+    cyhal_gpio_t cy_cts_pin = (cts_pin == NC) ? NC : mapping_gpio_pin[cts_pin];
+    cyhal_gpio_t cy_rts_pin = (rts_pin == NC) ? NC : mapping_gpio_pin[rts_pin];
+
+    cy_rslt_t ret = cyhal_uart_init(&uart_obj, mapping_gpio_pin[tx_pin], mapping_gpio_pin[rx_pin], cy_cts_pin, cy_rts_pin, NULL, &uart_config);
+    uart_assert(ret, UART_ERROR_INIT_FAILED);
+    ret = cyhal_uart_set_baud(&uart_obj, baud, &actualbaud);
+    uart_assert(ret, UART_ERROR_SET_BAUD_FAILED);
 
     cyhal_uart_register_callback(&uart_obj, Uart::uart_event_handler, this);
     cyhal_uart_enable_event(&uart_obj, CYHAL_UART_IRQ_RX_NOT_EMPTY, 7, true);
+
+    serial_ready = true;
 }
 
 int Uart::available(void) {
-    return (bufferHead - bufferTail + bufferSize) % bufferSize;
+    return rx_buffer.available();
 }
 
 int Uart::availableForWrite() {
-    uint32_t ret = cyhal_uart_writable(&uart_obj);
-    return ret;
+    return cyhal_uart_writable(&uart_obj);
 }
 
 void Uart::end() {
-    // Clear the UART buffer
     cyhal_uart_clear(&uart_obj);
     cyhal_uart_free(&uart_obj);
-    bufferHead = bufferTail;
+    rx_buffer.clear();
+    serial_ready = false;
 }
 
 void Uart::flush() {
-    unsigned long startMillis = millis();
-    unsigned long timeout = 1000; // Timeout period in milliseconds
+    unsigned long time_start_ms = millis();
+    unsigned long timeout_ms = 1000;
     while (cyhal_uart_is_tx_active(&uart_obj)) {
-        if (millis() - startMillis >= timeout) {
+        if (millis() - time_start_ms >= timeout_ms) {
             // Timeout occurred
             break;
         }
@@ -92,40 +103,55 @@ void Uart::flush() {
 }
 
 int Uart::peek(void) {
-    if (bufferHead == bufferTail) {
-        return -1;                  // Buffer is empty
-    } else {
-        return buffer[bufferTail];  // Return the next byte without removing it from the buffer
+    if (rx_buffer.available() == 0) {
+        return -1;       // Buffer is empty
     }
+    return rx_buffer.peek();
 }
 
 int Uart::read(void) {
-    noInterrupts();
-    if (bufferHead == bufferTail) {
-        interrupts();
-        return -1;                  // Buffer is empty
-    } else {
-        uint8_t c = buffer[bufferTail];
-        bufferTail = (bufferTail + 1) % bufferSize;
-        interrupts();
-        return c;
+    if (rx_buffer.available() == 0) {
+        return -1;       // Buffer is empty
     }
+    return rx_buffer.read_char();
 }
 
 size_t Uart::write(uint8_t c) {
-    cy_rslt_t result = cyhal_uart_putc(&uart_obj, c);
-    if (result != CY_RSLT_SUCCESS) {
-        return 0;
-    }
-    return 1;
+    return write((const uint8_t *)&c, 1);
 }
 
 size_t Uart::write(const uint8_t *buffer, size_t size) {
-    cy_rslt_t result = cyhal_uart_write(&uart_obj, (void *)buffer, &size);
-    if (result != CY_RSLT_SUCCESS) {
-        return 0;
-    }
-    return size;
+    size_t left_to_write = size;
+    unsigned long time_start_ms = millis();
+    uint32_t constexpr timeout_ms = 500;
+    /* Flow control is implemented by checking the available capacity of the
+    UART for writing. Iterate in case of the amount of requested bytes exceed the
+    available. To avoid and infinite loop a timeout of is implemented.
+    For very longer transaction the application needs to to implement a similar
+     */
+    do {
+        uint32_t num_bytes_writable = cyhal_uart_writable(&uart_obj);
+        size_t bytes_to_write = left_to_write > num_bytes_writable ? num_bytes_writable : left_to_write;
+        /* Trying to write 0 size will throw an exception. */
+        if (bytes_to_write > 0) {
+            cy_rslt_t result = cyhal_uart_write(&uart_obj, (void *)buffer, &bytes_to_write);
+            if (result != CY_RSLT_SUCCESS) {
+                break;
+            }
+            left_to_write -= bytes_to_write;
+            buffer += bytes_to_write;
+        }
+    } while (left_to_write > 0 && (millis() - time_start_ms) < timeout_ms);
+
+    return size - left_to_write;
+}
+
+Uart::operator bool() {
+    return serial_ready;
+}
+
+uart_error_t Uart::getLastError() {
+    return last_error;
 }
 
 void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
@@ -138,13 +164,16 @@ void Uart::IrqHandler() {
     size_t size = 1;
     while (cyhal_uart_readable(&uart_obj) > 0) {
         cyhal_uart_read(&uart_obj, &c, &size);
-        int nextHead = (bufferHead + 1) % bufferSize;
-        if (nextHead != bufferTail) {
-            buffer[bufferHead] = c;
-            bufferHead = nextHead;
-        } else {
-            // Buffer overflow, discard the byte
+        if (rx_buffer.availableForStore() > 0) {
+            rx_buffer.store_char(c);
         }
     }
 }
-// #endif
+
+#if SERIAL_HOWMANY > 0
+Uart _UART1_(UART1_TX_PIN, UART1_RX_PIN, UART1_CTS_PIN, UART1_RTS_PIN);
+#endif
+
+#if SERIAL_HOWMANY > 1
+Uart _UART2_(UART2_TX_PIN, UART2_RX_PIN, UART2_CTS_PIN, UART2_RTS_PIN);
+#endif

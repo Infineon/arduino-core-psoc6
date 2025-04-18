@@ -1,66 +1,62 @@
 #pragma once
 
-#include "Arduino.h"
 #include "api/HardwareSerial.h"
+#include "api/RingBuffer.h"
 #include "cyhal_uart.h"
-#include "cyhal_gpio.h"
 
-#define MAX_UARTS    10
+typedef enum {
+    UART_ERROR_NONE = 0,
+    UART_ERROR_INIT_FAILED = -1,
+    UART_ERROR_SET_BAUD_FAILED = -2,
+} uart_error_t;
 
 class Uart: public arduino::HardwareSerial
 {
 public:
-    static Uart * g_uarts[MAX_UARTS];
-    Uart(cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts);
+
+    Uart(pin_size_t tx, pin_size_t rx, pin_size_t cts = NC, pin_size_t rts = NC);
+    ~Uart();
     void begin(unsigned long baud);
     void begin(unsigned long baud, uint16_t config);
     void end();
     int available(void);
-    int availableForWrite();
+    virtual int availableForWrite();
     int peek(void);
     int read(void);
     void flush(void);
     virtual size_t write(uint8_t c);
     virtual size_t write(const uint8_t *buffer, size_t size);
-    inline size_t write(unsigned long n) {
-        return write((uint8_t)n);
-    }
-    inline size_t write(long n) {
-        return write((uint8_t)n);
-    }
-    inline size_t write(unsigned int n) {
-        return write((uint8_t)n);
-    }
-    inline size_t write(int n) {
-        return write((uint8_t)n);
-    }
-    using Print::write;     // pull in write(str) and write(buf, size) from Print
-    operator bool() {
-        return true;
-    }
+
+    using Print::write;
+    operator bool();
+
+    uart_error_t getLastError();
+
     static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
 
 
 private:
-    cyhal_gpio_t tx_pin;
-    cyhal_gpio_t rx_pin;
-    cyhal_gpio_t cts_pin;
-    cyhal_gpio_t rts_pin;
+
+    pin_size_t tx_pin;
+    pin_size_t rx_pin;
+    pin_size_t cts_pin;
+    pin_size_t rts_pin;
     cyhal_uart_t uart_obj;
     cyhal_uart_cfg_t uart_config;
     uint32_t actualbaud;
-    cy_rslt_t result;
-    uint32_t extractStopBit(uint16_t config);
-    uint32_t extractParity(uint16_t config);
-    uint32_t extractDataBits(uint16_t config);
+    bool serial_ready = false;
+    uart_error_t last_error = UART_ERROR_NONE;
 
-    // Software buffer
-    static const int bufferSize = 128;
-    uint8_t buffer[bufferSize];
-    volatile int bufferHead;
-    volatile int bufferTail;
+    static constexpr size_t BUFFER_LENGTH = 512;
+    arduino::RingBufferN < BUFFER_LENGTH > rx_buffer;
+
     void IrqHandler();
 };
 
+#if (SERIAL_HOWMANY > 0)
 extern Uart _UART1_;
+#endif
+
+#if (SERIAL_HOWMANY > 1)
 extern Uart _UART2_;
+#endif
