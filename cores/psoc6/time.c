@@ -81,13 +81,19 @@ unsigned long micros() {
 }
 
 void delay(unsigned long ms) {
-    const TickType_t xDelay = ms / portTICK_PERIOD_MS;
-    vTaskDelay(xDelay);
+    unsigned long start = millis();
+    while (millis() - start < ms) {
+        // Yield to allow other processes to run
+        yield();
+    }
 }
 
 void delayMicroseconds(unsigned int us) {
-    const TickType_t xDelay = us / (portTICK_PERIOD_MS * MILLISECONDS_PER_SECOND);
-    vTaskDelay(xDelay);
+    unsigned long start = micros();
+    while (micros() - start < us) {
+        // Yield to allow other processes to run
+        yield();
+    }
 }
 
 #ifdef __cplusplus
