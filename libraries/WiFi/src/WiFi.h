@@ -107,6 +107,7 @@ public:
     uint8_t * BSSID(uint8_t networkItem, uint8_t *bssid);
     int32_t RSSI(uint8_t networkItem);
     uint8_t encryptionType(uint8_t networkItem);
+    uint8_t channel(uint8_t networkItem);
 
     uint8_t status();
 
