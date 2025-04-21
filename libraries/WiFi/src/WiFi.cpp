@@ -355,6 +355,14 @@ uint8_t WiFiClass::encryptionType(uint8_t networkItem) {
     return convertEncryptType(scan_results.results[networkItem].security);
 }
 
+uint8_t WiFiClass::channel(uint8_t networkItem) {
+    if (networkItem >= scan_results.result_count) {
+        return 0;
+    }
+
+    return scan_results.results[networkItem].channel;
+}
+
 uint8_t WiFiClass::status() {
     return _status;
 }
