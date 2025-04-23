@@ -2,6 +2,7 @@
 #include "api/Common.h"
 #include "SecSocket.h"
 #include "lwip/dns.h"
+#include "lwip/dhcp.h"
 
 #define wcm_assert_raise(cy_ret, ret_code)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _last_error = ret_code; \
@@ -43,6 +44,7 @@ int WiFiClass::begin(const char *ssid) {
 }
 
 int WiFiClass::begin(const char *ssid, const char *passphrase) {
+    setHostname("mydevice");
     _last_error = wcm_init(CY_WCM_INTERFACE_TYPE_STA);
     wifi_assert_raise(_last_error);
 
@@ -366,6 +368,22 @@ uint8_t WiFiClass::status() {
 
 int WiFiClass::hostByName(const char *aHostname, IPAddress& ip) {
     return Socket::hostByName(aHostname, ip);
+}
+
+void WiFiClass::setHostname(const char *name) {
+    // Set the hostname using the LWIP function
+    struct netif *netif = netif_list; // Get the list of network interfaces
+    if (netif != NULL) {
+        netif_set_hostname(netif, name); // Set the hostname for the first network interface
+
+        // Ensure the hostname is included in the DHCP request
+        if (dhcp_supplied_address(netif)) {
+            dhcp_release(netif); // Release the current DHCP lease
+        }
+        dhcp_start(netif); // Restart DHCP to propagate the hostname
+    } else {
+        _last_error = WIFI_ERROR_STATUS_INVALID;
+    }
 }
 
 int WiFiClass::ping(const char *hostname, uint8_t ttl) {

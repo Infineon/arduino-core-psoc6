@@ -6,6 +6,8 @@
 #include "api/IPAddress.h"
 #include "WiFiClient.h"
 #include "WiFiServer.h"
+#include "lwipopts.h"
+#include "lwip/netif.h"
 
 #include "cy_wcm.h"
 
@@ -111,6 +113,7 @@ public:
     uint8_t status();
 
     int hostByName(const char *aHostname, IPAddress& ip);
+    void setHostname(const char *name);
 
     int ping(const char *hostname, uint8_t ttl = 128);
     int ping(const String &hostname, uint8_t ttl = 128);
