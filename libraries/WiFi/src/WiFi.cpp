@@ -62,7 +62,7 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
 
         uint32_t start_time = millis();
 
-        while ((millis() - start_time) < _timeout && ret != CY_RSLT_SUCCESS) {
+        while ((millis() - start_time) < timeout_ms && ret != CY_RSLT_SUCCESS) {
             ret = cy_wcm_connect_ap(&connect_params, &ipaddress);
         }
         wcm_assert_raise(ret, WIFI_ERROR_STA_CONNECT_FAILED);
@@ -93,7 +93,7 @@ void WiFiClass::end(void) {
 }
 
 void WiFiClass::setTimeout(unsigned long timeout) {
-    _timeout = timeout;
+    timeout_ms = timeout;
 }
 
 uint8_t WiFiClass::beginAP(const char *ssid) {

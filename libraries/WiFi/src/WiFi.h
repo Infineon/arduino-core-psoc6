@@ -169,7 +169,7 @@ private:
     void set_ip_settings_sta(cy_wcm_connect_params_t *connect_params);
 
     // timeout configuration
-    unsigned long _timeout = 10000; // 10 seconds
+    unsigned long timeout_ms = 10000;
 
     const char * SSID_STA();
     const char * SSID_AP();
