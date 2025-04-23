@@ -278,4 +278,8 @@
 
 #define LWIP_CHKSUM_ALGORITHM         (3)
 
+#define LWIP_NETIF_HOSTNAME           (1)
+
+#define LWIP_DHCP                     (1)
+
 extern void sys_check_core_locking();
