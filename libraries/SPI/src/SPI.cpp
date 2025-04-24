@@ -17,7 +17,7 @@ void SPIClassPSOC::begin() {
     if (_is_initialized) {
         return;
     }
-    status = cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin], mapping_gpio_pin[_sck_pin], mapping_gpio_pin[_ssel_pin], NULL, 8, getSpiMode(), _is_slave);
+    status = cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin], mapping_gpio_pin[_sck_pin], _ssel_pin == NC ? NC : mapping_gpio_pin[_ssel_pin], NULL, 8, getSpiMode(), _is_slave);
 
     spi_assert(status);
     status = cyhal_spi_set_frequency(&_spi_obj, _settings.getClockFreq());
