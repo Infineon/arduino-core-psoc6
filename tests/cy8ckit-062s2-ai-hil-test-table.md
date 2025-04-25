@@ -21,13 +21,27 @@
 
 # Pin Connections for HIL Test Setup on Single Board
 
-| Test Name     | Board 1 Pin   | Board 1 Pin   | Description                    |
-|---------------|---------------|---------------|--------------------------------|
-| Digital IO    | P9.6          | P9.7          | IO6 to IO7                     |
-|               |               |               |                                |
-| Wire 2        | P0.2          | P9.0          | I2C SCL to SCL (with pullup)   |
-|               | P0.3          | P9.1          | I2C SDA TO SDA (with pullup)   |
-|               |               |               |                                |
-| SPI           | P9_0          | P9_1          | MOSI and MISO shorted          |
-|               | P9_2          | NC            | SCLK to SCLK                   |
-|               |               |               |                                |
+| Test Name     | Board 1 Pin   | Board 1 Pin    | Description                    |
+|---------------|---------------|----------------|--------------------------------|
+| Digital IO    | P9.6          | P9.7           | IO6 to IO7                     |
+|               |               |                |                                |
+| Wire 2        | P0.2          | P9.0           | I2C SCL to SCL (with pullup)   |
+|               | P0.3          | P9.1           | I2C SDA TO SDA (with pullup)   |
+|               |               |                |                                |
+| SPI           | P9_0          | P9_1           | MOSI and MISO shorted          |
+|               | P9_2          | NC             | SCLK to SCLK                   |
+|               |               |                |                                |
+| ADC           | P10.0         | VDDA 3.3V      | A0 connected to VDDA 3.3V      |
+|               | P10.1         | VoltageDivider | A1 connected to Voltage        |
+|               |               |                | divider circuit as below:      |
+|               |               |                |                                |
+|               |               |                |  VDDA (3.3V)                   |
+|               |               |                |   |                            |
+|               |               |                |  [R1]   <-- Resistor 220 Ohms  |
+|               |               |                |   |                            |
+|               |               |                |   +-------> A1 (Mid-Point)     |
+|               |               |                |   |                            |
+|               |               |                |  [R2]   <-- Resistor 220 Ohms  |
+|               |               |                |   |                            |
+|               |               |                |  GND (0V)                      |
+|               |               |                |                                |
