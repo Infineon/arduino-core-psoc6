@@ -2,7 +2,6 @@
 #include "cyhal_adc.h"
 
 // Constants and Macros
-#define DEFAULT_ADC_RESOLUTION      12
 #define MIN_ACQUISITION_TIME        220
 #define adc_assert(cy_ret)          if (cy_ret != CY_RSLT_SUCCESS) { return 0xff; }
 
@@ -30,7 +29,7 @@ static cy_rslt_t initialize_adc(pin_size_t pinNumber) {
     // Configure ADC settings
     cyhal_adc_config_t adc_config = {
         .continuous_scanning = false,
-        .resolution = DEFAULT_ADC_RESOLUTION,
+        .resolution = ADC_RESOLUTION,
         .average_count = 1,
         .vneg = CYHAL_ADC_VNEG_VSSA,
         .vref = desiredVRef,

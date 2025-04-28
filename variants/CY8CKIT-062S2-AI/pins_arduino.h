@@ -51,15 +51,17 @@
 #define PIN_SPI_MISO            1 // SPI-MISO P9_1
 #define PIN_SPI_SCK             2 // SPI-SCLK P9_2
 #define PIN_SPI_SS              3 // IO_0     P9_3
-
 static const uint8_t SS = PIN_SPI_SS;
 static const uint8_t MOSI = PIN_SPI_MOSI; 
 static const uint8_t MISO = PIN_SPI_MISO; 
 static const uint8_t SCK = PIN_SPI_SCK;
 
 #define ADC_HOWMANY             2
-#define A0                      10 // ADC P10.0
-#define A1                      11 // ADC P10.1
+#define ADC_RESOLUTION          12 // ADC resolution in bits, but the observed range is from 0-2^11. 
+#define PIN_A0                  11 // ADC P10.0
+#define PIN_A1                  10 // ADC P10.1
+static const uint8_t A0  = PIN_A0;
+static const uint8_t A1  = PIN_A1;
 
 #define LED1                    12 // Additional LED1
 #define LED_BUILTIN             LED1 // Standard Arduino LED: Uses LED1
@@ -88,8 +90,8 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
 		   
     /* 8   */ P0_2, // I2C-SCL         
     /* 9   */ P0_3, // I2C-SDA         
-    /* 10  */ P10_0,// A0 / UART_RX    
-    /* 11  */ P10_1,// A1 / UART_TX    
+    /* 10  */ P10_1,// A1 / UART_TX    
+    /* 11  */ P10_0,// A0 / UART_RX    
 
     // on board LEDs and USER BUTTON
 
