@@ -1,7 +1,8 @@
 {    
     "os" : [
         "ubuntu-latest",
-        "windows-latest"
+        "windows-latest",
+        "macos-latest"
     ],
     "fqbn" : [
         "infineon:psoc6:cy8ckit_062s2_ai"
