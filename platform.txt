@@ -68,7 +68,7 @@ compiler.elf2hex.extra_flags=
 
 hooks_prebuild_args=add-abs-paths {runtime.platform.path} {build.path} {build.variant}
 
-recipe.hooks.prebuild.1.pattern.linux=bash {runtime.platform.path}/tools/mtb-lib.sh {hooks_prebuild_args}
+recipe.hooks.prebuild.1.pattern=bash {runtime.platform.path}/tools/mtb-lib.sh {hooks_prebuild_args}
 recipe.hooks.prebuild.1.pattern.windows={runtime.platform.path}/tools/mtb-lib.cmd {hooks_prebuild_args}
 
 compiler.flags.from_file=@{runtime.platform.path}/variants/{build.variant}/mtb-lib-cxx-flags.txt
@@ -121,5 +121,5 @@ tools.openocd.upload.params.verbose=-v
 tools.openocd.upload.params.quiet=
 tools.openocd.upload.params.args=upload {runtime.tools.openocd.path} {runtime.platform.path} {build.path} {build.variant} {upload.port.properties.serialNumber} {upload.target.cfg} {build.project_name} {upload.verbose}
 
-tools.openocd.upload.pattern.linux=bash {runtime.platform.path}/tools/upload.sh {upload.params.args}
+tools.openocd.upload.pattern=bash {runtime.platform.path}/tools/upload.sh {upload.params.args}
 tools.openocd.upload.pattern.windows={runtime.platform.path}/tools/upload.cmd {upload.params.args}
