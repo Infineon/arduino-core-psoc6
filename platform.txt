@@ -6,7 +6,7 @@
 # The information about this Arduino compatible environment
 # ---------
 name=Infineon PSOC6 Boards
-version=0.3.0
+version=0.4.0
 
 # Build related core definitions
 # ---------
