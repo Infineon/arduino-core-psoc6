@@ -63,6 +63,8 @@ static const uint8_t SCK = PIN_SPI_SCK;
 static const uint8_t A0  = PIN_A0;
 static const uint8_t A1  = PIN_A1;
 
+#define PWM_HOWMANY             14 // Number of output pins that can be PWM channels
+
 #define LED1                    12 // Additional LED1
 #define LED_BUILTIN             LED1 // Standard Arduino LED: Uses LED1
 #define LED2                    13 // Additional LED2
@@ -79,19 +81,19 @@ extern "C" {
 
 // Mapping of digital pins and comments
 const cyhal_gpio_t mapping_gpio_pin[] = {
-    /* 0   */ P9_0, // SPI-MOSI         
-    /* 1   */ P9_1, // SPI-MISO        
-    /* 2   */ P9_2, // SPI-SCLK        
-    /* 3   */ P9_3, // IO_0            
-    /* 4   */ P9_4, // IO_1            
-    /* 5   */ P9_5, // IO_2 / PWM1     
-    /* 6   */ P9_6, // IO_3 / PWM2     
-    /* 7   */ P9_7, // IO_4            
+    /* 0   */ P9_0, // SPI-MOSI / PWM         
+    /* 1   */ P9_1, // SPI-MISO / PWM        
+    /* 2   */ P9_2, // SPI-SCLK / PWM        
+    /* 3   */ P9_3, // IO_0 / PWM            
+    /* 4   */ P9_4, // IO_1 / PWM            
+    /* 5   */ P9_5, // IO_2 / PWM     
+    /* 6   */ P9_6, // IO_3 / PWM     
+    /* 7   */ P9_7, // IO_4 / PWM            
 		   
-    /* 8   */ P0_2, // I2C-SCL         
-    /* 9   */ P0_3, // I2C-SDA         
-    /* 10  */ P10_1,// A1 / UART_TX    
-    /* 11  */ P10_0,// A0 / UART_RX    
+    /* 8   */ P0_2, // I2C-SCL / PWM         
+    /* 9   */ P0_3, // I2C-SDA / PWM         
+    /* 10  */ P10_1,// A1 / UART_TX / PWM    
+    /* 11  */ P10_0,// A0 / UART_RX / PWM    
 
     // on board LEDs and USER BUTTON
 
@@ -101,22 +103,22 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
 
     // Additional pins for expansion IO connector - J15 starting here
 
-    /* 15  */ P13_0,// SDHC_DATA00 / SPI-MOSI / UART_RX / I2C-SCL     
-    /* 16  */ P13_1,// SDHC_DATA01 / SPI-MISO / UART_TX / I2C-SDA     
+    /* 15  */ P13_0,// SDHC_DATA00 / SPI-MOSI / UART_RX / I2C-SCL / PWM     
+    /* 16  */ P13_1,// SDHC_DATA01 / SPI-MISO / UART_TX / I2C-SDA / PWM     
     /* 17  */ P13_2,// SDHC_DATA02 / SPI-SCLK / IO / PWM             
     /* 18  */ P13_3,// SDHC_DATA03 / IO / PWM                         
-    /* 19  */ P13_4,// SDHC_DATA10 / UART_RX / I2C-SCL                
-    /* 20  */ P13_5,// SDHC_DATA11 / UART_TX / I2C-SDA                
+    /* 19  */ P13_4,// SDHC_DATA10 / UART_RX / I2C-SCL / PWM                
+    /* 20  */ P13_5,// SDHC_DATA11 / UART_TX / I2C-SDA / PWM                
     /* 21  */ P13_6,// SDHC_DATA12 / IO / PWM                         
     /* 22  */ P13_7,// SDHC_DATA13 / IO / PWM                         
-    /* 23  */ P8_2,// SPI-SCLK / IO /PWM                              
+    /* 23  */ P8_2,// SPI-SCLK / IO / PWM                              
     /* 24  */ P8_1,// SPI-MISO / UART_TX / I2C-SDA / IO / PWM         
     /* 25  */ P8_0,// SPI-MOSI / UART_RX / I2C-SCL / IO / PWM         
     /* 26  */ P8_3,// IO / PWM                                        
-    /* 27  */ P8_4,// UART_RX / I2C-SCL / IO /PWM                     
-    /* 28  */ P8_5,// UART_TX / I2C-SDA / IO /PWM                     
-    /* 29  */ P12_4,// SDHC_CMD / IO /PWM                             
-    /* 30  */ P12_5,// SDHC_CLK / IO /PWM
+    /* 27  */ P8_4,// UART_RX / I2C-SCL / IO / PWM                     
+    /* 28  */ P8_5,// UART_TX / I2C-SDA / IO / PWM                     
+    /* 29  */ P12_4,// SDHC_CMD / IO / PWM                             
+    /* 30  */ P12_5,// SDHC_CLK / IO / PWM
 
     // Debugger Serial UART pins (not available on connector) 
     

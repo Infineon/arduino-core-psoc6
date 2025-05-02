@@ -42,6 +42,8 @@ extern const uint8_t GPIO_PIN_COUNT;
 
 #define GPIO_INTERRUPT_PRIORITY 3 // GPIO interrupt priority
 #define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
+#define PWM_FREQUENCY_HZ    1000  // 1 kHz
+void analogWriteResolution(int res);
 
 #undef LITTLE_ENDIAN
 
