@@ -31,7 +31,7 @@
 | SPI           | P9_0          | P9_1           | MOSI and MISO shorted          |
 |               | P9_2          | NC             | SCLK to SCLK                   |
 |               |               |                |                                |
-| ADC           | P10.0         | VDDA 3.3V      | A0 connected to VDDA 3.3V      |
+| Analog IO ADC | P10.0         | VDDA 3.3V      | A0 connected to VDDA 3.3V      |
 |               | P10.1         | VoltageDivider | A1 connected to Voltage        |
 |               |               |                | divider circuit as below:      |
 |               |               |                |                                |
@@ -44,4 +44,7 @@
 |               |               |                |  [R2]   <-- Resistor 220 Ohms  |
 |               |               |                |   |                            |
 |               |               |                |  GND (0V)                      |
+|               |               |                |                                |
+| Analog IO PWM | P9.6          | P9.7           | IO6 (PWM feedback) to          |
+|               |               |                |       IO7 (PWM Output)         |
 |               |               |                |                                |
