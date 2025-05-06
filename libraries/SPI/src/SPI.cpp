@@ -10,9 +10,9 @@ SPIClassPSOC::SPIClassPSOC(
     : _mosi_pin(mosi),
       _miso_pin(miso),
       _sck_pin(sck),
+      _ssel_pin(ssel),
       _is_slave(is_slave),
       _is_initialized(false) {
-    _ssel_pin = _is_slave ? ssel : NC;
 }
 
 SPIClassPSOC::~SPIClassPSOC() {
@@ -23,9 +23,15 @@ void SPIClassPSOC::begin() {
     if (_is_initialized) {
         return;
     }
-    status = cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin],
-                            mapping_gpio_pin[_sck_pin], mapping_gpio_pin[_ssel_pin], NULL, 8,
-                            getSpiMode(), _is_slave);
+    /* If the user does not define them (or pass NC), they are not connected. No Arduino GPIO
+     * mapping */
+    cyhal_gpio_t cy_ssel_pin = (_ssel_pin == NC) ? NC : mapping_gpio_pin[_ssel_pin];
+    /* If master, the SS pin driven external. Thus, always NC */
+    cy_ssel_pin = _is_slave ? cy_ssel_pin : NC;
+
+    status =
+        cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin],
+                       mapping_gpio_pin[_sck_pin], cy_ssel_pin, NULL, 8, getSpiMode(), _is_slave);
 
     spi_assert(status);
     status = cyhal_spi_set_frequency(&_spi_obj, _settings.getClockFreq());

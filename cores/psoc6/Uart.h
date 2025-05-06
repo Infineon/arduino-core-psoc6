@@ -12,7 +12,6 @@ typedef enum {
 
 class Uart : public arduino::HardwareSerial {
 public:
-
     Uart(pin_size_t tx, pin_size_t rx, pin_size_t cts = NC, pin_size_t rts = NC);
     ~Uart();
     void begin(unsigned long baud);
@@ -33,10 +32,7 @@ public:
 
     static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
 
-    static void uart_event_handler(void* handler_arg, cyhal_uart_event_t event);
-
 private:
-
     pin_size_t tx_pin;
     pin_size_t rx_pin;
     pin_size_t cts_pin;
@@ -48,7 +44,7 @@ private:
     uart_error_t last_error = UART_ERROR_NONE;
 
     static constexpr size_t BUFFER_LENGTH = 512;
-    arduino::RingBufferN < BUFFER_LENGTH > rx_buffer;
+    arduino::RingBufferN<BUFFER_LENGTH> rx_buffer;
 
     void IrqHandler();
 };

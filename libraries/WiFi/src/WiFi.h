@@ -6,6 +6,7 @@
 #include "WiFiClient.h"
 #include "WiFiServer.h"
 #include "api/IPAddress.h"
+
 #include "cy_wcm.h"
 
 /**
@@ -172,8 +173,8 @@ private:
     // timeout configuration
     unsigned long timeout_ms = 10000;
 
-    const char * SSID_STA();
-    const char * SSID_AP();
+    const char* SSID_STA();
+    const char* SSID_AP();
 
     static wl_auth_mode convertEncryptType(cy_wcm_security_t wcm_sec);
 

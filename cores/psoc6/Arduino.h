@@ -20,7 +20,7 @@
 #ifndef Arduino_h
 #define Arduino_h
 
-#include "ArduinoAPI.h"
+#include "api/ArduinoAPI.h"
 #include "cyhal_gpio.h"
 
 #define RAMSTART (HMCRAMC0_ADDR)
@@ -40,11 +40,10 @@ extern "C" {
 extern const cyhal_gpio_t mapping_gpio_pin[];
 extern const uint8_t GPIO_PIN_COUNT;
 
-enum {
-    GPIO_INTERRUPT_PRIORITY = 3 // GPIO interrupt priority
-};
-
+#define GPIO_INTERRUPT_PRIORITY 3 // GPIO interrupt priority
 #define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
+#define PWM_FREQUENCY_HZ 1000 // 1 kHz
+void analogWriteResolution(int res);
 
 #undef LITTLE_ENDIAN
 
@@ -52,19 +51,18 @@ enum {
 #define clockCyclesToMicroseconds(a) (((a) * 1000L) / (SystemCoreClock / 1000L))
 #define microsecondsToClockCycles(a) ((a) * (SystemCoreClock / 1000000L))
 
+typedef enum { DEFAULT } analog_reference_t;
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
+// undefine stdlib's abs if encountered
 #ifdef abs
     #undef abs
 #endif // abs
 
 #define abs(x) ((x) > 0 ? (x) : -(x))
-
-#ifndef nullptr
-    #define nullptr 0
-#endif
 
 // Globally enable or disable interrupts
 #define interrupts() __enable_irq()
@@ -79,7 +77,7 @@ extern "C" {
 #endif
 
 // ARM toolchain doesn't provide itoa etc, provide them
-#include "itoa.h"
+#include "api/itoa.h"
 
 #include "pins_arduino.h"
 

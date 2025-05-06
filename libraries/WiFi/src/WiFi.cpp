@@ -1,7 +1,7 @@
-#include "WiFi.h"
 #include "SecSocket.h"
 #include "api/Common.h"
 #include "lwip/dns.h"
+#include <WiFi.h>
 
 #define wcm_assert_raise(cy_ret, ret_code) \
     if (cy_ret != CY_RSLT_SUCCESS) {       \
@@ -100,7 +100,7 @@ void WiFiClass::setTimeout(unsigned long timeout) {
     timeout_ms = timeout;
 }
 
-uint8_t WiFiClass::beginAP(const char *ssid) {
+uint8_t WiFiClass::beginAP(const char* ssid) {
     return beginAP(ssid, nullptr, 1);
 }
 

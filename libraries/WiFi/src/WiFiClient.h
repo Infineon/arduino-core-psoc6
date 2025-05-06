@@ -2,9 +2,9 @@
 #ifndef WIFI_CLIENT_H
 #define WIFI_CLIENT_H
 
-#include "SecSocket.h"
 #include "api/Client.h"
 #include "api/Print.h"
+#include <SecSocket.h>
 #include <memory>
 
 class WiFiClient : public arduino::Client {

@@ -1,7 +1,6 @@
 #ifndef CY_SECURE_SOCKET_H
 #define CY_SECURE_SOCKET_H
 
-#include "Arduino.h"
 #include "api/IPAddress.h"
 #include "api/RingBuffer.h"
 #include "cy_secure_sockets.h"

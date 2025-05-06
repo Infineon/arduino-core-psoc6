@@ -21,6 +21,7 @@
 #include "Arduino.h"
 
 #include "cy_retarget_io.h"
+#include "cybsp.h"
 
 #include <FreeRTOS.h>
 #include <task.h>
@@ -32,7 +33,7 @@
 
 TaskHandle_t arduino_main_task_handle;
 
-void arduino_main_task(void* arg);
+void arduino_main_task(void *arg);
 
 // Weak empty variant initialization function.
 // May be redefined by variant files.
@@ -44,8 +45,8 @@ void initVariant() {
 /*
  * \brief Main entry point of Arduino application
  */
-int main() {
-    cy_rslt_t result = 0;
+int main(void) {
+    cy_rslt_t result;
 
     result = cybsp_init();
     if (result != CY_RSLT_SUCCESS) {
@@ -63,7 +64,7 @@ int main() {
     return 0;
 }
 
-void arduino_main_task(void* arg) {
+void arduino_main_task(void *arg) {
 
     /* Enable global interrupts */
     interrupts();
@@ -73,5 +74,8 @@ void arduino_main_task(void* arg) {
 
     for (;;) {
         loop();
+        if (arduino::serialEventRun) {
+            arduino::serialEventRun();
+        }
     }
 }
