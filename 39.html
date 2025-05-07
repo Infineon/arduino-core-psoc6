@@ -223,7 +223,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> SecSocket.cpp</p>
-<a href="39.html#line-9"> clang-tidy-cppcoreguidelines-macro-usage 9</a><a href="39.html#line-14"> clang-tidy-cppcoreguidelines-macro-usage 14</a><a href="39.html#line-75"> clang-tidy-cppcoreguidelines-pro-type-member-init 75</a><a href="39.html#line-75"> clang-tidy-readability-convert-member-functions-to-static 75</a><a href="39.html#line-138"> clang-tidy-readability-identifier-length 138</a><a href="39.html#line-146"> clang-tidy-readability-convert-member-functions-to-static 146</a><a href="39.html#line-168"> clang-tidy-readability-convert-member-functions-to-static 168</a><a href="39.html#line-168"> clang-tidy-readability-convert-member-functions-to-static 168</a><a href="39.html#line-178"> clang-tidy-readability-identifier-length 178</a><a href="39.html#line-233"> clang-tidy-readability-implicit-bool-conversion 233</a><a href="39.html#line-244"> clang-tidy-readability-convert-member-functions-to-static 244</a>
+<a href="39.html#line-3"> clang-tidy-clang-diagnostic-error 3</a><a href="39.html#line-9"> clang-tidy-cppcoreguidelines-macro-usage 9</a><a href="39.html#line-14"> clang-tidy-cppcoreguidelines-macro-usage 14</a><a href="39.html#line-75"> clang-tidy-cppcoreguidelines-pro-type-member-init 75</a><a href="39.html#line-75"> clang-tidy-readability-convert-member-functions-to-static 75</a><a href="39.html#line-138"> clang-tidy-readability-identifier-length 138</a><a href="39.html#line-146"> clang-tidy-readability-convert-member-functions-to-static 146</a><a href="39.html#line-168"> clang-tidy-readability-convert-member-functions-to-static 168</a><a href="39.html#line-168"> clang-tidy-readability-convert-member-functions-to-static 168</a><a href="39.html#line-178"> clang-tidy-readability-identifier-length 178</a><a href="39.html#line-233"> clang-tidy-readability-implicit-bool-conversion 233</a><a href="39.html#line-244"> clang-tidy-readability-convert-member-functions-to-static 244</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
@@ -478,10 +478,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">250</span>
 <span class="normal">251</span>
 <span class="normal">252</span>
-<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;SecSocket.h&quot;</span>
+<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SecSocket.h&gt;</span>
 <a id="line-2" name="line-2"></a>
-<a id="line-3" name="line-3"></a><span class="cp">#define socket_assert(cy_ret)          \</span>
-<a id="line-4" name="line-4"></a><span class="cp">    if (cy_ret != CY_RSLT_SUCCESS) {   \</span>
+<a id="line-3" name="line-3"></a><span class="hll"><span class="cp">#define socket_assert(cy_ret)          \</span><span class="error2">&lt;--- 'SecSocket.h' file not found with <angled> include; use "quotes" instead</span>
+</span><a id="line-4" name="line-4"></a><span class="cp">    if (cy_ret != CY_RSLT_SUCCESS) {   \</span>
 <a id="line-5" name="line-5"></a><span class="cp">        _status = SOCKET_STATUS_ERROR; \</span>
 <a id="line-6" name="line-6"></a><span class="cp">        return;                        \</span>
 <a id="line-7" name="line-7"></a><span class="cp">    }</span>
@@ -736,7 +736,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     </div>
     <div id="footer" class="footer">
       <p>
-        Created by Cppcheck 2.17 dev (<a href="https://cppcheck.sourceforge.io">Sourceforge</a>, <a href="irc://irc.freenode.net/cppcheck">IRC</a>)
+        Created by Cppcheck 2.18 dev (<a href="https://cppcheck.sourceforge.io">Sourceforge</a>, <a href="irc://irc.freenode.net/cppcheck">IRC</a>)
       </p>
     </div>
     </div>
