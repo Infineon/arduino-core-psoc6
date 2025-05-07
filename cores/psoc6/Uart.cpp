@@ -120,10 +120,10 @@ int Uart::read(void) {
 }
 
 size_t Uart::write(uint8_t c) {
-    return write((const uint8_t *)&c, 1);
+    return write((const uint8_t*)&c, 1);
 }
 
-size_t Uart::write(const uint8_t *buffer, size_t size) {
+size_t Uart::write(const uint8_t* buffer, size_t size) {
     size_t left_to_write = size;
     unsigned long time_start_ms = millis();
     uint32_t constexpr timeout_ms = 500;
@@ -138,7 +138,7 @@ size_t Uart::write(const uint8_t *buffer, size_t size) {
             left_to_write > num_bytes_writable ? num_bytes_writable : left_to_write;
         /* Trying to write 0 size will throw an exception. */
         if (bytes_to_write > 0) {
-            cy_rslt_t result = cyhal_uart_write(&uart_obj, (void *)buffer, &bytes_to_write);
+            cy_rslt_t result = cyhal_uart_write(&uart_obj, (void*)buffer, &bytes_to_write);
             if (result != CY_RSLT_SUCCESS) {
                 break;
             }
@@ -158,8 +158,8 @@ uart_error_t Uart::getLastError() {
     return last_error;
 }
 
-void Uart::uart_event_handler(void *handler_arg, cyhal_uart_event_t event) {
-    Uart *uart = static_cast<Uart *>(handler_arg);
+void Uart::uart_event_handler(void* handler_arg, cyhal_uart_event_t event) {
+    Uart* uart = static_cast<Uart*>(handler_arg);
     uart->IrqHandler();
 }
 

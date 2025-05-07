@@ -23,14 +23,14 @@ public:
     int read(void);
     void flush(void);
     virtual size_t write(uint8_t c);
-    virtual size_t write(const uint8_t *buffer, size_t size);
+    virtual size_t write(const uint8_t* buffer, size_t size);
 
     using Print::write;
     operator bool();
 
     uart_error_t getLastError();
 
-    static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
+    static void uart_event_handler(void* handler_arg, cyhal_uart_event_t event);
 
 private:
     pin_size_t tx_pin;

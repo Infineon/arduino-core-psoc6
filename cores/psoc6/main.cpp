@@ -33,7 +33,7 @@
 
 TaskHandle_t arduino_main_task_handle;
 
-void arduino_main_task(void *arg);
+void arduino_main_task(void* arg);
 
 // Weak empty variant initialization function.
 // May be redefined by variant files.
@@ -64,7 +64,7 @@ int main(void) {
     return 0;
 }
 
-void arduino_main_task(void *arg) {
+void arduino_main_task(void* arg) {
 
     /* Enable global interrupts */
     interrupts();
@@ -74,8 +74,5 @@ void arduino_main_task(void *arg) {
 
     for (;;) {
         loop();
-        if (arduino::serialEventRun) {
-            arduino::serialEventRun();
-        }
     }
 }
