@@ -1,16 +1,16 @@
-build:
-    build-psoc6-cy8ckit_062s2_ai:
+compile:
+    compile-psoc6-cy8ckit_062s2_ai:
       description: Compiling test_digitalio_single.cpp for PSOC6 platform
-      target: test_digitalio_single
-      fqbn: infineon:psoc6:cy8ckit_062s2_ai
+      command: make -f Makefile.arduino.mk FQBN=infineon:psoc6:cy8ckit_062s2_ai test_digitalio_single compile
+      working_dir: tests/arduino-core-tests
 
-check:
-    check-clang-tidy:
+code-quality:
+    code-quality-clang-tidy:
       description: clang-tidy check sources
       tool: clang-tidy
       command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh ./cores/psoc6/* ./libraries/*
 
-    check-cppcheck:
+    code-quality-cppcheck:
       description: cppcheck check sources
       tool: cppcheck
       command: extras/makers-devops/tools/code_checks/run_cppcheck.sh ./cores/psoc6/* ./libraries/*  
@@ -18,14 +18,14 @@ check:
                | -I libraries/WiFi/src -I libraries/Wire/src -I libraries/SPI/src -I extras/mtb-libs/mtb-hal-cat1/include
                | -I extras/mtb-libs/wifi-connection-manager/include --suppress=*:extras/mtb-libs/wifi-connection-manager/include*
                | -I variants/CY8CKIT-062S2-AI -I cores/psoc6 --suppress=*:variants/CY8CKIT-062S2-AI/* --suppress=*:extras/mtb-libs/mtb-hal-cat1/include/*
-               | --suppress=*:extras/arduino-core-api/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
+               | --suppress=*:extras/arduino-core-api/api/* --suppress=*:cores/psoc6/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
 
-    clang-format:
+    code-quality-clang-format:
       description: clang-tidy check sources
       tool: clang-format
       command: extras/makers-devops/tools/code_checks/run_clang_format.sh ./cores/psoc6/* ./libraries/*
 
-    black-format:
+    code-quality-black-format:
       description: clang-tidy check sources
       tool: black-format
       command: extras/makers-devops/tools/code_checks/run_black.sh ./extras/makers-devops/tools/* 

@@ -1,8 +1,8 @@
-check:
-    - check-clang-tidy
-    - check-cppcheck
-    - clang-format
-    - black-format
+code-quality:
+    - code-quality-clang-tidy
+    - code-quality-cppcheck
+    - code-quality-clang-format
+    - code-quality-black-format
 
-build:
-    - build-psoc6-cy8ckit_062s2_ai
+compile:
+    - compile-psoc6-cy8ckit_062s2_ai
