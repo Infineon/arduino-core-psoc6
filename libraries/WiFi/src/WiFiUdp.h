@@ -36,14 +36,14 @@ public:
 
 
 private:
+    Socket socket;
+
     cy_socket_t client_handle;
     socket_status_t _status;
     cy_rslt_t _last_error;
+    IPAddress remote_ip;
+    uint16_t _port;
 
-    static bool global_socket_initialized;
-    static uint32_t global_socket_count;
-    cy_rslt_t global_sockets_init();
-    cy_rslt_t global_sockets_deinit();
 };
 
 #endif /* WIFI_UDP_H */
