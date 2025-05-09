@@ -18,14 +18,19 @@ Socket::Socket():
 
 }
 
-void Socket::begin() {
+void Socket::begin(bool is_UDP) {
     _last_error = Socket::global_sockets_init();
     socket_assert(_last_error);
 
-    _last_error = cy_socket_create(CY_SOCKET_DOMAIN_AF_INET, CY_SOCKET_TYPE_STREAM,
-        CY_SOCKET_IPPROTO_TCP, &socket);
-    socket_assert(_last_error);
-
+    if (is_UDP) {
+        _last_error = cy_socket_create(CY_SOCKET_DOMAIN_AF_INET, CY_SOCKET_TYPE_DGRAM,
+            CY_SOCKET_IPPROTO_UDP, &socket);
+        socket_assert(_last_error);
+    } else {
+        _last_error = cy_socket_create(CY_SOCKET_DOMAIN_AF_INET, CY_SOCKET_TYPE_STREAM,
+            CY_SOCKET_IPPROTO_TCP, &socket);
+        socket_assert(_last_error);
+    }
     _status = SOCKET_STATUS_CREATED;
 }
 

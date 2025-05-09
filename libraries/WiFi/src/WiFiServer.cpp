@@ -9,7 +9,7 @@ WiFiServer::WiFiServer() {
 }
 
 void WiFiServer::begin(uint16_t port) {
-    socket.begin();
+    socket.begin(false); // false = TCP
 
     socket.setTimeout(SERVER_RECV_TIMEOUT_MS);
     socket.setConnectOptCallback(connectionCallback, this);
