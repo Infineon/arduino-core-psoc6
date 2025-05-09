@@ -122,6 +122,7 @@ void analogWriteResolution(int res) {
 
 void analogWrite(pin_size_t pinNumber, int value) {
     uint8_t pwm_index = 0;
+    uint8_t pwm_value = value;
     cy_rslt_t result = CY_RSLT_TYPE_ERROR;
 
     if (pinNumber > GPIO_PIN_COUNT) {
@@ -144,19 +145,21 @@ void analogWrite(pin_size_t pinNumber, int value) {
             break;
         }
     }
+    if (pwm_index < PWM_HOWMANY) {
 
-    if (value < 0) {
-        value = 0;
+        if (pwm_value <= 0) {
+            pwm_value = 0;
+        }
+        if (pwm_value > desiredWriteResolution) {
+            pwm_value = desiredWriteResolution;
+        }
+
+        float duty_cycle_pertentage = (pwm_value / desiredWriteResolution) * 100.0f;
+
+        result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_pertentage, PWM_FREQUENCY_HZ);
+        pwm_assert(result);
+
+        result = cyhal_pwm_start(&pwm[pwm_index].pwm_obj);
+        pwm_assert(result);
     }
-    if (value > desiredWriteResolution) {
-        value = desiredWriteResolution;
-    }
-
-    float duty_cycle_pertentage = (value / desiredWriteResolution) * 100.0f;
-
-    result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_pertentage, PWM_FREQUENCY_HZ);
-    pwm_assert(result);
-
-    result = cyhal_pwm_start(&pwm[pwm_index].pwm_obj);
-    pwm_assert(result);
 }
