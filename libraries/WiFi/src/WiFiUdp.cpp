@@ -37,7 +37,8 @@ uint8_t WiFiUDP::begin(uint16_t port) {
 
 
 void WiFiUDP::stop() {
-
+    // Stop the UDP socket
+    socket.end();
 }
 
 int WiFiUDP::beginPacket(IPAddress ip, uint16_t port) {
