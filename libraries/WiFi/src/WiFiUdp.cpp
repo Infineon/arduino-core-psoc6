@@ -22,7 +22,7 @@ uint8_t WiFiUDP::begin(uint16_t port) {
     _port = port;
 
     // Initialize the socket for UDP
-    socket.begin(true); // true = UDP
+    socket.begin(SOCKET_PROTOCOL_UDP);
     if (socket.status() != SOCKET_STATUS_CREATED) {
         return 0; // Return 0 if socket creation fails
     }
