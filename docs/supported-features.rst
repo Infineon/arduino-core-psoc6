@@ -69,7 +69,7 @@ Built-in Libraries
         | `analogReference <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogReference/>`_
         | `analogWrite <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogWrite/>`_
         | `analogWriteResolution <https://docs.arduino.cc/language-reference/en/functions/analog-io/analogWriteResolution/>`_
-      - ❌ Not Implemented
+      - ✅ Implemented
     * - Advanced I/O
       - | `noTone <https://docs.arduino.cc/language-reference/en/functions/advanced-io/noTone/>`_
         | `pulseIn <https://docs.arduino.cc/language-reference/en/functions/advanced-io/pulseIn/>`_

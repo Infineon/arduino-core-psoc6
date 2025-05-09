@@ -36,13 +36,13 @@
 |               |               |                | divider circuit as below:      |
 |               |               |                |                                |
 |               |               |                |  VDDA (3.3V)                   |
-|               |               |                |   |                            |
+|               |               |                |   :                            |
 |               |               |                |  [R1]   <-- Resistor 220 Ohms  |
-|               |               |                |   |                            |
+|               |               |                |   :                            |
 |               |               |                |   +-------> A1 (Mid-Point)     |
-|               |               |                |   |                            |
+|               |               |                |   :                            |
 |               |               |                |  [R2]   <-- Resistor 220 Ohms  |
-|               |               |                |   |                            |
+|               |               |                |   :                            |
 |               |               |                |  GND (0V)                      |
 |               |               |                |                                |
 | Analog IO PWM | P9.6          | P9.7           | IO6 (PWM feedback) to          |
