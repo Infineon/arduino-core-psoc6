@@ -14,7 +14,7 @@ WiFiClient::WiFiClient() :
 }
 
 int WiFiClient::connect(IPAddress ip, uint16_t port) {
-    socket->begin();
+    socket->begin(false); // false = TCP
 
     socket->setReceiveOptCallback(receiveCallback, this);
     socket->setDisconnectOptCallback(disconnectionCallback, this);
@@ -23,7 +23,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port) {
 }
 
 int WiFiClient::connect(const char *host, uint16_t port) {
-    socket->begin();
+    socket->begin(false); // false = TCP
 
     socket->setReceiveOptCallback(receiveCallback, this);
     socket->setDisconnectOptCallback(disconnectionCallback, this);
