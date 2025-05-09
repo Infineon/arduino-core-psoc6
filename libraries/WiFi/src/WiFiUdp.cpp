@@ -42,15 +42,23 @@ void WiFiUDP::stop() {
 }
 
 int WiFiUDP::beginPacket(IPAddress ip, uint16_t port) {
-    return 0;
+    remote_ip = ip;
+    _port = port;
+    return 1; // Return 1 if successful
 }
 
 int WiFiUDP::beginPacket(const char *host, uint16_t port) {
+    // Resolve the hostname to an IP address
+    IPAddress ip;
+    if (socket.hostByName(host, ip)) {
+        return beginPacket(ip, port); // Call the IP-based version
+    }
+
+    // Return 0 if hostname resolution fails
     return 0;
 }
 
 int WiFiUDP::endPacket() {
-    return 0;
 }
 
 size_t WiFiUDP::write(uint8_t) {
