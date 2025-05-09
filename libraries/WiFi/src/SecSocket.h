@@ -16,13 +16,18 @@ typedef enum {
     SOCKET_STATUS_ERROR = -1
 } socket_status_t;
 
+typedef enum {
+    SOCKET_PROTOCOL_TCP = 0,
+    SOCKET_PROTOCOL_UDP,
+} socket_protocol_t;
+
 class Socket {
 
 public:
 
     Socket();
 
-    void begin(bool is_UDP);
+    void begin(socket_protocol_t protocol);
     void end();
 
     void setTimeout(uint32_t timeout);
@@ -58,6 +63,7 @@ private:
 
     IPAddress remote_ip;
     uint16_t _port;
+    socket_protocol_t _protocol;
 
     void setOptCallback(int optname, cy_socket_callback_t cback, void *arg);
 
