@@ -3,10 +3,15 @@ Arduino API Deviations
 
 This section documents the differences between the standard Arduino Language Reference and `PSoC6-for-Arduino`.
 
+Digital IO
+----------
+
+Once a pin is configured using pinMode as GPIO pins, it may no longer be available for use with any other peripherals (e.g., PWM, I2C, SPI, GPIO, etc.).
+
 Analog IO
 ---------
 
-Once a pin is configured and used as an ADC input, it may no longer be available for use with any other peripheral (e.g., PWM, I2C, SPI, GPIO, etc.).
+Once a pin is configured and used as an ADC input, it may no longer be available for use with any other peripherals (e.g., PWM, I2C, SPI, GPIO, etc.).
 
 The `PSoC6-for-Arduino` core does not support the following Arduino APIs:
 
