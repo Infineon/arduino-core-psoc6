@@ -1,4 +1,5 @@
 #include "WiFiUdp.h"
+#include <Arduino.h>
 
 #define udp_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
@@ -12,19 +13,26 @@
 WiFiUDP::WiFiUDP() :
     client_handle(nullptr),
     _status(SOCKET_STATUS_UNINITED),
-    _last_error(CY_RSLT_SUCCESS) {
+    _last_error(CY_RSLT_SUCCESS),
+    remote_ip(0, 0, 0, 0),
+    _port(0) {
 }
 
 uint8_t WiFiUDP::begin(uint16_t port) {
-    _last_error = WiFiUDP::global_sockets_init();
-    udp_assert_raise(_last_error);
+    _port = port;
 
-    /* Create a UDP socket */
-    _last_error = cy_socket_create(CY_SOCKET_DOMAIN_AF_INET, CY_SOCKET_TYPE_DGRAM, CY_SOCKET_IPPROTO_UDP, &client_handle);
-    udp_assert_raise(_last_error);
+    // Initialize the socket for UDP
+    socket.begin(true); // true = UDP
+    if (socket.status() != SOCKET_STATUS_CREATED) {
+        return 0; // Return 0 if socket creation fails
+    }
+    // Bind the socket to the specified port
+    socket.bind(port);
+    if (socket.status() != SOCKET_STATUS_BOUND) {
+        return 0; // Return 0 if binding fail
 
-    _status = SOCKET_STATUS_CREATED;
-    return 1;
+    }
+    return socket.status(); // Return the socket status
 }
 
 
@@ -86,19 +94,4 @@ IPAddress WiFiUDP::remoteIP() {
 
 uint16_t WiFiUDP::remotePort() {
     return 0;
-}
-
-bool WiFiUDP::global_socket_initialized = false;
-uint32_t WiFiUDP::global_socket_count = 0;
-
-cy_rslt_t WiFiUDP::global_sockets_init() {
-    if (!WiFiUDP::global_socket_initialized) {
-        cy_rslt_t ret = cy_socket_init();
-        if (ret != CY_RSLT_SUCCESS) {
-            return ret;
-        }
-        WiFiUDP::global_socket_initialized = true;
-    }
-    WiFiUDP::global_socket_count++;
-    return CY_RSLT_SUCCESS;
 }
