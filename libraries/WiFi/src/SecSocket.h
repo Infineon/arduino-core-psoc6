@@ -22,7 +22,7 @@ public:
 
     Socket();
 
-    void begin();
+    void begin(bool is_UDP);
     void end();
 
     void setTimeout(uint32_t timeout);
