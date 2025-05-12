@@ -1,0 +1,4 @@
+include:
+ - sketch:
+    - extras/arduino-examples/examples/01.Basics/Blink/Blink.ino
+    - extras/arduino-examples/examples/03.Analog/AnalogInOutSerial/AnalogInOutSerial.ino
