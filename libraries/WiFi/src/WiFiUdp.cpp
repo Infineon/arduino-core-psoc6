@@ -59,7 +59,27 @@ int WiFiUDP::beginPacket(const char *host, uint16_t port) {
 }
 
 int WiFiUDP::endPacket() {
-    return 0;
+    cy_socket_sockaddr_t address = {
+        .port = _port,
+        .ip_address = {
+            .version = CY_SOCKET_IP_VER_V4,
+            .ip = { .v4 = (static_cast < uint32_t > (remote_ip[3]) << 24) |
+                        (static_cast < uint32_t > (remote_ip[2]) << 16) |
+                        (static_cast < uint32_t > (remote_ip[1]) << 8) |
+                        static_cast < uint32_t > (remote_ip[0]) }
+        }
+    };
+
+    size_t size = txBuffer.available() > WIFI_UDP_BUFFER_SIZE ? WIFI_UDP_BUFFER_SIZE : txBuffer.available();
+    uint8_t temp_buffer[size];
+    for (size_t i = 0; i < size; i++) {
+        temp_buffer[i] = txBuffer.read_char();
+    }
+    size_t bytes_sent = socket.send(temp_buffer, size, &address);
+    if (bytes_sent != size) {
+        return 0; // Return 0 if not all bytes were sent
+    }
+    return 1; // Return 1 if all bytes were sent successfully
 }
 
 size_t WiFiUDP::write(uint8_t byte) {
