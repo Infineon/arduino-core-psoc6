@@ -1,7 +1,7 @@
 <a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
-[![compile examples](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile-examples.yml)
+[![compile examples](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile_examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile_examples.yml)
 [![HIL test](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml)
 [![code format check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/code_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/code_formatting.yml)
 [![code spell check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml)
