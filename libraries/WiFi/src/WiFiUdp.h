@@ -11,6 +11,9 @@
 
 class WiFiUDP: public arduino::UDP {
 public:
+
+    static const size_t WIFI_UDP_BUFFER_SIZE = 256;
+
     WiFiUDP();
     uint8_t begin(uint16_t);
 
@@ -19,9 +22,8 @@ public:
     int beginPacket(IPAddress ip, uint16_t port);
     int beginPacket(const char *host, uint16_t port);
     int endPacket();
-    size_t write(uint8_t);
+    size_t write(uint8_t byte);
     size_t write(const uint8_t *buffer, size_t size);
-
     using Print::write;
     int parsePacket();
     int available();
@@ -43,6 +45,8 @@ private:
     cy_rslt_t _last_error;
     IPAddress remote_ip;
     uint16_t _port;
+
+    arduino::RingBufferN < WIFI_UDP_BUFFER_SIZE > txBuffer;
 
 };
 

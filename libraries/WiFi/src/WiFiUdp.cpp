@@ -59,14 +59,26 @@ int WiFiUDP::beginPacket(const char *host, uint16_t port) {
 }
 
 int WiFiUDP::endPacket() {
+    return 0;
 }
 
-size_t WiFiUDP::write(uint8_t) {
-    return 0;
+size_t WiFiUDP::write(uint8_t byte) {
+    return write(&byte, 1);
 }
 
 size_t WiFiUDP::write(const uint8_t *buffer, size_t size) {
-    return 0;
+    size_t bytesStored = 0;
+
+    for (size_t i = 0; i < size; i++) {
+        if (!txBuffer.isFull()) { // Check if the buffer is not full
+            txBuffer.store_char(buffer[i]);
+            bytesStored++;
+        } else {
+            break; // Stop if the buffer is full
+        }
+    }
+
+    return bytesStored; // Return the number of bytes successfully stored
 }
 
 int WiFiUDP::parsePacket() {
