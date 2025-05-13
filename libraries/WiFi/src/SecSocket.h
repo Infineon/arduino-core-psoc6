@@ -41,7 +41,7 @@ public:
 
     void listen(int max_connections);
     bool accept(Socket & client_socket);
-    uint32_t send(const void *data, uint32_t len);
+    uint32_t send(const void *data, uint32_t len, cy_socket_sockaddr_t *addr = NULL);
     uint32_t available();
     int peek();
     uint32_t receive(uint8_t *data, uint32_t len);
