@@ -1,4 +1,5 @@
 #include "WiFiUdp.h"
+#include "Arduino.h"
 
 #define udp_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
@@ -15,7 +16,7 @@ WiFiUDP::WiFiUDP() :
     _last_error(CY_RSLT_SUCCESS),
     remote_ip(0, 0, 0, 0),
     _port(0),
-    _parsedPacketSize(0), {
+    _parsedPacketSize(0) {
 }
 
 uint8_t WiFiUDP::begin(uint16_t port) {
@@ -27,6 +28,9 @@ uint8_t WiFiUDP::begin(uint16_t port) {
     if (socket.status() != SOCKET_STATUS_CREATED) {
         return 0; // Return 0 if socket creation fails
     }
+
+    socket.setReceiveOptCallback(receiveCallback, this);
+
     // Bind the socket to the specified port
     socket.bind(port);
     if (socket.status() != SOCKET_STATUS_BOUND) {
@@ -45,6 +49,7 @@ void WiFiUDP::stop() {
 int WiFiUDP::beginPacket(IPAddress ip, uint16_t port) {
     remote_ip = ip;
     _port = port;
+    txBuffer.clear();
     return 1; // Return 1 if successful
 }
 
@@ -107,15 +112,30 @@ int WiFiUDP::available() {
 }
 
 int WiFiUDP::read() {
-    return 0;
+
+    if (_parsedPacketSize < 1) {
+        return -1;
+    }
+    uint8_t data;
+    uint32_t received_data = socket.receive(&data, 1);
+    if (received_data == 0) {
+        return -1;
+    }
+    _parsedPacketSize--;
+    return (int)data;
 }
 
 int WiFiUDP::read(unsigned char *buffer, size_t len) {
-    return 0;
-}
 
-int WiFiUDP::read(char *buffer, size_t len) {
-    return 0;
+    if (_parsedPacketSize < 1) {
+        return -1;
+    }
+    uint32_t received_data = socket.receive((uint8_t *)buffer, len);
+    if (received_data == 0) {
+        return -1;
+    }
+    _parsedPacketSize -= received_data;
+    return (int)received_data;
 }
 
 int WiFiUDP::peek() {
@@ -132,4 +152,10 @@ IPAddress WiFiUDP::remoteIP() {
 
 uint16_t WiFiUDP::remotePort() {
     return 0;
+}
+
+cy_rslt_t WiFiUDP::receiveCallback(cy_socket_t socket_handle, void *arg) {
+    WiFiUDP *udp = (WiFiUDP *)arg;
+    udp->socket.receiveCallback();
+    return CY_RSLT_SUCCESS;
 }

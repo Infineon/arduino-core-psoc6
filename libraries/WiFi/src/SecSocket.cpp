@@ -1,4 +1,5 @@
 #include <SecSocket.h>
+#include <Arduino.h>
 
 #define socket_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
@@ -237,6 +238,11 @@ cy_rslt_t Socket::getLastError() {
     return _last_error;
 }
 
+void Socket::setPeerAddress(cy_socket_sockaddr_t *peer_addr) {
+    _peer_ip = IPAddress(peer_addr->ip_address.ip.v4);
+    _peer_port = peer_addr->port;
+}
+
 bool Socket::connect(cy_socket_sockaddr_t *addr) {
     _last_error = cy_socket_connect(socket, addr, sizeof(cy_socket_sockaddr_t));
     if (_last_error != CY_RSLT_SUCCESS) {
@@ -251,14 +257,23 @@ bool Socket::connect(cy_socket_sockaddr_t *addr) {
     return true;
 }
 
-void Socket::receiveCallback() {
+void Socket::receiveCallback(cy_socket_sockaddr_t *peer_addr) {
     if (!rx_buf.isFull()) {
         uint32_t bytes_rcvd_request = rx_buf.availableForStore();
         uint8_t temp_rx_buff[bytes_rcvd_request] = {0};
 
         uint32_t bytes_received = 0;
-        _last_error = cy_socket_recv(socket, temp_rx_buff, bytes_rcvd_request,
-            CY_SOCKET_FLAGS_NONE, &bytes_received);
+        switch (_protocol) {
+            case SOCKET_PROTOCOL_TCP:
+                _last_error = cy_socket_recv(socket, temp_rx_buff, bytes_rcvd_request,
+                    CY_SOCKET_FLAGS_NONE, &bytes_received);
+                break;
+            case SOCKET_PROTOCOL_UDP:
+                _last_error = cy_socket_recvfrom(socket, temp_rx_buff, bytes_rcvd_request,
+                    CY_SOCKET_FLAGS_RECVFROM_NONE, peer_addr, nullptr, &bytes_received);
+                setPeerAddress(peer_addr);
+                break;
+        }
         socket_assert(_last_error);
 
         for (uint32_t i = 0; i < bytes_received; i++) {
