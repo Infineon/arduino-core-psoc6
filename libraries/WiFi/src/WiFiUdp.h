@@ -29,16 +29,18 @@ public:
     int available();
     int read();
     int read(unsigned char *buffer, size_t len);
-    int read(char *buffer, size_t len);
+    int read(char *buffer, size_t len) {
+        return read((unsigned char *)buffer, len);
+    };
     int peek();
     void flush();
     IPAddress remoteIP();
     uint16_t remotePort();
 
-
-
 private:
     Socket socket;
+
+    static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
 
     cy_socket_t client_handle;
     socket_status_t _status;
