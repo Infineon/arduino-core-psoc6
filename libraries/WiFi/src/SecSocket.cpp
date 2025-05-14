@@ -1,5 +1,4 @@
 #include <SecSocket.h>
-#include <Arduino.h>
 
 #define socket_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
@@ -151,19 +150,32 @@ bool Socket::accept(Socket & client_socket) {
     return true;
 }
 
-uint32_t Socket::send(const void *data, uint32_t len, cy_socket_sockaddr_t *addr) {
+uint32_t Socket::send(const void *data, uint32_t len) {
     uint32_t bytes_sent = 0;
-    switch (_protocol) {
-        case SOCKET_PROTOCOL_TCP:
-            _last_error = cy_socket_send(socket, data, len,
-                CY_SOCKET_FLAGS_NONE, &bytes_sent);
-            break;
-        case SOCKET_PROTOCOL_UDP:
-            _last_error = cy_socket_sendto(socket, data, len,
-                CY_SOCKET_FLAGS_NONE, addr,
-                sizeof(cy_socket_sockaddr_t), &bytes_sent);
-            break;
+    _last_error = cy_socket_send(socket, data, len,
+        CY_SOCKET_FLAGS_NONE, &bytes_sent);
+    if (_last_error != CY_RSLT_SUCCESS) {
+        _status = SOCKET_STATUS_ERROR;
     }
+    return bytes_sent;
+}
+
+uint32_t Socket::send(const void *data, uint32_t len, IPAddress ip, uint16_t port) {
+    uint32_t bytes_sent = 0;
+    cy_socket_sockaddr_t address = {
+        .port = port,
+        .ip_address = {
+            .version = CY_SOCKET_IP_VER_V4,
+            .ip = { .v4 = (static_cast < uint32_t > (ip[3]) << 24) |
+                        (static_cast < uint32_t > (ip[2]) << 16) |
+                        (static_cast < uint32_t > (ip[1]) << 8) |
+                        (static_cast < uint32_t > (ip[0])) }
+        }
+    };
+
+    _last_error = cy_socket_sendto(socket, data, len,
+        CY_SOCKET_FLAGS_NONE, &address,
+        sizeof(cy_socket_sockaddr_t), &bytes_sent);
     if (_last_error != CY_RSLT_SUCCESS) {
         _status = SOCKET_STATUS_ERROR;
     }
