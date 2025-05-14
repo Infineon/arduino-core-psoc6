@@ -103,7 +103,7 @@ int WiFiUDP::parsePacket() {
 }
 
 int WiFiUDP::available() {
-    return 0;
+    return socket.available();
 }
 
 int WiFiUDP::read() {
