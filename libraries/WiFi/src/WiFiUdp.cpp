@@ -70,15 +70,15 @@ size_t WiFiUDP::write(const uint8_t *buffer, size_t size) {
     size_t bytesStored = 0;
 
     for (size_t i = 0; i < size; i++) {
-        if (!txBuffer.isFull()) { // Check if the buffer is not full
+        if (!txBuffer.isFull()) {
             txBuffer.store_char(buffer[i]);
             bytesStored++;
         } else {
-            break; // Stop if the buffer is full
+            break;
         }
     }
 
-    return bytesStored; // Return the number of bytes successfully stored
+    return bytesStored;
 }
 
 int WiFiUDP::parsePacket() {
