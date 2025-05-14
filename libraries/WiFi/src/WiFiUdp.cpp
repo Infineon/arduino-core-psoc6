@@ -14,11 +14,13 @@ WiFiUDP::WiFiUDP() :
     _status(SOCKET_STATUS_UNINITED),
     _last_error(CY_RSLT_SUCCESS),
     remote_ip(0, 0, 0, 0),
-    _port(0) {
+    _port(0),
+    _parsedPacketSize(0), {
 }
 
 uint8_t WiFiUDP::begin(uint16_t port) {
     _port = port;
+    _parsedPacketSize = 0;
 
     // Initialize the socket for UDP
     socket.begin(SOCKET_PROTOCOL_UDP);
@@ -90,7 +92,14 @@ size_t WiFiUDP::write(const uint8_t *buffer, size_t size) {
 }
 
 int WiFiUDP::parsePacket() {
-    return 0;
+    if (_parsedPacketSize > 0) {
+        // discard previously parsed packet data
+        while (available()) {
+            read();
+        }
+    }
+    _parsedPacketSize = socket.available();
+    return _parsedPacketSize;
 }
 
 int WiFiUDP::available() {
