@@ -45,6 +45,7 @@ private:
     cy_rslt_t _last_error;
     IPAddress remote_ip;
     uint16_t _port;
+    int _parsedPacketSize;
 
     arduino::RingBufferN < WIFI_UDP_BUFFER_SIZE > txBuffer;
 
