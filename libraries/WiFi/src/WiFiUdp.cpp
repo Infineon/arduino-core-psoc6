@@ -139,7 +139,10 @@ int WiFiUDP::read(unsigned char *buffer, size_t len) {
 }
 
 int WiFiUDP::peek() {
-    return 0;
+    if (_parsedPacketSize < 1) {
+        return -1;
+    }
+    return socket.peek();
 }
 
 void WiFiUDP::flush() {
