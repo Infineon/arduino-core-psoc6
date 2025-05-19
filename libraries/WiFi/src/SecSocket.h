@@ -65,8 +65,6 @@ private:
     IPAddress remote_ip;
     uint16_t _port;
     socket_protocol_t _protocol;
-    IPAddress _peer_ip;
-    uint16_t _peer_port;
 
     void setOptCallback(int optname, cy_socket_callback_t cback, void *arg);
 
@@ -75,7 +73,6 @@ private:
 
     bool connect(cy_socket_sockaddr_t *addr);
     void receiveCallback(cy_socket_sockaddr_t *peer_addr = nullptr);
-    void setPeerAddress(cy_socket_sockaddr_t *peer_addr);
 
     static bool global_socket_initialized;
     static uint32_t global_socket_count;
