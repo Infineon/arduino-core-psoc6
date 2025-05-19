@@ -16,8 +16,6 @@ public:
 
     WiFiUDP();
     uint8_t begin(uint16_t);
-
-    // yet to implement these functions
     void stop();
     int beginPacket(IPAddress ip, uint16_t port);
     int beginPacket(const char *host, uint16_t port);
@@ -42,11 +40,12 @@ private:
 
     static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
 
-    cy_socket_t client_handle;
     socket_status_t _status;
     cy_rslt_t _last_error;
     IPAddress remote_ip;
     uint16_t _port;
+    IPAddress _senderIP;   // Stores the sender's IP address
+    uint16_t _senderPort;  // Stores the sender's port
     int _parsedPacketSize;
 
     arduino::RingBufferN < WIFI_UDP_BUFFER_SIZE > txBuffer;

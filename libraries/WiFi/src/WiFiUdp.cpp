@@ -1,5 +1,5 @@
 #include "WiFiUdp.h"
-#include "Arduino.h"
+
 
 #define udp_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
@@ -11,7 +11,6 @@
 }
 
 WiFiUDP::WiFiUDP() :
-    client_handle(nullptr),
     _status(SOCKET_STATUS_UNINITED),
     _last_error(CY_RSLT_SUCCESS),
     remote_ip(0, 0, 0, 0),
@@ -20,13 +19,12 @@ WiFiUDP::WiFiUDP() :
 }
 
 uint8_t WiFiUDP::begin(uint16_t port) {
-    _port = port;
     _parsedPacketSize = 0;
 
     // Initialize the socket for UDP
     socket.begin(SOCKET_PROTOCOL_UDP);
     if (socket.status() != SOCKET_STATUS_CREATED) {
-        return 0; // Return 0 if socket creation fails
+        return 0;
     }
 
     socket.setReceiveOptCallback(receiveCallback, this);
@@ -34,7 +32,7 @@ uint8_t WiFiUDP::begin(uint16_t port) {
     // Bind the socket to the specified port
     socket.bind(port);
     if (socket.status() != SOCKET_STATUS_BOUND) {
-        return 0; // Return 0 if binding fail
+        return 0;
 
     }
     return socket.status(); // Return the socket status
@@ -42,7 +40,6 @@ uint8_t WiFiUDP::begin(uint16_t port) {
 
 
 void WiFiUDP::stop() {
-    // Stop the UDP socket
     socket.end();
 }
 
@@ -50,7 +47,7 @@ int WiFiUDP::beginPacket(IPAddress ip, uint16_t port) {
     remote_ip = ip;
     _port = port;
     txBuffer.clear();
-    return 1; // Return 1 if successful
+    return 1;
 }
 
 int WiFiUDP::beginPacket(const char *host, uint16_t port) {
@@ -72,9 +69,9 @@ int WiFiUDP::endPacket() {
     }
     size_t bytes_sent = socket.send(temp_buffer, size, remote_ip, _port);
     if (bytes_sent != size) {
-        return 0; // Return 0 if not all bytes were sent
+        return 0;
     }
-    return 1; // Return 1 if all bytes were sent successfully
+    return 1;
 }
 
 size_t WiFiUDP::write(uint8_t byte) {
@@ -146,19 +143,27 @@ int WiFiUDP::peek() {
 }
 
 void WiFiUDP::flush() {
-    return;
+    socket.flush();
+    _parsedPacketSize = 0;
 }
 
 IPAddress WiFiUDP::remoteIP() {
-    return IPAddress();
+    return _senderIP;
 }
 
 uint16_t WiFiUDP::remotePort() {
-    return 0;
+    return _senderPort;
 }
 
 cy_rslt_t WiFiUDP::receiveCallback(cy_socket_t socket_handle, void *arg) {
     WiFiUDP *udp = (WiFiUDP *)arg;
-    udp->socket.receiveCallback();
+
+    cy_socket_sockaddr_t peer_addr;
+    udp->socket.receiveCallback(&peer_addr);
+
+    // store the sender's IP address and port
+    udp->_senderIP = IPAddress(peer_addr.ip_address.ip.v4);
+    udp->_senderPort = peer_addr.port;
+
     return CY_RSLT_SUCCESS;
 }
