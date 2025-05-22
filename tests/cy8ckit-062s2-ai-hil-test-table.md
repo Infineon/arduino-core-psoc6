@@ -48,3 +48,7 @@
 | Analog IO PWM | P9.6          | P9.7           | IO6 (PWM feedback) to          |
 |               |               |                |       IO7 (PWM Output)         |
 |               |               |                |                                |
+| Advanced IO   |               |                |                                |
+|               |               |                |                                |
+|     - Tone    | P9.6          | P9.7           | IO6 (Tone feedback) to         |
+|               |               |                |       IO7 (Tone Output)        |
