@@ -24,6 +24,6 @@
 #define         TEST_PIN_ANALOG_IO_VREF     A0      // Pin connected to VREF
 #define         TEST_PIN_ANALOG_IO_DIVIDER  A1      // Pin connected to voltage divider
 
-#define         TEST_ADC_RESOLUTION         2048    // 11-bit resolution
+#define         ADC_RESOLUTION              2048    // 11-bit resolution
 
 #endif // TEST_CONFIG_H
