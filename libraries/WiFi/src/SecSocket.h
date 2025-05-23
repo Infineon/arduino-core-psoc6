@@ -17,7 +17,8 @@ typedef enum {
 } socket_status_t;
 
 typedef enum {
-    SOCKET_PROTOCOL_TCP = 0,
+    SOCKET_PROTOCOL_NOT_SET = 0,
+    SOCKET_PROTOCOL_TCP,
     SOCKET_PROTOCOL_UDP,
 } socket_protocol_t;
 

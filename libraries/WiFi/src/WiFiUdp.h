@@ -40,14 +40,19 @@ private:
 
     static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
 
+    typedef struct {
+        arduino::RingBufferN < WIFI_UDP_BUFFER_SIZE > rx_buf;
+        IPAddress _senderIP;   // Stores the sender's IP address
+        uint16_t _senderPort;  // Stores the sender's port
+    } udp_rx_packet_t;
+
+    std::vector < udp_rx_packet_t > rx_packets;
+    udp_rx_packet_t current_packet = {{}, IPAddress(0, 0, 0, 0), 0};
+
     socket_status_t _status;
     cy_rslt_t _last_error;
     IPAddress remote_ip;
     uint16_t _port;
-    IPAddress _senderIP;   // Stores the sender's IP address
-    uint16_t _senderPort;  // Stores the sender's port
-    int _parsedPacketSize;
-
     arduino::RingBufferN < WIFI_UDP_BUFFER_SIZE > txBuffer;
 
 };

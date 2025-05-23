@@ -15,7 +15,7 @@ Socket::Socket():
     _last_error(CY_RSLT_SUCCESS),
     remote_ip(0, 0, 0, 0),
     _port(0),
-    _protocol(SOCKET_PROTOCOL_TCP) {
+    _protocol(SOCKET_PROTOCOL_NOT_SET) {
 
 }
 
@@ -34,6 +34,10 @@ void Socket::begin(socket_protocol_t protocol) {
             socket_type = CY_SOCKET_TYPE_DGRAM;
             socket_proto = CY_SOCKET_IPPROTO_UDP;
             break;
+        default:
+            _last_error = SOCKET_STATUS_UNINITED;
+            socket_assert(_last_error);
+            return;
     }
 
     _last_error = cy_socket_create(CY_SOCKET_DOMAIN_AF_INET, socket_type,
@@ -267,6 +271,10 @@ void Socket::receiveCallback(cy_socket_sockaddr_t *peer_addr) {
                 _last_error = cy_socket_recvfrom(socket, temp_rx_buff, bytes_rcvd_request,
                     CY_SOCKET_FLAGS_RECVFROM_NONE, peer_addr, nullptr, &bytes_received);
                 break;
+            default:
+                _last_error = SOCKET_STATUS_UNINITED;
+                socket_assert(_last_error);
+                return;
         }
         socket_assert(_last_error);
         for (uint32_t i = 0; i < bytes_received; i++) {
