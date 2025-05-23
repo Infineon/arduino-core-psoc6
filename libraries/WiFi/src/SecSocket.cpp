@@ -15,7 +15,7 @@ Socket::Socket():
     _last_error(CY_RSLT_SUCCESS),
     remote_ip(0, 0, 0, 0),
     _port(0),
-    _protocol(0) {
+    _protocol(SOCKET_PROTOCOL_NOT_SET) {
 
 }
 
@@ -34,6 +34,10 @@ void Socket::begin(socket_protocol_t protocol) {
             socket_type = CY_SOCKET_TYPE_DGRAM;
             socket_proto = CY_SOCKET_IPPROTO_UDP;
             break;
+        default:
+            _last_error = SOCKET_STATUS_UNINITED;
+            socket_assert(_last_error);
+            return;
     }
 
     _last_error = cy_socket_create(CY_SOCKET_DOMAIN_AF_INET, socket_type,
@@ -237,6 +241,7 @@ cy_rslt_t Socket::getLastError() {
     return _last_error;
 }
 
+
 bool Socket::connect(cy_socket_sockaddr_t *addr) {
     _last_error = cy_socket_connect(socket, addr, sizeof(cy_socket_sockaddr_t));
     if (_last_error != CY_RSLT_SUCCESS) {
@@ -251,16 +256,27 @@ bool Socket::connect(cy_socket_sockaddr_t *addr) {
     return true;
 }
 
-void Socket::receiveCallback() {
+void Socket::receiveCallback(cy_socket_sockaddr_t *peer_addr) {
     if (!rx_buf.isFull()) {
         uint32_t bytes_rcvd_request = rx_buf.availableForStore();
         uint8_t temp_rx_buff[bytes_rcvd_request] = {0};
 
         uint32_t bytes_received = 0;
-        _last_error = cy_socket_recv(socket, temp_rx_buff, bytes_rcvd_request,
-            CY_SOCKET_FLAGS_NONE, &bytes_received);
+        switch (_protocol) {
+            case SOCKET_PROTOCOL_TCP:
+                _last_error = cy_socket_recv(socket, temp_rx_buff, bytes_rcvd_request,
+                    CY_SOCKET_FLAGS_NONE, &bytes_received);
+                break;
+            case SOCKET_PROTOCOL_UDP:
+                _last_error = cy_socket_recvfrom(socket, temp_rx_buff, bytes_rcvd_request,
+                    CY_SOCKET_FLAGS_RECVFROM_NONE, peer_addr, nullptr, &bytes_received);
+                break;
+            default:
+                _last_error = SOCKET_STATUS_UNINITED;
+                socket_assert(_last_error);
+                return;
+        }
         socket_assert(_last_error);
-
         for (uint32_t i = 0; i < bytes_received; i++) {
             rx_buf.store_char(temp_rx_buff[i]);
         }

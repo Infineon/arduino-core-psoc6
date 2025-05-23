@@ -17,7 +17,8 @@ typedef enum {
 } socket_status_t;
 
 typedef enum {
-    SOCKET_PROTOCOL_TCP = 0,
+    SOCKET_PROTOCOL_NOT_SET = 0,
+    SOCKET_PROTOCOL_TCP,
     SOCKET_PROTOCOL_UDP,
 } socket_protocol_t;
 
@@ -72,7 +73,7 @@ private:
     arduino::RingBufferN < RX_BUFFER_SIZE > rx_buf;
 
     bool connect(cy_socket_sockaddr_t *addr);
-    void receiveCallback();
+    void receiveCallback(cy_socket_sockaddr_t *peer_addr = nullptr);
 
     static bool global_socket_initialized;
     static uint32_t global_socket_count;
@@ -81,6 +82,7 @@ private:
 
     friend class WiFiServer;
     friend class WiFiClient;
+    friend class WiFiUDP;
 };
 
 #endif /* CY_SECURE_SOCKET_H */
