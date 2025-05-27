@@ -1,6 +1,4 @@
 #include "WiFiUdp.h"
-#include <Arduino.h>
-
 
 #define udp_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
@@ -18,8 +16,8 @@ WiFiUDP::WiFiUDP() :
     _port(0) {
 }
 
-uint8_t WiFiUDP::begin(uint16_t port) {
-    // Initialize the socket for UDP
+uint8_t WiFiUDP::beginInternal(uint16_t port, IPAddress multicastIP) {
+
     socket.begin(SOCKET_PROTOCOL_UDP);
     if (socket.status() != SOCKET_STATUS_CREATED) {
         return 0;
@@ -27,38 +25,29 @@ uint8_t WiFiUDP::begin(uint16_t port) {
 
     socket.setReceiveOptCallback(receiveCallback, this);
 
-    // Bind the socket to the specified port
     socket.bind(port);
     if (socket.status() != SOCKET_STATUS_BOUND) {
         return 0;
-
     }
+
+    if (multicastIP != IPAddress(0, 0, 0, 0)) {
+        IPAddress local_ip = WiFi.localIP(); // Get the local IP address
+
+        // Bind the socket to the specified multicast address and port
+        cy_rslt_t result = socket.joinMulticastGroup(multicastIP, local_ip);
+        udp_assert_raise(result);
+    }
+
     return socket.status(); // Return the socket status
 }
 
+uint8_t WiFiUDP::begin(uint16_t port) {
+    // Start the UDP socket on the specified port
+    return beginInternal(port, IPAddress(0, 0, 0, 0));
+}
+
 uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port) {
-    // Initialize the socket for UDP
-    socket.begin(SOCKET_PROTOCOL_UDP);
-    if (socket.status() != SOCKET_STATUS_CREATED) {
-        return 0;
-    }
-
-    socket.setReceiveOptCallback(receiveCallback, this);
-
-    // Bind the socket to the specified port
-    socket.bind(port);
-    if (socket.status() != SOCKET_STATUS_BOUND) {
-        return 0;
-
-    }
-
-    IPAddress local_ip = WiFi.localIP(); // Get the local IP address
-
-    // Bind the socket to the specified multicast address and port
-    cy_rslt_t result = socket.joinMulticastGroup(ip, local_ip);
-    udp_assert_raise(result);
-
-    return socket.status(); // Return the socket status
+    return beginInternal(port, ip);
 }
 
 void WiFiUDP::stop() {
