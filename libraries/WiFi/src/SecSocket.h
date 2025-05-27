@@ -39,6 +39,7 @@ public:
     void bind(uint16_t port);
     bool connect(IPAddress ip, uint16_t port);
     bool connect(const char *host, uint16_t port);
+    bool joinMulticastGroup(IPAddress multicastIP, IPAddress localIP);
 
     void listen(int max_connections);
     bool accept(Socket & client_socket);
