@@ -39,6 +39,7 @@ public:
 private:
     Socket socket;
 
+    uint8_t beginInternal(uint16_t port, IPAddress multicastIP = IPAddress());
     static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
 
     typedef struct {

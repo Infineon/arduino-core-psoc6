@@ -1,5 +1,4 @@
 #include <SecSocket.h>
-#include <Arduino.h>
 
 #define socket_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
