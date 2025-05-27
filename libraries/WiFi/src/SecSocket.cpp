@@ -1,4 +1,5 @@
 #include <SecSocket.h>
+#include <Arduino.h>
 
 #define socket_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
@@ -122,6 +123,32 @@ bool Socket::connect(const char *host, uint16_t port) {
     }
 
     return connect(&address);
+}
+
+
+bool Socket::joinMulticastGroup(IPAddress multicastIP, IPAddress localIP) {
+    cy_socket_ip_mreq_t mreq;
+    mreq.multi_addr.version = CY_SOCKET_IP_VER_V4;
+    mreq.multi_addr.ip.v4 = (multicastIP[3] << 24) | (multicastIP[2] << 16) |
+        (multicastIP[1] << 8) | multicastIP[0];
+    mreq.if_addr.version = CY_SOCKET_IP_VER_V4;
+    mreq.if_addr.ip.v4 = (localIP[3] << 24) | (localIP[2] << 16) |
+        (localIP[1] << 8) | localIP[0];
+
+    cy_rslt_t result = cy_socket_setsockopt(
+        socket,
+        CY_SOCKET_SOL_IP,
+        CY_SOCKET_SO_JOIN_MULTICAST_GROUP,
+        &mreq,
+        sizeof(mreq)
+        );
+
+    if (result != CY_RSLT_SUCCESS) {
+        _status = SOCKET_STATUS_ERROR;
+        _last_error = result;
+        return false;
+    }
+    return true;
 }
 
 void Socket::listen(int max_connections) {

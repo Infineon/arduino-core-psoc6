@@ -16,6 +16,7 @@ public:
 
     WiFiUDP();
     uint8_t begin(uint16_t);
+    uint8_t beginMulticast(IPAddress, uint16_t);
     void stop();
     int beginPacket(IPAddress ip, uint16_t port);
     int beginPacket(const char *host, uint16_t port);

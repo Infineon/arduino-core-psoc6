@@ -36,6 +36,30 @@ uint8_t WiFiUDP::begin(uint16_t port) {
     return socket.status(); // Return the socket status
 }
 
+uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port) {
+    // Initialize the socket for UDP
+    socket.begin(SOCKET_PROTOCOL_UDP);
+    if (socket.status() != SOCKET_STATUS_CREATED) {
+        return 0;
+    }
+
+    socket.setReceiveOptCallback(receiveCallback, this);
+
+    // Bind the socket to the specified port
+    socket.bind(port);
+    if (socket.status() != SOCKET_STATUS_BOUND) {
+        return 0;
+
+    }
+
+    IPAddress local_ip = WiFi.localIP(); // Get the local IP address
+
+    // Bind the socket to the specified multicast address and port
+    cy_rslt_t result = socket.joinMulticastGroup(ip, local_ip);
+    udp_assert_raise(result);
+
+    return socket.status(); // Return the socket status
+}
 
 void WiFiUDP::stop() {
     socket.end();
