@@ -1,0 +1,2 @@
+#define NET_SECRET_SSID ""
+#define NET_SECRET_PASSWORD ""
