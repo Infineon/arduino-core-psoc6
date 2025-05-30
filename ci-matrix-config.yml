@@ -3,3 +3,4 @@ include:
     - extras/arduino-examples/examples/01.Basics/Blink/Blink.ino
     - extras/arduino-examples/examples/03.Analog/AnalogInOutSerial/AnalogInOutSerial.ino
     - extras/arduino-examples/examples/02.Digital/toneMultiple/toneMultiple.ino
+    - extras/arduino-examples/examples/06.Sensors/Memsic2125/Memsic2125.ino
