@@ -14,16 +14,18 @@
 
 // Test Pin Definitions
 
-#define         TEST_PIN_DIGITAL_IO_OUTPUT   7      // IO_4
-#define         TEST_PIN_DIGITAL_IO_INPUT    6      // IO_3
+#define         TEST_PIN_DIGITAL_IO_OUTPUT      7       // IO_4
+#define         TEST_PIN_DIGITAL_IO_INPUT       6       // IO_3
 
-#define         TEST_PIN_SYNC_IO    4               // IO_1
+#define         TEST_PIN_PULSE                  5       // IO_2
 
-#define         TEST_PIN_SPI_SSEL   3               // IO_0
+#define         TEST_PIN_SYNC_IO                4       // IO_1
 
-#define         TEST_PIN_ANALOG_IO_VREF     A0      // Pin connected to VREF
-#define         TEST_PIN_ANALOG_IO_DIVIDER  A1      // Pin connected to voltage divider
+#define         TEST_PIN_SPI_SSEL               3       // IO_0
 
-#define         ADC_RESOLUTION              2048    // 11-bit resolution
+#define         TEST_PIN_ANALOG_IO_VREF         A0      // Pin connected to VREF
+#define         TEST_PIN_ANALOG_IO_DIVIDER      A1      // Pin connected to voltage divider
+
+#define         TEST_ADC_RESOLUTION             2048    // 11-bit resolution
 
 #endif // TEST_CONFIG_H
