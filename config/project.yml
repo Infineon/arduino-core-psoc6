@@ -1,0 +1,47 @@
+compile:
+    compile-psoc6-cy8ckit_062s2_ai:
+      description: Compiling test_digitalio_single.cpp for PSOC6 platform
+      command: make -f Makefile.arduino.mk FQBN=infineon:psoc6:cy8ckit_062s2_ai test_digitalio_single compile
+      working_dir: tests/arduino-core-tests
+
+code-quality:
+    source-code-quality-clang-tidy:
+      description: clang-tidy check sources
+      tool: clang-tidy
+      command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh ./cores/psoc6/* ./libraries/*
+
+    source-code-quality-cppcheck:
+      description: cppcheck check sources
+      tool: cppcheck
+      command: extras/makers-devops/tools/code_checks/run_cppcheck.sh ./cores/psoc6/* ./libraries/*  
+               | -I extras/arduino-core-api/api/ -I variants/CY8CKIT-062S2-AI/mtb-bsp -I extras/mtb-libs/core-lib/include 
+               | -I libraries/WiFi/src -I libraries/Wire/src -I libraries/SPI/src -I extras/mtb-libs/mtb-hal-cat1/include
+               | -I extras/mtb-libs/wifi-connection-manager/include --suppress=*:extras/mtb-libs/wifi-connection-manager/include*
+               | -I variants/CY8CKIT-062S2-AI -I cores/psoc6 --suppress=*:variants/CY8CKIT-062S2-AI/* --suppress=*:extras/mtb-libs/mtb-hal-cat1/include/*
+               | --suppress=*:extras/arduino-core-api/api/* --suppress=*:cores/psoc6/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
+    
+    test-code-quality-clang-tidy:
+      description: clang-tidy check tests
+      tool: clang-tidy
+      command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh ./tests/arduino-core-tests/src/*
+
+    test-code-quality-cppcheck:
+      description: cppcheck check tests
+      tool: cppcheck
+      command: extras/makers-devops/tools/code_checks/run_cppcheck.sh ./tests/arduino-core-tests/src/*  
+               | -I extras/arduino-core-api/api/ -I variants/CY8CKIT-062S2-AI/mtb-bsp -I extras/mtb-libs/core-lib/include 
+               | -I libraries/WiFi/src -I libraries/Wire/src -I libraries/SPI/src -I extras/mtb-libs/mtb-hal-cat1/include
+               | -I extras/mtb-libs/wifi-connection-manager/include --suppress=*:extras/mtb-libs/wifi-connection-manager/include*
+               | -I tests/arduino-core-tests/Unity/src --suppress=*:tests/arduino-core-tests/Unity/src/*
+               | -I variants/CY8CKIT-062S2-AI -I cores/psoc6 --suppress=*:variants/CY8CKIT-062S2-AI/* --suppress=*:extras/mtb-libs/mtb-hal-cat1/include/*
+               | --suppress=*:extras/arduino-core-api/api/* --suppress=*:cores/psoc6/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
+
+    code-quality-clang-format:
+      description: clang-tidy check sources
+      tool: clang-format
+      command: extras/makers-devops/tools/code_checks/run_clang_format.sh ./cores/psoc6/* ./libraries/*
+
+    code-quality-black-format:
+      description: clang-tidy check sources
+      tool: black-format
+      command: extras/makers-devops/tools/code_checks/run_black.sh ./extras/makers-devops/tools/* 
