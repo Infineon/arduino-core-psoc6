@@ -12,3 +12,9 @@ unit-test:
     - unit-test-analog-io-pwm
     - unit-test-pulse
     - unit-test-uart
+
+code-quality:
+    - source-code-quality-clang-tidy
+    - source-code-quality-cppcheck
+    - code-quality-clang-format
+    - code-quality-black-format
