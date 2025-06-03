@@ -1,7 +1,6 @@
 package-name: arduino-core-psoc6
 include:
   - cores
-  - examples
   - extras/mtb-libs
   - libraries
   - tools
