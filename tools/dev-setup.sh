@@ -7,7 +7,7 @@ echo ${PWD}
 function git_submodule_setup {
     echo "Setting up Git Submodules..."
     git submodule init
-    git submodule update --recursive
+    git submodule update --init --recursive
 }
 
 function core_api_setup {
