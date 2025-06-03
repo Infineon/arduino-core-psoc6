@@ -18,4 +18,11 @@ unit-test:
     - unit-test-wifi-sta-ap
     - unit-test-wifi-udp
     - unit-test-onewire-DS18x20
-    
+
+code-quality:
+    - source-code-quality-clang-tidy
+    - source-code-quality-cppcheck
+    - test-code-quality-clang-tidy
+    - test-code-quality-cppcheck
+    - code-quality-clang-format
+    - code-quality-black-format
