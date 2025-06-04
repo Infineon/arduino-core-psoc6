@@ -11,7 +11,7 @@ extern "C" {
 }
 
 
-TwoWire::TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl) : sda_pin(sda), scl_pin(scl) {
+TwoWire::TwoWire(pin_size_t sda, pin_size_t scl) : sda_pin(sda), scl_pin(scl) {
 }
 
 void TwoWire::_begin() {
@@ -30,7 +30,7 @@ void TwoWire::_begin() {
         };
     }
 
-    w_status = cyhal_i2c_init(&i2c_obj, sda_pin, scl_pin, NULL);
+    w_status = cyhal_i2c_init(&i2c_obj, mapping_gpio_pin[sda_pin], mapping_gpio_pin[scl_pin], NULL);
     Wire_assert(w_status);
     w_status = cyhal_i2c_configure(&i2c_obj, &i2c_config);
     Wire_assert(w_status);
