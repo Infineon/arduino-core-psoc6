@@ -38,7 +38,7 @@ Built-in Libraries
       - ✅ Implemented
     * - WiFi Network
       - | `WiFi Network <https://docs.arduino.cc/language-reference/en/functions/wifi/wificlass/>`_  
-      - ⏳ Partially Implemented  (Work in progress)
+      - ✅ Implemented 
     * - WiFi Server 
       - | `WiFiServer <https://docs.arduino.cc/language-reference/en/functions/wifi/server/>`_  
       - ✅ Implemented  (except SSL)
@@ -47,7 +47,7 @@ Built-in Libraries
       - ✅ Implemented  (except SSL)
     * - WiFi UDP
       - | `WiFiUDP <https://docs.arduino.cc/language-reference/en/functions/wifi/udp/>`_  
-      - ❌ Not Implemented
+      - ✅ Implemented  (except Multicast)
     * - Wire/I2C
       - | `Wire <https://docs.arduino.cc/language-reference/en/functions/communication/wire/>`_
       - ✅ Implemented
@@ -77,6 +77,10 @@ Built-in Libraries
         | `shiftIn <https://docs.arduino.cc/language-reference/en/functions/advanced-io/shiftIn/>`_
         | `shiftOut <https://docs.arduino.cc/language-reference/en/functions/advanced-io/shiftOut/>`_
         | `tone <https://docs.arduino.cc/language-reference/en/functions/advanced-io/tone/>`_
+      - ✅ Implemented
+    * - Random
+      - | `random <https://docs.arduino.cc/language-reference/en/functions/random-numbers/random/>`_
+        | `randomSeed <https://docs.arduino.cc/language-reference/en/functions/random-numbers/randomSeed/>`_
       - ❌ Not Implemented
 
 
