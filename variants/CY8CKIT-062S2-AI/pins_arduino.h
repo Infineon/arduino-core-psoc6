@@ -41,16 +41,20 @@
 #define UART2_RTS_PIN     NC  // NOT CONNECTED
 
 #define I2C_HOWMANY     2
-#define I2C1_SDA_PIN    CYBSP_I2C_SDA
-#define I2C1_SCL_PIN    CYBSP_I2C_SCL
-#define I2C2_SDA_PIN    P9_1
-#define I2C2_SCL_PIN    P9_0
+#define I2C1_SDA_PIN    9 // I2C-SDA P0_3
+#define I2C1_SCL_PIN    8 // I2C-SCL P0_2
+#define I2C2_SDA_PIN    1 // I2C-SDA P9_1
+#define I2C2_SCL_PIN    0 // I2C-SCL P9_0
+
+static const uint8_t SDA = I2C1_SDA_PIN;
+static const uint8_t SCL = I2C1_SCL_PIN;
 
 #define SPI_HOWMANY             1
 #define PIN_SPI_MOSI            0 // SPI-MOSI P9_0
 #define PIN_SPI_MISO            1 // SPI-MISO P9_1
 #define PIN_SPI_SCK             2 // SPI-SCLK P9_2
 #define PIN_SPI_SS              3 // IO_0     P9_3
+
 static const uint8_t SS = PIN_SPI_SS;
 static const uint8_t MOSI = PIN_SPI_MOSI; 
 static const uint8_t MISO = PIN_SPI_MISO; 
@@ -60,6 +64,7 @@ static const uint8_t SCK = PIN_SPI_SCK;
 #define ADC_RESOLUTION          12 // ADC resolution in bits, but the observed range is from 0-2^11. 
 #define PIN_A0                  11 // ADC P10.0
 #define PIN_A1                  10 // ADC P10.1
+
 static const uint8_t A0  = PIN_A0;
 static const uint8_t A1  = PIN_A1;
 
