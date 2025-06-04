@@ -14,7 +14,7 @@ public:
     static const size_t BUFFER_LENGTH = 256;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
-    TwoWire(cyhal_gpio_t sda, cyhal_gpio_t scl);
+    TwoWire(pin_size_t sda, pin_size_t scl);
 
     enum I2C_ErrorCodes {
         I2C_SUCCESS = CY_RSLT_SUCCESS,
@@ -43,8 +43,8 @@ public:
 
 private:
     void _begin();
-    cyhal_gpio_t sda_pin;
-    cyhal_gpio_t scl_pin;
+    pin_size_t sda_pin;
+    pin_size_t scl_pin;
     bool is_master;
     uint16_t slave_address;
     arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
