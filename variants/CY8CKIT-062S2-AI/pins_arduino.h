@@ -120,10 +120,70 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
     /* 29  */ P12_4,// SDHC_CMD / IO / PWM                             
     /* 30  */ P12_5,// SDHC_CLK / IO / PWM
 
-    // Debugger Serial UART pins (not available on connector) 
+    // Additional pins not available in external connector
+
+    // Debugger Serial UART pins 
     
     /* 31  */ P5_0, // DEBUG_UART_RX 
     /* 32  */ P5_1, // DEBUG_UART_TX 
+
+    // IMU Interrupt pins
+
+    /* 33  */ P0_4, // IMU_INT2
+    /* 34  */ P1_5, // IMU_INT1
+  
+    // Magnetometer interrupt pin
+
+    /* 35  */ P1_0, // MAG_INT
+
+    // Digital pressure sensor interrupt pin
+
+    /* 36  */ P1_4, // PSEN_INT
+  
+    // PDM microphone pins
+    
+    /* 37  */ P10_4, // PDM_MIC_CLK
+    /* 38  */ P10_5, // PDM_MIC_DATA
+
+    // Radar sensor pins
+    
+    /* 39  */ P11_0, // RSPI_IRQ
+    /* 40  */ P11_1, // RXRES_L
+    /* 41  */ P12_0, // RSPI_MOSI
+    /* 42  */ P12_1, // RSPI_MISO
+    /* 43  */ P12_2, // RSPI_SCLK
+    /* 44  */ P12_3, // RSPI_CS
+
+    // QSPI flash pins
+
+    /* 45  */ P11_2, // QSPI_SEL_L
+    /* 46  */ P11_3, // QSPI_DATA3
+    /* 47  */ P11_4, // QSPI_DATA2
+    /* 48  */ P11_5, // QSPI_DATA1
+    /* 49  */ P11_6, // QSPI_DATA0
+    /* 50  */ P11_7, // QSPI_CLK
+    
+    // Bluetooth module power mode pins
+
+    /* 51  */ P3_4, // BT_REG_ON
+    /* 52  */ P3_5, // BT_DEV_WAKE
+    /* 53  */ P4_0, // BT_HOST_WAKE
+    /* 54  */ P4_1, // WL_HOST_WAKE
+
+    // Battery charger module pins
+
+    /* 55  */ P5_5, // LBCPP_PG
+    /* 56  */ P5_6, // LBCPP_CHG
+    /* 57  */ P5_7, // LBCPP_CE
+    /* 58  */ P6_0, // LBCPP_EN2
+    /* 59  */ P6_1, // LBCPP_EN1
+    /* 60  */ P6_3, // LBCPP_ITERM
+
+    // USB pins
+
+    /* 61  */ P6_2, // USB_S
+    /* 62  */ USBDP, // USB_DP
+    /* 63  */ USBDM, // USB_DM
 };
 
 const uint8_t GPIO_PIN_COUNT = (sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) - 1;
