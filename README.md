@@ -46,7 +46,7 @@ Please refer to [supported features](https://arduino-core-psoc6.readthedocs.io/e
 
 <table>
     <tr>
-        <td><img src="https://www.infineon.com/export/sites/default/media/products/Microcontrollers/XMC/CY8CKIT-062S2-AI_KIT.png_2013019694.png" width=200></td>
+        <td><img src="docs/img/board_CY8CKIT-062S2-AI.png" width=200></td>
     </tr>
     <tr>
         <td style="test-align : center"><a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-062s2-ai/">CY8CKIT-062S2-AI</a></td>
