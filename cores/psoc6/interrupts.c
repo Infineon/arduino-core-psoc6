@@ -41,10 +41,12 @@ void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, PinStatus
             break;
 
         case RISING:
+        case HIGH:
             event = CYHAL_GPIO_IRQ_RISE;
             break;
 
         case FALLING:
+        case LOW:
             event = CYHAL_GPIO_IRQ_FALL;
             break;
 

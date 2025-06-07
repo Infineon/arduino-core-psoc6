@@ -8,6 +8,21 @@ Digital IO
 
 Once a pin is configured using pinMode as GPIO pins, it may no longer be available for use with any other peripherals (e.g., PWM, I2C, SPI, GPIO, etc.).
 
+
+Interrupts
+----------
+
+.. code-block:: cpp
+
+    void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, PinStatus mode)
+
+Interrupts are triggered only for the RISING or FALLING edge by the hardware. The LOW and HIGH modes are not natively supported but are internally mapped for compatibility:
+
+- LOW mode is mapped to FALLING edge detection.
+- HIGH mode is mapped to RISING edge detection.
+
+This mapping simplifies compatibility but may not replicate the exact behavior of other Arduino platforms that natively support LOW and HIGH interrupt levels.
+
 Analog IO
 ---------
 
