@@ -73,11 +73,10 @@ Advanced IO
 
     void tone(uint8_t _pin, unsigned int frequency, unsigned long duration)
 
-The `tone()` function in the PSOC Arduino Core leverages the PWM (Pulse Width Modulation) peripheral to generate square wave signals at specific frequencies.
+The `tone()` function in the `PSOC6-for-Arduino` core leverages the PWM (Pulse Width Modulation) peripheral to generate square wave signals at specific frequencies.
 
 Do not call `pinMode()` on the pin prior to using the `tone()` function.
 The `tone()` function automatically configures the pin for output mode and sets it up internally. Calling `pinMode()` beforehand may result in unexpected behavior or conflicts with the PWM peripheral.
-
 
 SPI
 ----------
@@ -100,3 +99,14 @@ The SPI transfer functions are interrupt-driven; manually enabling or disabling 
 
 These APIs are retained only for backward compatibility with older Arduino code but are no longer recommended for use.
 Instead, use the `SPISettings` object with `SPI.beginTransaction()` for configuring SPI modes, bit order, and clock frequency.
+
+Random Number Generation
+-------------------------
+
+.. code-block:: cpp
+    
+    void randomSeed(unsigned long seed)
+
+The function is optional. Random seed initialization is not required because the `PSOC6-for-Arduino` core uses the hardware-based True Random Number Generator (TRNG) for generating random numbers.
+
+Calling `randomSeed(seed)` does nothing but is provided for compatibility with the standard Arduino API.
