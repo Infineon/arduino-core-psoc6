@@ -81,7 +81,7 @@ Built-in Libraries
     * - Random
       - | `random <https://docs.arduino.cc/language-reference/en/functions/random-numbers/random/>`_
         | `randomSeed <https://docs.arduino.cc/language-reference/en/functions/random-numbers/randomSeed/>`_
-      - ❌ Not Implemented
+      - ✅ Implemented
 
 
 .. note::
