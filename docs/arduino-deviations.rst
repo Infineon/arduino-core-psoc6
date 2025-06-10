@@ -77,3 +77,26 @@ The `tone()` function in the PSOC Arduino Core leverages the PWM (Pulse Width Mo
 
 Do not call `pinMode()` on the pin prior to using the `tone()` function.
 The `tone()` function automatically configures the pin for output mode and sets it up internally. Calling `pinMode()` beforehand may result in unexpected behavior or conflicts with the PWM peripheral.
+
+
+SPI
+----------
+The `PSOC6-for-Arduino` core does not support the following Arduino APIs:
+
+.. code-block:: cpp
+
+    void usingInterrupt(int interruptNumber)
+    void notUsingInterrupt(int interruptNumber)
+    void attachInterrupt()
+    void detachInterrupt()
+
+The SPI transfer functions are interrupt-driven; manually enabling or disabling interrupts and  attaching or detaching separate interrupts via these APIs is not applicable.
+
+.. code-block:: cpp
+    
+    void setDataMode(uint8_t dataMode)
+    void setBitOrder(uint8_t bitOrder)
+    void setClockDivider(uint8_t div)
+
+These APIs are retained only for backward compatibility with older Arduino code but are no longer recommended for use.
+Instead, use the `SPISettings` object with `SPI.beginTransaction()` for configuring SPI modes, bit order, and clock frequency.
