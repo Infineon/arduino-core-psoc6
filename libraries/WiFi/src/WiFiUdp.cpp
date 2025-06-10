@@ -135,6 +135,7 @@ int WiFiUDP::read(unsigned char *buffer, size_t len) {
     if (current_packet.rx_buf.available() < 1) {
         return -1;
     }
+    len = len > current_packet.rx_buf.available() ? current_packet.rx_buf.available() : len;
     for (size_t i = 0; i < len; i++) {
         buffer[i] = current_packet.rx_buf.read_char();
     }
