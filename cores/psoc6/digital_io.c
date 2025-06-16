@@ -23,8 +23,16 @@ extern "C" {
 #endif
 
 void pinMode(pin_size_t pinNumber, PinMode pinMode) {
+
+
     if (pinNumber > GPIO_PIN_COUNT) {
         return; // Invalid pin number
+    }
+
+    // check if pinNumber is initialized before
+    if (gpio_initialized[pinNumber]) {
+        cyhal_gpio_free(mapping_gpio_pin[pinNumber]);
+        gpio_initialized[pinNumber] = false;
     }
 
     cyhal_gpio_direction_t direction;
@@ -65,6 +73,8 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
 
     // Initialize the GPIO pin with the specified direction, drive mode and set initial value
     (void)cyhal_gpio_init(mapping_gpio_pin[pinNumber], direction, drive_mode, initPinValue);
+
+    gpio_initialized[pinNumber] = true;
 }
 
 PinStatus digitalRead(pin_size_t pinNumber) {
