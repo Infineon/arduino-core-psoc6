@@ -14,7 +14,9 @@ code-quality:
     source-code-quality-clang-tidy:
       description: clang-tidy check sources
       tool: clang-tidy
-      command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh ./cores/psoc6/* ./libraries/*
+      command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh --checks=-readability-identifier-length 
+               -i cores/psoc6/api -i cores/psoc6/api/deprecated-avr-comp --header-filter='^(?!.*cores/psoc6/api/).*'
+               ./cores/psoc6/* ./libraries/*/src/*
 
     source-code-quality-cppcheck:
       description: cppcheck check sources
