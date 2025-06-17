@@ -31,7 +31,7 @@ extern "C" {
 #define MICROS_TO_MILLISECONDS(us) ((unsigned long)((double)(us) / (double)MILLISECONDS_PER_SECOND));
 #define MAX_UINT32_VALUE 4294967295
 
-cyhal_timer_t timer;
+static cyhal_timer_t timer;
 
 #define time_assert(ret) if (ret != CY_RSLT_SUCCESS) { \
             time_error = ret; \

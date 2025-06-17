@@ -60,18 +60,18 @@ public:
 
 private:
 
-    cy_socket_t socket;
-    socket_status_t _status;
-    cy_rslt_t _last_error;
+    cy_socket_t socket = {};
+    socket_status_t _status = SOCKET_STATUS_UNINITED;
+    cy_rslt_t _last_error = CY_RSLT_SUCCESS;
 
-    IPAddress remote_ip;
-    uint16_t _port;
-    socket_protocol_t _protocol;
+    IPAddress remote_ip = {0, 0, 0, 0};
+    uint16_t _port = 0;
+    socket_protocol_t _protocol = SOCKET_PROTOCOL_NOT_SET;
 
     void setOptCallback(int optname, cy_socket_callback_t cback, void *arg);
 
     static const uint16_t RX_BUFFER_SIZE = 4096;
-    arduino::RingBufferN < RX_BUFFER_SIZE > rx_buf;
+    arduino::RingBufferN < RX_BUFFER_SIZE > rx_buf = {};
 
     bool connect(cy_socket_sockaddr_t *addr);
     void receiveCallback(cy_socket_sockaddr_t *peer_addr = nullptr);
