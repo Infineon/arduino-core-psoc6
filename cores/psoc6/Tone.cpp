@@ -25,12 +25,12 @@ public:
 
     void play(uint8_t targetPin, unsigned int frequency, unsigned long duration = 0) {
         // Tone is already playing on a different pin
-        if (initialized && targetPin != pin) {
+        if (pwmInitialized && targetPin != pin) {
             return;
         }
 
         // First call to play on a specified pin
-        if (!initialized) {
+        if (!pwmInitialized) {
             initializePwm(targetPin);
             startPwm();
         }
@@ -44,22 +44,22 @@ public:
     }
 
     void stop() {
-        if (initialized) {
+        if (pwmInitialized) {
             stopPwm();
             freePwm();
-            initialized = false;
+            pwmInitialized = false;
         }
     }
 
 private:
-    cyhal_pwm_t pwmObj;
-    cyhal_timer_t timerObj;
+    cyhal_pwm_t pwmObj = {};
+    cyhal_timer_t timerObj = {};
 
-    bool initialized;
-    uint8_t pin;
-    bool timerInitialized;
+    bool pwmInitialized = false;
+    uint8_t pin = 0;
+    bool timerInitialized = false;
 
-    PwmTone() : initialized(false), pin(NC), timerInitialized(false) {
+    PwmTone() : pwmInitialized(false), pin(0), timerInitialized(false) {
     }
     ~PwmTone() {
         stop();
@@ -73,7 +73,7 @@ private:
         cy_rslt_t result = cyhal_pwm_init(&pwmObj, mapping_gpio_pin[targetPin], nullptr);
         assertResult(result);
         pin = targetPin;
-        initialized = true;
+        pwmInitialized = true;
     }
 
     void setDutyCycleAndFrequency(unsigned int frequency) {

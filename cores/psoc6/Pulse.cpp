@@ -7,17 +7,17 @@
             return 0;                        \
         }
 
-cyhal_timer_t timerObj;
+static cyhal_timer_t pulseTimer;
 
 void cleanupTimer() {
-    cyhal_timer_stop(&timerObj);
-    cyhal_timer_free(&timerObj);
+    cyhal_timer_stop(&pulseTimer);
+    cyhal_timer_free(&pulseTimer);
 }
 
 uint8_t initTimer() {
     cy_rslt_t result = CY_RSLT_TYPE_ERROR;
 
-    result = cyhal_timer_init(&timerObj, NC, NULL);
+    result = cyhal_timer_init(&pulseTimer, NC, NULL);
     ASSERT_RESULT(result, cleanupTimer);
 
     // Configure the timer with desired settings
@@ -30,10 +30,10 @@ uint8_t initTimer() {
         .value = 0                       // Initial value
     };
 
-    result = cyhal_timer_configure(&timerObj, &timerConfig);
+    result = cyhal_timer_configure(&pulseTimer, &timerConfig);
     ASSERT_RESULT(result, cleanupTimer);
 
-    result = cyhal_timer_start(&timerObj);
+    result = cyhal_timer_start(&pulseTimer);
     ASSERT_RESULT(result, cleanupTimer);
 
     return 1;
@@ -43,7 +43,7 @@ bool waitForPinState(uint8_t pin, uint8_t desiredState, unsigned long timeoutMic
     uint32_t currentMicros;
 
     while (cyhal_gpio_read(mapping_gpio_pin[pin]) != desiredState) {
-        currentMicros = cyhal_timer_read(&timerObj);
+        currentMicros = cyhal_timer_read(&pulseTimer);
         if ((currentMicros - startMicros) > timeoutMicros) {
             return false;
         }
@@ -59,21 +59,21 @@ unsigned long pulseInLong(uint8_t pin, uint8_t state, unsigned long timeout) {
         return 0;
     }
 
-    startMicros = cyhal_timer_read(&timerObj);
+    startMicros = cyhal_timer_read(&pulseTimer);
 
     // Wait for the pulse to start
     if (!waitForPinState(pin, state, timeoutMicros, startMicros)) {
         cleanupTimer();
         return 0; // Timeout while waiting for the pulse to start
     }
-    pulseStart = cyhal_timer_read(&timerObj);
+    pulseStart = cyhal_timer_read(&pulseTimer);
 
     // Wait for the pulse to end
     if (!waitForPinState(pin, !state, timeoutMicros, startMicros)) {
         cleanupTimer();
         return 0; // Timeout while waiting for the pulse to end
     }
-    pulseEnd = cyhal_timer_read(&timerObj);
+    pulseEnd = cyhal_timer_read(&pulseTimer);
 
     cleanupTimer();
     // Timer counts directly represent microseconds

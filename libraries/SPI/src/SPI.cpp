@@ -71,8 +71,8 @@ byte SPIClassPSOC::transfer(uint8_t data) {
 uint16_t SPIClassPSOC::transfer16(uint16_t data) {
 // Union to split 16-bit data into two 8-bit data
     union { uint16_t val;
-            struct { uint8_t lsb;
-                     uint8_t msb;
+            struct { uint8_t lsb = 0;
+                     uint8_t msb = 0;
             };
     } data_in_out;
 
