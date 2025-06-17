@@ -144,10 +144,10 @@ private:
     const char *DEFAULT_AP_IP = "192.168.0.1";
     const char *DEFAULT_AP_GATEWAY_IP = "192.168.0.1";
     const char *DEFAULT_AP_SUBNET_MASK = "255.255.255.0";
-    cy_wcm_ap_config_t ap_conf;
+    cy_wcm_ap_config_t ap_conf = {};
 
     /* STA configuration */
-    cy_wcm_associated_ap_info_t ap_info;
+    cy_wcm_associated_ap_info_t ap_info = {};
 
     /* The WiFi class is implemented as singleton.
     The constructor and destructor are private. */

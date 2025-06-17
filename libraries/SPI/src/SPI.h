@@ -39,11 +39,11 @@ private:
     cyhal_spi_mode_t getSpiMode() const;
 
     arduino::SPISettings _settings = arduino::SPISettings();
-    cyhal_spi_t _spi_obj;
-    pin_size_t _mosi_pin;
-    pin_size_t _miso_pin;
-    pin_size_t _sck_pin;
-    pin_size_t _ssel_pin;
+    cyhal_spi_t _spi_obj  = {};
+    pin_size_t _mosi_pin = NC;
+    pin_size_t _miso_pin = NC;
+    pin_size_t _sck_pin = NC;
+    pin_size_t _ssel_pin = NC;
 
     bool _is_slave;
     bool _is_initialized;
