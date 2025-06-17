@@ -41,9 +41,9 @@ private:
     pin_size_t rx_pin;
     pin_size_t cts_pin;
     pin_size_t rts_pin;
-    cyhal_uart_t uart_obj;
-    cyhal_uart_cfg_t uart_config;
-    uint32_t actualbaud;
+    cyhal_uart_t uart_obj = {};
+    cyhal_uart_cfg_t uart_config = {};
+    uint32_t actualbaud = 0;
     bool serial_ready = false;
     uart_error_t last_error = UART_ERROR_NONE;
 

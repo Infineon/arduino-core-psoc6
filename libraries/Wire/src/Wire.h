@@ -43,20 +43,20 @@ public:
 
 private:
     void _begin();
-    pin_size_t sda_pin;
-    pin_size_t scl_pin;
-    bool is_master;
-    uint16_t slave_address;
-    arduino::RingBufferN < BUFFER_LENGTH > rxBuffer;
-    arduino::RingBufferN < BUFFER_LENGTH > txBuffer;
+    pin_size_t sda_pin = NC;
+    pin_size_t scl_pin = NC;
+    bool is_master = true;
+    uint16_t slave_address = 0;
+    arduino::RingBufferN < BUFFER_LENGTH > rxBuffer = {};
+    arduino::RingBufferN < BUFFER_LENGTH > txBuffer = {};
     uint8_t temp_rx_buff[BUFFER_LENGTH] = {0};
     uint8_t temp_tx_buff[BUFFER_LENGTH] = {0};
-    cyhal_i2c_cfg_t i2c_config;
-    cyhal_i2c_t i2c_obj;
-    cy_rslt_t w_status;
+    cyhal_i2c_cfg_t i2c_config = {};
+    cyhal_i2c_t i2c_obj = {};
+    cy_rslt_t w_status = {};
     uint32_t timeout = 0; // Timeout in milliseconds
-    void (*user_onRequest)(void);
-    void (*user_onReceive)(int);
+    void (*user_onRequest)(void) = nullptr;
+    void (*user_onReceive)(int) = nullptr;
     void onRequestService(void);
     void onReceiveService(void);
     static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);

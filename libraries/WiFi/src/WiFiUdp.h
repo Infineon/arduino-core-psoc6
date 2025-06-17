@@ -48,14 +48,14 @@ private:
         uint16_t _senderPort;  // Stores the sender's port
     } udp_rx_packet_t;
 
-    std::vector < udp_rx_packet_t > rx_packets;
+    std::vector < udp_rx_packet_t > rx_packets = {};
     udp_rx_packet_t current_packet = {{}, IPAddress(0, 0, 0, 0), 0};
 
-    socket_status_t _status;
-    cy_rslt_t _last_error;
-    IPAddress remote_ip;
-    uint16_t _port;
-    arduino::RingBufferN < WIFI_UDP_BUFFER_SIZE > txBuffer;
+    socket_status_t _status = SOCKET_STATUS_UNINITED;
+    cy_rslt_t _last_error = CY_RSLT_SUCCESS;
+    IPAddress remote_ip = {0, 0, 0, 0};
+    uint16_t _port = 0;
+    arduino::RingBufferN < WIFI_UDP_BUFFER_SIZE > txBuffer = {};
 
 };
 

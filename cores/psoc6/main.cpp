@@ -31,7 +31,7 @@
 #define ARDUINO_MAIN_TASK_STACK_SIZE    (4096u)
 #define ARDUINO_MAIN_TASK_PRIORITY      (2u)
 
-TaskHandle_t arduino_main_task_handle;
+static const TaskHandle_t arduino_main_task_handle;
 
 void arduino_main_task(void *arg);
 
