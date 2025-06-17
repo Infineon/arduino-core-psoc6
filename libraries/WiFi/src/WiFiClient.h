@@ -3,7 +3,7 @@
 #define WIFI_CLIENT_H
 
 #include <memory>
-#include <SecSocket.h>
+#include "SecSocket.h"
 #include "api/Client.h"
 #include "api/Print.h"
 
