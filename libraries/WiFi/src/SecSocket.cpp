@@ -1,4 +1,4 @@
-#include <SecSocket.h>
+#include "SecSocket.h"
 
 #define socket_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
             _status = SOCKET_STATUS_ERROR; \
