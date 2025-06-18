@@ -4,11 +4,17 @@
 
 // Constants and Macros
 
-#define MIN_ACQUISITION_TIME        220
-#define adc_assert(cy_ret)          if (cy_ret != CY_RSLT_SUCCESS) { return 0xff; }
-#define pwm_assert(cy_ret)          if (cy_ret != CY_RSLT_SUCCESS) { return; }
+#define MIN_ACQUISITION_TIME 220
+#define adc_assert(cy_ret)           \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return 0xff;                 \
+    }
+#define pwm_assert(cy_ret)           \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return;                      \
+    }
 
-#define PWM_RESOLUTION_8_BIT  255.0
+#define PWM_RESOLUTION_8_BIT 255.0
 #define PWM_RESOLUTION_10_BIT 1023.0
 #define PWM_RESOLUTION_12_BIT 4095.0
 #define PWM_RESOLUTION_16_BIT 65535.0
@@ -36,7 +42,6 @@ static adc_channel_t adc_channel[ADC_HOWMANY] = {0};
 static float desiredWriteResolution = PWM_RESOLUTION_8_BIT;
 static pwm_t pwm[PWM_HOWMANY] = {0};
 
-
 static cy_rslt_t initialize_adc(pin_size_t pinNumber) {
     if (!adc_initialized) {
         cy_rslt_t status = cyhal_adc_init(&adc_obj, mapping_gpio_pin[pinNumber], NULL);
@@ -45,15 +50,13 @@ static cy_rslt_t initialize_adc(pin_size_t pinNumber) {
     }
 
     // Configure ADC settings
-    cyhal_adc_config_t adc_config = {
-        .continuous_scanning = false,
-        .resolution = ADC_RESOLUTION,
-        .average_count = 1,
-        .vneg = CYHAL_ADC_VNEG_VSSA,
-        .vref = desiredVRef,
-        .ext_vref = NC,
-        .bypass_pin = NC
-    };
+    cyhal_adc_config_t adc_config = {.continuous_scanning = false,
+                                     .resolution = ADC_RESOLUTION,
+                                     .average_count = 1,
+                                     .vneg = CYHAL_ADC_VNEG_VSSA,
+                                     .vref = desiredVRef,
+                                     .ext_vref = NC,
+                                     .bypass_pin = NC};
 
     return cyhal_adc_configure(&adc_obj, &adc_config);
 }
@@ -65,12 +68,10 @@ static cy_rslt_t initialize_adc_channel(pin_size_t pinNumber, uint8_t adc_index)
 
     // Configure individual ADC channel
     cyhal_adc_channel_config_t chan_config = {
-        .enabled = true,
-        .enable_averaging = false,
-        .min_acquisition_ns = MIN_ACQUISITION_TIME
-    };
+        .enabled = true, .enable_averaging = false, .min_acquisition_ns = MIN_ACQUISITION_TIME};
 
-    status = cyhal_adc_channel_init_diff(&adc_channel[adc_index].chan_obj, &adc_obj, mapping_gpio_pin[pinNumber], CYHAL_ADC_VNEG, &chan_config);
+    status = cyhal_adc_channel_init_diff(&adc_channel[adc_index].chan_obj, &adc_obj,
+                                         mapping_gpio_pin[pinNumber], CYHAL_ADC_VNEG, &chan_config);
     adc_assert(status);
 
     adc_channel[adc_index].pin = pinNumber;
@@ -156,7 +157,8 @@ void analogWrite(pin_size_t pinNumber, int value) {
 
         float duty_cycle_pertentage = (pwm_value / desiredWriteResolution) * 100.0f;
 
-        result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_pertentage, PWM_FREQUENCY_HZ);
+        result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_pertentage,
+                                          PWM_FREQUENCY_HZ);
         pwm_assert(result);
 
         result = cyhal_pwm_start(&pwm[pwm_index].pwm_obj);

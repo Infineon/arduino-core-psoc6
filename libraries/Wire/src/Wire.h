@@ -1,16 +1,14 @@
 #ifndef WIRE_H
 #define WIRE_H
 
-#include <Arduino.h>
-#include "cyhal_i2c.h"
-#include "api/RingBuffer.h"
 #include "api/HardwareI2C.h"
+#include "api/RingBuffer.h"
+#include "cyhal_i2c.h"
+#include <Arduino.h>
 #include <map>
 
-
-class TwoWire: public arduino::HardwareI2C {
+class TwoWire : public arduino::HardwareI2C {
 public:
-
     static const size_t BUFFER_LENGTH = 256;
     static const uint32_t I2C_DEFAULT_FREQ = 100000;
 
@@ -33,7 +31,7 @@ public:
     size_t requestFrom(uint8_t address, size_t quantity, bool stopBit);
     size_t requestFrom(uint8_t address, size_t len);
     size_t write(uint8_t data);
-    using Print::write;   // pull in write(str) and write(buf, size) from Print
+    using Print::write; // pull in write(str) and write(buf, size) from Print
 
     int available(void);
     int read(void);
@@ -47,8 +45,8 @@ private:
     pin_size_t scl_pin = NC;
     bool is_master = true;
     uint16_t slave_address = 0;
-    arduino::RingBufferN < BUFFER_LENGTH > rxBuffer = {};
-    arduino::RingBufferN < BUFFER_LENGTH > txBuffer = {};
+    arduino::RingBufferN<BUFFER_LENGTH> rxBuffer = {};
+    arduino::RingBufferN<BUFFER_LENGTH> txBuffer = {};
     uint8_t temp_rx_buff[BUFFER_LENGTH] = {0};
     uint8_t temp_tx_buff[BUFFER_LENGTH] = {0};
     cyhal_i2c_cfg_t i2c_config = {};
@@ -59,9 +57,8 @@ private:
     void (*user_onReceive)(int) = nullptr;
     void onRequestService(void);
     void onReceiveService(void);
-    static void i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event);
+    static void i2c_event_handler(void* callback_arg, cyhal_i2c_event_t event);
     void i2c_event_handler_member(cyhal_i2c_event_t event);
-
 };
 
 #if (I2C_HOWMANY > 0)

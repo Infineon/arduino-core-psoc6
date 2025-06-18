@@ -6,8 +6,7 @@ uint8_t shiftIn(pin_size_t ulDataPin, pin_size_t ulClockPin, BitOrder ulBitOrder
     cyhal_gpio_t data_pin = mapping_gpio_pin[ulDataPin];
     cyhal_gpio_t clock_pin = mapping_gpio_pin[ulClockPin];
 
-    for (uint8_t i = 0 ; i < 8 ; ++i)
-    {
+    for (uint8_t i = 0; i < 8; ++i) {
         cyhal_gpio_write(clock_pin, HIGH);
 
         if (ulBitOrder == LSBFIRST) {
@@ -26,8 +25,7 @@ void shiftOut(pin_size_t ulDataPin, pin_size_t ulClockPin, BitOrder ulBitOrder, 
     cyhal_gpio_t data_pin = mapping_gpio_pin[ulDataPin];
     cyhal_gpio_t clock_pin = mapping_gpio_pin[ulClockPin];
 
-    for (uint8_t i = 0 ; i < 8 ; i++)
-    {
+    for (uint8_t i = 0; i < 8; i++) {
         if (ulBitOrder == LSBFIRST) {
             cyhal_gpio_write(data_pin, !!(ulVal & (1 << i)));
         } else {
