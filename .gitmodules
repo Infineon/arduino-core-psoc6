@@ -79,3 +79,6 @@
 [submodule "extras/arduino-devops"]
 	path = extras/arduino-devops
 	url = https://github.com/Infineon/arduino-devops.git
+[submodule "extras/arduino-core-tests"]
+	path = extras/arduino-core-tests
+	url = https://github.com/Infineon/arduino-core-tests.git
