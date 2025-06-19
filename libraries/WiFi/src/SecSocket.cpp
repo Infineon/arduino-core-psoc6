@@ -176,6 +176,8 @@ bool Socket::accept(Socket & client_socket) {
     client_socket.remote_ip = IPAddress(peer_addr.ip_address.ip.v4);
     client_socket._port = this->_port;
     client_socket._status = SOCKET_STATUS_CONNECTED;
+    client_socket._protocol = this->_protocol;
+    client_socket._last_error = CY_RSLT_SUCCESS;
 
     return true;
 }
