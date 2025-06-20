@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 #include <vector>
-#include <WiFiClient.h>
-#include <SecSocket.h>
+#include "WiFiClient.h"
+#include "SecSocket.h"
 #include "api/Server.h"
 
 class WiFiServer: public arduino::Server {
@@ -36,7 +36,7 @@ private:
 
     static const uint16_t SERVER_RECV_TIMEOUT_MS = 500;
     static const uint32_t SERVER_MAX_CLIENTS = 32;
-    std::vector < WiFiClient > connected_clients;
+    std::vector < WiFiClient > connected_clients = {};
 
     static cy_rslt_t connectionCallback(cy_socket_t socket_handle, void *arg);
     static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
