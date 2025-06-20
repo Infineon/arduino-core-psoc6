@@ -14,14 +14,14 @@ code-quality:
     source-code-quality-clang-tidy:
       description: clang-tidy check sources
       tool: clang-tidy
-      command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh --checks=-readability-identifier-length 
+      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh --checks=-readability-identifier-length 
                -i cores/psoc6/api -i cores/psoc6/api/deprecated-avr-comp --header-filter='^(?!.*cores/psoc6/api/).*'
                ./cores/psoc6/* ./libraries/*/src/*
 
     source-code-quality-cppcheck:
       description: cppcheck check sources
       tool: cppcheck
-      command: extras/makers-devops/tools/code_checks/run_cppcheck.sh ./cores/psoc6/* ./libraries/*  
+      command: extras/makers-devops/src/python/code_checks/run_cppcheck.sh ./cores/psoc6/* ./libraries/*  
                | -I extras/arduino-core-api/api/ -I variants/CY8CKIT-062S2-AI/mtb-bsp -I extras/mtb-libs/core-lib/include 
                | -I libraries/WiFi/src -I libraries/Wire/src -I libraries/SPI/src -I extras/mtb-libs/mtb-hal-cat1/include
                | -I extras/mtb-libs/wifi-connection-manager/include --suppress=*:extras/mtb-libs/wifi-connection-manager/include*
@@ -31,12 +31,12 @@ code-quality:
     test-code-quality-clang-tidy:
       description: clang-tidy check tests
       tool: clang-tidy
-      command: extras/makers-devops/tools/code_checks/run_clang_tidy.sh ./tests/arduino-core-tests/src/*
+      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh ./tests/arduino-core-tests/src/*
 
     test-code-quality-cppcheck:
       description: cppcheck check tests
       tool: cppcheck
-      command: extras/makers-devops/tools/code_checks/run_cppcheck.sh ./tests/arduino-core-tests/src/*  
+      command: extras/makers-devops/src/python/code_checks/run_cppcheck.sh ./tests/arduino-core-tests/src/*  
                | -I extras/arduino-core-api/api/ -I variants/CY8CKIT-062S2-AI/mtb-bsp -I extras/mtb-libs/core-lib/include 
                | -I libraries/WiFi/src -I libraries/Wire/src -I libraries/SPI/src -I extras/mtb-libs/mtb-hal-cat1/include
                | -I extras/mtb-libs/wifi-connection-manager/include --suppress=*:extras/mtb-libs/wifi-connection-manager/include*
@@ -47,7 +47,7 @@ code-quality:
     code-quality-clang-format:
       description: clang-tidy check sources
       tool: clang-format
-      command: extras/makers-devops/tools/code_checks/run_clang_format.sh ./cores/psoc6/* ./libraries/*
+      command: extras/makers-devops/src/python/code_checks/run_clang_format.sh ./cores/psoc6/* ./libraries/*
 
     code-quality-black-format:
       description: clang-tidy check sources
