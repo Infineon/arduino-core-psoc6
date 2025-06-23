@@ -32,7 +32,7 @@ public:
 
 private:
 
-    Socket socket;
+    Socket socket = {};
 
     static const uint16_t SERVER_RECV_TIMEOUT_MS = 500;
     static const uint32_t SERVER_MAX_CLIENTS = 32;

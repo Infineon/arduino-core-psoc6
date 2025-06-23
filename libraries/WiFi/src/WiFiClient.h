@@ -46,7 +46,7 @@ private:
      * Keeping objects will lead to copies which won´t
      * update the socket rx_buffer upon interrupts.
     */
-    std::shared_ptr < Socket > socket;
+    std::shared_ptr < Socket > socket = nullptr;
 
     static cy_rslt_t receiveCallback(cy_socket_t socket_handle, void *arg);
     static cy_rslt_t disconnectionCallback(cy_socket_t socket_handle, void *arg);

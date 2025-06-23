@@ -14,8 +14,11 @@ code-quality:
     source-code-quality-clang-tidy:
       description: clang-tidy check sources
       tool: clang-tidy
-      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh --checks=-readability-identifier-length 
-               -i cores/psoc6/api -i cores/psoc6/api/deprecated-avr-comp --header-filter='^(?!.*cores/psoc6/api/).*'
+      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh --checks=-readability-identifier-length,-readability-convert-member-functions-to-static
+               -I extras/mtb-libs/mtb-hal-cat1/include -I extras/mtb-libs/core-lib/include
+               -i extras/mtb-libs/mtb-hal-cat1/include -i extras/mtb-libs/core-lib/include
+               -i cores/psoc6/api -i cores/psoc6/api/deprecated-avr-comp 
+               --header-filter='^(?!.*cores/psoc6/api/)(?!.*extras/mtb-libs/mtb-hal-cat1/include/)(?!.*extras/mtb-libs/core-lib/include/).*'
                ./cores/psoc6/* ./libraries/*/src/*
 
     source-code-quality-cppcheck:
@@ -31,16 +34,16 @@ code-quality:
     test-code-quality-clang-tidy:
       description: clang-tidy check tests
       tool: clang-tidy
-      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh ./tests/arduino-core-tests/src/*
+      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh ./extras/arduino-core-tests/src/*
 
     test-code-quality-cppcheck:
       description: cppcheck check tests
       tool: cppcheck
-      command: extras/makers-devops/src/python/code_checks/run_cppcheck.sh ./tests/arduino-core-tests/src/*  
+      command: extras/makers-devops/src/python/code_checks/run_cppcheck.sh ./extras/arduino-core-tests/src/*  
                | -I extras/arduino-core-api/api/ -I variants/CY8CKIT-062S2-AI/mtb-bsp -I extras/mtb-libs/core-lib/include 
                | -I libraries/WiFi/src -I libraries/Wire/src -I libraries/SPI/src -I extras/mtb-libs/mtb-hal-cat1/include
                | -I extras/mtb-libs/wifi-connection-manager/include --suppress=*:extras/mtb-libs/wifi-connection-manager/include*
-               | -I tests/arduino-core-tests/Unity/src --suppress=*:tests/arduino-core-tests/Unity/src/*
+               | -I extras/arduino-core-tests/Unity/src --suppress=*:extras/arduino-core-tests/Unity/src/*
                | -I variants/CY8CKIT-062S2-AI -I cores/psoc6 --suppress=*:variants/CY8CKIT-062S2-AI/* --suppress=*:extras/mtb-libs/mtb-hal-cat1/include/*
                | --suppress=*:extras/arduino-core-api/api/* --suppress=*:cores/psoc6/api/* --suppress=*:variants/CY8CKIT-062S2-AI/mtb-bsp/* --suppress=*:extras/mtb-libs/core-lib/include/*
 
