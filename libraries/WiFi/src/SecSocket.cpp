@@ -248,7 +248,7 @@ uint16_t Socket::port() {
     return _port;
 }
 
-int Socket::hostByName(const char *aHostname, IPAddress& ip) {
+static int Socket::hostByName(const char *aHostname, IPAddress& ip) {
     cy_socket_sockaddr_t address;
 
     cy_rslt_t ret = cy_socket_gethostbyname(aHostname, CY_SOCKET_IP_VER_V4, &(address.ip_address));
