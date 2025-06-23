@@ -37,10 +37,10 @@ public:
 
 private:
 
-    pin_size_t tx_pin = NC;
-    pin_size_t rx_pin = NC;
-    pin_size_t cts_pin = NC;
-    pin_size_t rts_pin = NC;
+    pin_size_t tx_pin;
+    pin_size_t rx_pin;
+    pin_size_t cts_pin;
+    pin_size_t rts_pin;
     cyhal_uart_t uart_obj = {};
     cyhal_uart_cfg_t uart_config = {};
     uint32_t actualbaud = 0;
