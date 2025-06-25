@@ -3,5 +3,3 @@ code-quality:
     - code-quality-clang-format
     - code-quality-black-format
 
-compile:
-    - compile-psoc6-cy8ckit_062s2_ai
