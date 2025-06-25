@@ -15,12 +15,11 @@ code-quality:
     source-code-quality-clang-tidy:
       description: clang-tidy check sources
       tool: clang-tidy
-      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh --checks=-readability-identifier-length,-readability-convert-member-functions-to-static
-               -I extras/mtb-libs/mtb-hal-cat1/include -I extras/mtb-libs/core-lib/include
-               -i extras/mtb-libs/mtb-hal-cat1/include -i extras/mtb-libs/core-lib/include
-               -i cores/psoc6/api -i cores/psoc6/api/deprecated-avr-comp 
-               --header-filter='^(?!.*cores/psoc6/api/)(?!.*extras/mtb-libs/mtb-hal-cat1/include/)(?!.*extras/mtb-libs/core-lib/include/).*'
-               ./cores/psoc6/* ./libraries/*/src/*
+      command: extras/makers-devops/src/python/code_checks/run_clang_tidy.sh --checks=-readability-identifier-length,-readability-convert-member-functions-to-static,-readability-redundant-declaration
+               -I extras/mtb-libs/mtb-hal-cat1/include -I extras/mtb-libs/mtb-hal-cat1/include_pvt -I extras/mtb-libs/core-lib/include -I cores/psoc6/api -I cores/psoc6/api/deprecated-avr-comp 
+               -i extras/mtb-libs/mtb-hal-cat1/include -i extras/mtb-libs/mtb-hal-cat1/include_pvt -i extras/mtb-libs/core-lib/include -i cores/psoc6/api -i cores/psoc6/api/deprecated-avr-comp 
+               --header-filter='.*'
+               cores/psoc6/!(api) libraries/!(examples)
 
     source-code-quality-cppcheck:
       description: cppcheck check sources
