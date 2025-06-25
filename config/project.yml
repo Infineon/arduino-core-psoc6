@@ -1,11 +1,3 @@
-compile:
-    compile-psoc6-cy8ckit_062s2_ai:
-      description: Compiling test_digitalio_single.cpp for PSOC6 platform
-      command: make  FQBN=infineon:psoc6:cy8ckit_062s2_ai PORT=/dev/ttyACM0 test_time_single compile
-      fqbns: 
-        - infineon:psoc6:cy8ckit_062s2_ai
-      working_dir: extras/arduino-core-tests
-
 code-quality:
     source-code-quality-clang-tidy:
       description: clang-tidy check sources
