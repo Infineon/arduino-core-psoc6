@@ -23,7 +23,6 @@ long random(long max) {
     return rnd_num % max;
 }
 
-
 long random(long min, long max) {
     if (min >= max) {
         return min;

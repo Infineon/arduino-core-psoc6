@@ -1,11 +1,11 @@
 #include "Arduino.h"
 #include "cyhal_timer.h"
 
-#define ASSERT_RESULT(ret, cleanupFunc)  \
-        if ((ret) != CY_RSLT_SUCCESS) {      \
-            cleanupFunc();                   \
-            return 0;                        \
-        }
+#define ASSERT_RESULT(ret, cleanupFunc) \
+    if ((ret) != CY_RSLT_SUCCESS) {     \
+        cleanupFunc();                  \
+        return 0;                       \
+    }
 
 static cyhal_timer_t pulseTimer;
 
@@ -39,7 +39,10 @@ uint8_t initTimer() {
     return 1;
 }
 
-bool waitForPinState(uint8_t pin, uint8_t desiredState, unsigned long timeoutMicros, unsigned long startMicros) {
+bool waitForPinState(uint8_t pin,
+                     uint8_t desiredState,
+                     unsigned long timeoutMicros,
+                     unsigned long startMicros) {
     uint32_t currentMicros;
 
     while (cyhal_gpio_read(mapping_gpio_pin[pin]) != desiredState) {

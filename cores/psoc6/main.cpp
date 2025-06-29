@@ -20,24 +20,25 @@
 
 #include "Arduino.h"
 
-#include "cybsp.h"
 #include "cy_retarget_io.h"
+#include "cybsp.h"
 
 #include <FreeRTOS.h>
 #include <task.h>
 
 #include "time.h"
 
-#define ARDUINO_MAIN_TASK_STACK_SIZE    (4096u)
-#define ARDUINO_MAIN_TASK_PRIORITY      (2u)
+#define ARDUINO_MAIN_TASK_STACK_SIZE (4096u)
+#define ARDUINO_MAIN_TASK_PRIORITY (2u)
 
 static const TaskHandle_t arduino_main_task_handle;
 
-void arduino_main_task(void *arg);
+void arduino_main_task(void* arg);
 
 // Weak empty variant initialization function.
 // May be redefined by variant files.
 void initVariant() __attribute__((weak));
+
 void initVariant() {
 }
 
@@ -54,7 +55,8 @@ int main(void) {
 
     time_init();
 
-    xTaskCreate(arduino_main_task, "arduino-main-task", ARDUINO_MAIN_TASK_STACK_SIZE, NULL, ARDUINO_MAIN_TASK_PRIORITY, &arduino_main_task_handle);
+    xTaskCreate(arduino_main_task, "arduino-main-task", ARDUINO_MAIN_TASK_STACK_SIZE, NULL,
+                ARDUINO_MAIN_TASK_PRIORITY, &arduino_main_task_handle);
     vTaskStartScheduler();
 
     /* Should never get here */
@@ -62,7 +64,7 @@ int main(void) {
     return 0;
 }
 
-void arduino_main_task(void *arg) {
+void arduino_main_task(void* arg) {
 
     /* Enable global interrupts */
     interrupts();
@@ -70,8 +72,7 @@ void arduino_main_task(void *arg) {
 
     setup();
 
-    for (;;)
-    {
+    for (;;) {
         loop();
         if (arduino::serialEventRun) {
             arduino::serialEventRun();

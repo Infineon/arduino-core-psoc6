@@ -31,8 +31,7 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
     cyhal_gpio_drive_mode_t drive_mode;
     bool gpio_init_value = false;
 
-    switch (pinMode)
-    {
+    switch (pinMode) {
         case INPUT:
             direction = CYHAL_GPIO_DIR_INPUT;
             drive_mode = CYHAL_GPIO_DRIVE_NONE;
