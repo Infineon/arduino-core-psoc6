@@ -10,10 +10,8 @@ typedef enum {
     UART_ERROR_SET_BAUD_FAILED = -2,
 } uart_error_t;
 
-class Uart: public arduino::HardwareSerial
-{
+class Uart : public arduino::HardwareSerial {
 public:
-
     Uart(pin_size_t tx, pin_size_t rx, pin_size_t cts = NC, pin_size_t rts = NC);
     ~Uart();
     void begin(unsigned long baud);
@@ -25,18 +23,16 @@ public:
     int read(void);
     void flush(void);
     virtual size_t write(uint8_t c);
-    virtual size_t write(const uint8_t *buffer, size_t size);
+    virtual size_t write(const uint8_t* buffer, size_t size);
 
     using Print::write;
     operator bool();
 
     uart_error_t getLastError();
 
-    static void uart_event_handler(void *handler_arg, cyhal_uart_event_t event);
-
+    static void uart_event_handler(void* handler_arg, cyhal_uart_event_t event);
 
 private:
-
     pin_size_t tx_pin;
     pin_size_t rx_pin;
     pin_size_t cts_pin;
@@ -48,7 +44,7 @@ private:
     uart_error_t last_error = UART_ERROR_NONE;
 
     static constexpr size_t BUFFER_LENGTH = 512;
-    arduino::RingBufferN < BUFFER_LENGTH > rx_buffer = {};
+    arduino::RingBufferN<BUFFER_LENGTH> rx_buffer = {};
 
     void IrqHandler();
 };

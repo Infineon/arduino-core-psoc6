@@ -1,19 +1,21 @@
 #include "WiFiUdp.h"
 
-#define udp_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            _status = SOCKET_STATUS_ERROR; \
-            return; \
-}
+#define udp_assert(cy_ret)             \
+    if (cy_ret != CY_RSLT_SUCCESS) {   \
+        _status = SOCKET_STATUS_ERROR; \
+        return;                        \
+    }
 
-#define udp_assert_raise(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            return cy_ret; \
-}
+#define udp_assert_raise(cy_ret)     \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return cy_ret;               \
+    }
 
-WiFiUDP::WiFiUDP() :
-    _status(SOCKET_STATUS_UNINITED),
-    _last_error(CY_RSLT_SUCCESS),
-    remote_ip(0, 0, 0, 0),
-    _port(0) {
+WiFiUDP::WiFiUDP()
+    : _status(SOCKET_STATUS_UNINITED),
+      _last_error(CY_RSLT_SUCCESS),
+      remote_ip(0, 0, 0, 0),
+      _port(0) {
 }
 
 uint8_t WiFiUDP::beginInternal(uint16_t port, IPAddress multicastIP) {
@@ -61,7 +63,7 @@ int WiFiUDP::beginPacket(IPAddress ip, uint16_t port) {
     return 1;
 }
 
-int WiFiUDP::beginPacket(const char *host, uint16_t port) {
+int WiFiUDP::beginPacket(const char* host, uint16_t port) {
     // Resolve the hostname to an IP address
     IPAddress ip;
     if (socket.hostByName(host, ip)) {
@@ -73,7 +75,9 @@ int WiFiUDP::beginPacket(const char *host, uint16_t port) {
 }
 
 int WiFiUDP::endPacket() {
-    size_t size = static_cast < size_t > (txBuffer.available()) > WIFI_UDP_BUFFER_SIZE ? WIFI_UDP_BUFFER_SIZE : static_cast < size_t > (txBuffer.available());
+    size_t size = static_cast<size_t>(txBuffer.available()) > WIFI_UDP_BUFFER_SIZE
+                      ? WIFI_UDP_BUFFER_SIZE
+                      : static_cast<size_t>(txBuffer.available());
     uint8_t temp_buffer[size];
     for (size_t i = 0; i < size; i++) {
         temp_buffer[i] = txBuffer.read_char();
@@ -89,7 +93,7 @@ size_t WiFiUDP::write(uint8_t byte) {
     return write(&byte, 1);
 }
 
-size_t WiFiUDP::write(const uint8_t *buffer, size_t size) {
+size_t WiFiUDP::write(const uint8_t* buffer, size_t size) {
     size_t bytesStored = 0;
 
     for (size_t i = 0; i < size; i++) {
@@ -126,11 +130,11 @@ int WiFiUDP::read() {
         return -1;
     }
     char buffer[1];
-    read((unsigned char *)&buffer, 1);
+    read((unsigned char*)&buffer, 1);
     return buffer[0];
 }
 
-int WiFiUDP::read(unsigned char *buffer, size_t len) {
+int WiFiUDP::read(unsigned char* buffer, size_t len) {
 
     size_t rx_available = (size_t)current_packet.rx_buf.available();
     if (rx_available < 1) {
@@ -163,8 +167,8 @@ uint16_t WiFiUDP::remotePort() {
     return current_packet._senderPort;
 }
 
-cy_rslt_t WiFiUDP::receiveCallback(cy_socket_t socket_handle, void *arg) {
-    WiFiUDP *udp = (WiFiUDP *)arg;
+cy_rslt_t WiFiUDP::receiveCallback(cy_socket_t socket_handle, void* arg) {
+    WiFiUDP* udp = (WiFiUDP*)arg;
 
     cy_socket_sockaddr_t peer_addr;
 

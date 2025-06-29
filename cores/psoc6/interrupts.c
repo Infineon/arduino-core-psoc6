@@ -55,7 +55,7 @@ void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, PinStatus
             break;
     }
 
-    gpio_callback_data.callback = (void (*)(void *, cyhal_gpio_event_t)) callback;
+    gpio_callback_data.callback = (void (*)(void*, cyhal_gpio_event_t))callback;
     cyhal_gpio_register_callback(pin, &gpio_callback_data);
     cyhal_gpio_enable_event(pin, event, GPIO_INTERRUPT_PRIORITY, true);
 }

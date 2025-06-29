@@ -24,7 +24,6 @@ extern "C" {
 
 void pinMode(pin_size_t pinNumber, PinMode pinMode) {
 
-
     if (pinNumber > GPIO_PIN_COUNT) {
         return; // Invalid pin number
     }
@@ -39,8 +38,7 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
     cyhal_gpio_drive_mode_t drive_mode;
     bool initPinValue = false;
 
-    switch (pinMode)
-    {
+    switch (pinMode) {
         case INPUT:
             direction = CYHAL_GPIO_DIR_INPUT;
             drive_mode = CYHAL_GPIO_DRIVE_NONE;

@@ -2,19 +2,23 @@
 #define SPI_H
 
 #include "Arduino.h"
-#include "cyhal_spi.h"
 #include "api/HardwareSPI.h"
+#include "cyhal_spi.h"
 
 #define ARDUINO_SPI_CLOCK 1000000
 
-class SPIClassPSOC: public arduino::HardwareSPI {
+class SPIClassPSOC : public arduino::HardwareSPI {
 public:
-    SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel = NC, bool is_slave = false);
+    SPIClassPSOC(pin_size_t mosi,
+                 pin_size_t miso,
+                 pin_size_t sck,
+                 pin_size_t ssel = NC,
+                 bool is_slave = false);
     ~SPIClassPSOC();
 
     virtual byte transfer(uint8_t data);
     virtual uint16_t transfer16(uint16_t data);
-    virtual void transfer(void *buf, size_t count);
+    virtual void transfer(void* buf, size_t count);
 
     virtual void usingInterrupt(int interruptNumber);
     virtual void notUsingInterrupt(int interruptNumber);
@@ -34,12 +38,13 @@ public:
     cy_rslt_t status = CY_RSLT_TYPE_ERROR;
 
 private:
-    arduino::SPISettings const DEFAULT_SPI_SETTINGS = arduino::SPISettings(ARDUINO_SPI_CLOCK, MSBFIRST, arduino::SPI_MODE0);
+    arduino::SPISettings const DEFAULT_SPI_SETTINGS =
+        arduino::SPISettings(ARDUINO_SPI_CLOCK, MSBFIRST, arduino::SPI_MODE0);
 
     cyhal_spi_mode_t getSpiMode() const;
 
     arduino::SPISettings _settings = arduino::SPISettings();
-    cyhal_spi_t _spi_obj  = {};
+    cyhal_spi_t _spi_obj = {};
     pin_size_t _mosi_pin = NC;
     pin_size_t _miso_pin = NC;
     pin_size_t _sck_pin = NC;

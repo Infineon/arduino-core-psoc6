@@ -1,33 +1,30 @@
 extern "C" {
+#include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
-#include <inttypes.h>
 }
 
 #include "Wire.h"
 
-#define Wire_assert(cy_ret) if (cy_ret != CY_RSLT_SUCCESS) { \
-            return; \
-}
+#define Wire_assert(cy_ret)          \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return;                      \
+    }
 
-
-TwoWire::TwoWire(pin_size_t sda, pin_size_t scl) : sda_pin(sda), scl_pin(scl) {
+TwoWire::TwoWire(pin_size_t sda, pin_size_t scl)
+    : sda_pin(sda),
+      scl_pin(scl) {
 }
 
 void TwoWire::_begin() {
 
     if (is_master) {
         i2c_config = {
-            .is_slave = CYHAL_I2C_MODE_MASTER,
-            .address = 0,
-            .frequencyhal_hz = I2C_DEFAULT_FREQ
-        };
+            .is_slave = CYHAL_I2C_MODE_MASTER, .address = 0, .frequencyhal_hz = I2C_DEFAULT_FREQ};
     } else {
-        i2c_config = {
-            .is_slave = CYHAL_I2C_MODE_SLAVE,
-            .address = slave_address,
-            .frequencyhal_hz = I2C_DEFAULT_FREQ
-        };
+        i2c_config = {.is_slave = CYHAL_I2C_MODE_SLAVE,
+                      .address = slave_address,
+                      .frequencyhal_hz = I2C_DEFAULT_FREQ};
     }
 
     w_status = cyhal_i2c_init(&i2c_obj, mapping_gpio_pin[sda_pin], mapping_gpio_pin[scl_pin], NULL);
@@ -37,7 +34,7 @@ void TwoWire::_begin() {
 
     if (!is_master) {
         // Configure the read and write buffers for the I2C slave
-        w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj,  temp_tx_buff, BUFFER_LENGTH);
+        w_status = cyhal_i2c_slave_config_read_buffer(&i2c_obj, temp_tx_buff, BUFFER_LENGTH);
         Wire_assert(w_status);
         w_status = cyhal_i2c_slave_config_write_buffer(&i2c_obj, temp_rx_buff, BUFFER_LENGTH);
         Wire_assert(w_status);
@@ -62,17 +59,9 @@ void TwoWire::end() {
 
 void TwoWire::setClock(uint32_t freq) {
     if (is_master) {
-        i2c_config = {
-            .is_slave = false,
-            .address = 0,
-            .frequencyhal_hz = freq
-        };
+        i2c_config = {.is_slave = false, .address = 0, .frequencyhal_hz = freq};
     } else {
-        i2c_config = {
-            .is_slave = true,
-            .address = slave_address,
-            .frequencyhal_hz = freq
-        };
+        i2c_config = {.is_slave = true, .address = slave_address, .frequencyhal_hz = freq};
     }
     cyhal_i2c_configure(&i2c_obj, &i2c_config);
 }
@@ -90,19 +79,22 @@ uint8_t TwoWire::endTransmission(bool sendStop) {
         temp_tx_buff[i] = txBuffer.read_char();
     }
 
-    result = cyhal_i2c_master_write(&i2c_obj, slave_address, temp_tx_buff, bytes_rcvd_request, timeout, sendStop);
+    result = cyhal_i2c_master_write(&i2c_obj, slave_address, temp_tx_buff, bytes_rcvd_request,
+                                    timeout, sendStop);
     // Handle specific error codes
     switch (result) {
         case I2C_SUCCESS:
-            return 0;           // Success
+            return 0; // Success
         case I2C_NO_DEVICE_ATTACHED_PULL_UP:
-            return 2;           // NACK on transmit of address . Error: No device attached to SDA/SCL, but they are pulled-up
+            return 2; // NACK on transmit of address . Error: No device attached to SDA/SCL, but
+                      // they are pulled-up
         case I2C_NO_DEVICE_ATTACHED_NO_PULL_UP:
-            return 2;           // NACK on transmit of address. Error: No device attached to SDA/SCL, and they are not pulled-up
+            return 2; // NACK on transmit of address. Error: No device attached to SDA/SCL, and they
+                      // are not pulled-up
         case I2C_TIMEOUT:
-            return 5;           // Timeout
+            return 5; // Timeout
         default:
-            return 4;           // Other error
+            return 4; // Other error
     }
 }
 
@@ -115,14 +107,15 @@ size_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool stopBit) {
         quantity = BUFFER_LENGTH;
     }
 
-    cy_rslt_t result = cyhal_i2c_master_read(&i2c_obj, address, temp_rx_buff, quantity, timeout, stopBit);
+    cy_rslt_t result =
+        cyhal_i2c_master_read(&i2c_obj, address, temp_rx_buff, quantity, timeout, stopBit);
     if (result == CY_RSLT_SUCCESS) {
         for (uint32_t i = 0; i < quantity; i++) {
             rxBuffer.store_char(temp_rx_buff[i]);
         }
-        return quantity;       // Return number of bytes read
+        return quantity; // Return number of bytes read
     } else {
-        return 0;       // Return 0 on failure of read operation
+        return 0; // Return 0 on failure of read operation
     }
 }
 
@@ -132,7 +125,7 @@ size_t TwoWire::requestFrom(uint8_t address, size_t len) {
 
 size_t TwoWire::write(uint8_t data) {
     if (txBuffer.isFull()) {
-        return 0;       // Buffer is full
+        return 0; // Buffer is full
     }
 
     txBuffer.store_char(data);
@@ -145,14 +138,14 @@ int TwoWire::available(void) {
 
 int TwoWire::read(void) {
     if (rxBuffer.available() == 0) {
-        return -1;       // Buffer is empty
+        return -1; // Buffer is empty
     }
     return rxBuffer.read_char();
 }
 
 int TwoWire::peek(void) {
     if (rxBuffer.available() == 0) {
-        return -1;       // Buffer is empty
+        return -1; // Buffer is empty
     }
     return rxBuffer.peek();
 }
@@ -167,16 +160,16 @@ void TwoWire::onRequest(void (*function)(void)) {
     cyhal_i2c_enable_event(&i2c_obj, CYHAL_I2C_SLAVE_READ_EVENT, 7, true);
 }
 
-void TwoWire::i2c_event_handler(void *callback_arg, cyhal_i2c_event_t event) {
+void TwoWire::i2c_event_handler(void* callback_arg, cyhal_i2c_event_t event) {
     // Call the non-static member function
-    TwoWire *wire = static_cast < TwoWire * > (callback_arg);
+    TwoWire* wire = static_cast<TwoWire*>(callback_arg);
     wire->i2c_event_handler_member(event);
 }
 
 void TwoWire::i2c_event_handler_member(cyhal_i2c_event_t event) {
-    if (event == CYHAL_I2C_SLAVE_WR_CMPLT_EVENT) {        // master wants to write data
+    if (event == CYHAL_I2C_SLAVE_WR_CMPLT_EVENT) { // master wants to write data
         onReceiveService();
-    } else if (event == CYHAL_I2C_SLAVE_READ_EVENT) {       // master wants to read data
+    } else if (event == CYHAL_I2C_SLAVE_READ_EVENT) { // master wants to read data
         onRequestService();
     } else {
         return;

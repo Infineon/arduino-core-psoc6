@@ -17,9 +17,9 @@
 */
 
 #include "Arduino.h"
+#include "cyhal_timer.h"
 #include <FreeRTOS.h>
 #include <task.h>
-#include "cyhal_timer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,17 +28,20 @@ extern "C" {
 /* Defines */
 #define MILLISECONDS_PER_SECOND 1000
 #define MICROSECONDS_PER_SECOND 1000000
-#define MICROS_TO_MILLISECONDS(us) ((unsigned long)((double)(us) / (double)MILLISECONDS_PER_SECOND));
+#define MICROS_TO_MILLISECONDS(us) \
+    ((unsigned long)((double)(us) / (double)MILLISECONDS_PER_SECOND));
 #define MAX_UINT32_VALUE 4294967295
 
 static cyhal_timer_t timer;
 
-#define time_assert(ret) if (ret != CY_RSLT_SUCCESS) { \
-            time_error = ret; \
-            return; \
-}
+#define time_assert(ret)          \
+    if (ret != CY_RSLT_SUCCESS) { \
+        time_error = ret;         \
+        return;                   \
+    }
 
 static cy_rslt_t time_error = CY_RSLT_SUCCESS;
+
 /**
  * This function can be used for debugging purposes.
  * Include in app as extern cy_rslt_t get_time_error();
@@ -47,17 +50,14 @@ cy_rslt_t get_time_error() {
     return time_error;
 }
 
-
 void time_init() {
-    const cyhal_timer_cfg_t timer_cfg =
-    {
-        .compare_value = 0,                     /* Unused */
-        .period = MAX_UINT32_VALUE,             /* With 1MHz freq ~ 70 min overflow.*/
+    const cyhal_timer_cfg_t timer_cfg = {
+        .compare_value = 0,         /* Unused */
+        .period = MAX_UINT32_VALUE, /* With 1MHz freq ~ 70 min overflow.*/
         .direction = CYHAL_TIMER_DIR_UP,
         .is_compare = false,
         .is_continuous = true,
-        .value = 0
-    };
+        .value = 0};
 
     cy_rslt_t ret = cyhal_timer_init(&timer, NC, NULL);
     time_assert(ret);
