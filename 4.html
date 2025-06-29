@@ -217,13 +217,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - Code Check Report - source-code-quality: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/WiFi/src/WiFiServer.h</h1>
+      <h1>Cppcheck report - Code Check Report - source-code-quality: /__w/arduino-core-psoc6/arduino-core-psoc6/libraries/SPI/src/SPI.h</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> WiFiServer.h</p>
-<a href="4.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="4.html#line-10"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 10</a>
+     <p><a href="index.html">Defects:</a> SPI.h</p>
+<a href="4.html#line-4"> clang-tidy-cppcoreguidelines-init-variables 4</a><a href="4.html#line-10"> clang-tidy-clang-diagnostic-error 10</a><a href="4.html#line-10"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 10</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -269,50 +269,84 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef WIFI_SERVER_H</span>
-<a id="line-2" name="line-2"></a><span class="cp">#define WIFI_SERVER_H</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef SPI_H</span>
+<a id="line-2" name="line-2"></a><span class="cp">#define SPI_H</span>
 <a id="line-3" name="line-3"></a>
-<a id="line-4" name="line-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;SecSocket.h&quot;</span>
-<a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;WiFiClient.h&quot;</span>
-<a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/Server.h&quot;</span>
-<a id="line-7" name="line-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
-<a id="line-8" name="line-8"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<a id="line-4" name="line-4"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Arduino.h&quot;</span><span class="error2">&lt;--- variable 'tx_buf' is not initialized</span>
+</span><a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/HardwareSPI.h&quot;</span>
+<a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_spi.h&quot;</span>
+<a id="line-7" name="line-7"></a>
+<a id="line-8" name="line-8"></a><span class="cp">#define ARDUINO_SPI_CLOCK 1000000</span>
 <a id="line-9" name="line-9"></a>
-<a id="line-10" name="line-10"></a><span class="hll"><span class="n">class</span><span class="w"> </span><span class="n">WiFiServer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">Server</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'api/IPAddress.h' file not found</span><span class="error2">&lt;--- variable 'WiFiServer' is non-const and globally accessible, consider making it const</span>
-</span><a id="line-11" name="line-11"></a>
-<a id="line-12" name="line-12"></a><span class="n">public</span><span class="o">:</span>
-<a id="line-13" name="line-13"></a><span class="w">    </span><span class="n">WiFiServer</span><span class="p">();</span>
-<a id="line-14" name="line-14"></a>
-<a id="line-15" name="line-15"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">port</span><span class="p">);</span>
-<a id="line-16" name="line-16"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">();</span>
-<a id="line-17" name="line-17"></a>
-<a id="line-18" name="line-18"></a><span class="w">    </span><span class="n">WiFiClient</span><span class="o">&amp;</span><span class="w"> </span><span class="nf">available</span><span class="p">();</span>
-<a id="line-19" name="line-19"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">)</span><span class="w"> </span><span class="n">override</span><span class="p">;</span>
-<a id="line-20" name="line-20"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="n">override</span><span class="p">;</span>
-<a id="line-21" name="line-21"></a>
-<a id="line-22" name="line-22"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">status</span><span class="p">();</span>
-<a id="line-23" name="line-23"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">();</span>
-<a id="line-24" name="line-24"></a><span class="w">    </span><span class="n">operator</span><span class="w"> </span><span class="nf">bool</span><span class="p">();</span>
-<a id="line-25" name="line-25"></a>
-<a id="line-26" name="line-26"></a><span class="w">    </span><span class="n">using</span><span class="w"> </span><span class="n">Print</span><span class="o">::</span><span class="n">print</span><span class="p">;</span>
-<a id="line-27" name="line-27"></a><span class="w">    </span><span class="n">using</span><span class="w"> </span><span class="n">Print</span><span class="o">::</span><span class="n">println</span><span class="p">;</span>
-<a id="line-28" name="line-28"></a>
-<a id="line-29" name="line-29"></a><span class="w">    </span><span class="cm">/* This function is not part of the API in other (official) ports */</span>
-<a id="line-30" name="line-30"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">connectedSize</span><span class="p">();</span>
-<a id="line-31" name="line-31"></a>
-<a id="line-32" name="line-32"></a><span class="n">private</span><span class="o">:</span>
-<a id="line-33" name="line-33"></a><span class="w">    </span><span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
-<a id="line-34" name="line-34"></a>
-<a id="line-35" name="line-35"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">SERVER_RECV_TIMEOUT_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span>
-<a id="line-36" name="line-36"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">SERVER_MAX_CLIENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
-<a id="line-37" name="line-37"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">WiFiClient</span><span class="o">&gt;</span><span class="w"> </span><span class="n">connected_clients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
-<a id="line-38" name="line-38"></a>
-<a id="line-39" name="line-39"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">connectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-40" name="line-40"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">receiveCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-41" name="line-41"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">disconnectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-42" name="line-42"></a><span class="p">};</span>
+<a id="line-10" name="line-10"></a><span class="hll"><span class="n">class</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">HardwareSPI</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- 'Arduino.h' file not found</span><span class="error2">&lt;--- variable 'SPIClassPSOC' is non-const and globally accessible, consider making it const</span>
+</span><a id="line-11" name="line-11"></a><span class="n">public</span><span class="o">:</span>
+<a id="line-12" name="line-12"></a><span class="w">    </span><span class="n">SPIClassPSOC</span><span class="p">(</span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">mosi</span><span class="p">,</span>
+<a id="line-13" name="line-13"></a><span class="w">                 </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">miso</span><span class="p">,</span>
+<a id="line-14" name="line-14"></a><span class="w">                 </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">sck</span><span class="p">,</span>
+<a id="line-15" name="line-15"></a><span class="w">                 </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">ssel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NC</span><span class="p">,</span>
+<a id="line-16" name="line-16"></a><span class="w">                 </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_slave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<a id="line-17" name="line-17"></a><span class="w">    </span><span class="o">~</span><span class="n">SPIClassPSOC</span><span class="p">();</span>
+<a id="line-18" name="line-18"></a>
+<a id="line-19" name="line-19"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="n">byte</span><span class="w"> </span><span class="n">transfer</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<a id="line-20" name="line-20"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">transfer16</span><span class="p">(</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<a id="line-21" name="line-21"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">transfer</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="line-22" name="line-22"></a>
+<a id="line-23" name="line-23"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">usingInterrupt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">interruptNumber</span><span class="p">);</span>
+<a id="line-24" name="line-24"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">notUsingInterrupt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">interruptNumber</span><span class="p">);</span>
+<a id="line-25" name="line-25"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">beginTransaction</span><span class="p">(</span><span class="n">SPISettings</span><span class="w"> </span><span class="n">settings</span><span class="p">);</span>
+<a id="line-26" name="line-26"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">endTransaction</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<a id="line-27" name="line-27"></a>
+<a id="line-28" name="line-28"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">attachInterrupt</span><span class="p">();</span>
+<a id="line-29" name="line-29"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">detachInterrupt</span><span class="p">();</span>
+<a id="line-30" name="line-30"></a>
+<a id="line-31" name="line-31"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">begin</span><span class="p">();</span>
+<a id="line-32" name="line-32"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">end</span><span class="p">();</span>
+<a id="line-33" name="line-33"></a>
+<a id="line-34" name="line-34"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setDataMode</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">dataMode</span><span class="p">);</span>
+<a id="line-35" name="line-35"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setBitOrder</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">bitOrder</span><span class="p">);</span>
+<a id="line-36" name="line-36"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setClockDivider</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">div</span><span class="p">);</span>
+<a id="line-37" name="line-37"></a>
+<a id="line-38" name="line-38"></a><span class="w">    </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CY_RSLT_TYPE_ERROR</span><span class="p">;</span>
+<a id="line-39" name="line-39"></a>
+<a id="line-40" name="line-40"></a><span class="n">private</span><span class="o">:</span>
+<a id="line-41" name="line-41"></a><span class="w">    </span><span class="n">arduino</span><span class="o">::</span><span class="n">SPISettings</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">DEFAULT_SPI_SETTINGS</span><span class="w"> </span><span class="o">=</span>
+<a id="line-42" name="line-42"></a><span class="w">        </span><span class="n">arduino</span><span class="o">::</span><span class="n">SPISettings</span><span class="p">(</span><span class="n">ARDUINO_SPI_CLOCK</span><span class="p">,</span><span class="w"> </span><span class="n">MSBFIRST</span><span class="p">,</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">SPI_MODE0</span><span class="p">);</span>
 <a id="line-43" name="line-43"></a>
-<a id="line-44" name="line-44"></a><span class="cp">#endif </span><span class="cm">/* WIFI_SERVER_H */</span>
+<a id="line-44" name="line-44"></a><span class="w">    </span><span class="n">cyhal_spi_mode_t</span><span class="w"> </span><span class="nf">getSpiMode</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<a id="line-45" name="line-45"></a>
+<a id="line-46" name="line-46"></a><span class="w">    </span><span class="n">arduino</span><span class="o">::</span><span class="n">SPISettings</span><span class="w"> </span><span class="n">_settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">SPISettings</span><span class="p">();</span>
+<a id="line-47" name="line-47"></a><span class="w">    </span><span class="n">cyhal_spi_t</span><span class="w"> </span><span class="n">_spi_obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<a id="line-48" name="line-48"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">_mosi_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NC</span><span class="p">;</span>
+<a id="line-49" name="line-49"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">_miso_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NC</span><span class="p">;</span>
+<a id="line-50" name="line-50"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">_sck_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NC</span><span class="p">;</span>
+<a id="line-51" name="line-51"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">_ssel_pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NC</span><span class="p">;</span>
+<a id="line-52" name="line-52"></a>
+<a id="line-53" name="line-53"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">_is_slave</span><span class="p">;</span>
+<a id="line-54" name="line-54"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">_is_initialized</span><span class="p">;</span>
+<a id="line-55" name="line-55"></a><span class="p">};</span>
+<a id="line-56" name="line-56"></a>
+<a id="line-57" name="line-57"></a><span class="cp">#if (SPI_HOWMANY &gt; 0)</span>
+<a id="line-58" name="line-58"></a><span class="k">extern</span><span class="w"> </span><span class="n">SPIClassPSOC</span><span class="w"> </span><span class="n">SPI</span><span class="p">;</span>
+<a id="line-59" name="line-59"></a><span class="cp">#endif</span>
+<a id="line-60" name="line-60"></a>
+<a id="line-61" name="line-61"></a><span class="cp">#endif </span><span class="c1">// SPI_H</span>
 </pre></div></td></tr></table></div>
 
     </div>

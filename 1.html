@@ -223,7 +223,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
     <div id="menu">
      <p><a href="index.html">Defects:</a> Uart.cpp</p>
-<a href="1.html#line-5"> clang-tidy-clang-diagnostic-error 5</a><a href="1.html#line-11"> clang-tidy-cppcoreguidelines-macro-usage 11</a><a href="1.html#line-22"> clang-tidy-cppcoreguidelines-pro-type-member-init 22</a><a href="1.html#line-26"> clang-tidy-google-runtime-int 26</a><a href="1.html#line-70"> clang-tidy-google-runtime-int 70</a><a href="1.html#line-82"> clang-tidy-cppcoreguidelines-init-variables 82</a><a href="1.html#line-98"> clang-tidy-modernize-redundant-void-arg 98</a><a href="1.html#line-99"> clang-tidy-google-runtime-int 99</a><a href="1.html#line-108"> clang-tidy-google-runtime-int 108</a><a href="1.html#line-115"> clang-tidy-modernize-redundant-void-arg 115</a><a href="1.html#line-128"> clang-tidy-modernize-redundant-void-arg 128</a><a href="1.html#line-135"> clang-tidy-google-runtime-int 135</a><a href="1.html#line-136"> clang-tidy-cppcoreguidelines-avoid-do-while 136</a><a href="1.html#line-141"> clang-tidy-cppcoreguidelines-init-variables 141</a><a href="1.html#line-153"> clang-tidy-cppcoreguidelines-init-variables 153</a><a href="1.html#line-167"> clang-tidy-readability-make-member-function-const 167</a>
+<a href="1.html#line-11"> clang-tidy-cppcoreguidelines-macro-usage 11</a><a href="1.html#line-22"> clang-tidy-cppcoreguidelines-pro-type-member-init 22</a><a href="1.html#line-26"> clang-tidy-google-runtime-int 26</a><a href="1.html#line-70"> clang-tidy-google-runtime-int 70</a><a href="1.html#line-82"> clang-tidy-cppcoreguidelines-init-variables 82</a><a href="1.html#line-98"> clang-tidy-modernize-redundant-void-arg 98</a><a href="1.html#line-99"> clang-tidy-google-runtime-int 99</a><a href="1.html#line-108"> clang-tidy-google-runtime-int 108</a><a href="1.html#line-115"> clang-tidy-modernize-redundant-void-arg 115</a><a href="1.html#line-128"> clang-tidy-modernize-redundant-void-arg 128</a><a href="1.html#line-135"> clang-tidy-google-runtime-int 135</a><a href="1.html#line-136"> clang-tidy-cppcoreguidelines-avoid-do-while 136</a><a href="1.html#line-141"> clang-tidy-cppcoreguidelines-init-variables 141</a><a href="1.html#line-153"> clang-tidy-cppcoreguidelines-init-variables 153</a><a href="1.html#line-167"> clang-tidy-readability-make-member-function-const 167</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
@@ -408,12 +408,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Arduino.h&quot;</span>
-<a id="line-2" name="line-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Uart.h&quot;</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Uart.h&quot;</span>
+<a id="line-2" name="line-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Arduino.h&quot;</span>
 <a id="line-3" name="line-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_gpio.h&quot;</span>
 <a id="line-4" name="line-4"></a>
-<a id="line-5" name="line-5"></a><span class="hll"><span class="cp">#define uart_assert(cy_ret, ret_code) \</span><span class="error2">&lt;--- 'api/ArduinoAPI.h' file not found</span>
-</span><a id="line-6" name="line-6"></a><span class="cp">    if (cy_ret != CY_RSLT_SUCCESS) {  \</span>
+<a id="line-5" name="line-5"></a><span class="cp">#define uart_assert(cy_ret, ret_code) \</span>
+<a id="line-6" name="line-6"></a><span class="cp">    if (cy_ret != CY_RSLT_SUCCESS) {  \</span>
 <a id="line-7" name="line-7"></a><span class="cp">        last_error = ret_code;        \</span>
 <a id="line-8" name="line-8"></a><span class="cp">        return;                       \</span>
 <a id="line-9" name="line-9"></a><span class="cp">    }</span>
