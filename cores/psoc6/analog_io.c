@@ -33,6 +33,7 @@ static cyhal_adc_t adc_obj = {0};
 static cyhal_adc_vref_t desiredVRef = CYHAL_ADC_REF_VDDA;
 static bool adc_initialized = false;
 static adc_channel_t adc_channel[ADC_HOWMANY] = {0};
+static int desiredReadResolution = ADC_RESOLUTION;
 static float desiredWriteResolution = PWM_RESOLUTION_8_BIT;
 static pwm_t pwm[PWM_HOWMANY] = {0};
 
@@ -79,29 +80,47 @@ static cy_rslt_t initialize_adc_channel(pin_size_t pinNumber, uint8_t adc_index)
     return status;
 }
 
-int analogRead(pin_size_t pinNumber) {
-    int adc_value = 0;
-    uint8_t adc_index = 0;
+void analogReadResolution(int res) {
+    if (res < 1) {
+        desiredReadResolution = 1; // Minimum resolution
+    } else {
+        desiredReadResolution = res;
+    }
+}
 
-    // Find existing channel or initialize a new one
-    for (adc_index = 0; adc_index < ADC_HOWMANY; adc_index++) {
-        if (adc_channel[adc_index].initialized) {
-            if (adc_channel[adc_index].pin == pinNumber) {
-                // Found an existing channel for the pin
-                break;
-            }
-        } else {
-            // Found an uninitialized channel, initialize it
-            cy_rslt_t result = initialize_adc_channel(pinNumber, adc_index);
+static inline uint32_t  map_adc_value(uint32_t adc_value) {
+    if (desiredReadResolution == ADC_RESOLUTION) {
+        return adc_value; // already in desired resolution
+    } else if (desiredReadResolution < ADC_RESOLUTION) {
+        return adc_value >> (ADC_RESOLUTION - desiredReadResolution); // reduce resolution
+    }
+    return adc_value << (desiredReadResolution - ADC_RESOLUTION); // increase resolution
+}
+
+// Helper to find or initialize ADC channel
+static int get_or_init_adc_channel(pin_size_t pinNumber) {
+    for (uint8_t i = 0; i < ADC_HOWMANY; i++) {
+        if (adc_channel[i].initialized && adc_channel[i].pin == pinNumber) {
+            return i;
+        } else if (!adc_channel[i].initialized) {
+            cy_rslt_t result = initialize_adc_channel(pinNumber, i);
             adc_assert(result);
-            break;
+            return i;
         }
     }
+    return -1; // No available channel
+}
 
-    if (adc_index < ADC_HOWMANY) {
+int analogRead(pin_size_t pinNumber) {
+    int adc_value = 0;
+    int adc_index = get_or_init_adc_channel(pinNumber);
+    if (adc_index >= 0) {
         adc_value = cyhal_adc_read(&adc_channel[adc_index].chan_obj);
     }
-    return adc_value;
+    if (adc_value < 0) {
+        adc_value = 0;
+    }
+    return map_adc_value((uint32_t)adc_value);
 }
 
 void analogReference(uint8_t mode) {
@@ -120,46 +139,41 @@ void analogWriteResolution(int res) {
     }
 }
 
-void analogWrite(pin_size_t pinNumber, int value) {
-    uint8_t pwm_index = 0;
-    uint8_t pwm_value = value;
-    cy_rslt_t result = CY_RSLT_TYPE_ERROR;
+// Helper to find or initialize PWM channel
+static int get_or_init_pwm_channel(pin_size_t pinNumber) {
+    for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
+        if (pwm[i].initialized && pwm[i].pin == pinNumber) {
+            return i;
+        } else if (!pwm[i].initialized) {
+            cy_rslt_t result = cyhal_pwm_init(&pwm[i].pwm_obj, mapping_gpio_pin[pinNumber], NULL);
+            if (result != CY_RSLT_SUCCESS) {
+                return -1; // Initialization failed
+            }
+            pwm[i].pin = pinNumber;
+            pwm[i].initialized = true;
+            return i;
+        }
+    }
+    return -1; // No available channel
+}
 
+// Clamp helper
+static inline uint32_t clamp_uint32(uint32_t val, uint32_t min, uint32_t max) {
+    return (val < min) ? min : (val > max) ? max : val;
+}
+
+void analogWrite(pin_size_t pinNumber, int value) {
     if (pinNumber > GPIO_PIN_COUNT) {
         return; // Invalid pin number
     }
-
-    // Find existing channel or initialize a new one
-    for (pwm_index = 0; pwm_index < PWM_HOWMANY; pwm_index++) {
-        if (pwm[pwm_index].initialized) {
-            if (pwm[pwm_index].pin == pinNumber) {
-                // Found an existing channel for the pin
-                break;
-            }
-        } else {
-            // Found an uninitialized channel, initialize it
-            result = cyhal_pwm_init(&pwm[pwm_index].pwm_obj, mapping_gpio_pin[pinNumber], NULL);
-            pwm_assert(result);
-            pwm[pwm_index].pin = pinNumber;
-            pwm[pwm_index].initialized = true;
-            break;
-        }
+    int pwm_index = get_or_init_pwm_channel(pinNumber);
+    if (pwm_index < 0) {
+        return;
     }
-    if (pwm_index < PWM_HOWMANY) {
-
-        if (pwm_value <= 0) {
-            pwm_value = 0;
-        }
-        if (pwm_value > desiredWriteResolution) {
-            pwm_value = desiredWriteResolution;
-        }
-
-        float duty_cycle_pertentage = (pwm_value / desiredWriteResolution) * 100.0f;
-
-        result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_pertentage, PWM_FREQUENCY_HZ);
-        pwm_assert(result);
-
-        result = cyhal_pwm_start(&pwm[pwm_index].pwm_obj);
-        pwm_assert(result);
-    }
+    uint32_t pwm_value = clamp_uint32((uint32_t)value, 0, (uint32_t)desiredWriteResolution);
+    float duty_cycle_percentage = (pwm_value / desiredWriteResolution) * 100.0f;
+    cy_rslt_t result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_percentage, PWM_FREQUENCY_HZ);
+    pwm_assert(result);
+    result = cyhal_pwm_start(&pwm[pwm_index].pwm_obj);
+    pwm_assert(result);
 }
