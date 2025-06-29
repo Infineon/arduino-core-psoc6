@@ -1,12 +1,18 @@
 #include "SPI.h"
 
-#define spi_assert(cy_ret)   if (cy_ret != CY_RSLT_SUCCESS) { \
-            return; \
-}
+#define spi_assert(cy_ret)           \
+    if (cy_ret != CY_RSLT_SUCCESS) { \
+        return;                      \
+    }
 
-SPIClassPSOC::SPIClassPSOC(pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel, bool is_slave)
-    : _mosi_pin(mosi), _miso_pin(miso), _sck_pin(sck), _ssel_pin(ssel), _is_slave(is_slave), _is_initialized(false) {
-
+SPIClassPSOC::SPIClassPSOC(
+    pin_size_t mosi, pin_size_t miso, pin_size_t sck, pin_size_t ssel, bool is_slave)
+    : _mosi_pin(mosi),
+      _miso_pin(miso),
+      _sck_pin(sck),
+      _ssel_pin(ssel),
+      _is_slave(is_slave),
+      _is_initialized(false) {
 }
 
 SPIClassPSOC::~SPIClassPSOC() {
@@ -17,12 +23,15 @@ void SPIClassPSOC::begin() {
     if (_is_initialized) {
         return;
     }
-    /* If the user does not define them (or pass NC), they are not connected. No Arduino GPIO mapping */
+    /* If the user does not define them (or pass NC), they are not connected. No Arduino GPIO
+     * mapping */
     cyhal_gpio_t cy_ssel_pin = (_ssel_pin == NC) ? NC : mapping_gpio_pin[_ssel_pin];
     /* If master, the SS pin driven external. Thus, always NC */
     cy_ssel_pin = _is_slave ? cy_ssel_pin : NC;
 
-    status = cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin], mapping_gpio_pin[_sck_pin], cy_ssel_pin, NULL, 8, getSpiMode(), _is_slave);
+    status =
+        cyhal_spi_init(&_spi_obj, mapping_gpio_pin[_mosi_pin], mapping_gpio_pin[_miso_pin],
+                       mapping_gpio_pin[_sck_pin], cy_ssel_pin, NULL, 8, getSpiMode(), _is_slave);
 
     spi_assert(status);
     status = cyhal_spi_set_frequency(&_spi_obj, _settings.getClockFreq());
@@ -44,16 +53,20 @@ cyhal_spi_mode_t SPIClassPSOC::getSpiMode() const {
 
     switch (_settings.getDataMode()) {
         case SPI_MODE0:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_00_MSB : CYHAL_SPI_MODE_00_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_00_MSB
+                                                         : CYHAL_SPI_MODE_00_LSB;
             break;
         case SPI_MODE1:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_01_MSB : CYHAL_SPI_MODE_01_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_01_MSB
+                                                         : CYHAL_SPI_MODE_01_LSB;
             break;
         case SPI_MODE2:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_10_MSB : CYHAL_SPI_MODE_10_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_10_MSB
+                                                         : CYHAL_SPI_MODE_10_LSB;
             break;
         case SPI_MODE3:
-            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_11_MSB : CYHAL_SPI_MODE_11_LSB;
+            mode = (_settings.getBitOrder() == MSBFIRST) ? CYHAL_SPI_MODE_11_MSB
+                                                         : CYHAL_SPI_MODE_11_LSB;
             break;
         default:
             break;
@@ -69,11 +82,14 @@ byte SPIClassPSOC::transfer(uint8_t data) {
 }
 
 uint16_t SPIClassPSOC::transfer16(uint16_t data) {
-// Union to split 16-bit data into two 8-bit data
-    union { uint16_t val;
-            struct { uint8_t lsb = 0;
-                     uint8_t msb = 0;
-            };
+    // Union to split 16-bit data into two 8-bit data
+    union {
+        uint16_t val;
+
+        struct {
+            uint8_t lsb = 0;
+            uint8_t msb = 0;
+        };
     } data_in_out;
 
     data_in_out.val = data;
@@ -89,9 +105,9 @@ uint16_t SPIClassPSOC::transfer16(uint16_t data) {
     return data_in_out.val;
 }
 
-void SPIClassPSOC::transfer(void *buf, size_t count) {
-    uint8_t *buffer = reinterpret_cast < uint8_t * > (buf);
-    const uint8_t *tx_buf;
+void SPIClassPSOC::transfer(void* buf, size_t count) {
+    uint8_t* buffer = reinterpret_cast<uint8_t*>(buf);
+    const uint8_t* tx_buf;
     uint8_t tx_temp_buf[count];
 
     memcpy(tx_temp_buf, buffer, count);
@@ -112,11 +128,13 @@ void SPIClassPSOC::notUsingInterrupt(int interruptNumber) {
 }
 
 void SPIClassPSOC::attachInterrupt() {
-    // Since SPI transfer functions rely on interrupts, attaching a separate interrupt is not applicable.
+    // Since SPI transfer functions rely on interrupts, attaching a separate interrupt is not
+    // applicable.
 }
 
 void SPIClassPSOC::detachInterrupt() {
-    // Detaching interrupts is not applicable as SPI transfer functions are already interrupt-driven.
+    // Detaching interrupts is not applicable as SPI transfer functions are already
+    // interrupt-driven.
 }
 
 void SPIClassPSOC::setDataMode(uint8_t dataMode) {

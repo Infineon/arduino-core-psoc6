@@ -1,9 +1,9 @@
 #ifndef CY_SECURE_SOCKET_H
 #define CY_SECURE_SOCKET_H
 
-#include "cy_secure_sockets.h"
 #include "api/IPAddress.h"
 #include "api/RingBuffer.h"
+#include "cy_secure_sockets.h"
 
 typedef enum {
     SOCKET_STATUS_UNINITED = 0,
@@ -25,41 +25,39 @@ typedef enum {
 class Socket {
 
 public:
-
     Socket();
 
     void begin(socket_protocol_t protocol);
     void end();
 
     void setTimeout(uint32_t timeout);
-    void setConnectOptCallback(cy_socket_callback_t cback, void *arg);
-    void setReceiveOptCallback(cy_socket_callback_t cback, void *arg);
-    void setDisconnectOptCallback(cy_socket_callback_t cback, void *arg);
+    void setConnectOptCallback(cy_socket_callback_t cback, void* arg);
+    void setReceiveOptCallback(cy_socket_callback_t cback, void* arg);
+    void setDisconnectOptCallback(cy_socket_callback_t cback, void* arg);
 
     void bind(uint16_t port);
     bool connect(IPAddress ip, uint16_t port);
-    bool connect(const char *host, uint16_t port);
+    bool connect(const char* host, uint16_t port);
     bool joinMulticastGroup(IPAddress multicastIP, IPAddress localIP);
 
     void listen(int max_connections);
-    bool accept(Socket & client_socket);
-    uint32_t send(const void *data, uint32_t len);
-    uint32_t send(const void *data, uint32_t len, IPAddress ip, uint16_t port);
+    bool accept(Socket& client_socket);
+    uint32_t send(const void* data, uint32_t len);
+    uint32_t send(const void* data, uint32_t len, IPAddress ip, uint16_t port);
     uint32_t available();
     int peek();
-    uint32_t receive(uint8_t *data, uint32_t len);
+    uint32_t receive(uint8_t* data, uint32_t len);
     void flush();
 
     IPAddress remoteIP();
     uint16_t port();
 
-    static int hostByName(const char *aHostname, IPAddress& ip);
+    static int hostByName(const char* aHostname, IPAddress& ip);
 
     uint8_t status();
     cy_rslt_t getLastError();
 
 private:
-
     cy_socket_t socket = {};
     socket_status_t _status = SOCKET_STATUS_UNINITED;
     cy_rslt_t _last_error = CY_RSLT_SUCCESS;
@@ -68,13 +66,13 @@ private:
     uint16_t _port = 0;
     socket_protocol_t _protocol = SOCKET_PROTOCOL_NOT_SET;
 
-    void setOptCallback(int optname, cy_socket_callback_t cback, void *arg);
+    void setOptCallback(int optname, cy_socket_callback_t cback, void* arg);
 
     static const uint16_t RX_BUFFER_SIZE = 4096;
-    arduino::RingBufferN < RX_BUFFER_SIZE > rx_buf = {};
+    arduino::RingBufferN<RX_BUFFER_SIZE> rx_buf = {};
 
-    bool connect(cy_socket_sockaddr_t *addr);
-    void receiveCallback(cy_socket_sockaddr_t *peer_addr = nullptr);
+    bool connect(cy_socket_sockaddr_t* addr);
+    void receiveCallback(cy_socket_sockaddr_t* peer_addr = nullptr);
 
     static bool global_socket_initialized;
     static uint32_t global_socket_count;
