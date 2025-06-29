@@ -269,8 +269,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef WIFI_SERVER_H</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef WIFI_SERVER_H</span>
 <a id="line-2" name="line-2"></a><span class="cp">#define WIFI_SERVER_H</span>
 <a id="line-3" name="line-3"></a>
 <a id="line-4" name="line-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;SecSocket.h&quot;</span>
@@ -302,19 +301,18 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <a id="line-30" name="line-30"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">connectedSize</span><span class="p">();</span>
 <a id="line-31" name="line-31"></a>
 <a id="line-32" name="line-32"></a><span class="n">private</span><span class="o">:</span>
-<a id="line-33" name="line-33"></a>
-<a id="line-34" name="line-34"></a><span class="w">    </span><span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
-<a id="line-35" name="line-35"></a>
-<a id="line-36" name="line-36"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">SERVER_RECV_TIMEOUT_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span>
-<a id="line-37" name="line-37"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">SERVER_MAX_CLIENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
-<a id="line-38" name="line-38"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">WiFiClient</span><span class="o">&gt;</span><span class="w"> </span><span class="n">connected_clients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
-<a id="line-39" name="line-39"></a>
-<a id="line-40" name="line-40"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">connectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-41" name="line-41"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">receiveCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-42" name="line-42"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">disconnectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-43" name="line-43"></a><span class="p">};</span>
-<a id="line-44" name="line-44"></a>
-<a id="line-45" name="line-45"></a><span class="cp">#endif </span><span class="cm">/* WIFI_SERVER_H */</span>
+<a id="line-33" name="line-33"></a><span class="w">    </span><span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<a id="line-34" name="line-34"></a>
+<a id="line-35" name="line-35"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">SERVER_RECV_TIMEOUT_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span>
+<a id="line-36" name="line-36"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">SERVER_MAX_CLIENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
+<a id="line-37" name="line-37"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">WiFiClient</span><span class="o">&gt;</span><span class="w"> </span><span class="n">connected_clients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<a id="line-38" name="line-38"></a>
+<a id="line-39" name="line-39"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">connectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
+<a id="line-40" name="line-40"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">receiveCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
+<a id="line-41" name="line-41"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">disconnectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
+<a id="line-42" name="line-42"></a><span class="p">};</span>
+<a id="line-43" name="line-43"></a>
+<a id="line-44" name="line-44"></a><span class="cp">#endif </span><span class="cm">/* WIFI_SERVER_H */</span>
 </pre></div></td></tr></table></div>
 
     </div>
