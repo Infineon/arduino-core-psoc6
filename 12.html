@@ -217,352 +217,194 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - Code Check Report - source-code-quality: /__w/arduino-core-psoc6/arduino-core-psoc6/cores/psoc6/Tone.cpp</h1>
+      <h1>Cppcheck report - Code Check Report - source-code-quality: /__w/arduino-core-psoc6/arduino-core-psoc6/cores/psoc6/digital_io.c</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> Tone.cpp</p>
-<a href="12.html#line-6"> clang-tidy-clang-diagnostic-error 6</a><a href="12.html#line-8"> clang-tidy-readability-uppercase-literal-suffix 8</a><a href="12.html#line-26"> clang-tidy-cppcoreguidelines-special-member-functions 26</a><a href="12.html#line-62"> clang-tidy-google-runtime-int 62</a><a href="12.html#line-70"> clang-tidy-modernize-use-equals-delete 70</a><a href="12.html#line-73"> clang-tidy-modernize-use-equals-delete 73</a><a href="12.html#line-80"> clang-tidy-cppcoreguidelines-init-variables 80</a><a href="12.html#line-85"> clang-tidy-cppcoreguidelines-init-variables 85</a><a href="12.html#line-90"> clang-tidy-cppcoreguidelines-init-variables 90</a><a href="12.html#line-98"> clang-tidy-cppcoreguidelines-init-variables 98</a><a href="12.html#line-108"> clang-tidy-google-runtime-int 108</a><a href="12.html#line-108"> clang-tidy-google-readability-casting 108</a><a href="12.html#line-109"> clang-tidy-readability-uppercase-literal-suffix 109</a><a href="12.html#line-111"> clang-tidy-cppcoreguidelines-init-variables 111</a><a href="12.html#line-111"> clang-tidy-google-readability-casting 111</a><a href="12.html#line-116"> clang-tidy-cppcoreguidelines-narrowing-conversions 116</a><a href="12.html#line-116"> clang-tidy-google-readability-casting 116</a><a href="12.html#line-157"> clang-tidy-cppcoreguidelines-narrowing-conversions 157</a>
+     <p><a href="index.html">Defects:</a> digital_io.c</p>
+<a href="12.html#line-38"> clang-tidy-clang-diagnostic-error 38</a><a href="12.html#line-39"> clang-tidy-cppcoreguidelines-init-variables 39</a>
     </div>
     <div id="content">
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
-<span class="normal">  2</span>
-<span class="normal">  3</span>
-<span class="normal">  4</span>
-<span class="normal">  5</span>
-<span class="normal">  6</span>
-<span class="normal">  7</span>
-<span class="normal">  8</span>
-<span class="normal">  9</span>
-<span class="normal"> 10</span>
-<span class="normal"> 11</span>
-<span class="normal"> 12</span>
-<span class="normal"> 13</span>
-<span class="normal"> 14</span>
-<span class="normal"> 15</span>
-<span class="normal"> 16</span>
-<span class="normal"> 17</span>
-<span class="normal"> 18</span>
-<span class="normal"> 19</span>
-<span class="normal"> 20</span>
-<span class="normal"> 21</span>
-<span class="normal"> 22</span>
-<span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
-<span class="normal"> 33</span>
-<span class="normal"> 34</span>
-<span class="normal"> 35</span>
-<span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
-<span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Arduino.h&quot;</span>
-<a id="line-2" name="line-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_pwm.h&quot;</span>
-<a id="line-3" name="line-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_timer.h&quot;</span>
-<a id="line-4" name="line-4"></a>
-<a id="line-5" name="line-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">timerISR</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">callback_arg</span><span class="p">,</span><span class="w"> </span><span class="n">cyhal_timer_event_t</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
-<a id="line-6" name="line-6"></a><span class="hll"><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">PWM_DUTY_CYCLE_50_PERCENTAGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">50.0f</span><span class="p">;</span><span class="error2">&lt;--- 'api/ArduinoAPI.h' file not found</span>
-</span><a id="line-7" name="line-7"></a>
-<a id="line-8" name="line-8"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">PwmTone</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- floating point literal has suffix 'f', which is not uppercase</span>
-</span><a id="line-9" name="line-9"></a><span class="k">public</span><span class="o">:</span>
-<a id="line-10" name="line-10"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">PwmTone</span><span class="o">&amp;</span><span class="w"> </span><span class="n">getInstance</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-11" name="line-11"></a><span class="w">        </span><span class="k">static</span><span class="w"> </span><span class="n">PwmTone</span><span class="w"> </span><span class="n">instance</span><span class="p">;</span>
-<a id="line-12" name="line-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">instance</span><span class="p">;</span>
-<a id="line-13" name="line-13"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-14" name="line-14"></a>
-<a id="line-15" name="line-15"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">handleTimerEvent</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">callback_arg</span><span class="p">,</span><span class="w"> </span><span class="n">cyhal_timer_event_t</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-16" name="line-16"></a><span class="w">        </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">callback_arg</span><span class="p">;</span>
-<a id="line-17" name="line-17"></a><span class="w">        </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">event</span><span class="p">;</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cm">/*</span>
+<a id="line-2" name="line-2"></a><span class="cm">  Copyright (c) 2015 Arduino LLC.  All right reserved.</span>
+<a id="line-3" name="line-3"></a>
+<a id="line-4" name="line-4"></a><span class="cm">  This library is free software; you can redistribute it and/or</span>
+<a id="line-5" name="line-5"></a><span class="cm">  modify it under the terms of the GNU Lesser General Public</span>
+<a id="line-6" name="line-6"></a><span class="cm">  License as published by the Free Software Foundation; either</span>
+<a id="line-7" name="line-7"></a><span class="cm">  version 2.1 of the License, or (at your option) any later version.</span>
+<a id="line-8" name="line-8"></a>
+<a id="line-9" name="line-9"></a><span class="cm">  This library is distributed in the hope that it will be useful,</span>
+<a id="line-10" name="line-10"></a><span class="cm">  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<a id="line-11" name="line-11"></a><span class="cm">  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<a id="line-12" name="line-12"></a><span class="cm">  See the GNU Lesser General Public License for more details.</span>
+<a id="line-13" name="line-13"></a>
+<a id="line-14" name="line-14"></a><span class="cm">  You should have received a copy of the GNU Lesser General Public</span>
+<a id="line-15" name="line-15"></a><span class="cm">  License along with this library; if not, write to the Free Software</span>
+<a id="line-16" name="line-16"></a><span class="cm">  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
+<a id="line-17" name="line-17"></a><span class="cm">*/</span>
 <a id="line-18" name="line-18"></a>
-<a id="line-19" name="line-19"></a><span class="w">        </span><span class="n">cyhal_timer_stop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">);</span>
-<a id="line-20" name="line-20"></a><span class="w">        </span><span class="n">cyhal_timer_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">);</span>
-<a id="line-21" name="line-21"></a><span class="w">        </span><span class="n">timerInitialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-<a id="line-22" name="line-22"></a>
-<a id="line-23" name="line-23"></a><span class="w">        </span><span class="n">stop</span><span class="p">();</span>
-<a id="line-24" name="line-24"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-25" name="line-25"></a>
-<a id="line-26" name="line-26"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">play</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">targetPin</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">frequency</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- class 'PwmTone' defines a non-default destructor, a copy constructor and a copy assignment operator but does not define a move constructor or a move assignment operator</span>
-</span><a id="line-27" name="line-27"></a><span class="w">        </span><span class="c1">// Tone is already playing on a different pin</span>
-<a id="line-28" name="line-28"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pwmInitialized</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">targetPin</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">pin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-29" name="line-29"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span>
-<a id="line-30" name="line-30"></a><span class="w">        </span><span class="p">}</span>
+<a id="line-19" name="line-19"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Arduino.h&quot;</span>
+<a id="line-20" name="line-20"></a>
+<a id="line-21" name="line-21"></a><span class="cp">#ifdef __cplusplus</span>
+<a id="line-22" name="line-22"></a><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
+<a id="line-23" name="line-23"></a><span class="cp">#endif</span>
+<a id="line-24" name="line-24"></a>
+<a id="line-25" name="line-25"></a><span class="kt">void</span><span class="w"> </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">pinNumber</span><span class="p">,</span><span class="w"> </span><span class="n">PinMode</span><span class="w"> </span><span class="n">pinMode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-26" name="line-26"></a>
+<a id="line-27" name="line-27"></a>
+<a id="line-28" name="line-28"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pinNumber</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">GPIO_PIN_COUNT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-29" name="line-29"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// Invalid pin number</span>
+<a id="line-30" name="line-30"></a><span class="w">    </span><span class="p">}</span>
 <a id="line-31" name="line-31"></a>
-<a id="line-32" name="line-32"></a><span class="w">        </span><span class="c1">// First call to play on a specified pin</span>
-<a id="line-33" name="line-33"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pwmInitialized</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-34" name="line-34"></a><span class="w">            </span><span class="n">initializePwm</span><span class="p">(</span><span class="n">targetPin</span><span class="p">);</span>
-<a id="line-35" name="line-35"></a><span class="w">            </span><span class="n">startPwm</span><span class="p">();</span>
-<a id="line-36" name="line-36"></a><span class="w">        </span><span class="p">}</span>
+<a id="line-32" name="line-32"></a><span class="w">    </span><span class="c1">// check if pinNumber is initialized before</span>
+<a id="line-33" name="line-33"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">gpio_initialized</span><span class="p">[</span><span class="n">pinNumber</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<a id="line-34" name="line-34"></a><span class="w">        </span><span class="n">cyhal_gpio_free</span><span class="p">(</span><span class="n">mapping_gpio_pin</span><span class="p">[</span><span class="n">pinNumber</span><span class="p">]);</span>
+<a id="line-35" name="line-35"></a><span class="w">        </span><span class="n">gpio_initialized</span><span class="p">[</span><span class="n">pinNumber</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="line-36" name="line-36"></a><span class="w">    </span><span class="p">}</span>
 <a id="line-37" name="line-37"></a>
-<a id="line-38" name="line-38"></a><span class="w">        </span><span class="c1">// Update frequency for first call or Tone already playing on the same pin</span>
-<a id="line-39" name="line-39"></a><span class="w">        </span><span class="n">setDutyCycleAndFrequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">);</span>
-<a id="line-40" name="line-40"></a>
-<a id="line-41" name="line-41"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">duration</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-42" name="line-42"></a><span class="w">            </span><span class="n">startTimer</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
-<a id="line-43" name="line-43"></a><span class="w">        </span><span class="p">}</span>
-<a id="line-44" name="line-44"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-45" name="line-45"></a>
-<a id="line-46" name="line-46"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-47" name="line-47"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pwmInitialized</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-48" name="line-48"></a><span class="w">            </span><span class="n">stopPwm</span><span class="p">();</span>
-<a id="line-49" name="line-49"></a><span class="w">            </span><span class="n">freePwm</span><span class="p">();</span>
-<a id="line-50" name="line-50"></a><span class="w">            </span><span class="n">pwmInitialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-<a id="line-51" name="line-51"></a><span class="w">        </span><span class="p">}</span>
-<a id="line-52" name="line-52"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-53" name="line-53"></a>
-<a id="line-54" name="line-54"></a><span class="k">private</span><span class="o">:</span>
-<a id="line-55" name="line-55"></a><span class="w">    </span><span class="n">cyhal_pwm_t</span><span class="w"> </span><span class="n">pwmObj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
-<a id="line-56" name="line-56"></a><span class="w">    </span><span class="n">cyhal_timer_t</span><span class="w"> </span><span class="n">timerObj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
-<a id="line-57" name="line-57"></a>
-<a id="line-58" name="line-58"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">pwmInitialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-<a id="line-59" name="line-59"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="line-60" name="line-60"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">timerInitialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-<a id="line-61" name="line-61"></a>
-<a id="line-62" name="line-62"></a><span class="hll"><span class="w">    </span><span class="n">PwmTone</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">pwmInitialized</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span><span class="w"> </span><span class="n">pin</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">timerInitialized</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- consider replacing 'unsigned long' with 'uint64'</span>
-</span><a id="line-63" name="line-63"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-64" name="line-64"></a><span class="w">    </span><span class="o">~</span><span class="n">PwmTone</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-65" name="line-65"></a><span class="w">        </span><span class="n">stop</span><span class="p">();</span>
-<a id="line-66" name="line-66"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-67" name="line-67"></a>
-<a id="line-68" name="line-68"></a><span class="w">    </span><span class="cm">/* Delete copy constructor and assignment operator  */</span>
-<a id="line-69" name="line-69"></a><span class="w">    </span><span class="n">PwmTone</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">PwmTone</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
-<a id="line-70" name="line-70"></a><span class="hll"><span class="w">    </span><span class="n">PwmTone</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">PwmTone</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span><span class="error2">&lt;--- deleted member function should be public</span>
-</span><a id="line-71" name="line-71"></a>
-<a id="line-72" name="line-72"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">initializePwm</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">targetPin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-73" name="line-73"></a><span class="hll"><span class="w">        </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_pwm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pwmObj</span><span class="p">,</span><span class="w"> </span><span class="n">mapping_gpio_pin</span><span class="p">[</span><span class="n">targetPin</span><span class="p">],</span><span class="w"> </span><span class="k">nullptr</span><span class="p">);</span><span class="error2">&lt;--- deleted member function should be public</span>
-</span><a id="line-74" name="line-74"></a><span class="w">        </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-75" name="line-75"></a><span class="w">        </span><span class="n">pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">targetPin</span><span class="p">;</span>
-<a id="line-76" name="line-76"></a><span class="w">        </span><span class="n">pwmInitialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
-<a id="line-77" name="line-77"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-78" name="line-78"></a>
-<a id="line-79" name="line-79"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setDutyCycleAndFrequency</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">frequency</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-80" name="line-80"></a><span class="hll"><span class="w">        </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_pwm_set_duty_cycle</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pwmObj</span><span class="p">,</span><span class="w"> </span><span class="n">PWM_DUTY_CYCLE_50_PERCENTAGE</span><span class="p">,</span><span class="w"> </span><span class="n">frequency</span><span class="p">);</span><span class="error2">&lt;--- variable 'result' is not initialized</span>
-</span><a id="line-81" name="line-81"></a><span class="w">        </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-82" name="line-82"></a><span class="w">    </span><span class="p">}</span>
+<a id="line-38" name="line-38"></a><span class="hll"><span class="w">    </span><span class="n">cyhal_gpio_direction_t</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span><span class="error2">&lt;--- 'api/ArduinoAPI.h' file not found</span>
+</span><a id="line-39" name="line-39"></a><span class="hll"><span class="w">    </span><span class="n">cyhal_gpio_drive_mode_t</span><span class="w"> </span><span class="n">drive_mode</span><span class="p">;</span><span class="error2">&lt;--- variable 'direction' is not initialized</span>
+</span><a id="line-40" name="line-40"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">initPinValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="line-41" name="line-41"></a>
+<a id="line-42" name="line-42"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">pinMode</span><span class="p">)</span>
+<a id="line-43" name="line-43"></a><span class="w">    </span><span class="p">{</span>
+<a id="line-44" name="line-44"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">INPUT</span><span class="p">:</span>
+<a id="line-45" name="line-45"></a><span class="w">            </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DIR_INPUT</span><span class="p">;</span>
+<a id="line-46" name="line-46"></a><span class="w">            </span><span class="n">drive_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DRIVE_NONE</span><span class="p">;</span>
+<a id="line-47" name="line-47"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="line-48" name="line-48"></a>
+<a id="line-49" name="line-49"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">INPUT_PULLUP</span><span class="p">:</span>
+<a id="line-50" name="line-50"></a><span class="w">            </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DIR_INPUT</span><span class="p">;</span>
+<a id="line-51" name="line-51"></a><span class="w">            </span><span class="n">drive_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DRIVE_PULLUP</span><span class="p">;</span>
+<a id="line-52" name="line-52"></a><span class="w">            </span><span class="n">initPinValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="line-53" name="line-53"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="line-54" name="line-54"></a>
+<a id="line-55" name="line-55"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">INPUT_PULLDOWN</span><span class="p">:</span>
+<a id="line-56" name="line-56"></a><span class="w">            </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DIR_INPUT</span><span class="p">;</span>
+<a id="line-57" name="line-57"></a><span class="w">            </span><span class="n">drive_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DRIVE_PULLDOWN</span><span class="p">;</span>
+<a id="line-58" name="line-58"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="line-59" name="line-59"></a>
+<a id="line-60" name="line-60"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">OUTPUT</span><span class="p">:</span>
+<a id="line-61" name="line-61"></a><span class="w">            </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DIR_OUTPUT</span><span class="p">;</span>
+<a id="line-62" name="line-62"></a><span class="w">            </span><span class="n">drive_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DRIVE_STRONG</span><span class="p">;</span>
+<a id="line-63" name="line-63"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="line-64" name="line-64"></a>
+<a id="line-65" name="line-65"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">OUTPUT_OPENDRAIN</span><span class="p">:</span>
+<a id="line-66" name="line-66"></a><span class="w">            </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DIR_OUTPUT</span><span class="p">;</span>
+<a id="line-67" name="line-67"></a><span class="w">            </span><span class="n">drive_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_GPIO_DRIVE_OPENDRAINDRIVESLOW</span><span class="p">;</span>
+<a id="line-68" name="line-68"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="line-69" name="line-69"></a>
+<a id="line-70" name="line-70"></a><span class="w">        </span><span class="k">default</span><span class="o">:</span>
+<a id="line-71" name="line-71"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// Invalid mode</span>
+<a id="line-72" name="line-72"></a><span class="w">    </span><span class="p">}</span>
+<a id="line-73" name="line-73"></a>
+<a id="line-74" name="line-74"></a><span class="w">    </span><span class="c1">// Initialize the GPIO pin with the specified direction, drive mode and set initial value</span>
+<a id="line-75" name="line-75"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cyhal_gpio_init</span><span class="p">(</span><span class="n">mapping_gpio_pin</span><span class="p">[</span><span class="n">pinNumber</span><span class="p">],</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="n">drive_mode</span><span class="p">,</span><span class="w"> </span><span class="n">initPinValue</span><span class="p">);</span>
+<a id="line-76" name="line-76"></a>
+<a id="line-77" name="line-77"></a><span class="w">    </span><span class="n">gpio_initialized</span><span class="p">[</span><span class="n">pinNumber</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="line-78" name="line-78"></a><span class="p">}</span>
+<a id="line-79" name="line-79"></a>
+<a id="line-80" name="line-80"></a><span class="n">PinStatus</span><span class="w"> </span><span class="nf">digitalRead</span><span class="p">(</span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">pinNumber</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-81" name="line-81"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">cyhal_gpio_read</span><span class="p">(</span><span class="n">mapping_gpio_pin</span><span class="p">[</span><span class="n">pinNumber</span><span class="p">])</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">HIGH</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">LOW</span><span class="p">;</span>
+<a id="line-82" name="line-82"></a><span class="p">}</span>
 <a id="line-83" name="line-83"></a>
-<a id="line-84" name="line-84"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">startPwm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-85" name="line-85"></a><span class="hll"><span class="w">        </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_pwm_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pwmObj</span><span class="p">);</span><span class="error2">&lt;--- variable 'result' is not initialized</span>
-</span><a id="line-86" name="line-86"></a><span class="w">        </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-87" name="line-87"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-88" name="line-88"></a>
-<a id="line-89" name="line-89"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">stopPwm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-90" name="line-90"></a><span class="hll"><span class="w">        </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_pwm_stop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pwmObj</span><span class="p">);</span><span class="error2">&lt;--- variable 'result' is not initialized</span>
-</span><a id="line-91" name="line-91"></a><span class="w">        </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-92" name="line-92"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-93" name="line-93"></a>
-<a id="line-94" name="line-94"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">freePwm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="line-95" name="line-95"></a><span class="w">        </span><span class="n">cyhal_pwm_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pwmObj</span><span class="p">);</span>
-<a id="line-96" name="line-96"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-97" name="line-97"></a>
-<a id="line-98" name="line-98"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">startTimer</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- variable 'result' is not initialized</span>
-</span><a id="line-99" name="line-99"></a>
-<a id="line-100" name="line-100"></a><span class="w">        </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CY_RSLT_TYPE_ERROR</span><span class="p">;</span>
-<a id="line-101" name="line-101"></a>
-<a id="line-102" name="line-102"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">timerInitialized</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-103" name="line-103"></a><span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_timer_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">,</span><span class="w"> </span><span class="n">NC</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">);</span>
-<a id="line-104" name="line-104"></a><span class="w">            </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-105" name="line-105"></a><span class="w">            </span><span class="n">timerInitialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
-<a id="line-106" name="line-106"></a><span class="w">        </span><span class="p">}</span>
-<a id="line-107" name="line-107"></a>
-<a id="line-108" name="line-108"></a><span class="hll"><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">duration</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000.0f</span><span class="p">;</span><span class="w">  </span><span class="c1">// ms to s conversion</span><span class="error2">&lt;--- consider replacing 'unsigned long' with 'uint64'</span><span class="error2">&lt;--- C-style casts are discouraged; use static_cast</span>
-</span><a id="line-109" name="line-109"></a><span class="hll"><span class="w">        </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">period_hal</span><span class="p">;</span><span class="w">        </span><span class="c1">// Period/count input for the PSOC6 HAL timer configuration</span><span class="error2">&lt;--- floating point literal has suffix 'f', which is not uppercase</span>
-</span><a id="line-110" name="line-110"></a><span class="w">        </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">fz_hal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w">  </span><span class="c1">// Frequency for the PSOC timer clock is fixed as 1 MHz</span>
-<a id="line-111" name="line-111"></a><span class="hll"><span class="w">        </span><span class="n">period_hal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)(</span><span class="n">period</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fz_hal</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// Overflow Period = (Period + 1)/ frequency ;period = (overflow period * frequency)-1</span><span class="error2">&lt;--- variable 'period_hal' is not initialized</span><span class="error2">&lt;--- C-style casts are discouraged; use static_cast</span>
-</span><a id="line-112" name="line-112"></a>
-<a id="line-113" name="line-113"></a><span class="w">        </span><span class="c1">// Adjust the frequency &amp; recalculate the period if period/count is  greater than the maximum overflow value for a 32 bit timer ie; 2^32</span>
-<a id="line-114" name="line-114"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">period_hal</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">4294967296</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-115" name="line-115"></a><span class="w">            </span><span class="n">fz_hal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fz_hal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">  </span><span class="c1">// Reduce the fz_hal value by 10%</span>
-<a id="line-116" name="line-116"></a><span class="hll"><span class="w">            </span><span class="n">period_hal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)(</span><span class="n">period</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fz_hal</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// Recalculate Period input for the PSOC6 HAL timer configuration</span><span class="error2">&lt;--- narrowing conversion from 'uint32_t' (aka 'unsigned int') to 'float'</span><span class="error2">&lt;--- C-style casts are discouraged; use static_cast</span>
-</span><a id="line-117" name="line-117"></a><span class="w">        </span><span class="p">}</span>
-<a id="line-118" name="line-118"></a>
-<a id="line-119" name="line-119"></a><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">cyhal_timer_cfg_t</span><span class="w"> </span><span class="n">timer_cfg</span><span class="w"> </span><span class="o">=</span>
-<a id="line-120" name="line-120"></a><span class="w">        </span><span class="p">{</span>
-<a id="line-121" name="line-121"></a><span class="w">            </span><span class="p">.</span><span class="n">is_continuous</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w">             </span><span class="cm">/* Run the timer */</span>
-<a id="line-122" name="line-122"></a><span class="w">            </span><span class="p">.</span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CYHAL_TIMER_DIR_UP</span><span class="p">,</span><span class="w">    </span><span class="cm">/* Timer counts up */</span>
-<a id="line-123" name="line-123"></a><span class="w">            </span><span class="p">.</span><span class="n">is_compare</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w">                </span><span class="cm">/* Don&#39;t use compare mode */</span>
-<a id="line-124" name="line-124"></a><span class="w">            </span><span class="p">.</span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">period_hal</span><span class="p">,</span><span class="w">               </span><span class="cm">/* Defines the timer period */</span>
-<a id="line-125" name="line-125"></a><span class="w">            </span><span class="p">.</span><span class="n">compare_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">                 </span><span class="cm">/* Timer compare value, not used */</span>
-<a id="line-126" name="line-126"></a><span class="w">            </span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">                          </span><span class="cm">/* Initial value of counter */</span>
-<a id="line-127" name="line-127"></a><span class="w">        </span><span class="p">};</span>
-<a id="line-128" name="line-128"></a>
-<a id="line-129" name="line-129"></a><span class="w">        </span><span class="n">cyhal_timer_stop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">);</span>
-<a id="line-130" name="line-130"></a>
-<a id="line-131" name="line-131"></a><span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_timer_configure</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">timer_cfg</span><span class="p">);</span>
-<a id="line-132" name="line-132"></a><span class="w">        </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-133" name="line-133"></a>
-<a id="line-134" name="line-134"></a><span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_timer_set_frequency</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">,</span><span class="w"> </span><span class="n">fz_hal</span><span class="p">);</span>
-<a id="line-135" name="line-135"></a><span class="w">        </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-136" name="line-136"></a>
-<a id="line-137" name="line-137"></a><span class="w">        </span><span class="n">cyhal_timer_register_callback</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">,</span><span class="w"> </span><span class="n">timerISR</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">);</span>
-<a id="line-138" name="line-138"></a>
-<a id="line-139" name="line-139"></a><span class="w">        </span><span class="n">cyhal_timer_enable_event</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">,</span><span class="w"> </span><span class="n">CYHAL_TIMER_IRQ_TERMINAL_COUNT</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
-<a id="line-140" name="line-140"></a>
-<a id="line-141" name="line-141"></a><span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_timer_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timerObj</span><span class="p">);</span>
-<a id="line-142" name="line-142"></a><span class="w">        </span><span class="n">assertResult</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<a id="line-143" name="line-143"></a>
-<a id="line-144" name="line-144"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-145" name="line-145"></a>
-<a id="line-146" name="line-146"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">assertResult</span><span class="p">(</span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-147" name="line-147"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">CY_RSLT_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-148" name="line-148"></a><span class="w">            </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-<a id="line-149" name="line-149"></a><span class="w">        </span><span class="p">}</span>
-<a id="line-150" name="line-150"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-151" name="line-151"></a><span class="p">};</span>
-<a id="line-152" name="line-152"></a>
-<a id="line-153" name="line-153"></a><span class="kt">void</span><span class="w"> </span><span class="nf">timerISR</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">callback_arg</span><span class="p">,</span><span class="w"> </span><span class="n">cyhal_timer_event_t</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-154" name="line-154"></a><span class="w">    </span><span class="n">PwmTone</span><span class="o">::</span><span class="n">getInstance</span><span class="p">().</span><span class="n">handleTimerEvent</span><span class="p">(</span><span class="n">callback_arg</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
-<a id="line-155" name="line-155"></a><span class="p">}</span>
-<a id="line-156" name="line-156"></a>
-<a id="line-157" name="line-157"></a><span class="hll"><span class="kt">void</span><span class="w"> </span><span class="nf">tone</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">_pin</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">frequency</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- narrowing conversion from 'uint32_t' (aka 'unsigned int') to 'float'</span>
-</span><a id="line-158" name="line-158"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_pin</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">GPIO_PIN_COUNT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-159" name="line-159"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// Invalid pin number</span>
-<a id="line-160" name="line-160"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-161" name="line-161"></a><span class="w">    </span><span class="n">PwmTone</span><span class="o">::</span><span class="n">getInstance</span><span class="p">().</span><span class="n">play</span><span class="p">(</span><span class="n">_pin</span><span class="p">,</span><span class="w"> </span><span class="n">frequency</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">);</span>
-<a id="line-162" name="line-162"></a><span class="p">}</span>
-<a id="line-163" name="line-163"></a>
-<a id="line-164" name="line-164"></a><span class="kt">void</span><span class="w"> </span><span class="nf">noTone</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">_pin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-165" name="line-165"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_pin</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">GPIO_PIN_COUNT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="line-166" name="line-166"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// Invalid pin number</span>
-<a id="line-167" name="line-167"></a><span class="w">    </span><span class="p">}</span>
-<a id="line-168" name="line-168"></a><span class="w">    </span><span class="n">PwmTone</span><span class="o">::</span><span class="n">getInstance</span><span class="p">().</span><span class="n">stop</span><span class="p">();</span>
-<a id="line-169" name="line-169"></a><span class="p">}</span>
+<a id="line-84" name="line-84"></a><span class="kt">void</span><span class="w"> </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">pinNumber</span><span class="p">,</span><span class="w"> </span><span class="n">PinStatus</span><span class="w"> </span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-85" name="line-85"></a><span class="w">    </span><span class="n">cyhal_gpio_write</span><span class="p">(</span><span class="n">mapping_gpio_pin</span><span class="p">[</span><span class="n">pinNumber</span><span class="p">],</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+<a id="line-86" name="line-86"></a><span class="p">}</span>
+<a id="line-87" name="line-87"></a>
+<a id="line-88" name="line-88"></a><span class="cp">#ifdef __cplusplus</span>
+<a id="line-89" name="line-89"></a><span class="p">}</span>
+<a id="line-90" name="line-90"></a><span class="cp">#endif</span>
 </pre></div></td></tr></table></div>
 
     </div>
