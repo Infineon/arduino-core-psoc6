@@ -33,6 +33,7 @@ static cyhal_adc_t adc_obj = {0};
 static cyhal_adc_vref_t desiredVRef = CYHAL_ADC_REF_VDDA;
 static bool adc_initialized = false;
 static adc_channel_t adc_channel[ADC_HOWMANY] = {0};
+static int desiredReadResolution = ADC_RESOLUTION;
 static float desiredWriteResolution = PWM_RESOLUTION_8_BIT;
 static pwm_t pwm[PWM_HOWMANY] = {0};
 
@@ -79,6 +80,24 @@ static cy_rslt_t initialize_adc_channel(pin_size_t pinNumber, uint8_t adc_index)
     return status;
 }
 
+void analogReadResolution(int res) {
+    if (res < 1) {
+        desiredReadResolution = 1; // Minimum resolution
+    } else {
+        desiredReadResolution = res;
+    }
+}
+
+static inline uint32_t  map_adc_value(uint32_t adc_value) {
+    uint8_t adc_res = ADC_RESOLUTION - 1; // 11-bit ADC resolution
+    if (desiredReadResolution == adc_res) {
+        return adc_value; // already in desired resolution
+    } else if (desiredReadResolution < adc_res) {
+        return adc_value >> (adc_res - desiredReadResolution); // reduce resolution
+    }
+    return adc_value << (desiredReadResolution - adc_res); // increase resolution
+}
+
 int analogRead(pin_size_t pinNumber) {
     int adc_value = 0;
     uint8_t adc_index = 0;
@@ -100,6 +119,12 @@ int analogRead(pin_size_t pinNumber) {
 
     if (adc_index < ADC_HOWMANY) {
         adc_value = cyhal_adc_read(&adc_channel[adc_index].chan_obj);
+    }
+
+    if (adc_value <= 0) {
+        adc_value = 0; // Ensure non-negative value
+    } else {
+        adc_value = map_adc_value((uint32_t)adc_value);
     }
     return adc_value;
 }
