@@ -1,10 +1,16 @@
-code-quality:
-    - source-code-quality-clang-tidy
-    - source-code-quality-cppcheck
-    - test-code-quality-clang-tidy
-    - test-code-quality-cppcheck
-    - code-quality-clang-format
-    - code-quality-black-format
+# code-quality:
+#     - source-code-quality-clang-tidy
+#     - source-code-quality-cppcheck
+#     - test-code-quality-clang-tidy
+#     - test-code-quality-cppcheck
+#     - code-quality-clang-format
+#     - code-quality-black-format
 
-compile:
-    - compile-psoc6-cy8ckit_062s2_ai
+# compile:
+#     - compile-psoc6-cy8ckit_062s2_ai
+
+
+unit-test:
+    - unit-test-iic-pingpong-1400
+    - unit-test-spi-pingpong-1400
+    - unit-test-digital-io
