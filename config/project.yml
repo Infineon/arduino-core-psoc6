@@ -1,7 +1,15 @@
+options:
+  USE_CORE:
+    name: local
+    url: http://blabla
+  # INCLUDE:
+  #   - filename
+
 compile:
     compile-psoc6-cy8ckit_062s2_ai:
       description: Compiling test_digitalio_single.cpp for PSOC6 platform
-      command: make -f Makefile.arduino.mk FQBN=infineon:psoc6:cy8ckit_062s2_ai test_digitalio_single compile
+      command: make -f Makefile.arduino.mk test_digitalio_single compile
+      fqbns: [infineon:psoc6:cy8ckit_062s2_ai]
       working_dir: tests/arduino-core-tests
 
 code-quality:
@@ -45,3 +53,65 @@ code-quality:
       description: clang-tidy check sources
       tool: black-format
       command: extras/makers-devops/tools/code_checks/run_black.sh ./extras/makers-devops/tools/* 
+
+
+unit-test:
+    unit-test-digital-io:
+      - description: Compiling, flashing and monitoring digital IO unit test.
+        command: make test_digitalio_single UNITY_PATH=/opt/Unity 
+        query: digital_io_single_board == '1:1'
+        working_dir: extras/arduino-core-tests
+        options:
+          PARSE_START_TOKEN: Unity test run
+          PARSE_END_TOKEN: "^OK|^FAIL"
+          SEND_JOB_START_TOKEN: true
+          USE_CORE:
+            name: local
+  
+    unit-test-iic-pingpong-1400:
+      - description: Compiling, flashing and monitoring I2C pingpong master unit test.
+        command: make test_wire_connected2_masterpingpong UNITY_PATH=/opt/Unity 
+        query: iic_ping_pong_multiple_boards_master == '1:1'
+        working_dir: extras/arduino-core-tests
+        options:
+          PARSE_START_TOKEN: Unity test run
+          PARSE_END_TOKEN: "^OK|^FAIL"
+          SEND_JOB_START_TOKEN: true
+          USE_CORE:
+           name: local
+
+      - description: Compiling, flashing and monitoring I2C pingpong slave unit test.
+        command: make test_wire_connected2_slavepingpong UNITY_PATH=/opt/Unity 
+        query: iic_ping_pong_multiple_boards_slave == '1:1'
+        working_dir: extras/arduino-core-tests
+        options:
+          PARSE_START_TOKEN: Unity test run
+          PARSE_END_TOKEN: "^OK|^FAIL"
+          SEND_JOB_START_TOKEN: true
+          USE_CORE:
+            name: local
+
+    unit-test-spi-pingpong-1400:
+      - description: Compiling, flashing and monitoring SPI pingpong slave unit test.
+        command: make test_spi_connected2_slavepingpong UNITY_PATH=/opt/Unity 
+        query: spi_ping_pong_multiple_boards_slave == '1:1'
+        working_dir: extras/arduino-core-tests
+        options:
+          PARSE_START_TOKEN: Unity test run
+          PARSE_END_TOKEN: "^OK|^FAIL"
+          SEND_JOB_START_TOKEN: true
+          USE_CORE:
+           name: local
+
+      - description: Compiling, flashing and monitoring SPI pingpong master unit test.
+        command: make test_spi_connected2_masterpingpong UNITY_PATH=/opt/Unity 
+        query: spi_ping_pong_multiple_boards_master == '1:1'
+        working_dir: extras/arduino-core-tests
+        options:
+          PARSE_START_TOKEN: Unity test run
+          PARSE_END_TOKEN: "^OK|^FAIL"
+          SEND_JOB_START_TOKEN: true
+          USE_CORE:
+            name: local
+
+      
