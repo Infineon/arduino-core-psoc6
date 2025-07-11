@@ -64,7 +64,7 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
     }
 
     if (gpio_initialized[pinNumber]) {
-        if (lastInitPinValue[pinNumber] != initPinValue) {
+        if (currentPinValue[pinNumber] != initPinValue) {
             cyhal_gpio_free(mapping_gpio_pin[pinNumber]);
             gpio_initialized[pinNumber] = false;
         } else {
@@ -75,15 +75,21 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
 
     (void)cyhal_gpio_init(mapping_gpio_pin[pinNumber], direction, drive_mode, initPinValue);
     gpio_initialized[pinNumber] = true;
-    lastInitPinValue[pinNumber] = initPinValue;
+    currentPinValue[pinNumber] = initPinValue;
 }
 
 PinStatus digitalRead(pin_size_t pinNumber) {
-    return cyhal_gpio_read(mapping_gpio_pin[pinNumber]) ? HIGH : LOW;
+    currentPinValue[pinNumber] = cyhal_gpio_read(mapping_gpio_pin[pinNumber]) ? HIGH : LOW;
+    return currentPinValue[pinNumber];
 }
 
 void digitalWrite(pin_size_t pinNumber, PinStatus status) {
     cyhal_gpio_write(mapping_gpio_pin[pinNumber], status);
+    if (status == LOW) {
+        currentPinValue[pinNumber] = false;
+    } else {
+        currentPinValue[pinNumber] = true;
+    }
 }
 
 #ifdef __cplusplus
