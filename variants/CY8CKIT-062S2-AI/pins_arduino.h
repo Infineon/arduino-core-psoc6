@@ -194,7 +194,7 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
 const uint8_t GPIO_PIN_COUNT = (sizeof(mapping_gpio_pin) / sizeof(mapping_gpio_pin[0])) - 1;
 
 bool gpio_initialized[GPIO_PIN_COUNT] = {false};
-bool lastInitPinValue[GPIO_PIN_COUNT] = {false};
+bool currentPinValue[GPIO_PIN_COUNT] = {false};
 
 #ifdef __cplusplus
 }

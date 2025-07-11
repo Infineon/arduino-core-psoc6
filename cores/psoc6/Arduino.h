@@ -40,7 +40,7 @@ extern "C" {
 extern const cyhal_gpio_t mapping_gpio_pin[];
 extern const uint8_t GPIO_PIN_COUNT;
 extern bool gpio_initialized[];
-extern bool lastInitPinValue[];
+extern bool currentPinValue[];
 
 #define GPIO_INTERRUPT_PRIORITY 3 // GPIO interrupt priority
 #define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
