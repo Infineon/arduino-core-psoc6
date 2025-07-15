@@ -1,11 +1,11 @@
-name: Code Checks
+name: Hil Checks
 
 on:
   push:
     
 jobs:
   makers-devops:
-    uses: Infineon/makers-devops/.github/workflows/code_checks.yml@fix-clang-tidy
+    uses: Infineon/makers-devops/.github/workflows/hil_checks.yml@add-hil-workflow
     with:
       project-yaml: config/project.yml
       user-yaml: config/user.yml
