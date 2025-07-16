@@ -44,9 +44,10 @@ extern bool currentPinValue[];
 
 #define GPIO_INTERRUPT_PRIORITY 3 // GPIO interrupt priority
 #define digitalPinToInterrupt(p) ((p) < GPIO_PIN_COUNT ? (p) : -1)
-#define PWM_FREQUENCY_HZ    1000  // 1 kHz
+#define PWM_FREQUENCY_HZ    50  // 1 kHz
 void analogWriteResolution(int res);
 void analogReadResolution(int res);
+void setAnalogWriteFrequency(pin_size_t pinNumber, uint32_t frequency);
 
 #undef LITTLE_ENDIAN
 
