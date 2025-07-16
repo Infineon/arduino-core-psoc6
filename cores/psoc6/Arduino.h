@@ -47,6 +47,7 @@ extern bool gpio_current_value[];
 #define PWM_FREQUENCY_HZ    1000  // 1 kHz
 void analogWriteResolution(int res);
 void analogReadResolution(int res);
+void setAnalogWriteFrequency(pin_size_t pinNumber, uint32_t frequency);
 
 #undef LITTLE_ENDIAN
 
