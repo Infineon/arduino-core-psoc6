@@ -24,6 +24,8 @@ typedef struct {
 typedef struct {
     cyhal_pwm_t pwm_obj;
     pin_size_t pin;
+    float duty_cycle_percent;
+    float frequency_hz;
     bool initialized;
 } pwm_t;
 
@@ -146,8 +148,9 @@ void analogWriteResolution(int res) {
 }
 
 void analogWrite(pin_size_t pinNumber, int value) {
+
     uint8_t pwm_index = 0;
-    uint8_t pwm_value = value;
+    int pwm_value = value;
     cy_rslt_t result = CY_RSLT_TYPE_ERROR;
 
     if (pinNumber > GPIO_PIN_COUNT) {
@@ -179,12 +182,35 @@ void analogWrite(pin_size_t pinNumber, int value) {
             pwm_value = desiredWriteResolution;
         }
 
-        float duty_cycle_pertentage = (pwm_value / desiredWriteResolution) * 100.0f;
 
-        result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_pertentage, PWM_FREQUENCY_HZ);
+        float duty_cycle_percent = ((float)pwm_value / desiredWriteResolution) * 100.0f;
+        pwm[pwm_index].duty_cycle_percent = duty_cycle_percent;
+
+        if (pwm[pwm_index].frequency_hz == 0) {
+            pwm[pwm_index].frequency_hz = PWM_FREQUENCY_HZ;
+        }
+        result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_percent, pwm[pwm_index].frequency_hz);
         pwm_assert(result);
 
         result = cyhal_pwm_start(&pwm[pwm_index].pwm_obj);
         pwm_assert(result);
+    }
+}
+
+void setAnalogWriteFrequency(pin_size_t pinNumber, uint32_t frequency) {
+    if (pinNumber > GPIO_PIN_COUNT) {
+        return;  // Invalid pin number
+    }
+
+    for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
+        if (pwm[i].initialized && pwm[i].pin == pinNumber) {
+            cy_rslt_t result = cyhal_pwm_set_duty_cycle(&pwm[i].pwm_obj, pwm[i].duty_cycle_percent, frequency);
+            if (result != CY_RSLT_SUCCESS) {
+                pwm_assert(result);
+            }
+            return;
+        } else {
+            pwm[i].frequency_hz = frequency; // Store the frequency for use in analogwrite
+        }
     }
 }
