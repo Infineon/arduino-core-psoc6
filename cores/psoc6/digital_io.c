@@ -29,7 +29,7 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
 
     cyhal_gpio_direction_t direction;
     cyhal_gpio_drive_mode_t drive_mode;
-    bool initPinValue = false;
+    bool gpio_init_value = false;
 
     switch (pinMode)
     {
@@ -41,7 +41,7 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
         case INPUT_PULLUP:
             direction = CYHAL_GPIO_DIR_INPUT;
             drive_mode = CYHAL_GPIO_DRIVE_PULLUP;
-            initPinValue = true;
+            gpio_init_value = true;
             break;
 
         case INPUT_PULLDOWN:
@@ -64,7 +64,7 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
     }
 
     if (gpio_initialized[pinNumber]) {
-        if (currentPinValue[pinNumber] != initPinValue) {
+        if (gpio_current_value[pinNumber] != gpio_init_value) {
             cyhal_gpio_free(mapping_gpio_pin[pinNumber]);
             gpio_initialized[pinNumber] = false;
         } else {
@@ -73,22 +73,22 @@ void pinMode(pin_size_t pinNumber, PinMode pinMode) {
         }
     }
 
-    (void)cyhal_gpio_init(mapping_gpio_pin[pinNumber], direction, drive_mode, initPinValue);
+    (void)cyhal_gpio_init(mapping_gpio_pin[pinNumber], direction, drive_mode, gpio_init_value);
     gpio_initialized[pinNumber] = true;
-    currentPinValue[pinNumber] = initPinValue;
+    gpio_current_value[pinNumber] = gpio_init_value;
 }
 
 PinStatus digitalRead(pin_size_t pinNumber) {
-    currentPinValue[pinNumber] = cyhal_gpio_read(mapping_gpio_pin[pinNumber]) ? HIGH : LOW;
-    return currentPinValue[pinNumber];
+    gpio_current_value[pinNumber] = cyhal_gpio_read(mapping_gpio_pin[pinNumber]) ? HIGH : LOW;
+    return gpio_current_value[pinNumber];
 }
 
 void digitalWrite(pin_size_t pinNumber, PinStatus status) {
     cyhal_gpio_write(mapping_gpio_pin[pinNumber], status);
     if (status == LOW) {
-        currentPinValue[pinNumber] = false;
+        gpio_current_value[pinNumber] = false;
     } else {
-        currentPinValue[pinNumber] = true;
+        gpio_current_value[pinNumber] = true;
     }
 }
 
