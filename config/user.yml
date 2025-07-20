@@ -12,3 +12,5 @@
 
 unit-test:
     - unit-test-iic-pingpong-1400
+    - unit-test-spi-pingpong-1400
+    - unit-test-digital-io
