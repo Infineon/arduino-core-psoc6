@@ -1,4 +1,8 @@
 unit-test:
-    - unit-test-iic-pingpong-1400
-    - unit-test-spi-pingpong-1400
+    - unit-test-iic-pingpong
+    - unit-test-spi-pingpong
     - unit-test-digital-io
+    - unit-test-interrupts
+    - unit-test-time
+    - unit-test-random
+    - unit-test-tone
