@@ -203,14 +203,24 @@ void setAnalogWriteFrequency(pin_size_t pinNumber, uint32_t frequency) {
     }
 
     for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
-        if (pwm[i].initialized && pwm[i].pin == pinNumber) {
-            cy_rslt_t result = cyhal_pwm_set_duty_cycle(&pwm[i].pwm_obj, pwm[i].duty_cycle_percent, frequency);
-            if (result != CY_RSLT_SUCCESS) {
-                pwm_assert(result);
+        if (pwm[i].pin == pinNumber) {
+            pwm[i].frequency_hz = frequency;
+            if (pwm[i].initialized) {
+                cy_rslt_t result = cyhal_pwm_set_duty_cycle(&pwm[i].pwm_obj, pwm[i].duty_cycle_percent, frequency);
+                if (result != CY_RSLT_SUCCESS) {
+                    pwm_assert(result);
+                }
             }
             return;
-        } else {
-            pwm[i].frequency_hz = frequency; // Store the frequency for use in analogwrite
+        }
+    }
+
+    // If not found, store for future use in the first available slot
+    for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
+        if (!pwm[i].initialized) {
+            pwm[i].pin = pinNumber;
+            pwm[i].frequency_hz = frequency;
+            return;
         }
     }
 }
