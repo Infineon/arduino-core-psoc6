@@ -52,6 +52,13 @@ Only the `DEFAULT` mode is supported and uses the internal reference voltage of 
 The PWM resolution is fixed at 8 bits by default unless the user explicitly sets a different resolution using the `analogWriteResolution()` function.
 The default frequency of the PWM signal is fixed at **1 kHz** and cannot be changed.
 
+.. code-block:: cpp
+
+    void setAnalogWriteFrequency(int pin, uint32_t frequency)
+
+This function can be used to set the frequency of the AnalogWrite PWM signal. The allowed range is from 1Hz to 100MHz. This function will only set the frequency
+and user has to explicitly call the `analogwrite()` to start the PWM signal with the frequency set.
+If the user has already started the PWM using `analogwrite()` then user can call this function to change the frequency.
 
 .. code-block:: cpp
 
