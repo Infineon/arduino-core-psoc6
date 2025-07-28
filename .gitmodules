@@ -22,9 +22,6 @@
 [submodule "extras/mtb-libs/retarget-io"]
 	path = extras/mtb-libs/retarget-io
 	url = https://github.com/Infineon/retarget-io.git
-[submodule "tests/arduino-core-tests"]
-	path = tests/arduino-core-tests
-	url = https://github.com/Infineon/arduino-core-tests.git
 [submodule "extras/mtb-libs/abstraction-rtos"]
 	path = extras/mtb-libs/abstraction-rtos
 	url = https://github.com/Infineon/abstraction-rtos.git
@@ -76,3 +73,6 @@
 [submodule "extras/makers-devops"]
 	path = extras/makers-devops
 	url = https://github.com/Infineon/makers-devops.git
+[submodule "extras/arduino-core-tests"]
+	path = extras/arduino-core-tests
+	url = https://github.com/Infineon/arduino-core-tests.git
