@@ -6,3 +6,5 @@ unit-test:
     - unit-test-time
     - unit-test-random
     - unit-test-tone
+    - unit-test-spi-loopback
+    - unit-test-iic-single-board
