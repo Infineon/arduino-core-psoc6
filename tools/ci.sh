@@ -10,6 +10,20 @@ fi
 ulimit -n 1024
 
 ########################################################################################
+# c code formatting
+
+function ci_c_code_formatting_setup {
+    sudo apt-get install black
+    black --version
+    sudo apt-get install uncrustify
+    uncrustify --version
+}
+
+function ci_c_code_formatting_run {
+    python tools/codeformat.py -v
+}
+
+########################################################################################
 # commit formatting
 
 function ci_commit_formatting_run {
@@ -20,3 +34,4 @@ function ci_commit_formatting_run {
     # For a PR, upstream/main..HEAD ends with a merge commit into main, exclude that one.
     python tools/verifygitlog.py -v upstream/main..HEAD --no-merges
 }
+

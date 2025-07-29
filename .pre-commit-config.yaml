@@ -1,20 +1,22 @@
 repos:
   - repo: local
     hooks:
-      - id: codeformat-c-cpp
-        name: Running clang formatter for changed C/ C++ files
-        entry: extras/makers-devops/tools/code_checks/run_clang_format.sh ./cores/psoc6/* ./libraries/*
-        language: system
-      - id: codeformat-python
-        name: Running black formatter for changed python scripts files
-        entry: sh -c "find ./tools -type f -name '*.py' -exec black {} +"
-        language: system
+      - id: codeformat
+        name: codeformat.py for changed C files
+        entry: python3 tools/codeformat.py -v -c -f
+        language: python
       - id: verifygitlog
         name: git commit message format checker
         entry: python3 tools/verifygitlog.py --check-file --ignore-rebase
         language: python
         verbose: true
         stages: [commit-msg]
+  - repo: https://github.com/psf/black
+    # Version should be kept in sync with .github/workflows/black.yml
+    rev: 24.8.0
+    hooks:
+      - id: black
+        name: Python code formatter
   - repo: https://github.com/codespell-project/codespell
     # Version should be kept in sync with .github/workflows/codespell.yml
     rev: v2.3.0

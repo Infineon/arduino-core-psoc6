@@ -124,3 +124,19 @@ unit-test:
         working_dir: extras/arduino-core-tests
         options:
           SEND_JOB_START_TOKEN: true
+
+    unit-test-spi-loopback:
+      - description: Compiling, flashing and monitoring SPI loopback unit test.
+        command: make test_spi_connected1_loopback
+        query: spi_ping_pong_single_board == '1:1'
+        working_dir: extras/arduino-core-tests
+        options:
+          SEND_JOB_START_TOKEN: true
+
+    unit-test-iic-single-board:
+      - description: Compiling, flashing and monitoring I2C single board unit test.
+        command: make test_wire_connected1_pingpong
+        query: iic_ping_pong_single_board == '1:1'
+        working_dir: extras/arduino-core-tests
+        options:
+          SEND_JOB_START_TOKEN: true
