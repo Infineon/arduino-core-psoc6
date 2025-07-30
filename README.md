@@ -7,6 +7,7 @@
 [![code spell check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml)
 [![commit message check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml)
 [![docs build](https://readthedocs.org/projects/arduino-core-psoc6/badge/?version=latest)](https://arduino-core-psoc6.readthedocs.io/en/latest/?badge=latest)
+[![check links](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/check_links.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/check_links.yml)
 
 <!-- PROJECT LOGO -->
 <br />
