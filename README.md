@@ -1,5 +1,9 @@
 <a id="readme-top"></a>
 
+<!-- PROJECT LOGO -->
+<br />
+<h2 align="center">Arduino Core for Infineon's PSOC™ 6 Microcontrollers</h2>
+
 <!-- PROJECT SHIELDS -->
 [![compile examples](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile_examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile_examples.yml)
 [![HIL test](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml)
@@ -8,10 +12,6 @@
 [![commit message check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml)
 [![docs build](https://readthedocs.org/projects/arduino-core-psoc6/badge/?version=latest)](https://arduino-core-psoc6.readthedocs.io/en/latest/?badge=latest)
 [![check links](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/check_links.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/check_links.yml)
-
-<!-- PROJECT LOGO -->
-<br />
-<h2 align="center">Arduino Core for Infineon's PSOC™ 6 Microcontrollers</h2>
 
   <p align="center">
     This repository integrates Infineon's <a href="https://www.infineon.com/cms/en/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/psoc-6-32-bit-arm-cortex-m4-mcu/">PSOC™ 6 microcontrollers</a> into the <a href="https://www.arduino.cc/en/main/software">Arduino ecosystem</a>.
