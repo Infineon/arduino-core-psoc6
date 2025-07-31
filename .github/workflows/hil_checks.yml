@@ -5,7 +5,7 @@ on:
     
 jobs:
   makers-devops:
-    uses: Infineon/makers-devops/.github/workflows/hil_checks.yml@main
+    uses: Infineon/makers-devops/.github/workflows/hil_checks.yml@fix-hil-test
     with:
       project-yaml: config/project.yml
       user-yaml: config/user.yml
