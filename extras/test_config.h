@@ -11,6 +11,7 @@
 #define TEST_CONFIG_H
 
 #include <stdint.h>
+#include <SPI.h>
 
 // Test Pin Definitions
 
@@ -27,5 +28,8 @@
 #define         TEST_PIN_ANALOG_IO_DIVIDER      A1      // Pin connected to voltage divider
 
 #define         TEST_ADC_RESOLUTION             2048    // 11-bit resolution
+
+// Forward declarations for SPI instances
+extern SPIClassPSOC SPI1;
 
 #endif // TEST_CONFIG_H
