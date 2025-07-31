@@ -2,7 +2,7 @@
 
 <!-- PROJECT SHIELDS -->
 [![compile examples](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile_examples.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/compile_examples.yml)
-[![HIL test](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml)
+[![HIL test](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_checks.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/hil_unity_checks.yml)
 [![code format check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/code_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/code_formatting.yml)
 [![code spell check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/codespell.yml)
 [![commit message check](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml/badge.svg)](https://github.com/Infineon/arduino-core-psoc6/actions/workflows/commit_formatting.yml)
