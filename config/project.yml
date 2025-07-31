@@ -1,4 +1,7 @@
 options:
+  SEND_JOB_START_TOKEN: true
+  PARSER_START_TOKEN: Unity test run
+  PARSER_END_TOKEN: "^OK|^FAIL"
   USE_CORE:
     name: local
     url: http://blabla
@@ -57,7 +60,7 @@ code-quality:
 unit-test:
     unit-test-digital-io:
       - description: Compiling, flashing and monitoring digital IO unit test.
-        command: make test_digitalio_single 
+        command: make test_digitalio_single UNITY_PATH=/opt/Unity
         query: digital_io_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         options:
@@ -65,7 +68,7 @@ unit-test:
 
     unit-test-tone:
       - description: Compiling, flashing and monitoring digital IO unit test.
-        command: make test_digitalio_single 
+        command: make test_tone_no_tone UNITY_PATH=/opt/Unity
         query: tone_no_tone_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         options:
@@ -73,7 +76,7 @@ unit-test:
 
     unit-test-interrupts:
       - description: Compiling, flashing and monitoring Interrupts unit test.
-        command: make test_interrupts_single 
+        command: make test_interrupts_single UNITY_PATH=/opt/Unity
         query: interrupts_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         options:
@@ -81,7 +84,7 @@ unit-test:
 
     unit-test-random:
       - description: Compiling, flashing and monitoring Interrupts unit test.
-        command: make test_random 
+        command: make test_random UNITY_PATH=/opt/Unity
         query: random_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         options:
@@ -89,7 +92,7 @@ unit-test:
 
     unit-test-time:
       - description: Compiling, flashing and monitoring Time unit test.
-        command: make test_time_single 
+        command: make test_time_single UNITY_PATH=/opt/Unity
         query: time_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         options:
@@ -97,29 +100,29 @@ unit-test:
   
     unit-test-iic-pingpong:
       - description: Compiling, flashing and monitoring I2C pingpong master unit test.
-        command: make test_wire_connected2_masterpingpong 
-        query: iic_ping_pong_multiple_boards_master == '1:1'
+        command: make test_wire_connected2_slavepingpong UNITY_PATH=/opt/Unity
+        query: iic_ping_pong_multiple_boards_slave == '1:1'
         working_dir: extras/arduino-core-tests
         options:
           SEND_JOB_START_TOKEN: true
 
       - description: Compiling, flashing and monitoring I2C pingpong slave unit test.
-        command: make test_wire_connected2_slavepingpong 
-        query: iic_ping_pong_multiple_boards_slave == '1:1'
+        command: make test_wire_connected2_masterpingpong UNITY_PATH=/opt/Unity
+        query: iic_ping_pong_multiple_boards_master == '1:1'
         working_dir: extras/arduino-core-tests
         options:
           SEND_JOB_START_TOKEN: true
 
     unit-test-spi-pingpong:
       - description: Compiling, flashing and monitoring SPI pingpong slave unit test.
-        command: make test_spi_connected2_slavepingpong 
+        command: make test_spi_connected2_slavepingpong UNITY_PATH=/opt/Unity
         query: spi_ping_pong_multiple_boards_slave == '1:1'
         working_dir: extras/arduino-core-tests
         options:
           SEND_JOB_START_TOKEN: true
 
       - description: Compiling, flashing and monitoring SPI pingpong master unit test.
-        command: make test_spi_connected2_masterpingpong 
+        command: make test_spi_connected2_masterpingpong UNITY_PATH=/opt/Unity
         query: spi_ping_pong_multiple_boards_master == '1:1'
         working_dir: extras/arduino-core-tests
         options:
@@ -127,7 +130,7 @@ unit-test:
 
     unit-test-spi-loopback:
       - description: Compiling, flashing and monitoring SPI loopback unit test.
-        command: make test_spi_connected1_loopback
+        command: make test_spi_connected1_loopback UNITY_PATH=/opt/Unity
         query: spi_ping_pong_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         options:
@@ -135,7 +138,7 @@ unit-test:
 
     unit-test-iic-single-board:
       - description: Compiling, flashing and monitoring I2C single board unit test.
-        command: make test_wire_connected1_pingpong
+        command: make test_wire_connected1_pingpong UNITY_PATH=/opt/Unity
         query: iic_ping_pong_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         options:
