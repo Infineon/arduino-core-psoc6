@@ -1,0 +1,10 @@
+unit-test:
+    - unit-test-iic-pingpong
+    - unit-test-spi-pingpong
+    - unit-test-digital-io
+    - unit-test-interrupts
+    - unit-test-time
+    - unit-test-random
+    - unit-test-tone
+    - unit-test-spi-loopback
+    - unit-test-iic-single-board
