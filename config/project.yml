@@ -62,7 +62,7 @@ unit-test:
         query: digital_io_single_board == '1:1'
         working_dir: extras/arduino-core-tests
         # options:
-        #   SEND_JOB_START_TOKEN: false
+        #   SEND_JOB_START_TOKEN: false 
 
     unit-test-tone:
       - description: Compiling, flashing and monitoring digital IO unit test.
