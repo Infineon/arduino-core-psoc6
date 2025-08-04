@@ -1,7 +1,7 @@
 name: Compile examples
 
 on:
-  push:
+#  push:
     
 jobs:
   arduino-devops:

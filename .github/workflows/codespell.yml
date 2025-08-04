@@ -1,6 +1,7 @@
 name: Code spell check
 
-on: [push, pull_request]
+on: [pull_request]
+# on: [push, pull_request]
 
 jobs:
   codespell:
