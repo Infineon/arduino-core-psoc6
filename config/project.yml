@@ -2,6 +2,7 @@ options:
   USE_CORE:
     name: local
     url: http://blabla
+  SEND_JOB_START_TOKEN: true
   # INCLUDE:
   #   - filename
 
@@ -60,83 +61,83 @@ unit-test:
         command: make test_digitalio_single 
         query: digital_io_single_board == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: false
+        # options:
+        #   SEND_JOB_START_TOKEN: false
 
     unit-test-tone:
       - description: Compiling, flashing and monitoring digital IO unit test.
         command: make test_digitalio_single 
         query: tone_no_tone_single_board == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: false
+        # options:
+        #   SEND_JOB_START_TOKEN: false
 
     unit-test-interrupts:
       - description: Compiling, flashing and monitoring Interrupts unit test.
         command: make test_interrupts_single 
         query: interrupts_single_board == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: false
+        # options:
+        #   SEND_JOB_START_TOKEN: false
 
     unit-test-random:
       - description: Compiling, flashing and monitoring Interrupts unit test.
         command: make test_random 
         query: random_single_board == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: false
+        # options:
+        #   SEND_JOB_START_TOKEN: false
 
     unit-test-time:
       - description: Compiling, flashing and monitoring Time unit test.
         command: make test_time_single 
         query: time_single_board == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: false
+        # options:
+        #   SEND_JOB_START_TOKEN: false
   
     unit-test-iic-pingpong:
       - description: Compiling, flashing and monitoring I2C pingpong master unit test.
         command: make test_wire_connected2_masterpingpong 
         query: iic_ping_pong_multiple_boards_master == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: true
+        # options:
+        #   SEND_JOB_START_TOKEN: true
 
       - description: Compiling, flashing and monitoring I2C pingpong slave unit test.
         command: make test_wire_connected2_slavepingpong 
         query: iic_ping_pong_multiple_boards_slave == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: true
+        # options:
+        #   SEND_JOB_START_TOKEN: true
 
     unit-test-spi-pingpong:
       - description: Compiling, flashing and monitoring SPI pingpong slave unit test.
         command: make test_spi_connected2_slavepingpong 
         query: spi_ping_pong_multiple_boards_slave == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: true
+        # options:
+        #   SEND_JOB_START_TOKEN: true
 
       - description: Compiling, flashing and monitoring SPI pingpong master unit test.
         command: make test_spi_connected2_masterpingpong 
         query: spi_ping_pong_multiple_boards_master == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: true
+        # options:
+        #   SEND_JOB_START_TOKEN: true
 
     unit-test-spi-loopback:
       - description: Compiling, flashing and monitoring SPI loopback unit test.
         command: make test_spi_connected1_loopback
         query: spi_ping_pong_single_board == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: true
+        # options:
+        #   SEND_JOB_START_TOKEN: true
 
     unit-test-iic-single-board:
       - description: Compiling, flashing and monitoring I2C single board unit test.
         command: make test_wire_connected1_pingpong
         query: iic_ping_pong_single_board == '1:1'
         working_dir: extras/arduino-core-tests
-        options:
-          SEND_JOB_START_TOKEN: true
+        # options:
+        #   SEND_JOB_START_TOKEN: true
