@@ -27,6 +27,7 @@ typedef struct {
     float duty_cycle_percent;
     float frequency_hz;
     bool initialized;
+    bool used;
 } pwm_t;
 
 // Static Variables
@@ -147,80 +148,87 @@ void analogWriteResolution(int res) {
     }
 }
 
-void analogWrite(pin_size_t pinNumber, int value) {
-
-    uint8_t pwm_index = 0;
-    int pwm_value = value;
-    cy_rslt_t result = CY_RSLT_TYPE_ERROR;
-
+static pwm_t * pwm_alloc(pin_size_t pinNumber) {
     if (pinNumber > GPIO_PIN_COUNT) {
-        return; // Invalid pin number
+        return NULL; // Invalid pin number
     }
 
-    // Find existing channel or initialize a new one
-    for (pwm_index = 0; pwm_index < PWM_HOWMANY; pwm_index++) {
-        if (pwm[pwm_index].initialized) {
-            if (pwm[pwm_index].pin == pinNumber) {
-                // Found an existing channel for the pin
-                break;
-            }
-        } else {
-            // Found an uninitialized channel, initialize it
-            result = cyhal_pwm_init(&pwm[pwm_index].pwm_obj, mapping_gpio_pin[pinNumber], NULL);
-            pwm_assert(result);
-            pwm[pwm_index].pin = pinNumber;
-            pwm[pwm_index].initialized = true;
-            break;
+    // First, look for existing allocation for this pin
+    for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
+        if (pwm[i].used && pwm[i].pin == pinNumber) {
+            return &pwm[i];
         }
     }
-    if (pwm_index < PWM_HOWMANY) {
 
-        if (pwm_value <= 0) {
-            pwm_value = 0;
+    // If not found, look for unused slot
+    for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
+        if (!pwm[i].used) {
+            // Allocate this slot
+            pwm[i].pin = pinNumber;
+            pwm[i].used = true;
+            pwm[i].frequency_hz = 0;
+            pwm[i].duty_cycle_percent = 0;
+            pwm[i].initialized = false;
+            return &pwm[i];
         }
-        if (pwm_value > desiredWriteResolution) {
-            pwm_value = desiredWriteResolution;
-        }
+    }
 
+    return NULL; // No slots available
+}
 
-        float duty_cycle_percent = ((float)pwm_value / desiredWriteResolution) * 100.0f;
-        pwm[pwm_index].duty_cycle_percent = duty_cycle_percent;
+void analogWrite(pin_size_t pinNumber, int value) {
+    // Allocate or find existing PWM slot
+    pwm_t *pwm = pwm_alloc(pinNumber);
+    if (pwm == NULL) {
+        return;
+    }
 
-        if (pwm[pwm_index].frequency_hz == 0) {
-            pwm[pwm_index].frequency_hz = PWM_FREQUENCY_HZ;
-        }
-        result = cyhal_pwm_set_duty_cycle(&pwm[pwm_index].pwm_obj, duty_cycle_percent, pwm[pwm_index].frequency_hz);
+    if (!pwm->initialized) {
+        cy_rslt_t result = cyhal_pwm_init(&pwm->pwm_obj, mapping_gpio_pin[pinNumber], NULL);
         pwm_assert(result);
-
-        result = cyhal_pwm_start(&pwm[pwm_index].pwm_obj);
-        pwm_assert(result);
+        pwm->initialized = true;
     }
+
+    int pwm_value = value;
+    if (pwm_value <= 0) {
+        pwm_value = 0;
+    }
+    if (pwm_value > desiredWriteResolution) {
+        pwm_value = desiredWriteResolution;
+    }
+
+    // Calculate duty cycle
+    float duty_cycle_percent = ((float)pwm_value / desiredWriteResolution) * 100.0f;
+    pwm->duty_cycle_percent = duty_cycle_percent;
+
+    // Use pre-configured frequency or default
+    if (pwm->frequency_hz == 0) {
+        pwm->frequency_hz = PWM_FREQUENCY_HZ;
+    }
+
+    // Set duty cycle and start PWM
+    cy_rslt_t result = cyhal_pwm_set_duty_cycle(&pwm->pwm_obj, duty_cycle_percent, pwm->frequency_hz);
+    pwm_assert(result);
+
+    result = cyhal_pwm_start(&pwm->pwm_obj);
+    pwm_assert(result);
 }
 
 void setAnalogWriteFrequency(pin_size_t pinNumber, uint32_t frequency) {
-    if (pinNumber > GPIO_PIN_COUNT) {
-        return;  // Invalid pin number
+    // Allocate or find existing PWM slot
+    pwm_t *pwm = pwm_alloc(pinNumber);
+    if (pwm == NULL) {
+        return;
     }
 
-    for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
-        if (pwm[i].pin == pinNumber) {
-            pwm[i].frequency_hz = frequency;
-            if (pwm[i].initialized) {
-                cy_rslt_t result = cyhal_pwm_set_duty_cycle(&pwm[i].pwm_obj, pwm[i].duty_cycle_percent, frequency);
-                if (result != CY_RSLT_SUCCESS) {
-                    pwm_assert(result);
-                }
-            }
-            return;
-        }
-    }
+    // Set frequency
+    pwm->frequency_hz = frequency;
 
-    // If not found, store for future use in the first available slot
-    for (uint8_t i = 0; i < PWM_HOWMANY; i++) {
-        if (!pwm[i].initialized) {
-            pwm[i].pin = pinNumber;
-            pwm[i].frequency_hz = frequency;
-            return;
+    // If already initialized, update the hardware immediately
+    if (pwm->initialized) {
+        cy_rslt_t result = cyhal_pwm_set_duty_cycle(&pwm->pwm_obj, pwm->duty_cycle_percent, frequency);
+        if (result != CY_RSLT_SUCCESS) {
+            pwm_assert(result);
         }
     }
 }
