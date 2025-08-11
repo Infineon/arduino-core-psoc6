@@ -27,7 +27,8 @@
 #define         TEST_PIN_ANALOG_IO_VREF         A0      // Pin connected to VREF
 #define         TEST_PIN_ANALOG_IO_DIVIDER      A1      // Pin connected to voltage divider
 
-#define         TEST_ADC_RESOLUTION             2048    // 11-bit resolution
+#define         TEST_ADC_RESOLUTION             11      
+#define         TEST_ADC_MAX_VALUE              2048    // 11-bit resolution
 
 // Forward declarations for SPI instances
 extern SPIClassPSOC SPI1;

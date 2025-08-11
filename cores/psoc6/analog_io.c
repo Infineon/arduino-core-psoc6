@@ -36,7 +36,7 @@ static cyhal_adc_t adc_obj = {0};
 static cyhal_adc_vref_t desiredVRef = CYHAL_ADC_REF_VDDA;
 static bool adc_initialized = false;
 static adc_channel_t adc_channel[ADC_HOWMANY] = {0};
-static int desiredReadResolution = ADC_RESOLUTION;
+static int desiredReadResolution = ADC_RESOLUTION - 1; // 11-bit ADC resolution
 static float desiredWriteResolution = PWM_RESOLUTION_8_BIT;
 static pwm_t pwm[PWM_HOWMANY] = {0};
 
