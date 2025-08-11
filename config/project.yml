@@ -64,7 +64,7 @@ unit-test:
 
     unit-test-tone:
       - description: Compiling, flashing and monitoring tone, no-tone unit test.
-        command: make test_digitalio_single 
+        command: make test_tone_no_tone 
         query: tone_no_tone_single_board == '1:1'
         working_dir: extras/arduino-core-tests
 
@@ -118,4 +118,27 @@ unit-test:
       - description: Compiling, flashing and monitoring I2C single board unit test.
         command: make test_wire_connected1_pingpong
         query: iic_ping_pong_single_board == '1:1'
+        working_dir: extras/arduino-core-tests
+
+    unit-test-analog-io-adc:
+      - description: Compiling, flashing and monitoring ADC unit test.
+        command: make test_analogio_adc
+        query: analogio_adc_single_board == '1:1'
+        working_dir: extras/arduino-core-tests
+    
+    unit-test-analog-io-pwm:
+      - description: Compiling, flashing and monitoring PWM unit test.
+        command: make test_analogio_pwm
+        query: analogio_pwm_single_board == '1:1'
+        working_dir: extras/arduino-core-tests
+
+    unit-test-pulse:
+      - description: Compiling, flashing and monitoring Advanced IO Pulse unit test.
+        command: make test_pulse_board1 
+        query: adv_io_pulse_board1 == '1:1'
+        working_dir: extras/arduino-core-tests
+
+      - description: Compiling, flashing and monitoring Advanced IO Pulse unit test.
+        command: make test_pulse_board2 
+        query: adv_io_pulse_board2 == '1:1'
         working_dir: extras/arduino-core-tests
