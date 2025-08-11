@@ -8,3 +8,6 @@ unit-test:
     - unit-test-tone
     - unit-test-spi-loopback
     - unit-test-iic-single-board
+    - unit-test-analog-io-adc
+    - unit-test-analog-io-pwm
+    - unit-test-pulse

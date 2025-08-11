@@ -20,6 +20,7 @@
 |                   |               |               |                                |
 |Advanced IO Pulse  | P9.5          | P9.5          | IO5 (Pulse Output) to          |
 |                   |               |               |       IO5 (Pulse Input)        |
+|                   | P9.4          | P9.4          | IO synch signal                |
 |                   |               |               |                                |
 
 # Pin Connections for HIL Test Setup on Single Board
