@@ -1,10 +1,7 @@
 options:
   USE_CORE:
     name: local
-    url: http://blabla
   SEND_JOB_START_TOKEN: true
-  # INCLUDE:
-  #   - filename
 
 compile:
     compile-psoc6-cy8ckit_062s2_ai:
@@ -141,4 +138,15 @@ unit-test:
       - description: Compiling, flashing and monitoring Advanced IO Pulse unit test.
         command: make test_pulse_board2 
         query: adv_io_pulse_board2 == '1:1'
+        working_dir: extras/arduino-core-tests
+
+    unit-test-uart:
+      - description: Compiling, flashing and monitoring UART RX unit test.
+        command: make test_uart_rx 
+        query: uart_multiple_boards_rx == '1:1'
+        working_dir: extras/arduino-core-tests
+
+      - description: Compiling, flashing and monitoring UART TX unit test.
+        command: make test_uart_tx 
+        query: uart_multiple_boards_tx == '1:1'
         working_dir: extras/arduino-core-tests
