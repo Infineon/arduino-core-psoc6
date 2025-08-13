@@ -12,3 +12,9 @@ unit-test:
     - unit-test-analog-io-pwm
     - unit-test-pulse
     - unit-test-uart
+    - unit-test-wifi-tcp
+    - unit-test-wifi-extras
+    - unit-test-wifi-sta-ap
+    - unit-test-wifi-udp
+    - unit-test-wifi-exceptions
+
