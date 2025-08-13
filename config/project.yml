@@ -150,3 +150,36 @@ unit-test:
         command: make test_uart_tx 
         query: uart_multiple_boards_tx == '1:1'
         working_dir: extras/arduino-core-tests
+
+    unit-test-wifi-tcp:
+      - description: Compiling, flashing and monitoring WIFI TCP server unit test.
+        command: make test_wifi_server 
+        query: wifi_multiple_boards_server == '1:1'
+        working_dir: extras/arduino-core-tests
+
+      - description: Compiling, flashing and monitoring WIFI TCP client unit test.
+        command: make test_wifi_client 
+        query: wifi_multiple_boards_client == '1:1'
+        working_dir: extras/arduino-core-tests
+
+    unit-test-wifi-udp:
+      - description: Compiling, flashing and monitoring WIFI UDP server unit test.
+        command: make test_wifi_udp_server 
+        query: wifi_multiple_boards_server == '1:1'
+        working_dir: extras/arduino-core-tests
+
+      - description: Compiling, flashing and monitoring WIFI UDP client unit test.
+        command: make test_wifi_udp_client 
+        query: wifi_multiple_boards_client == '1:1'
+        working_dir: extras/arduino-core-tests
+
+    unit-test-wifi-sta-ap:
+      - description: Compiling, flashing and monitoring WIFI Access point unit test.
+        command: make test_wifi_ap 
+        query: wifi_multiple_boards_ap == '1:1'
+        working_dir: extras/arduino-core-tests
+
+      - description: Compiling, flashing and monitoring WIFI station unit test.
+        command: make test_wifi_sta 
+        query: wifi_multiple_boards_sta == '1:1'
+        working_dir: extras/arduino-core-tests
