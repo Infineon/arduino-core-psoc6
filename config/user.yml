@@ -12,9 +12,13 @@ unit-test:
     - unit-test-analog-io-pwm
     - unit-test-pulse
     - unit-test-uart
+    - unit-test-wifi-tcp
+    - unit-test-wifi-udp
+    - unit-test-wifi-sta-ap
 
 code-quality:
     - source-code-quality-clang-tidy
     - source-code-quality-cppcheck
     - code-quality-clang-format
     - code-quality-black-format
+    
