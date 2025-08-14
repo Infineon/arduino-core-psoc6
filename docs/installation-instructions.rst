@@ -3,10 +3,6 @@
 Installation Instructions
 =========================
 
-.. warning::
-
-   This is a work in progress version of the Arduino Core for PSOC™ 6 documentation.
-   While this warning notice is present, the documentation is NOT ready for public usage.
 
 Integration in Arduino IDE
 --------------------------
