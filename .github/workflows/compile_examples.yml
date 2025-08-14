@@ -2,7 +2,8 @@ name: Compile examples
 
 on:
   push:
-    
+    paths-ignore:
+      - 'docs/**'
 jobs:
   arduino-devops:
     uses: Infineon/arduino-devops/.github/workflows/compile-examples.yml@latest
