@@ -75,8 +75,46 @@ Built-in Libraries
       - | `random <https://docs.arduino.cc/language-reference/en/functions/random-numbers/random/>`_
         | `randomSeed <https://docs.arduino.cc/language-reference/en/functions/random-numbers/randomSeed/>`_
       - ✅ Implemented
-
-
-.. note::
-
-  The features that are currently not implemented are planned to be implemented soon. Stay tuned for updates in future releases.
+    * - IS2
+      - | `I2S <https://docs.arduino.cc/learn/built-in-libraries/i2s/>`_
+      - ❌ Not implemented
+    * - EEPROM
+      - | `EEPROM <https://docs.arduino.cc/learn/built-in-libraries/eeprom/>`_
+      - ❌ Not implemented
+    * - PDM
+      - | `PDM <https://docs.arduino.cc/learn/built-in-libraries/pdm/>`_
+      - ❌ Not implemented
+    * - SD
+      - | `SD <https://docs.arduino.cc/libraries/sd/>`_
+      - ❌ Not implemented
+    * - Bluetooth Low Energy (BLE)
+      - | `BLE <https://docs.arduino.cc/libraries/arduinoble/>`_
+      - ❌ Not implemented
+    * - OPAMP
+      - | `OPAMP <https://docs.arduino.cc/tutorials/uno-r4-minima/opamp/>`_
+      - ❌ Not implemented
+    * - WDT
+      - | `Watchdog <https://docs.arduino.cc/libraries/watchdog>`_
+      - ❌ Not implemented
+    * - RTC
+      - | `RTC <https://docs.arduino.cc/libraries/rtc>`_
+      - ❌ Not implemented
+    * - USB
+      - | `USB <https://docs.arduino.cc/libraries/adafruit-tinyusb-library>`_
+      - ❌ Not implemented
+    * - OTA 
+      - | `OTA <https://docs.arduino.cc/libraries/arduinoota/>`_
+      - ❌ Not implemented
+    * - DAC
+      - | `DAC <https://docs.arduino.cc/tutorials/uno-r4-minima/dac/>`_
+      - ❌ Not implemented
+    * - Timer
+      - | `Timer <https://docs.arduino.cc/libraries/timer/>`_
+      - ❌ Not implemented
+    * - File System
+      - | `FatFs <https://docs.arduino.cc/libraries/fatfs>`_
+        | `LittleFS <https://docs.arduino.cc/libraries/littlefs_mbed_rp2040>`_
+      - ❌ Not implemented
+    * - Low Power
+      - | `Low Power <https://docs.arduino.cc/libraries/low-power>`_
+      - ❌ Not implemented
