@@ -110,7 +110,7 @@ label.checkBtn > input {
 
 table.summaryTable td { padding: 0 5px 0 5px; }
 
-.statHeader, .severityHeader {
+.statHeader, .severityHeader, .classificationHeader {
     font-weight: bold;
 }
 
@@ -172,6 +172,6 @@ table.summaryTable td { padding: 0 5px 0 5px; }
     padding-right: 6px;
 }
 
-.id-filtered, .severity-filtered, .file-filtered, .tool-filtered, .text-filtered {
+.id-filtered, .severity-filtered, .classification-filtered, .file-filtered, .tool-filtered, .text-filtered {
     visibility: collapse;
 }

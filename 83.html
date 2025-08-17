@@ -228,13 +228,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - Code Check Report - source-code-quality: libraries/WiFi/src/WiFiServer.h</h1>
+      <h1>Cppcheck report - Code Check Report - source-code-quality: /__w/arduino-core-psoc6/arduino-core-psoc6/cores/psoc6/Uart.h</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> WiFiServer.h</p>
-<a href="21.html#line-7"> missingIncludeSystem 7</a><a href="21.html#line-8"> missingIncludeSystem 8</a><a href="21.html#line-16"> missingOverride 16</a><a href="21.html#line-16"> misc-implicitlyVirtual 16</a><a href="21.html#line-19"> misc-implicitlyVirtual 19</a><a href="21.html#line-20"> misc-implicitlyVirtual 20</a>
+     <p><a href="index.html">Defects:</a> Uart.h</p>
+<a href="83.html#line-13"> clang-tidy-cppcoreguidelines-avoid-non-const-global-variables 13</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -280,50 +280,78 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#ifndef WIFI_SERVER_H</span>
-<a id="line-2" name="line-2"></a><span class="cp">#define WIFI_SERVER_H</span>
-<a id="line-3" name="line-3"></a>
-<a id="line-4" name="line-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;SecSocket.h&quot;</span>
-<a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;WiFiClient.h&quot;</span>
-<a id="line-6" name="line-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/Server.h&quot;</span>
-<a id="line-7" name="line-7"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span><span class="error2">&lt;--- Include file: <stdint.h> not found. Please note: Cppcheck does not need standard library headers to get proper results.</span>
-</span><a id="line-8" name="line-8"></a><span class="hll"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="error2">&lt;--- Include file: <vector> not found. Please note: Cppcheck does not need standard library headers to get proper results.</span>
-</span><a id="line-9" name="line-9"></a>
-<a id="line-10" name="line-10"></a><span class="n">class</span><span class="w"> </span><span class="n">WiFiServer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">Server</span><span class="w"> </span><span class="p">{</span>
-<a id="line-11" name="line-11"></a>
-<a id="line-12" name="line-12"></a><span class="n">public</span><span class="o">:</span>
-<a id="line-13" name="line-13"></a><span class="w">    </span><span class="n">WiFiServer</span><span class="p">();</span>
-<a id="line-14" name="line-14"></a>
-<a id="line-15" name="line-15"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">port</span><span class="p">);</span>
-<a id="line-16" name="line-16"></a><span class="hll"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">();</span><span class="error2">&lt;--- Function in derived class</span><span class="error2">&lt;--- Function 'begin' overrides base class function but is not marked with 'virtual' keyword.</span>
-</span><a id="line-17" name="line-17"></a>
-<a id="line-18" name="line-18"></a><span class="w">    </span><span class="n">WiFiClient</span><span class="o">&amp;</span><span class="w"> </span><span class="nf">available</span><span class="p">();</span>
-<a id="line-19" name="line-19"></a><span class="hll"><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">)</span><span class="w"> </span><span class="n">override</span><span class="p">;</span><span class="error2">&lt;--- Function 'write' overrides base class function but is not marked with 'virtual' keyword.</span>
-</span><a id="line-20" name="line-20"></a><span class="hll"><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="n">override</span><span class="p">;</span><span class="error2">&lt;--- Function 'write' overrides base class function but is not marked with 'virtual' keyword.</span>
-</span><a id="line-21" name="line-21"></a>
-<a id="line-22" name="line-22"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">status</span><span class="p">();</span>
-<a id="line-23" name="line-23"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">();</span>
-<a id="line-24" name="line-24"></a><span class="w">    </span><span class="n">operator</span><span class="w"> </span><span class="nf">bool</span><span class="p">();</span>
-<a id="line-25" name="line-25"></a>
-<a id="line-26" name="line-26"></a><span class="w">    </span><span class="n">using</span><span class="w"> </span><span class="n">Print</span><span class="o">::</span><span class="n">print</span><span class="p">;</span>
-<a id="line-27" name="line-27"></a><span class="w">    </span><span class="n">using</span><span class="w"> </span><span class="n">Print</span><span class="o">::</span><span class="n">println</span><span class="p">;</span>
-<a id="line-28" name="line-28"></a>
-<a id="line-29" name="line-29"></a><span class="w">    </span><span class="cm">/* This function is not part of the API in other (official) ports */</span>
-<a id="line-30" name="line-30"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">connectedSize</span><span class="p">();</span>
-<a id="line-31" name="line-31"></a>
-<a id="line-32" name="line-32"></a><span class="n">private</span><span class="o">:</span>
-<a id="line-33" name="line-33"></a><span class="w">    </span><span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#pragma once</span>
+<a id="line-2" name="line-2"></a>
+<a id="line-3" name="line-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/HardwareSerial.h&quot;</span>
+<a id="line-4" name="line-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;api/RingBuffer.h&quot;</span>
+<a id="line-5" name="line-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_uart.h&quot;</span>
+<a id="line-6" name="line-6"></a>
+<a id="line-7" name="line-7"></a><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span>
+<a id="line-8" name="line-8"></a><span class="w">    </span><span class="n">UART_ERROR_NONE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="line-9" name="line-9"></a><span class="w">    </span><span class="n">UART_ERROR_INIT_FAILED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<a id="line-10" name="line-10"></a><span class="w">    </span><span class="n">UART_ERROR_SET_BAUD_FAILED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-2</span><span class="p">,</span>
+<a id="line-11" name="line-11"></a><span class="p">}</span><span class="w"> </span><span class="n">uart_error_t</span><span class="p">;</span>
+<a id="line-12" name="line-12"></a>
+<a id="line-13" name="line-13"></a><span class="hll"><span class="n">class</span><span class="w"> </span><span class="n">Uart</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">arduino</span><span class="o">::</span><span class="n">HardwareSerial</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- variable 'Uart' is non-const and globally accessible, consider making it const</span>
+</span><a id="line-14" name="line-14"></a><span class="n">public</span><span class="o">:</span>
+<a id="line-15" name="line-15"></a><span class="w">    </span><span class="n">Uart</span><span class="p">(</span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">rx</span><span class="p">,</span><span class="w"> </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NC</span><span class="p">,</span><span class="w"> </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">rts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NC</span><span class="p">);</span>
+<a id="line-16" name="line-16"></a><span class="w">    </span><span class="o">~</span><span class="n">Uart</span><span class="p">();</span>
+<a id="line-17" name="line-17"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">baud</span><span class="p">);</span>
+<a id="line-18" name="line-18"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">baud</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">config</span><span class="p">);</span>
+<a id="line-19" name="line-19"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">();</span>
+<a id="line-20" name="line-20"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">available</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<a id="line-21" name="line-21"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">availableForWrite</span><span class="p">();</span>
+<a id="line-22" name="line-22"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">peek</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<a id="line-23" name="line-23"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<a id="line-24" name="line-24"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<a id="line-25" name="line-25"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<a id="line-26" name="line-26"></a><span class="w">    </span><span class="n">virtual</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<a id="line-27" name="line-27"></a>
+<a id="line-28" name="line-28"></a><span class="w">    </span><span class="n">using</span><span class="w"> </span><span class="n">Print</span><span class="o">::</span><span class="n">write</span><span class="p">;</span>
+<a id="line-29" name="line-29"></a><span class="w">    </span><span class="n">operator</span><span class="w"> </span><span class="nf">bool</span><span class="p">();</span>
+<a id="line-30" name="line-30"></a>
+<a id="line-31" name="line-31"></a><span class="w">    </span><span class="n">uart_error_t</span><span class="w"> </span><span class="nf">getLastError</span><span class="p">();</span>
+<a id="line-32" name="line-32"></a>
+<a id="line-33" name="line-33"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">uart_event_handler</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handler_arg</span><span class="p">,</span><span class="w"> </span><span class="n">cyhal_uart_event_t</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
 <a id="line-34" name="line-34"></a>
-<a id="line-35" name="line-35"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">SERVER_RECV_TIMEOUT_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span>
-<a id="line-36" name="line-36"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">SERVER_MAX_CLIENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span>
-<a id="line-37" name="line-37"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">WiFiClient</span><span class="o">&gt;</span><span class="w"> </span><span class="n">connected_clients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
-<a id="line-38" name="line-38"></a>
-<a id="line-39" name="line-39"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">connectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-40" name="line-40"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">receiveCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-41" name="line-41"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cy_rslt_t</span><span class="w"> </span><span class="nf">disconnectionCallback</span><span class="p">(</span><span class="n">cy_socket_t</span><span class="w"> </span><span class="n">socket_handle</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
-<a id="line-42" name="line-42"></a><span class="p">};</span>
-<a id="line-43" name="line-43"></a>
-<a id="line-44" name="line-44"></a><span class="cp">#endif </span><span class="cm">/* WIFI_SERVER_H */</span>
+<a id="line-35" name="line-35"></a><span class="n">private</span><span class="o">:</span>
+<a id="line-36" name="line-36"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">tx_pin</span><span class="p">;</span>
+<a id="line-37" name="line-37"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">rx_pin</span><span class="p">;</span>
+<a id="line-38" name="line-38"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">cts_pin</span><span class="p">;</span>
+<a id="line-39" name="line-39"></a><span class="w">    </span><span class="n">pin_size_t</span><span class="w"> </span><span class="n">rts_pin</span><span class="p">;</span>
+<a id="line-40" name="line-40"></a><span class="w">    </span><span class="n">cyhal_uart_t</span><span class="w"> </span><span class="n">uart_obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<a id="line-41" name="line-41"></a><span class="w">    </span><span class="n">cyhal_uart_cfg_t</span><span class="w"> </span><span class="n">uart_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<a id="line-42" name="line-42"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">actualbaud</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-43" name="line-43"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">serial_ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="line-44" name="line-44"></a><span class="w">    </span><span class="n">uart_error_t</span><span class="w"> </span><span class="n">last_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_ERROR_NONE</span><span class="p">;</span>
+<a id="line-45" name="line-45"></a>
+<a id="line-46" name="line-46"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">BUFFER_LENGTH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="p">;</span>
+<a id="line-47" name="line-47"></a><span class="w">    </span><span class="n">arduino</span><span class="o">::</span><span class="n">RingBufferN</span><span class="o">&lt;</span><span class="n">BUFFER_LENGTH</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rx_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<a id="line-48" name="line-48"></a>
+<a id="line-49" name="line-49"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">IrqHandler</span><span class="p">();</span>
+<a id="line-50" name="line-50"></a><span class="p">};</span>
+<a id="line-51" name="line-51"></a>
+<a id="line-52" name="line-52"></a><span class="cp">#if (SERIAL_HOWMANY &gt; 0)</span>
+<a id="line-53" name="line-53"></a><span class="k">extern</span><span class="w"> </span><span class="n">Uart</span><span class="w"> </span><span class="n">_UART1_</span><span class="p">;</span>
+<a id="line-54" name="line-54"></a><span class="cp">#endif</span>
+<a id="line-55" name="line-55"></a>
+<a id="line-56" name="line-56"></a><span class="cp">#if (SERIAL_HOWMANY &gt; 1)</span>
+<a id="line-57" name="line-57"></a><span class="k">extern</span><span class="w"> </span><span class="n">Uart</span><span class="w"> </span><span class="n">_UART2_</span><span class="p">;</span>
+<a id="line-58" name="line-58"></a><span class="cp">#endif</span>
 </pre></div></td></tr></table></div>
 
     </div>

@@ -228,13 +228,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <body>
     <div id="wrapper">
     <div id="header" class="header">
-      <h1>Cppcheck report - Code Check Report - source-code-quality: cores/psoc6/yield.c</h1>
+      <h1>Cppcheck report - Code Check Report - source-code-quality: /__w/arduino-core-psoc6/arduino-core-psoc6/cores/psoc6/Random.cpp</h1>
 
     </div>
 
     <div id="menu">
-     <p><a href="index.html">Defects:</a> yield.c</p>
-<a href="14.html#line-28"> misra-c2012-8.2 28</a><a href="14.html#line-32"> misra-c2012-8.5 32</a>
+     <p><a href="index.html">Defects:</a> Random.cpp</p>
+<a href="58.html#line-7"> clang-tidy-google-runtime-int 7</a><a href="58.html#line-7"> clang-tidy-google-runtime-int 7</a><a href="58.html#line-21"> clang-tidy-google-runtime-int 21</a><a href="58.html#line-26"> clang-tidy-cppcoreguidelines-init-variables 26</a><a href="58.html#line-26"> clang-tidy-google-runtime-int 26</a><a href="58.html#line-26"> clang-tidy-google-runtime-int 26</a>
     </div>
     <div id="content">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
@@ -267,40 +267,38 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cm">/*</span>
-<a id="line-2" name="line-2"></a><span class="cm">  Copyright (c) 2015 Arduino LLC.  All right reserved.</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><a id="line-1" name="line-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Arduino.h&quot;</span>
+<a id="line-2" name="line-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cyhal_trng.h&quot;</span>
 <a id="line-3" name="line-3"></a>
-<a id="line-4" name="line-4"></a><span class="cm">  This library is free software; you can redistribute it and/or</span>
-<a id="line-5" name="line-5"></a><span class="cm">  modify it under the terms of the GNU Lesser General Public</span>
-<a id="line-6" name="line-6"></a><span class="cm">  License as published by the Free Software Foundation; either</span>
-<a id="line-7" name="line-7"></a><span class="cm">  version 2.1 of the License, or (at your option) any later version.</span>
-<a id="line-8" name="line-8"></a>
-<a id="line-9" name="line-9"></a><span class="cm">  This library is distributed in the hope that it will be useful,</span>
-<a id="line-10" name="line-10"></a><span class="cm">  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<a id="line-11" name="line-11"></a><span class="cm">  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
-<a id="line-12" name="line-12"></a><span class="cm">  See the GNU Lesser General Public License for more details.</span>
-<a id="line-13" name="line-13"></a>
-<a id="line-14" name="line-14"></a><span class="cm">  You should have received a copy of the GNU Lesser General Public</span>
-<a id="line-15" name="line-15"></a><span class="cm">  License along with this library; if not, write to the Free Software</span>
-<a id="line-16" name="line-16"></a><span class="cm">  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
-<a id="line-17" name="line-17"></a><span class="cm">*/</span>
-<a id="line-18" name="line-18"></a>
-<a id="line-19" name="line-19"></a><span class="cm">/**</span>
-<a id="line-20" name="line-20"></a><span class="cm"> * Empty yield() hook.</span>
-<a id="line-21" name="line-21"></a><span class="cm"> *</span>
-<a id="line-22" name="line-22"></a><span class="cm"> * This function is intended to be used by library writers to build</span>
-<a id="line-23" name="line-23"></a><span class="cm"> * libraries or sketches that supports cooperative threads.</span>
-<a id="line-24" name="line-24"></a><span class="cm"> *</span>
-<a id="line-25" name="line-25"></a><span class="cm"> * Its defined as a weak symbol and it can be redefined to implement a</span>
-<a id="line-26" name="line-26"></a><span class="cm"> * real cooperative scheduler.</span>
-<a id="line-27" name="line-27"></a><span class="cm"> */</span>
-<a id="line-28" name="line-28"></a><span class="hll"><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">__empty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- misra violation (rule-texts-file not found: extras/makers-devops/config/cppcheck/misra.txt)</span>
-</span><a id="line-29" name="line-29"></a><span class="w">    </span><span class="c1">// Empty</span>
-<a id="line-30" name="line-30"></a><span class="p">}</span>
-<a id="line-31" name="line-31"></a>
-<a id="line-32" name="line-32"></a><span class="hll"><span class="kt">void</span><span class="w"> </span><span class="n">yield</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">weak</span><span class="p">,</span><span class="w"> </span><span class="n">alias</span><span class="p">(</span><span class="s">&quot;__empty&quot;</span><span class="p">)));</span><span class="error2">&lt;--- misra violation (rule-texts-file not found: extras/makers-devops/config/cppcheck/misra.txt)</span>
-</span></pre></div></td></tr></table></div>
+<a id="line-4" name="line-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">randomSeed</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-5" name="line-5"></a><span class="p">}</span>
+<a id="line-6" name="line-6"></a>
+<a id="line-7" name="line-7"></a><span class="hll"><span class="kt">long</span><span class="w"> </span><span class="nf">random</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- consider replacing 'unsigned long' with 'uint64'</span><span class="error2">&lt;--- consider replacing 'long' with 'int64'</span>
+</span><a id="line-8" name="line-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-9" name="line-9"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-10" name="line-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="line-11" name="line-11"></a>
+<a id="line-12" name="line-12"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">initializedTRNG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="line-13" name="line-13"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">cyhal_trng_t</span><span class="w"> </span><span class="n">trng_obj</span><span class="p">;</span>
+<a id="line-14" name="line-14"></a>
+<a id="line-15" name="line-15"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">initializedTRNG</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-16" name="line-16"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cyhal_trng_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">trng_obj</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">CY_RSLT_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-17" name="line-17"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="line-18" name="line-18"></a><span class="w">        </span><span class="p">}</span>
+<a id="line-19" name="line-19"></a><span class="w">        </span><span class="n">initializedTRNG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="line-20" name="line-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="line-21" name="line-21"></a><span class="hll"><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">rnd_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cyhal_trng_generate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">trng_obj</span><span class="p">);</span><span class="error2">&lt;--- consider replacing 'long' with 'int64'</span>
+</span><a id="line-22" name="line-22"></a>
+<a id="line-23" name="line-23"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">rnd_num</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">max</span><span class="p">;</span>
+<a id="line-24" name="line-24"></a><span class="p">}</span>
+<a id="line-25" name="line-25"></a>
+<a id="line-26" name="line-26"></a><span class="hll"><span class="kt">long</span><span class="w"> </span><span class="nf">random</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="error2">&lt;--- variable 'rnd_num' is not initialized</span><span class="error2">&lt;--- consider replacing 'long' with 'int64'</span><span class="error2">&lt;--- consider replacing 'long' with 'int64'</span>
+</span><a id="line-27" name="line-27"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">min</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="line-28" name="line-28"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">min</span><span class="p">;</span>
+<a id="line-29" name="line-29"></a><span class="w">    </span><span class="p">}</span>
+<a id="line-30" name="line-30"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">min</span><span class="p">);</span>
+<a id="line-31" name="line-31"></a><span class="p">}</span>
+</pre></div></td></tr></table></div>
 
     </div>
     <div id="footer" class="footer">
