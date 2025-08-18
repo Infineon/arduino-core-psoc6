@@ -17,7 +17,6 @@ Welcome to the Arduino Core for Infineon's PSOC™ 6 microcontrollers.
    development-instructions
    arduino-deviations
    run-tests
-   supported-features
 
 License
 =======
