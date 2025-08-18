@@ -42,23 +42,7 @@ Please visit our [PSOC™ 6 products page](https://www.infineon.com/products/mic
 
 ## Contributing
 
-We welcome community contributions! Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated** 👐.
-
-If you have a suggestion that would make this better, please fork the repo and create a [pull request](https://github.com/Infineon/arduino-core-psoc6/pulls). You can also simply open a feature request [issue](https://github.com/Infineon/arduino-core-psoc6/issues).
-
-1. [Fork](https://github.com/Infineon/arduino-core-psoc6/fork) the project
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -sm 'folder/sub-folder: Add some amazing-feature.'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a [pull request](https://github.com/Infineon/arduino-core-psoc6/pulls)
-
-Before submitting a pull request, please check the [code of conduct](https://github.com/Infineon/arduino-core-psoc6/blob/main/CODE_OF_CONDUCT.md) and [code conventions](https://github.com/Infineon/arduino-core-psoc6/blob/main/CODE_CONVENTIONS.md) for the PSOC™ 6 for Arduino project. Thank you for following these guidelines.
-
-Don't forget to give the project a star :star:! Thanks again!
-
-### Important Note
-
-Significant contributions should be aligned with the project team in advance.
+We welcome contributions to the Arduino Core for Infineon's PSOC™ 6 microcontrollers. If you are interested in contributing, please follow our [contributing guidelines](https://arduino-core-psoc6.readthedocs.io/en/latest/contributing.html).
 
 ### Top Contributors
 
