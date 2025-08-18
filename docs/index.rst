@@ -14,9 +14,17 @@ Welcome to the Arduino Core for Infineon's PSOC™ 6 microcontrollers.
    Introduction<self>
    installation-instructions
    hw-platforms
-   development-instructions
    arduino-deviations
-   run-tests
+..    contributing
+
+.. toctree::
+    :maxdepth: 1
+    :caption: CONTRIBUTING
+    :hidden:
+    
+    Introduction <contributing>
+    env-setup
+    run-tests
 
 License
 =======
