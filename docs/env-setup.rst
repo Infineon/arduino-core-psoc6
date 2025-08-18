@@ -1,23 +1,5 @@
-Development Instructions
-=========================
-
-..
-   TODOS:
-   - Contribution guidelines (move here from Contributing.md)
-   - Code conventions
-   - ....
-   - Tools installation:
-      - uncrustify
-      - python ?
-      - pip ?
-      - pre-commit hook?
-      - spellchecker
-      - ... 
-
-.. _env_dev_setup:
-
 Environment Setup
-------------------
+=================
 
 .. note::
    | The development environment setup is (currently) only supported on **Linux** |:penguin:|. 
@@ -91,7 +73,7 @@ Manual setup
 
 | This section describes the manual setup of the development environment for the Infineon PSOC™ 6 microcontroller core.
 | You can consider this a detailed explanation of the development setup process. 
-| Unless you want to know the details |:detective:|, it is easier and recommended to use the automated setup script |:scroll:| in :ref:`Environment setup <env_dev_setup>`.
+| Unless you want to know the details |:detective:|, it is easier and recommended to use the automated setup script |:scroll:| in :doc:`env-setup`.
 
 Installing the ArduinoCore-API
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
