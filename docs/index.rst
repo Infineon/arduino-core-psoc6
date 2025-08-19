@@ -25,6 +25,7 @@ Welcome to the Arduino Core for Infineon's PSOC™ 6 microcontrollers.
     Introduction <contributing>
     env-setup
     run-tests
+    metafiles-naming
 
 License
 =======
