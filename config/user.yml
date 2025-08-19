@@ -2,16 +2,17 @@ unit-test:
     - unit-test-iic-pingpong
     - unit-test-spi-pingpong
     - unit-test-digital-io
-    - unit-test-interrupts
     - unit-test-time
-    - unit-test-random
+    - unit-test-uart
+    - unit-test-interrupts
     - unit-test-tone
     - unit-test-spi-loopback
     - unit-test-iic-single-board
+    - unit-test-wifi-sta-ap
     - unit-test-analog-io-adc
+    - unit-test-random
     - unit-test-analog-io-pwm
     - unit-test-pulse
-    - unit-test-uart
     - unit-test-wifi-tcp
     - unit-test-wifi-udp
     - unit-test-wifi-sta-ap

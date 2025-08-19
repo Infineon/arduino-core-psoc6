@@ -315,7 +315,7 @@ int8_t WiFiClass::scanNetworks() {
 
     constexpr uint16_t timeout = 1000; /* 1000 times by 10 ms delay = 10 seconds */
     uint16_t timer = 0;
-    while (scan_results.status == CY_WCM_SCAN_INCOMPLETE || timer < timeout) {
+    while (scan_results.status == CY_WCM_SCAN_INCOMPLETE && timer < timeout) {
         delay(10);
         timer++;
     }
