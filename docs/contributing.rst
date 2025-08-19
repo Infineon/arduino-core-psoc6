@@ -21,6 +21,7 @@ Additionally, the following sections might be helpful for developing and testing
 
     - :doc:`env-setup`
     - :doc:`run-tests`
+    - :doc:`metafiles-naming`
 
 Thank you for following these guidelines! 
 
