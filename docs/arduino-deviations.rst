@@ -1,7 +1,7 @@
 Arduino API Deviations
 ======================
 
-This section documents the differences between the standard Arduino Language Reference and `PSOC6-for-Arduino`.
+This section documents the differences between the standard `Arduino Language Reference <https://docs.arduino.cc/language-reference/>`_ and the Arduino core for PSOC™ 6.
 
 Digital IO
 ----------
@@ -42,7 +42,7 @@ Depending on the bits parameter, the function modifies the resolution of the ADC
 
     void analogReference(uint8_t mode)
 
-Only the `DEFAULT` mode is supported and uses the internal reference voltage of the PSOC6 device, which is typically 3.3V.
+Only the `DEFAULT` mode is supported and uses the internal reference voltage of the PSOC™ 6 device, which is typically 3.3V.
 
 
 .. code-block:: cpp
@@ -78,14 +78,14 @@ Advanced IO
 
     void tone(uint8_t _pin, unsigned int frequency, unsigned long duration)
 
-The `tone()` function in the `PSOC6-for-Arduino` core leverages the PWM (Pulse Width Modulation) peripheral to generate square wave signals at specific frequencies.
+The `tone()` function in the PSOC™ 6 core leverages the PWM (Pulse Width Modulation) peripheral to generate square wave signals at specific frequencies.
 
 Do not call `pinMode()` on the pin prior to using the `tone()` function.
 The `tone()` function automatically configures the pin for output mode and sets it up internally. Calling `pinMode()` beforehand may result in unexpected behavior or conflicts with the PWM peripheral.
 
 SPI
 ----------
-The `PSOC6-for-Arduino` core does not support the following Arduino APIs:
+The PSOC™ 6 core does not support the following Arduino APIs:
 
 .. code-block:: cpp
 
@@ -112,6 +112,6 @@ Random Number Generation
     
     void randomSeed(unsigned long seed)
 
-The function is optional. Random seed initialization is not required because the `PSOC6-for-Arduino` core uses the hardware-based True Random Number Generator (TRNG) for generating random numbers.
+The function is optional. Random seed initialization is not required because the PSOC™ 6 core uses the hardware-based True Random Number Generator (TRNG) for generating random numbers.
 
 Calling `randomSeed(seed)` does nothing but is provided for compatibility with the standard Arduino API.
