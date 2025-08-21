@@ -192,12 +192,12 @@ unit-test:
     unit-test-wifi-extras:
       - description: Compiling, flashing and monitoring WIFI extras test.
         command: make test_wifi_extras 
-        query: wifi_single_board == '1:1'
+        query: wifi_single_board_extras == '1:1'
         working_dir: extras/arduino-core-tests
 
     unit-test-wifi-exceptions:
       - description: Compiling, flashing and monitoring WIFI exceptions test.
         command: make test_wifi_exceptions 
-        query: wifi_single_board == '1:1'
+        query: wifi_single_board_exceptions == '1:1'
         working_dir: extras/arduino-core-tests
         

@@ -1,5 +1,9 @@
 unit-test:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    - unit-test-pulse
+>>>>>>> 8206fb4 (config: Add all tests to be executed.)
     - unit-test-iic-pingpong
     - unit-test-spi-pingpong
     - unit-test-digital-io
@@ -9,10 +13,15 @@ unit-test:
     - unit-test-tone
     - unit-test-spi-loopback
     - unit-test-iic-single-board
+<<<<<<< HEAD
+=======
+    - unit-test-wifi-extras
+>>>>>>> 8206fb4 (config: Add all tests to be executed.)
     - unit-test-wifi-sta-ap
     - unit-test-analog-io-adc
     - unit-test-random
     - unit-test-analog-io-pwm
+<<<<<<< HEAD
     - unit-test-pulse
     - unit-test-wifi-tcp
     - unit-test-wifi-udp
@@ -24,4 +33,9 @@ code-quality:
     - source-code-quality-cppcheck
     - code-quality-clang-format
     - code-quality-black-format
+=======
+    - unit-test-wifi-tcp
+    - unit-test-wifi-udp
+    - unit-test-wifi-exceptions
+>>>>>>> 8206fb4 (config: Add all tests to be executed.)
     
