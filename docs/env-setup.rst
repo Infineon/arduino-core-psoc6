@@ -8,24 +8,24 @@ Environment Setup
 
 0. Obviously |:neutral_face:|, install `Arduino IDE (2.0 or higher) <https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing/>`_ or `Arduino CLI (1.0.0 or higher) <https://arduino.github.io/arduino-cli/0.24/installation/>`_.
 
-1. Install the :ref:`Infineon PSOC™ 6 microcontroller <psoc6_core_installation>` boards package.
+1. Install the PSOC™ 6 Arduino core as described :ref:`here <psoc6_core_installation>`.
 
-2. Locate in your computer where the Arduino15 packages are installed. Usually:
+2. Locate, where the Arduino15 packages are installed on your computer. Usually:
 
    ::
 
       ~/.arduino15/
 
  .. TODO: I would postpone the Windows part, as we won´t have all the dev tools available there
-         c:/Users/%USERNAME%/AppData/local/Arduino15 
+         %USERPROFILE%\AppData\Local\Arduino15
 
-3. From the Arduino installation location, change directories
+3. Starting from the Arduino installation location, change directories:
 
    ::
 
       cd packages/infineon/hardware/psoc6
 
-4. Remove any existing installed "x.y.z" version of the core
+4. Remove any existing installed "x.y.z" version of the core:
 
    ::
 
@@ -33,14 +33,14 @@ Environment Setup
 
    .. This won´t be needed if the package is NOT installed using the .json package index installation.
 
-5. | Clone this repo in a folder with a semver version name. A orderly practice could be to bump the existing version, and add a suffix to indicate the feature or bugfix.
+5. | Clone this repo in a folder with a semver version name. An orderly practice could be to bump the existing version, and add a suffix to indicate the feature or bugfix.
    | For example, from installed ``1.1.0`` to ``1.2.0-new-feature``:
 
    ::
 
       git clone https://github.com/Infineon/arduino-core-psoc6.git 1.2.0-new-feature
 
-   You can check if the correct version is installed by running
+   You can check if the correct version is installed by running:
 
    ::
 
@@ -68,10 +68,10 @@ Environment Setup
 
 .. _dev_manual_setup:
 
-Manual setup 
+Manual Setup 
 ------------
 
-| This section describes the manual setup of the development environment for the Infineon PSOC™ 6 microcontroller core.
+| This section describes the manual setup of the development environment for the Arduino core for PSOC™ 6.
 | You can consider this a detailed explanation of the development setup process. 
 | Unless you want to know the details |:detective:|, it is easier and recommended to use the automated setup script |:scroll:| in :doc:`env-setup`.
 
@@ -100,20 +100,20 @@ Installing the ArduinoCore-API
 
       cd packages/infineon/hardware/psoc6/<x.y.z>
 
-3. Initialize the ArduinoCore-API submodule
+3. Initialize the ArduinoCore-API submodule:
 
    ::
 
       git submodule update --init --recursive
 
 
-4. Change directories
+4. Change directories:
 
    ::
 
       cd cores/psoc6
 
-5. Copy or symlink the ``api`` folder from the ArduinoCore-API submodule
+5. Copy or symlink the ``api`` folder from the ArduinoCore-API submodule:
 
    .. tabs::
       

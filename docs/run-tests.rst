@@ -13,13 +13,14 @@ Test Environment Setup
    | The development environment setup is (currently) only supported on **Linux** |:penguin:|. 
    | As many tools and scripts are not cross-platform, some of them will not directly work on Windows |:abcd:| or macOS |:apple:|.
 
-| To successfully run the tests, ensure that your development environment is properly configured.
-| See the section on :ref:`Environment Setup <env_dev_setup>`
+.. important::
+   | To successfully run the tests, ensure that your development environment is properly configured.
+   | See the section on :ref:`Environment Setup <env-setup>`.
 
 Board Setup
 -------------
 
-1. Connect your PSOC™ 6 board (e.g., CY8CKIT-062S2-AI) to your computer |:computer:| via USB.
+1. Connect your PSOC™ 6 board (e.g. CY8CKIT-062S2-AI) to your computer |:computer:| via USB.
 
 2. Make the board-to-board pin connections as described below:
 
@@ -31,9 +32,9 @@ Board Setup
 Executing Test Cases Using `make`
 ---------------------------------
 
-Makefile relies on arduino-cli for compiling, uploading, and monitoring. Unity is included as a library.
+The Makefile relies on arduino-cli for compiling, uploading, and monitoring. Unity is included as a library.
 
-1. Change directories
+1. Change directories:
 
    ::
 
@@ -41,9 +42,9 @@ Makefile relies on arduino-cli for compiling, uploading, and monitoring. Unity i
 
 2. Use the `make` command to run a specific test. For example, to run a digital I/O test:
 
-     ```
-     make FQBN= `FQBN` PORT= `PORT` test_digitalio_single monitor
-     ```
+   .. code-block:: bash
+      
+      make FQBN= `FQBN` PORT= `PORT` test_digitalio_single monitor
 
    - `FQBN`: select the connected board (e.g., `infineon:psoc6:cy8ckit_062s2_a`).
    - `PORT`: set the appropriate serial port (e.g., `/dev/ttyUSB0`).
@@ -51,9 +52,9 @@ Makefile relies on arduino-cli for compiling, uploading, and monitoring. Unity i
 
 
 3. Display usage information about the available make targets:
-     
-     ```
-     make help
-     ```
+   
+   .. code-block:: bash
+
+      make help
 
 4. Start testing other features |:tools:| !

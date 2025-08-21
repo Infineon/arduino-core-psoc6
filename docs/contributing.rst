@@ -3,9 +3,9 @@ Contributing
 
 We welcome community contributions! Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated** 👐.
 
-If you have a suggestion that would make this better, please fork the repo and create a `pull request <https://github.com/Infineon/arduino-core-psoc6/pulls>`_. You can also simply open a feature request `issue <https://github.com/Infineon/arduino-core-psoc6/issues>`_.
+If you have a suggestion that would make this better, please fork the repo and create a pull request for your changes as described step by step below. You can also simply open a feature request `issue <https://github.com/Infineon/arduino-core-psoc6/issues>`_.
 
-1. `Fork <https://github.com/Infineon/arduino-core-psoc6/fork>`_
+1. `Fork <https://github.com/Infineon/arduino-core-psoc6/fork>`_ this repository
 2. Create your feature branch (``git checkout -b feature/amazing-feature``)
 3. Commit your changes (``git commit -sm 'folder/sub-folder: Add some amazing-feature.'``)
 4. Push to the branch (``git push origin feature/amazing-feature``)
@@ -23,7 +23,4 @@ Additionally, the following sections might be helpful for developing and testing
     - :doc:`run-tests`
     - :doc:`metafiles-naming`
 
-Thank you for following these guidelines! 
-
-
-
+Thank you for following these guidelines!
