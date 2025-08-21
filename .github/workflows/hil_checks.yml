@@ -7,9 +7,10 @@ on:
 
 jobs:
   makers-devops:
-    uses: Infineon/makers-devops/.github/workflows/hil_checks.yml@main
+    uses: Infineon/makers-devops/.github/workflows/hil_checks.yml@add-decryption-secret
     with:
       project-yaml: config/project.yml
       user-yaml: config/user.yml
+      decrypt-secrets: tools/decrypt_secret.sh
     secrets: inherit
     
