@@ -15,7 +15,6 @@ Welcome to the Arduino Core for Infineon's PSOC™ 6 microcontrollers.
    installation-instructions
    hw-platforms
    arduino-deviations
-..    contributing
 
 .. toctree::
     :maxdepth: 1
