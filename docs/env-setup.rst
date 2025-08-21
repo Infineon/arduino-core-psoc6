@@ -16,8 +16,6 @@ Environment Setup
 
       ~/.arduino15/
 
- .. TODO: I would postpone the Windows part, as we won´t have all the dev tools available there
-         %USERPROFILE%\AppData\Local\Arduino15
 
 3. Starting from the Arduino installation location, change directories:
 
@@ -31,9 +29,7 @@ Environment Setup
 
       rm -rf x.y.z
 
-   .. This won´t be needed if the package is NOT installed using the .json package index installation.
-
-5. | Clone this repo in a folder with a semver version name. An orderly practice could be to bump the existing version, and add a suffix to indicate the feature or bugfix.
+5. | Clone this repo in a folder with a semver version name. A orderly practice could be to bump the existing version, and add a suffix to indicate the feature or bugfix.
    | For example, from installed ``1.1.0`` to ``1.2.0-new-feature``:
 
    ::
