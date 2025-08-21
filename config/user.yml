@@ -1,4 +1,5 @@
 unit-test:
+<<<<<<< HEAD
     - unit-test-iic-pingpong
     - unit-test-spi-pingpong
     - unit-test-digital-io
@@ -16,6 +17,7 @@ unit-test:
     - unit-test-wifi-tcp
     - unit-test-wifi-udp
     - unit-test-wifi-sta-ap
+    - unit-test-wifi-extras
 
 code-quality:
     - source-code-quality-clang-tidy
