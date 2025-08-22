@@ -32,29 +32,37 @@ Board Setup
 Executing Test Cases Using `make`
 ---------------------------------
 
-The Makefile relies on arduino-cli for compiling, uploading, and monitoring. Unity is included as a library.
+The provided Makefile leverages arduino-cli for tasks such as compilation, uploading, and monitoring, while using Unity as a testing framework.
 
-1. Change directories:
+1. Navigate to the Test Directory:
 
    ::
 
-      cd tests/arduino-core-tests
+      cd extras/arduino-core-tests
 
-2. Use the `make` command to run a specific test. For example, to run a digital I/O test:
+2. Run a Specific Test:
+   To execute a specific test, for example, a digital I/O test:
 
    .. code-block:: bash
       
-      make FQBN= `FQBN` PORT= `PORT` test_digitalio_single monitor
+      make FQBN= `FQBN` PORT= `PORT` test_digitalio_single monitor ENABLE_SYNC=0 
 
-   - `FQBN`: select the connected board (e.g., `infineon:psoc6:cy8ckit_062s2_a`).
+   - `FQBN`: select the connected board (e.g., `infineon:psoc6:cy8ckit_062s2_ai`).
    - `PORT`: set the appropriate serial port (e.g., `/dev/ttyUSB0`).
    - monitor : opens the serial monitor to view the test results.
+   - ENABLE_SYNC : disable synchronization as this feature is currently used only in CI/CD hil-checks 
 
+3. List All Available Test Targets:
+   
+   .. code-block:: bash
+      
+      make list_tests
 
-3. Display usage information about the available make targets:
+4. Display Help for Makefile Targets:
    
    .. code-block:: bash
 
       make help
 
-4. Start testing other features |:tools:| !
+5. Start Exploring Other Test Features |:tools:| !
+   Begin testing other board-specific features with ease!
