@@ -21,10 +21,6 @@ This repository integrates Infineon's [PSOC™ 6 microcontrollers](https://www.i
 
 The Arduino Core for Infineon's PSOC™ 6 microcontrollers aims to bring the advanced features and versatility of Infineon's PSOC™ 6 family into the Arduino ecosystem. By integrating these powerful microcontrollers, developers can leverage the extensive libraries, tools, and community support of Arduino to build innovative and high-performance projects.
 
-### Features
-
-Please refer to [supported features](https://arduino-core-psoc6.readthedocs.io/en/latest/supported-features.html) in our docs.
-
 ## Supported Products
 
 <table>
