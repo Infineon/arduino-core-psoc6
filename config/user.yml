@@ -47,6 +47,7 @@ code-quality:
     - unit-test-random
     - unit-test-analog-io-pwm
     - unit-test-iic-single-board
+    - unit-test-wifi-sta-ap
     - unit-test-wifi-udp
 >>>>>>> 0e5a0c3 (config: extras/makers-devops: Add runtime option and update submodule.)
     
