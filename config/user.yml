@@ -15,5 +15,6 @@ unit-test:
     - unit-test-random
     - unit-test-analog-io-pwm
     - unit-test-iic-single-board
+    - unit-test-wifi-sta-ap
     - unit-test-wifi-udp
     
