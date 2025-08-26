@@ -64,6 +64,8 @@ typedef enum {
     AUTH_MODE_WPA3
 } wl_auth_mode;
 
+#define NETWORK_WLAN_MAX_AP_STATIONS    8
+
 class WiFiClass {
 
 public:
@@ -86,6 +88,7 @@ public:
     void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway);
     void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet);
 
+    int connected(void);
     int disconnect(void);
     void end(void);
     void setTimeout(unsigned long timeout);
