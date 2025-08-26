@@ -73,6 +73,23 @@ int WiFiClass::begin(const char *ssid, const char *passphrase) {
     return _status;
 }
 
+int WiFiClass::connected(void) {
+    cy_wcm_mac_t sta_list[NETWORK_WLAN_MAX_AP_STATIONS];
+    cy_wcm_mac_t not_conn_sta = {0, 0, 0, 0, 0, 0};
+    int num_of_station = 0;
+
+    uint32_t ret = cy_wcm_get_associated_client_list(&sta_list[0], NETWORK_WLAN_MAX_AP_STATIONS);
+    wcm_assert_raise(ret, WIFI_ERROR_STATUS_INVALID);
+
+    for (int i = 0; i < NETWORK_WLAN_MAX_AP_STATIONS; ++i) {
+        if (memcmp(&sta_list[i], &not_conn_sta, CY_WCM_MAC_ADDR_LEN) != 0) {
+            num_of_station += 1;
+        }
+    }
+
+    return num_of_station;
+}
+
 int WiFiClass::disconnect(void) {
     switch (_mode)
     {
