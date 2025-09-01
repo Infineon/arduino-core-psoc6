@@ -1,53 +1,26 @@
 unit-test:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     - unit-test-pulse
->>>>>>> 8206fb4 (config: Add all tests to be executed.)
     - unit-test-iic-pingpong
     - unit-test-spi-pingpong
     - unit-test-digital-io
     - unit-test-time
+    - unit-test-wifi-extras
     - unit-test-uart
     - unit-test-wifi-tcp
     - unit-test-interrupts
     - unit-test-tone
     - unit-test-spi-loopback
-<<<<<<< HEAD
-    - unit-test-iic-single-board
-<<<<<<< HEAD
-=======
-    - unit-test-wifi-extras
->>>>>>> 8206fb4 (config: Add all tests to be executed.)
-    - unit-test-wifi-sta-ap
+    - unit-test-wifi-exceptions
     - unit-test-analog-io-adc
     - unit-test-random
     - unit-test-analog-io-pwm
-<<<<<<< HEAD
-    - unit-test-pulse
-    - unit-test-wifi-tcp
-    - unit-test-wifi-udp
+    - unit-test-iic-single-board
     - unit-test-wifi-sta-ap
-    - unit-test-wifi-extras
+    - unit-test-wifi-udp
+    - unit-test-onewire-DS18x20
 
 code-quality:
     - source-code-quality-clang-tidy
     - source-code-quality-cppcheck
     - code-quality-clang-format
     - code-quality-black-format
-=======
-    - unit-test-wifi-tcp
-    - unit-test-wifi-udp
-    - unit-test-wifi-exceptions
->>>>>>> 8206fb4 (config: Add all tests to be executed.)
-=======
-    - unit-test-wifi-extras
-    - unit-test-wifi-exceptions
-    - unit-test-analog-io-adc
-    - unit-test-random
-    - unit-test-analog-io-pwm
-    - unit-test-iic-single-board
-    - unit-test-wifi-sta-ap
-    - unit-test-wifi-udp
->>>>>>> 0e5a0c3 (config: extras/makers-devops: Add runtime option and update submodule.)
-    
