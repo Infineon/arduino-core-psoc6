@@ -4,12 +4,12 @@ unit-test:
     - unit-test-spi-pingpong
     - unit-test-digital-io
     - unit-test-time
+    - unit-test-wifi-extras
     - unit-test-uart
     - unit-test-wifi-tcp
     - unit-test-interrupts
     - unit-test-tone
     - unit-test-spi-loopback
-    - unit-test-wifi-extras
     - unit-test-wifi-exceptions
     - unit-test-analog-io-adc
     - unit-test-random
@@ -17,4 +17,5 @@ unit-test:
     - unit-test-iic-single-board
     - unit-test-wifi-sta-ap
     - unit-test-wifi-udp
+    - unit-test-onewire-DS18x20
     
