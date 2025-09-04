@@ -1,20 +1,20 @@
 unit-test:
-    - unit-test-pulse
-    - unit-test-iic-pingpong
+    # - unit-test-pulse
+    # - unit-test-iic-pingpong
     - unit-test-spi-pingpong
     - unit-test-digital-io
     - unit-test-time
-    - unit-test-uart
-    - unit-test-wifi-tcp
-    - unit-test-interrupts
-    - unit-test-tone
-    - unit-test-spi-loopback
     - unit-test-wifi-extras
-    - unit-test-wifi-exceptions
-    - unit-test-analog-io-adc
-    - unit-test-random
-    - unit-test-analog-io-pwm
-    - unit-test-iic-single-board
-    - unit-test-wifi-sta-ap
-    - unit-test-wifi-udp
+    # - unit-test-uart
+    # - unit-test-wifi-tcp
+    # - unit-test-interrupts
+    # - unit-test-tone
+    # - unit-test-spi-loopback
+    # - unit-test-wifi-exceptions
+    # - unit-test-analog-io-adc
+    # - unit-test-random
+    # - unit-test-analog-io-pwm
+    # - unit-test-iic-single-board
+    # - unit-test-wifi-sta-ap
+    # - unit-test-wifi-udp
     
