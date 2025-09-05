@@ -343,12 +343,15 @@ int8_t WiFiClass::scanNetworks() {
     cy_rslt_t ret = cy_wcm_start_scan(WiFiClass::wcm_scan_cb, (void*)&scan_results, NULL);
     wcm_assert_raise_ret(ret, WIFI_ERROR_SCAN_FAILED, 0);
 
-    constexpr uint16_t timeout = 1000; /* 1000 times by 10 ms delay = 10 seconds */
+    constexpr uint16_t scan_timeout_ms = 1000; /* 1000 times by 10 ms delay = 10 seconds */
     uint16_t timer = 0;
-    while (scan_results.status == CY_WCM_SCAN_INCOMPLETE && timer < timeout) {
+    while (scan_results.status == CY_WCM_SCAN_INCOMPLETE && timer < scan_timeout_ms) {
         delay(10);
         timer++;
     }
+    /* Stop scan after completion or timeout */
+    ret = cy_wcm_stop_scan();
+    wcm_assert_raise_ret(ret, WIFI_ERROR_SCAN_FAILED, 0);
 
     /* Deinitialize if it was not already assigned as access
     point or station. */
@@ -638,8 +641,7 @@ void WiFiClass::wcm_scan_cb(cy_wcm_scan_result_t* result_ptr,
     scan_results_t* scan_user_data = (scan_results_t*)user_data;
 
     /* Stop after if more results than the maximum are available */
-    if (scan_user_data->result_count > CY_MAX_SCAN_RESULTS) {
-        cy_wcm_stop_scan();
+    if (scan_user_data->result_count >= CY_MAX_SCAN_RESULTS) {
         scan_user_data->status = CY_WCM_SCAN_COMPLETE;
         return;
     }
