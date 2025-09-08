@@ -14,14 +14,23 @@
 | SPI               | P9_0          | P9_0          | MOSI to MOSI                   |
 |                   | P9_1          | P9_1          | MISO to MISO                   |
 |                   | P9_2          | P9_2          | SCLK to SCLK                   |
-|                   | P9_3 (IO_0)   | P9_3 (IO_0)   | GPIO pin as SPI SSEL           |
+|                   | P9_3          | P9_3          | GPIO pin as SPI SSEL           |
 |                   | P9.4          | P9.4          | IO synch signal                |
 |                   | GND           | GND           | Common Ground                  |
 |                   |               |               |                                |
-|Advanced IO Pulse  | P9.5          | P9.5          | IO5 (Pulse Output) to          |
+| Advanced IO Pulse | P9.5          | P9.5          | IO5 (Pulse Output) to          |
 |                   |               |               |       IO5 (Pulse Input)        |
 |                   | P9.4          | P9.4          | IO synch signal                |
 |                   |               |               |                                |
+
+
+# Pin Connections for HIL Test Setup Between Board and Sensor
+
+| Test Name         | Board Pin     | Sensor Pin        | Description                                     |
+|-------------------|---------------|-------------------|-------------------------------------------------|
+| One Wire DS18x20  | GND           | GND (DS18B20)     | Connects to the ground of the circuit           |
+|                   | 3.3V          | VDD (DS18B20)     | Powers the sensor                               |
+|                   | P9.0          | DQ Data (DS18B20) | Data lines (with 4.7kΩ pull-up resistor to VDD) |
 
 # Pin Connections for HIL Test Setup on Single Board
 
