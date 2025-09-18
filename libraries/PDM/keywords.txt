@@ -1,0 +1,32 @@
+#######################################
+# Syntax Coloring Map For PDM
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	            KEYWORD2
+end	                KEYWORD2
+available           KEYWORD2
+read                KEYWORD2
+onReceive           KEYWORD2
+setGain             KEYWORD2
+setBufferSize       KEYWORD2
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+PDM	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+
