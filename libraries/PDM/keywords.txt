@@ -11,7 +11,7 @@
 #######################################
 
 begin	            KEYWORD2
-end	                KEYWORD2
+end	            KEYWORD2
 available           KEYWORD2
 read                KEYWORD2
 onReceive           KEYWORD2
@@ -20,10 +20,10 @@ setBufferSize       KEYWORD2
 
 
 #######################################
-# Instances (KEYWORD2)
+# Instances (KEYWORD1)
 #######################################
 
-PDM	KEYWORD2
+PDM	KEYWORD1
 
 #######################################
 # Constants (LITERAL1)

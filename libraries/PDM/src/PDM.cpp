@@ -1,7 +1,7 @@
 #include "PDM.h"
 
 #define PDM_assert(cy_ret) if (cy_ret != CY_RSLT_SUCCESS) { \
-        return; \
+            return; \
 }
 
 bool PdmClass::begin(int channels, int sample_rate) {

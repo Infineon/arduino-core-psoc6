@@ -76,6 +76,9 @@ static const uint8_t A1  = PIN_A1;
 #define BUTTON1                 14 // Additional BUTTON1
 #define USER_BUTTON             BUTTON1 // Standard Arduino USER_BUTTON: Uses BUTTON1
 
+#define PDM_HOWMANY     1
+#define PDM_SDA_PIN    38 // PDM-SDA P10_5
+#define PDM_SCL_PIN    37 // PDM-SCL P10_4
 //****************************************************************************
 
 #ifdef ARDUINO_GPIO
