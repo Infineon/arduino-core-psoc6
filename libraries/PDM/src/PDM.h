@@ -38,6 +38,7 @@ public:
     uint32_t read(uint16_t *out_buffer, uint32_t samples_to_read);
     static void pdm_pcm_isr_handler(void *arg, cyhal_pdm_pcm_event_t event);
     void clock_init(void);
+    void setGain(uint8_t gain);
 
 private:
     pin_size_t sda_pin;
