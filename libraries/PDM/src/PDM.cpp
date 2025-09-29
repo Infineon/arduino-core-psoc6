@@ -21,7 +21,7 @@ bool PDMClass::begin(int channels, int sample_rate) {
         .left_gain = DEFAULT_LEFT_GAIN,
         .right_gain = DEFAULT_RIGHT_GAIN,
     };
-
+    // buffer_size = BUFFER_SIZE;
     if (sample_rate == 8000 || sample_rate == 16000 || sample_rate == 32000 || sample_rate == 48000) {
         pdm_pcm_cfg.sample_rate = sample_rate;
     } else {
@@ -30,7 +30,7 @@ bool PDMClass::begin(int channels, int sample_rate) {
     }
     PDMClass::clock_init();
     // ringbuf_init -->to be implemented
-
+    PDMClass::ringbuf_init(BUFFER_SIZE);
     cyhal_gpio_init(CYBSP_USER_LED, CYHAL_GPIO_DIR_OUTPUT, CYHAL_GPIO_DRIVE_STRONG, CYBSP_LED_STATE_ON);  // pcm signal with gpio toggling
     pdm_status = cyhal_pdm_pcm_init(&pdm_pcm,  mapping_gpio_pin[sda_pin], mapping_gpio_pin[scl_pin], &audio_clock, &pdm_pcm_cfg);
     if (pdm_status != CY_RSLT_SUCCESS) {
@@ -61,14 +61,12 @@ void PDMClass::end() {
     PDM_assert(pdm_status);
     cyhal_pdm_pcm_free(&pdm_pcm);
 }
-uint32_t PDMClass::available() {
-    // to start
 
-}
+void PDMClass::setBufferSize(uint32_t size) {
 
-// Blocking API: waits until enough data is available
-uint32_t PDMClass::read(uint16_t *buffer, uint32_t size) {
-    // to start
+    if (pdm_inited == false) {
+        buffer_size = size;
+    }
 
 }
 void PDMClass::setGain(uint8_t gain) {
@@ -86,7 +84,7 @@ static void PDMClass::pdm_pcm_isr_handler(void *arg, cyhal_pdm_pcm_event_t event
 
     if (0u != (event & CYHAL_PDM_PCM_ASYNC_COMPLETE)) {
         // Swap active and full
-        uint32_t *temp = obj->active_rx_buffer_p;
+        int32_t *temp = obj->active_rx_buffer_p;
         obj->active_rx_buffer_p = obj->full_rx_buffer_p;
         obj->full_rx_buffer_p = temp;
 
@@ -96,8 +94,16 @@ static void PDMClass::pdm_pcm_isr_handler(void *arg, cyhal_pdm_pcm_event_t event
         obj->full_ready = true;
 
         // Start DMA on buffer
-        cyhal_pdm_pcm_read_async(&obj->pdm_pcm, obj->active_rx_buffer, BUFFER_SIZE);
-        // dma_copy_from_dmabuf_to_ringbuf  --to be implemented
+        cyhal_pdm_pcm_read_async(&obj->pdm_pcm, obj->active_rx_buffer_p, BUFFER_SIZE);
+        // dma_copy_from_dmabuf_to_ringbuf
+
+        for (size_t i = 0; i < BUFFER_SIZE; ++i) {
+            // Push each 32-bit value as 4 bytes
+            uint32_t sample = obj->active_rx_buffer_p[i];
+            for (size_t b = 0; b < 4; ++b) {
+                obj->ringbuf_push((sample >> (8 * b)) & 0xFF);
+            }
+        }
     }
 }
 
@@ -115,6 +121,98 @@ void PDMClass::clock_init(void) {
     cyhal_clock_set_source(&audio_clock, &pll_clock);
     cyhal_clock_set_enabled(&audio_clock, true, true);
 }
+
+// Initialize (or re-initialize) the ring buffer
+void PDMClass::ringbuf_init(size_t size) {
+    // Free previous buffer if it exists
+    if (ringbuf.buffer != nullptr) {
+        delete[] ringbuf.buffer;
+    }
+    ringbuf.buffer = new uint8_t[size];
+    memset(ringbuf.buffer, 0, size);
+    ringbuf.size = size;
+    ringbuf.head = 0;
+    ringbuf.tail = 0;
+}
+// Ring buffer operations as before...
+
+bool PDMClass::ringbuf_push(int32_t data) {
+    size_t next_tail = (ringbuf.tail + 1) % ringbuf.size;
+    if (next_tail != ringbuf.head) {
+        ringbuf.buffer[ringbuf.tail] = data;
+        ringbuf.tail = next_tail;
+        return true;
+    }
+    return false;
+}
+
+int32_t PDMClass::ringbuf_pop(int32_t &data) {
+    if (ringbuf.head == ringbuf.tail) {
+        return false;
+    }
+    data = ringbuf.buffer[ringbuf.head];
+    ringbuf.head = (ringbuf.head + 1) % ringbuf.size;
+    return data;
+}
+
+size_t PDMClass::ringbuf_available_data() const {
+    return (ringbuf.tail - ringbuf.head + ringbuf.size) % ringbuf.size;
+}
+
+size_t PDMClass::ringbuf_available_space() const {
+    return ringbuf.size - ringbuf_available_data() - 1;
+}
+
+void PDMClass::ringbuf_reset() {
+    ringbuf.head = 0;
+    ringbuf.tail = 0;
+    memset(ringbuf.buffer, 0, ringbuf.size);
+}
+
+// High-level API...
+
+size_t PDMClass::available() {
+
+    size_t length_of_data = ringbuf_available_data();
+    Serial.println("available length_of_data");
+    Serial.println(length_of_data);
+    size_t words_popped = 0;
+    // Each word is 4 bytes
+    while (words_popped < ringbuf.size) {
+        // Check if there are at least 4 bytes available
+        size_t bytes_available = (ringbuf.tail - ringbuf.head + ringbuf.size) % ringbuf.size;
+        if (bytes_available < 4) {
+            break;
+        }
+
+        uint32_t word = 0;
+        for (size_t b = 0; b < 4; ++b) {
+            word |= (static_cast < uint32_t > (ringbuf.buffer[ringbuf.head]) << (8 * b));
+            ringbuf.head = (ringbuf.head + 1) % ringbuf.size;
+        }
+        // buffer[words_popped] = word;
+        ++words_popped;
+    }
+    // Return the number of words read
+    return words_popped;
+}
+
+int32_t PDMClass::read(int32_t data, uint32_t size) {
+    if (size != 0) {
+        int32_t data = ringbuf_pop(data);
+        Serial.println(data);
+    }
+    return data;
+}
+
+void PDMClass::writeToRingBuffer(const uint8_t *data, size_t length) {
+    for (size_t i = 0; i < length; ++i) {
+        if (!ringbuf_push(data[i])) {
+            break;
+        }
+    }
+}
+
 #if I2C_HOWMANY > 0
 PDMClass PDM(PDM_SDA_PIN, PDM_SCL_PIN);
 #endif
