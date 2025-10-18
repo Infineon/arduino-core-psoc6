@@ -4,6 +4,9 @@ on:
   push:
     paths-ignore:
       - 'docs/**'
+  schedule:
+    - cron: "30 12 * * 0"
+    
 jobs:
   arduino-devops:
     uses: Infineon/arduino-devops/.github/workflows/compile-examples.yml@latest
