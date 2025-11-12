@@ -34,4 +34,7 @@
 // Forward declarations for SPI instances
 extern SPIClassPSOC SPI1;
 
+// Test PWM Frequencies
+static const float test_pwm_frequencies[] = {1, 50, 5000, 50000};
+
 #endif // TEST_CONFIG_H
