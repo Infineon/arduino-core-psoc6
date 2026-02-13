@@ -17,3 +17,19 @@ cy8ckit_062s2_ai.upload.protocol=openocd
 cy8ckit_062s2_ai.upload.maximum_size=2097152
 cy8ckit_062s2_ai.upload.target.cfg=psoc6_2m.cfg
 #####################################################
+
+####################################################
+cy8cproto_063_ble.name=CY8CPROTO-063-BLE
+
+# Board configuration
+cy8cproto_063_ble.build.board=CY8CPROTO_063_BLE
+cy8cproto_063_ble.build.core=psoc6
+cy8cproto_063_ble.build.variant=CY8CPROTO-063-BLE
+cy8cproto_063_ble.build.board.version=release-v4.2.0
+
+# Upload settings
+cy8cproto_063_ble.upload.tool=openocd
+cy8cproto_063_ble.upload.protocol=openocd
+cy8cproto_063_ble.upload.maximum_size=1048576
+cy8cproto_063_ble.upload.target.cfg=psoc6.cfg
+#####################################################
