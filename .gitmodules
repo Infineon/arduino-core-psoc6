@@ -79,3 +79,21 @@
 [submodule "extras/arduino-devops"]
 	path = extras/arduino-devops
 	url = https://github.com/Infineon/arduino-devops.git
+[submodule "extras/mtb-libs/core-make"]
+	path = extras/mtb-libs/core-make
+	url = https://github.com/Infineon/core-make.git
+[submodule "extras/mtb-libs/btstack"]
+	path = extras/mtb-libs/btstack
+	url = https://github.com/Infineon/btstack.git
+[submodule "extras/mtb-libs/btstack-integration"]
+	path = extras/mtb-libs/btstack-integration
+	url = https://github.com/Infineon/btstack-integration.git
+[submodule "extras/mtb-libs/recipe-make-cat1a"]
+	path = extras/mtb-libs/recipe-make-cat1a
+	url = https://github.com/Infineon/recipe-make-cat1a.git
+[submodule "extras/mtb-libs-ble/mtb-hal-cat1"]
+	path = extras/mtb-libs-ble/mtb-hal-cat1
+	url = https://github.com/Infineon/mtb-hal-cat1.git
+[submodule "extras/mtb-libs-ble/mtb-pdl-cat1"]
+	path = extras/mtb-libs-ble/mtb-pdl-cat1
+	url = https://github.com/Infineon/mtb-pdl-cat1.git
