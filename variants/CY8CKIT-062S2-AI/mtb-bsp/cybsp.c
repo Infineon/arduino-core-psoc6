@@ -32,12 +32,12 @@
 #if defined(CY_USING_HAL)
 #include "cyhal_hwmgr.h"
 #include "cyhal_syspm.h"
-
+#include "cyhal_system.h"
 #if defined(CYBSP_WIFI_CAPABLE) && defined(CYHAL_UDB_SIO)
 #include "SDIO_HOST.h"
 #endif
 #endif // defined(CY_USING_HAL)
-#include "cyhal_system.h"
+
 #if defined(COMPONENT_MW_CAT1CM0P)
     #include "mtb_cat1cm0p.h"
 #endif
@@ -111,8 +111,6 @@ cy_rslt_t cybsp_init(void)
         // macros that exist in classic HAL configuration only (HAL-Lite configuration does
         // not include SysPm HAL)
         cyhal_syspm_set_supply_voltage(CYHAL_VOLTAGE_SUPPLY_VDDA, CY_CFG_PWR_VDDA_MV);
-        #elif defined(CY_USING_HAL_LITE)
-        cyhal_system_set_supply_voltage(CYHAL_VOLTAGE_SUPPLY_VDDA, CY_CFG_PWR_VDDA_MV);
         #endif
     }
     #endif // ifdef CY_CFG_PWR_VDDA_MV

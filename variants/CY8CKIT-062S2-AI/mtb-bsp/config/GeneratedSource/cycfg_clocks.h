@@ -4,12 +4,12 @@
  * Description:
  * Clock configuration
  * This file was automatically generated and should not be modified.
- * Configurator Backend 3.20.0
- * device-db 4.18.0.7028
- * mtb-pdl-cat1 3.12.0.36524
+ * Configurator Backend 3.60.0
+ * device-db 4.35.0.9884
+ * mtb-pdl-cat1 3.19.0.44724
  *
  *******************************************************************************
- * Copyright 2024 Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2026 Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -43,6 +43,7 @@ extern "C" {
 #define CYBSP_TRACE_CLK_DIV_ENABLED 1U
 #define CYBSP_TRACE_CLK_DIV_HW CY_SYSCLK_DIV_8_BIT
 #define CYBSP_TRACE_CLK_DIV_NUM 7U
+#define CYBSP_TRACE_CLK_DIV_GRP_NUM PERI_PCLK_PERIPHERAL_GROUP_NUM
 
 #if defined (CY_USING_HAL)
 extern const cyhal_resource_inst_t CYBSP_TRACE_CLK_DIV_obj;

@@ -284,28 +284,19 @@ __WEAK void Cy_SystemInit(void)
 *******************************************************************************/
 void SystemCoreClockUpdate (void)
 {
-    uint32_t pathFreqHz;
-    uint32_t clkHfPath;
-
     /* Get frequency for the high-frequency clock # 0 */
-    clkHfPath = CY_SYSCLK_CLK_CORE_HF_PATH_NUM;
+    /* This is part of the clock tree for the CM0+; do not use for CM4 clock calculations. */
+    cy_Hfclk0FreqHz = Cy_SysClk_ClkHfGetFrequency(CY_SYSCLK_CLK_CORE_HF_PATH_NUM);
 
-    pathFreqHz = Cy_SysClk_ClkHfGetFrequency(clkHfPath);
-
-    SystemCoreClock = pathFreqHz;
-
-    cy_Hfclk0FreqHz = SystemCoreClock;
+    /* The CM4 core's clock source is the fast clock. */
+    SystemCoreClock = Cy_SysClk_ClkFastGetFrequency();
 
     /* Get frequency for the high-frequency clock # 2 , which is used for PERI PCLK*/
-    clkHfPath = CY_SYSCLK_CLK_PERI_HF_PATH_NUM;
-
-    pathFreqHz = Cy_SysClk_ClkHfGetFrequency(clkHfPath);
-
-    cy_PeriClkFreqHz = pathFreqHz;
+    cy_PeriClkFreqHz = Cy_SysClk_ClkHfGetFrequency(CY_SYSCLK_CLK_PERI_HF_PATH_NUM);
 
     /* Sets clock frequency for Delay API */
-    cy_delayFreqMhz = (uint32_t)((cy_delayFreqHz + CY_DELAY_1M_MINUS_1_THRESHOLD) / CY_DELAY_1M_THRESHOLD);
-    cy_delayFreqKhz = (cy_delayFreqHz + CY_DELAY_1K_MINUS_1_THRESHOLD) / CY_DELAY_1K_THRESHOLD;
+    cy_delayFreqMhz = (uint32_t)((SystemCoreClock + CY_DELAY_1M_MINUS_1_THRESHOLD) / CY_DELAY_1M_THRESHOLD);
+    cy_delayFreqKhz = (SystemCoreClock + CY_DELAY_1K_MINUS_1_THRESHOLD) / CY_DELAY_1K_THRESHOLD;
 
     /* Get the frequency of AHB source, CLK HF0 is the source for AHB*/
     cy_AhbFreqHz = Cy_SysClk_ClkHfGetFrequency(0UL);

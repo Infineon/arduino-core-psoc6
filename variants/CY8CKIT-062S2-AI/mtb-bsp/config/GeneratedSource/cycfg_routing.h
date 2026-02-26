@@ -4,12 +4,12 @@
  * Description:
  * Establishes all necessary connections between hardware elements.
  * This file was automatically generated and should not be modified.
- * Configurator Backend 3.20.0
- * device-db 4.18.0.7028
- * mtb-pdl-cat1 3.12.0.36524
+ * Configurator Backend 3.60.0
+ * device-db 4.35.0.9884
+ * mtb-pdl-cat1 3.19.0.44724
  *
  *******************************************************************************
- * Copyright 2024 Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2026 Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -35,8 +35,6 @@
 extern "C" {
 #endif /* defined(__cplusplus) */
 
-#define ioss_0_port_0_pin_0_ANALOG P0_0_SRSS_WCO_IN
-#define ioss_0_port_0_pin_1_ANALOG P0_1_SRSS_WCO_OUT
 #define ioss_0_port_6_pin_4_HSIOM P6_4_CPUSS_SWJ_SWO_TDO
 #define ioss_0_port_6_pin_6_HSIOM P6_6_CPUSS_SWJ_SWDIO_TMS
 #define ioss_0_port_6_pin_7_HSIOM P6_7_CPUSS_SWJ_SWCLK_TCLK

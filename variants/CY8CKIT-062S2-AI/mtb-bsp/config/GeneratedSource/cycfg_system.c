@@ -4,12 +4,12 @@
  * Description:
  * System configuration
  * This file was automatically generated and should not be modified.
- * Configurator Backend 3.20.0
- * device-db 4.18.0.7028
- * mtb-pdl-cat1 3.12.0.36524
+ * Configurator Backend 3.60.0
+ * device-db 4.35.0.9884
+ * mtb-pdl-cat1 3.19.0.44724
  *
  *******************************************************************************
- * Copyright 2024 Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2026 Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -39,7 +39,7 @@
 #define CY_CFG_SYSCLK_CLKALTSYSTICK_SOURCE CY_SYSTICK_CLOCK_SOURCE_CLK_LF
 #define CY_CFG_SYSCLK_CLKALTSYSTICK_INTERVAL 0
 #define CY_CFG_SYSCLK_CLKALTSYSTICK_FREQUENCY 32768
-#define CY_CFG_SYSCLK_CLKALTSYSTICK_TICKS ((0)/1000000.0)*32768
+#define CY_CFG_SYSCLK_CLKALTSYSTICK_TICKS ((uint32_t)(((0)/1000000.0)*32768))
 #endif /*  (CY_CPU_CORTEX_M4) */
 
 #define CY_CFG_SYSCLK_CLKBAK_ENABLED 1
@@ -181,6 +181,41 @@ static const cy_stc_pll_manual_config_t srss_0_clock_0_pll_0_pllConfig =
 };
 #endif /* (!defined(CY_DEVICE_SECURE)) */
 
+__WEAK void __NO_RETURN cycfg_ClockStartupError(uint32_t error);
+
+#if ((!defined(CY_DEVICE_SECURE)) && (defined(CY_CFG_SYSCLK_FLL_ENABLED)))
+__STATIC_INLINE void Cy_SysClk_FllDeInit(void);
+#endif /* ((!defined(CY_DEVICE_SECURE)) && (defined(CY_CFG_SYSCLK_FLL_ENABLED))) */
+
+#if defined (CY_DEVICE_SECURE)
+void init_cycfg_secure_struct(cy_stc_pra_system_config_t * secure_config);
+#endif /* defined (CY_DEVICE_SECURE) */
+
+#if  (CY_CPU_CORTEX_M4)
+__STATIC_INLINE void Cy_SysClk_ClkAltSysTickInit(void);
+#endif /*  (CY_CPU_CORTEX_M4) */
+
+#if (!defined(CY_DEVICE_SECURE))
+__STATIC_INLINE void Cy_SysClk_ClkBakInit(void);
+__STATIC_INLINE void Cy_SysClk_ClkFastInit(void);
+__STATIC_INLINE void Cy_SysClk_FllInit(void);
+__STATIC_INLINE void Cy_SysClk_ClkHf0Init(void);
+__STATIC_INLINE void Cy_SysClk_IloInit(void);
+__STATIC_INLINE void Cy_SysClk_ClkLfInit(void);
+__STATIC_INLINE void Cy_SysClk_ClkPath0Init(void);
+__STATIC_INLINE void Cy_SysClk_ClkPath1Init(void);
+__STATIC_INLINE void Cy_SysClk_ClkPath2Init(void);
+__STATIC_INLINE void Cy_SysClk_ClkPath3Init(void);
+__STATIC_INLINE void Cy_SysClk_ClkPath4Init(void);
+__STATIC_INLINE void Cy_SysClk_ClkPath5Init(void);
+__STATIC_INLINE void Cy_SysClk_ClkPeriInit(void);
+__STATIC_INLINE void Cy_SysClk_Pll0Init(void);
+__STATIC_INLINE void Cy_SysClk_ClkSlowInit(void);
+__STATIC_INLINE void Cy_SysClk_ClkTimerInit(void);
+__STATIC_INLINE void Cy_SysClk_WcoInit(void);
+__STATIC_INLINE void init_cycfg_power(void);
+#endif /* (!defined(CY_DEVICE_SECURE)) */
+
 __WEAK void __NO_RETURN cycfg_ClockStartupError(uint32_t error)
 {
     (void)error; /* Suppress the compiler warning */
@@ -188,7 +223,7 @@ __WEAK void __NO_RETURN cycfg_ClockStartupError(uint32_t error)
 }
 
 #if ((!defined(CY_DEVICE_SECURE)) && (defined(CY_CFG_SYSCLK_FLL_ENABLED)))
-__STATIC_INLINE void Cy_SysClk_FllDeInit()
+__STATIC_INLINE void Cy_SysClk_FllDeInit(void)
 {
     Cy_SysClk_FllDisable();
 }
@@ -668,22 +703,22 @@ void init_cycfg_secure_struct(cy_stc_pra_system_config_t * secure_config)
 #endif /* defined (CY_DEVICE_SECURE) */
 
 #if  (CY_CPU_CORTEX_M4)
-__STATIC_INLINE void Cy_SysClk_ClkAltSysTickInit()
+__STATIC_INLINE void Cy_SysClk_ClkAltSysTickInit(void)
 {
     Cy_SysTick_Init(CY_CFG_SYSCLK_CLKALTSYSTICK_SOURCE, CY_CFG_SYSCLK_CLKALTSYSTICK_TICKS);
 }
 #endif /*  (CY_CPU_CORTEX_M4) */
 
 #if (!defined(CY_DEVICE_SECURE))
-__STATIC_INLINE void Cy_SysClk_ClkBakInit()
+__STATIC_INLINE void Cy_SysClk_ClkBakInit(void)
 {
     Cy_SysClk_ClkBakSetSource(CY_SYSCLK_BAK_IN_CLKLF);
 }
-__STATIC_INLINE void Cy_SysClk_ClkFastInit()
+__STATIC_INLINE void Cy_SysClk_ClkFastInit(void)
 {
     Cy_SysClk_ClkFastSetDivider(0U);
 }
-__STATIC_INLINE void Cy_SysClk_FllInit()
+__STATIC_INLINE void Cy_SysClk_FllInit(void)
 {
     if (CY_SYSCLK_SUCCESS != Cy_SysClk_FllManualConfigure(&srss_0_clock_0_fll_0_fllConfig))
     {
@@ -694,51 +729,51 @@ __STATIC_INLINE void Cy_SysClk_FllInit()
         cycfg_ClockStartupError(CY_CFG_SYSCLK_FLL_ERROR);
     }
 }
-__STATIC_INLINE void Cy_SysClk_ClkHf0Init()
+__STATIC_INLINE void Cy_SysClk_ClkHf0Init(void)
 {
     Cy_SysClk_ClkHfSetSource(0U, CY_CFG_SYSCLK_CLKHF0_CLKPATH);
     Cy_SysClk_ClkHfSetDivider(0U, CY_SYSCLK_CLKHF_NO_DIVIDE);
 }
-__STATIC_INLINE void Cy_SysClk_IloInit()
+__STATIC_INLINE void Cy_SysClk_IloInit(void)
 {
     /* The WDT is unlocked in the default startup code */
     Cy_SysClk_IloEnable();
     Cy_SysClk_IloHibernateOn(true);
 }
-__STATIC_INLINE void Cy_SysClk_ClkLfInit()
+__STATIC_INLINE void Cy_SysClk_ClkLfInit(void)
 {
     /* The WDT is unlocked in the default startup code */
     Cy_SysClk_ClkLfSetSource(CY_SYSCLK_CLKLF_IN_WCO);
 }
-__STATIC_INLINE void Cy_SysClk_ClkPath0Init()
+__STATIC_INLINE void Cy_SysClk_ClkPath0Init(void)
 {
     Cy_SysClk_ClkPathSetSource(0U, CY_CFG_SYSCLK_CLKPATH0_SOURCE);
 }
-__STATIC_INLINE void Cy_SysClk_ClkPath1Init()
+__STATIC_INLINE void Cy_SysClk_ClkPath1Init(void)
 {
     Cy_SysClk_ClkPathSetSource(1U, CY_CFG_SYSCLK_CLKPATH1_SOURCE);
 }
-__STATIC_INLINE void Cy_SysClk_ClkPath2Init()
+__STATIC_INLINE void Cy_SysClk_ClkPath2Init(void)
 {
     Cy_SysClk_ClkPathSetSource(2U, CY_CFG_SYSCLK_CLKPATH2_SOURCE);
 }
-__STATIC_INLINE void Cy_SysClk_ClkPath3Init()
+__STATIC_INLINE void Cy_SysClk_ClkPath3Init(void)
 {
     Cy_SysClk_ClkPathSetSource(3U, CY_CFG_SYSCLK_CLKPATH3_SOURCE);
 }
-__STATIC_INLINE void Cy_SysClk_ClkPath4Init()
+__STATIC_INLINE void Cy_SysClk_ClkPath4Init(void)
 {
     Cy_SysClk_ClkPathSetSource(4U, CY_CFG_SYSCLK_CLKPATH4_SOURCE);
 }
-__STATIC_INLINE void Cy_SysClk_ClkPath5Init()
+__STATIC_INLINE void Cy_SysClk_ClkPath5Init(void)
 {
     Cy_SysClk_ClkPathSetSource(5U, CY_CFG_SYSCLK_CLKPATH5_SOURCE);
 }
-__STATIC_INLINE void Cy_SysClk_ClkPeriInit()
+__STATIC_INLINE void Cy_SysClk_ClkPeriInit(void)
 {
     Cy_SysClk_ClkPeriSetDivider(0U);
 }
-__STATIC_INLINE void Cy_SysClk_Pll0Init()
+__STATIC_INLINE void Cy_SysClk_Pll0Init(void)
 {
     if (CY_SYSCLK_SUCCESS != Cy_SysClk_PllManualConfigure(1U, &srss_0_clock_0_pll_0_pllConfig))
     {
@@ -749,18 +784,18 @@ __STATIC_INLINE void Cy_SysClk_Pll0Init()
         cycfg_ClockStartupError(CY_CFG_SYSCLK_PLL_ERROR);
     }
 }
-__STATIC_INLINE void Cy_SysClk_ClkSlowInit()
+__STATIC_INLINE void Cy_SysClk_ClkSlowInit(void)
 {
     Cy_SysClk_ClkSlowSetDivider(0U);
 }
-__STATIC_INLINE void Cy_SysClk_ClkTimerInit()
+__STATIC_INLINE void Cy_SysClk_ClkTimerInit(void)
 {
     Cy_SysClk_ClkTimerDisable();
     Cy_SysClk_ClkTimerSetSource(CY_SYSCLK_CLKTIMER_IN_IMO);
     Cy_SysClk_ClkTimerSetDivider(0U);
     Cy_SysClk_ClkTimerEnable();
 }
-__STATIC_INLINE void Cy_SysClk_WcoInit()
+__STATIC_INLINE void Cy_SysClk_WcoInit(void)
 {
     (void)Cy_GPIO_Pin_FastInit(GPIO_PRT0, 0U, 0x00U, 0x00U, HSIOM_SEL_GPIO);
     (void)Cy_GPIO_Pin_FastInit(GPIO_PRT0, 1U, 0x00U, 0x00U, HSIOM_SEL_GPIO);
@@ -859,8 +894,9 @@ void init_cycfg_system(void)
         #endif /* CY_CFG_SYSCLK_EXTCLK_FREQ */
     #else /* defined(CY_DEVICE_SECURE) */
     
-        /* Set worst case memory wait states (! ultra low power, 150 MHz), will update at the end */
-        Cy_SysLib_SetWaitStates(false, 150UL);
+    /* Set worst case memory wait states (! ultra low power, 180 MHz), will update at the end */
+    Cy_SysLib_SetWaitStates(false, 180UL);
+    
     #ifdef CY_CFG_PWR_ENABLED
         #ifdef CY_CFG_PWR_INIT
             init_cycfg_power();
@@ -1000,7 +1036,9 @@ void init_cycfg_system(void)
         Cy_SysClk_FllInit();
     #endif
     
-    Cy_SysClk_ClkHf0Init();
+    #ifdef CY_CFG_SYSCLK_CLKHF0_ENABLED
+        Cy_SysClk_ClkHf0Init();
+    #endif
     
     #if ((CY_CFG_SYSCLK_CLKPATH0_SOURCE_NUM == 0x6UL) && (CY_CFG_SYSCLK_CLKHF0_CLKPATH_NUM == 0U))
         #ifdef CY_CFG_SYSCLK_CLKPATH1_ENABLED
@@ -1166,13 +1204,62 @@ void init_cycfg_system(void)
     
     #endif /* (!defined(CY_DEVICE_SECURE)) */
     
-#if defined(CY_CFG_SYSCLK_ECO_PRESCALER_ENABLED)
+    #if defined(CY_CFG_SYSCLK_ECO_PRESCALER_ENABLED)
         Cy_SysClk_EcoPrescalerInit();
-#endif /* defined(CY_CFG_SYSCLK_ECO_PRESCALER_ENABLED) */
+    #endif /* defined (CY_CFG_SYSCLK_ECO_PRESCALER_ENABLED) */
+    
     #ifdef CY_CFG_SYSCLK_CLKALTSYSTICK_ENABLED
         Cy_SysClk_ClkAltSysTickInit();
     #endif
     
+    /* Configure HF clocks CSV */
+    #ifdef CY_CFG_SYSCLK_CLKHF0_CSV_ENABLED
+        Cy_SysClk_ClkHf0CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF1_CSV_ENABLED
+        Cy_SysClk_ClkHf1CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF2_CSV_ENABLED
+        Cy_SysClk_ClkHf2CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF3_CSV_ENABLED
+        Cy_SysClk_ClkHf3CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF4_CSV_ENABLED
+        Cy_SysClk_ClkHf4CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF5_CSV_ENABLED
+        Cy_SysClk_ClkHf5CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF6_CSV_ENABLED
+        Cy_SysClk_ClkHf6CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF7_CSV_ENABLED
+        Cy_SysClk_ClkHf7CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF8_CSV_ENABLED
+        Cy_SysClk_ClkHf8CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF9_CSV_ENABLED
+        Cy_SysClk_ClkHf9CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF10CSV_ENABLED
+        Cy_SysClk_ClkHf10CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF11_CSV_ENABLED
+        Cy_SysClk_ClkHf11CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF12_CSV_ENABLED
+        Cy_SysClk_ClkHf12CsvInit();
+    #endif
+    #ifdef CY_CFG_SYSCLK_CLKHF13_CSV_ENABLED
+        Cy_SysClk_ClkHf13CsvInit();
+    #endif
+    
+    /* Configure LF clocks CSV */
+    #ifdef CY_CFG_SYSCLK_CLKLF_CSV_ENABLED
+        Cy_SysClk_ClkLfCsvInit();
+    #endif
 #if defined (CY_USING_HAL)
     if(CY_RSLT_SUCCESS != (cyhal_hwmgr_reserve(&srss_0_clock_0_pathmux_0_obj)))
     {
