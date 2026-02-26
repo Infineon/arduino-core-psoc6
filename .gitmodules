@@ -91,9 +91,4 @@
 [submodule "extras/mtb-libs/recipe-make-cat1a"]
 	path = extras/mtb-libs/recipe-make-cat1a
 	url = https://github.com/Infineon/recipe-make-cat1a.git
-[submodule "extras/mtb-libs-ble/mtb-hal-cat1"]
-	path = extras/mtb-libs-ble/mtb-hal-cat1
-	url = https://github.com/Infineon/mtb-hal-cat1.git
-[submodule "extras/mtb-libs-ble/mtb-pdl-cat1"]
-	path = extras/mtb-libs-ble/mtb-pdl-cat1
-	url = https://github.com/Infineon/mtb-pdl-cat1.git
+	
