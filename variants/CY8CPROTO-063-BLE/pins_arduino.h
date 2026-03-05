@@ -30,21 +30,21 @@
 
 /****** UART CORE DEFINES ******/
 
-#define SERIAL_HOWMANY		1
+#define SERIAL_HOWMANY		2
 #define UART1_TX_PIN      31  // UART_TX P5_1
 #define UART1_RX_PIN      30  // UART_RX P5_0
 #define UART1_CTS_PIN     NC  // NOT CONNECTED
 #define UART1_RTS_PIN     NC  // NOT CONNECTED
-#define UART2_TX_PIN      NC  // UART_TX P10_1
-#define UART2_RX_PIN      NC  // UART_RX P10_0
+#define UART2_TX_PIN      10  // UART_TX P10_1
+#define UART2_RX_PIN      11  // UART_RX P10_0
 #define UART2_CTS_PIN     NC  // NOT CONNECTED
 #define UART2_RTS_PIN     NC  // NOT CONNECTED
 
-#define I2C_HOWMANY     1
-#define I2C1_SDA_PIN    9 // I2C-SDA P0_3
-#define I2C1_SCL_PIN    8 // I2C-SCL P0_2
-#define I2C2_SDA_PIN    1 // I2C-SDA P9_1
-#define I2C2_SCL_PIN    0 // I2C-SCL P9_0
+#define I2C_HOWMANY     2
+#define I2C1_SDA_PIN    9 // I2C-SDA P6_5
+#define I2C1_SCL_PIN    8 // I2C-SCL P6_4
+#define I2C2_SDA_PIN    10 // I2C-SDA P10_1
+#define I2C2_SCL_PIN    11 // I2C-SCL P10_0
 
 static const uint8_t SDA = I2C1_SDA_PIN;
 static const uint8_t SCL = I2C1_SCL_PIN;
@@ -62,8 +62,8 @@ static const uint8_t SCK = PIN_SPI_SCK;
 
 #define ADC_HOWMANY             2
 #define ADC_RESOLUTION          12 // ADC resolution in bits, but the observed range is from 0-2^11. 
-#define PIN_A0                  11 // ADC P10.0
-#define PIN_A1                  10 // ADC P10.1
+#define PIN_A0                  21 // ADC P10.3
+#define PIN_A1                  20 // ADC P10.4
 
 static const uint8_t A0  = PIN_A0;
 static const uint8_t A1  = PIN_A1;
@@ -97,8 +97,8 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
 		   
     /* 8   */ P6_4, // I2C-SCL / PWM         
     /* 9   */ P6_5, // I2C-SDA / PWM         
-    /* 10  */ P7_2,// A1 / UART_TX / PWM    
-    /* 11  */ P7_7,// A0 / UART_RX / PWM    
+    /* 10  */ P10_1,// I2C-SCL / UART_TX / PWM    
+    /* 11  */ P10_0,// I2C-SDA / UART_RX / PWM    
 
     // on board LEDs and USER BUTTON
 
@@ -108,21 +108,21 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
 
     // Additional pins for expansion IO connector - J15 starting here
 
-    /* 15  */ P0_5,// SDHC_DATA00 / SPI-MOSI / UART_RX / I2C-SCL / PWM     
-    /* 16  */ P12_6,// SDHC_DATA01 / SPI-MISO / UART_TX / I2C-SDA / PWM     
-    /* 17  */ P12_7,// SDHC_DATA02 / SPI-SCLK / IO / PWM             
-    /* 18  */ P10_6,// SDHC_DATA03 / IO / PWM                         
-    /* 19  */ P10_5,// SDHC_DATA10 / UART_RX / I2C-SCL / PWM                
-    /* 20  */ P10_4,// SDHC_DATA11 / UART_TX / I2C-SDA / PWM                
-    /* 21  */ P10_3,// SDHC_DATA12 / IO / PWM                         
-    /* 22  */ P10_2,// SDHC_DATA13 / IO / PWM                         
-    /* 23  */ P10_1,// SPI-SCLK / IO / PWM                              
-    /* 24  */ P10_0,// SPI-MISO / UART_TX / I2C-SDA / IO / PWM         
-    /* 25  */ P5_6,// SPI-MOSI / UART_RX / I2C-SCL / IO / PWM         
-    /* 26  */ P5_5,// IO / PWM                                        
-    /* 27  */ P5_4,// UART_RX / I2C-SCL / IO / PWM                     
-    /* 28  */ P5_3,// UART_TX / I2C-SDA / IO / PWM                     
-    /* 29  */ P5_2,// SDHC_CMD / IO / PWM                             
+    /* 15  */ P0_5, // PWM     
+    /* 16  */ P12_6,// PWM     
+    /* 17  */ P12_7,// PWM             
+    /* 18  */ P10_6,// PWM                         
+    /* 19  */ P10_5,// PWM                
+    /* 20  */ P10_4,// A0/ PWM                
+    /* 21  */ P10_3,// A1 / PWM                         
+    /* 22  */ P10_2,// IO / PWM                         
+    /* 23  */ P7_7,//  IO / PWM                              
+    /* 24  */ P7_2,//  IO / PWM         
+    /* 25  */ P5_6,//  IO / PWM         
+    /* 26  */ P5_5,//  IO / PWM                                        
+    /* 27  */ P5_4,//  IO / PWM                     
+    /* 28  */ P5_3,//  IO / PWM                     
+    /* 29  */ P5_2,//  IO / PWM                             
 
     // Additional pins not available in external connector
 
