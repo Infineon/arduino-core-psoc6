@@ -31,8 +31,8 @@
 #define         TEST_ADC_RESOLUTION             11      
 #define         TEST_ADC_MAX_VALUE              2048    // 11-bit resolution
 #elif defined(CY8CPROTO_063_BLE)
-#define         TEST_PIN_DIGITAL_IO_OUTPUT      4       // IO_4
-#define         TEST_PIN_DIGITAL_IO_INPUT       5       // IO_3
+#define         TEST_PIN_DIGITAL_IO_OUTPUT      16       // IO_4
+#define         TEST_PIN_DIGITAL_IO_INPUT       17       // IO_3
 
 #define         TEST_PIN_PULSE                  21       // IO_2
 
