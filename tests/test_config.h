@@ -15,7 +15,7 @@
 #include <SPI.h>
 
 // Test Pin Definitions
-
+#if defined(CY8CKIT_062S2_AI)
 #define         TEST_PIN_DIGITAL_IO_OUTPUT      7       // IO_4
 #define         TEST_PIN_DIGITAL_IO_INPUT       6       // IO_3
 
@@ -30,7 +30,22 @@
 
 #define         TEST_ADC_RESOLUTION             11      
 #define         TEST_ADC_MAX_VALUE              2048    // 11-bit resolution
+#elif defined(CY8CPROTO_063_BLE)
+#define         TEST_PIN_DIGITAL_IO_OUTPUT      4       // IO_4
+#define         TEST_PIN_DIGITAL_IO_INPUT       5       // IO_3
 
+#define         TEST_PIN_PULSE                  21       // IO_2
+
+#define         TEST_PIN_SYNC_IO                22      // IO_1
+
+#define         TEST_PIN_SPI_SSEL               3       // IO_0
+
+#define         TEST_PIN_ANALOG_IO_VREF         A0      // Pin connected to VREF
+#define         TEST_PIN_ANALOG_IO_DIVIDER      A1      // Pin connected to voltage divider
+
+#define         TEST_ADC_RESOLUTION             11      
+#define         TEST_ADC_MAX_VALUE              2048    // 11-bit resolution
+#endif
 // Forward declarations for SPI instances
 extern SPIClassPSOC SPI1;
 
