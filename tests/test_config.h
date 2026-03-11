@@ -34,7 +34,7 @@
 #define         TEST_PIN_DIGITAL_IO_OUTPUT      16       // IO_4
 #define         TEST_PIN_DIGITAL_IO_INPUT       17       // IO_3
 
-#define         TEST_PIN_PULSE                  21       // IO_2
+#define         TEST_PIN_PULSE                  19       // IO_2
 
 #define         TEST_PIN_SYNC_IO                22      // IO_1
 
