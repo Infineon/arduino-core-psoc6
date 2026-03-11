@@ -21,11 +21,11 @@ unit-test:
 
     ################################
     - unit-test-pulse-ble
-    # - unit-test-iic-pingpong-ble
-    # - unit-test-spi-pingpong-ble
+    - unit-test-iic-pingpong-ble
+    - unit-test-spi-pingpong-ble
     - unit-test-digital-io-ble
     - unit-test-time-ble
-    # - unit-test-uart-ble
+    - unit-test-uart-ble
     - unit-test-interrupts-ble
     - unit-test-tone-ble
     - unit-test-spi-loopback-ble
