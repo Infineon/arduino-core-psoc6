@@ -248,26 +248,34 @@ unit-test:
   
     unit-test-iic-pingpong-ble:
       - description: Compiling, flashing and monitoring I2C pingpong slave unit test.
-        command: make test_wire_connected2_slavepingpong 
+        command: make test_wire_connected2_slavepingpong ENABLE_SYNC=0
         query: iic_ping_pong_multiple_boards_slave == '2:1'
         working_dir: extras/arduino-core-tests
+        options:
+          SEND_JOB_START_TOKEN: False
 
       - description: Compiling, flashing and monitoring I2C pingpong master unit test.
-        command: make test_wire_connected2_masterpingpong 
+        command: make test_wire_connected2_masterpingpong ENABLE_SYNC=0
         query: iic_ping_pong_multiple_boards_master == '2:1'
         working_dir: extras/arduino-core-tests
-
+        options:
+          SEND_JOB_START_TOKEN: False
+          
     unit-test-spi-pingpong-ble:
       - description: Compiling, flashing and monitoring SPI pingpong slave unit test.
-        command: make test_spi_connected2_slavepingpong 
+        command: make test_spi_connected2_slavepingpong ENABLE_SYNC=0
         query: spi_ping_pong_multiple_boards_slave == '2:1'
         working_dir: extras/arduino-core-tests
+        options:
+          SEND_JOB_START_TOKEN: False
 
       - description: Compiling, flashing and monitoring SPI pingpong master unit test.
-        command: make test_spi_connected2_masterpingpong 
+        command: make test_spi_connected2_masterpingpong ENABLE_SYNC=0
         query: spi_ping_pong_multiple_boards_master == '2:1'
         working_dir: extras/arduino-core-tests
-
+        options:
+          SEND_JOB_START_TOKEN: False
+          
     unit-test-spi-loopback-ble:
       - description: Compiling, flashing and monitoring SPI loopback unit test.
         command: make test_spi_connected1_loopback
@@ -305,14 +313,18 @@ unit-test:
 
     unit-test-uart-ble:
       - description: Compiling, flashing and monitoring UART RX unit test.
-        command: make test_uart_rx 
+        command: make test_uart_rx ENABLE_SYNC=0
         query: uart_multiple_boards_rx == '2:1'
         working_dir: extras/arduino-core-tests
+        options:
+          SEND_JOB_START_TOKEN: False
 
       - description: Compiling, flashing and monitoring UART TX unit test.
-        command: make test_uart_tx 
+        command: make test_uart_tx ENABLE_SYNC=0
         query: uart_multiple_boards_tx == '2:1'
         working_dir: extras/arduino-core-tests
+        options:
+          SEND_JOB_START_TOKEN: False
 
     unit-test-onewire-DS18x20-ble:
       - description: Compiling, flashing and monitoring OneWire sensor DS18B20 data.
