@@ -26,9 +26,11 @@ The Arduino Core for Infineon's PSOC™ 6 microcontrollers aims to bring the adv
 <table>
     <tr>
         <td><img src="docs/img/board_CY8CKIT-062S2-AI.png" width=200></td>
+        <td><img src="docs/img/board_CY8CPROTO-063-BLE.png" width=500></td>
     </tr>
     <tr>
         <td style="test-align : center"><a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-062s2-ai/">CY8CKIT-062S2-AI</a></td>
+        <td style="test-align : center"><a href="https://www.infineon.com/evaluation-board/cy8cproto-063-ble/">CY8CPROTO-063-BLE</a></td>
     </tr>
 </table>
 
