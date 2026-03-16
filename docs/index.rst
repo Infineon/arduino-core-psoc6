@@ -7,6 +7,9 @@ Welcome to the Arduino Core for Infineon's PSOC™ 6 microcontrollers.
 .. image:: img/board_CY8CKIT-062S2-AI.png
     :width: 200
 
+.. image:: img/board_CY8CPROTO-063-BLE.png
+    :width: 400
+    
 .. toctree::
    :maxdepth: 2
    :caption: CONTENT
