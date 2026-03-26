@@ -20,17 +20,17 @@ unit-test:
     - unit-test-onewire-DS18x20
 
     ################################
-    # - unit-test-pulse-ble
+    - unit-test-pulse-ble
     - unit-test-iic-pingpong-ble
     - unit-test-digital-io-ble
     - unit-test-spi-pingpong-ble
     - unit-test-time-ble
     - unit-test-interrupts-ble
-    # - unit-test-uart-ble
-    # - unit-test-tone-ble
+    - unit-test-uart-ble
+    - unit-test-tone-ble
     - unit-test-spi-loopback-ble
-    # - unit-test-analog-io-adc-ble
+    - unit-test-analog-io-adc-ble
     - unit-test-random-ble
-    # - unit-test-analog-io-pwm-ble
+    - unit-test-analog-io-pwm-ble
     - unit-test-iic-single-board-ble
     - unit-test-onewire-DS18x20-ble
