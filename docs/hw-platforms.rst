@@ -23,11 +23,6 @@ CY8CKIT-062S2-AI
 .. image:: img/board_CY8CKIT-062S2-AI.png
     :width: 300
 
-CY8CPROTO-063-BLE
-------------------
-.. image:: img/board_CY8CPROTO-063-BLE.png
-    :width: 300
-
 `CY8CKIT-062S2-AI`_
 
 * Name in Arduino IDE: ``CY8CKIT-062S2-AI``
@@ -38,6 +33,11 @@ Pinout Diagram
 
 .. image:: img/CY8CKIT-062S2-AI_pinout.png
     :width: 700
+
+CY8CPROTO-063-BLE
+------------------
+.. image:: img/board_CY8CPROTO-063-BLE.png
+    :width: 300
 
 `CY8CPROTO-063-BLE`_
 
