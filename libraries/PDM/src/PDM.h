@@ -1,60 +1,34 @@
 #ifndef PDM_H
 #define PDM_H
 
-#include <cstddef>
-#include <cstdint>
-#include <stdint.h>
+// #include <stdint.h>
 
 #include "Arduino.h"
 #include "cyhal_pdmpcm.h"
 #include "cyhal_clock.h"
 
-// #define SIZEOF_DMA_BUFFER               (128)
-// #define SIZEOF_HALF_DMA_BUFFER          (SIZEOF_DMA_BUFFER / 2)
-// #define SIZEOF_DMA_BUFFER_IN_BYTES      (SIZEOF_DMA_BUFFER * sizeof((uint32_t)))
-// #define SIZEOF_HALF_DMA_BUFFER_IN_BYTES (SIZEOF_DMA_BUFFER_IN_BYTES / 2)
-// #define PDM_PCM_RX_FRAME_SIZE_IN_BYTES  (8)
+#define SIZEOF_DMA_BUFFER               (128)
+#define AUDIO_SYS_CLOCK_HZ              24576000u               // Audio system clock frequency in Hz
 
-// #define NON_BLOCKING_RATE_MULTIPLIER    (4)
-// #define SIZEOF_NON_BLOCKING_COPY_IN_BYTES (SIZEOF_HALF_DMA_BUFFER * NON_BLOCKING_RATE_MULTIPLIER)
-
-// #define DEFAULT_LEFT_GAIN               0
-// #define DEFAULT_RIGHT_GAIN              0
-
-// #define AUDIO_SYS_CLOCK_24_576_000_HZ   24576000u
-// #define AUDIO_SYS_CLOCK_22_579_000_HZ   22579000u
-
-// typedef enum {
-//         BITS_16 = 16,
-//         BITS_18 = 18,
-//         BITS_20 = 20,
-//         BITS_24 = 24
-// } pdm_pcm_word_length_t;
-
-// typedef enum {
-//     MONO_LEFT   = CYHAL_PDM_PCM_MODE_LEFT,
-//     MONO_RIGHT  = CYHAL_PDM_PCM_MODE_RIGHT,
-//     STEREO      = CYHAL_PDM_PCM_MODE_STEREO
-// } format_t;
-
-// typedef enum {
-//     BLOCKING,
-//     NON_BLOCKING,
-// } io_mode_t;
-
-#define FRAME_SIZE              (1024)                  // Number of samples per frame
-#define THRESHOLD_HYSTERESIS    (256)                   // Noise threshold hysteresis
-#define VOLUME_RATIO            (4*FRAME_SIZE)          // Volume ratio for noise and print purposes
-#define SAMPLE_RATE_HZ          8000u                   // Sample rate in Hz
-#define DECIMATION_RATE         64u                     // Decimation rate for PDM to PCM conversion
-#define AUDIO_SYS_CLOCK_HZ      24576000u               // Audio system clock frequency in Hz
-#define PDM_DATA_PIN            P10_5                   // PDM data pin
-#define PDM_CLOCK_PIN           P10_4                   // PDM clock pin
-
-
+/**
+ * @class PDMClassPSOC
+ * @brief Arduino-compatible PDM microphone driver for PSoC6
+ *
+ * Manages PDM/PCM hardware initialization, asynchronous DMA-based audio
+ * capture, and a ring buffer for streaming audio samples to the application.
+ */
 class PDMClassPSOC {
 public:
+        /**
+         * @brief Construct a new PDMClassPSOC object
+         * @param pdmDataPin GPIO pin connected to the PDM data line
+         * @param pdmClockPin GPIO pin connected to the PDM clock line
+         */
         PDMClassPSOC(pin_size_t pdmDataPin, pin_size_t pdmClockPin);
+
+        /**
+         * @brief Destroy the PDMClassPSOC object and release all resources
+         */
         ~PDMClassPSOC();
 
         /**
@@ -82,7 +56,7 @@ public:
          * @param size Number of bytes to read
          * @return Number of bytes actually read
          */
-        int read(void* buffer, size_t size);
+        uint32_t read(void *buffer, size_t size);
 
         /**
          * @brief Set the callback function for when new data is available
@@ -94,24 +68,21 @@ public:
          * @brief Set the input gain
          * @param gain Gain value (implementation specific range)
          */
-        void setGain(int gain);
+        uint32_t setGain(int16_t gain);
 
         /**
-         * @brief Set the internal buffer size
-         * @param bufferSize Size of the buffer in bytes
+         * @brief Set the ring buffer size (must be called before begin())
+         * @param bufferSize Size of the ring buffer in samples (int32_t units)
+         *                   Should be at least 2*SIZEOF_DMA_BUFFER for reliable operation
          */
         void setBufferSize(uint16_t bufferSize);
 
 private:
         int _channels;
         int _sampleRate;
-        int16_t *_audioDataBuffer;
 
-        void _clockInit(void);
-        static void _pdm_pcm_isr_handler(void *arg, cyhal_pdm_pcm_event_t event);
-        void _pdm_pcm_event_handler_member(cyhal_pdm_pcm_event_t event);
-        void (*_user_onReceive)(void);
-        void onReceiveService(void);
+        pin_size_t _pdmDataPin;
+        pin_size_t _pdmClockPin;
 
         cyhal_pdm_pcm_t _pdm_pcm;
         cyhal_pdm_pcm_cfg_t _pdm_pcm_cfg;
@@ -119,8 +90,67 @@ private:
         cyhal_clock_t _audioClock;
         cyhal_clock_t _pllCLock;
 
-        pin_size_t _pdmDataPin;
-        pin_size_t _pdmClockPin;
+        // DMA buffer for async reads (fixed size)
+        int32_t _dmaBuffer[SIZEOF_DMA_BUFFER];
+
+        // Dynamic ring buffer for accumulating audio data
+        int32_t *_ringBuffer;
+        volatile size_t _ringHead;      // Write position (ISR writes here)
+        volatile size_t _ringTail;      // Read position (user reads from here)
+        size_t _ringCapacity;           // Total capacity in samples
+
+        /**
+         * @brief Get the number of samples available for reading in the ring buffer
+         * @return Number of samples available
+         */
+        size_t _ringAvailable() const;
+
+        /**
+         * @brief Get the number of free sample slots in the ring buffer
+         * @return Number of free slots
+         */
+        size_t _ringFree() const;
+
+        /**
+         * @brief Write samples into the ring buffer
+         * @param data Pointer to the source sample data
+         * @param count Number of samples to write
+         * @return Number of samples actually written
+         */
+        size_t _ringWrite(const int32_t *data, size_t count);
+
+        /**
+         * @brief Read samples from the ring buffer
+         * @param data Pointer to the destination buffer
+         * @param count Number of samples to read
+         * @return Number of samples actually read
+         */
+        size_t _ringRead(int32_t *data, size_t count);
+
+        /**
+         * @brief Initialize the PLL and audio clocks for PDM operation
+         */
+        void _clockInit(void);
+
+        /**
+         * @brief Static ISR callback for PDM/PCM async events
+         * @param arg Pointer to the PDMClassPSOC instance (passed as void*)
+         * @param event The PDM/PCM event that triggered the interrupt
+         */
+        static void _pdm_pcm_isr_handler(void *arg, cyhal_pdm_pcm_event_t event);
+
+        /**
+         * @brief Instance-level handler for PDM/PCM events
+         * @param event The PDM/PCM event to handle
+         */
+        void _pdm_pcm_event_handler_member(cyhal_pdm_pcm_event_t event);
+
+        void (*_user_onReceive)(void); /**< User-registered data-ready callback */
+
+        /**
+         * @brief Process completed DMA transfer: expand samples, fill ring buffer, and restart async read
+         */
+        void onReceiveService(void);
 
         bool _initialized;
         bool _bufferInitialized;
