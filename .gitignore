@@ -37,3 +37,6 @@ debug_custom.json
 # Arduino core api symlinked
 cores/psoc6/api
 
+# Ignore Python bytecode and virtual environment
+.venv/
+arduino-devops/
