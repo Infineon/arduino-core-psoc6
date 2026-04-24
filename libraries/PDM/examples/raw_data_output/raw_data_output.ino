@@ -22,8 +22,6 @@
 
 #define FRAME_SIZE 1024
 
-PDMClassPSOC PDM = PDMClassPSOC(38, 37); // data=38, clock=37
-
 volatile bool dataReady = false;
 
 int32_t audioFrames[FRAME_SIZE] = {0};

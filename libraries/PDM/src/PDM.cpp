@@ -1,8 +1,8 @@
 #include "PDM.h"
 
-PDMClassPSOC::PDMClassPSOC(pin_size_t pdmDataPin, pin_size_t pdmClockPin)
-    : _pdmDataPin(pdmDataPin),
-    _pdmClockPin(pdmClockPin),
+PDMClassPSOC::PDMClassPSOC(pin_size_t pdmClockPin, pin_size_t pdmDataPin)
+    : _pdmClockPin(pdmClockPin),
+    _pdmDataPin(pdmDataPin),
     _ringBuffer(nullptr),
     _ringHead(0),
     _ringTail(0),
@@ -190,3 +190,7 @@ void PDMClassPSOC::onReceiveService(void) {
 
     cyhal_pdm_pcm_read_async(&_pdm_pcm, _dmaBuffer, SIZEOF_DMA_BUFFER);
 }
+
+#if (PDM_HOWMANY > 0)
+PDMClassPSOC PDM(PDM_CLK_PIN, PDM_DATA_PIN);
+#endif
