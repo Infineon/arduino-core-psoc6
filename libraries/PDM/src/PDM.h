@@ -21,10 +21,10 @@ class PDMClassPSOC {
 public:
     /**
      * @brief Construct a new PDMClassPSOC object
-     * @param pdmDataPin GPIO pin connected to the PDM data line
      * @param pdmClockPin GPIO pin connected to the PDM clock line
+     * @param pdmDataPin GPIO pin connected to the PDM data line
      */
-    PDMClassPSOC(pin_size_t pdmDataPin, pin_size_t pdmClockPin);
+    PDMClassPSOC(pin_size_t pdmClockPin, pin_size_t pdmDataPin);
 
     /**
      * @brief Destroy the PDMClassPSOC object and release all resources
@@ -81,8 +81,8 @@ private:
     int _channels;
     int _sampleRate;
 
-    pin_size_t _pdmDataPin;
     pin_size_t _pdmClockPin;
+    pin_size_t _pdmDataPin;
 
     cyhal_pdm_pcm_t _pdm_pcm;
     cyhal_pdm_pcm_cfg_t _pdm_pcm_cfg;
@@ -155,5 +155,9 @@ private:
     bool _initialized;
     bool _bufferInitialized;
 };
+
+#if (PDM_HOWMANY > 0)
+extern PDMClassPSOC PDM;
+#endif
 
 #endif // PDM_H

@@ -60,6 +60,13 @@ static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO; 
 static const uint8_t SCK = PIN_SPI_SCK;
 
+#define PDM_HOWMANY             1
+#define PDM_CLK_PIN             37 // PDM_CLK P10_4
+#define PDM_DATA_PIN            38 // PDM_DATA P10_5
+
+static const uint8_t PDM_CLK = PDM_CLK_PIN;
+static const uint8_t PDM_DATA = PDM_DATA_PIN;
+
 #define ADC_HOWMANY             2
 #define ADC_RESOLUTION          12 // ADC resolution in bits, but the observed range is from 0-2^11. 
 #define PIN_A0                  11 // ADC P10.0
