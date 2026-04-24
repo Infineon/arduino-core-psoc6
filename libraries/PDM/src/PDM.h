@@ -1,8 +1,6 @@
 #ifndef PDM_H
 #define PDM_H
 
-// #include <stdint.h>
-
 #include "Arduino.h"
 #include "cyhal_pdmpcm.h"
 #include "cyhal_clock.h"
@@ -35,7 +33,7 @@ public:
      * @brief Initialize the PDM interface
      * @param channels Number of channels (1 for mono, 2 for stereo)
      * @param sampleRate Sample rate in Hz (e.g., 16000, 44100)
-     * @return 1 on success, 0 on failure
+     * @return 1 on success, 0 on already initialized, -1 on failure (e.g., buffer not set)
      */
     int begin(int channels, int sampleRate);
 
@@ -78,9 +76,6 @@ public:
     void setBufferSize(uint16_t bufferSize);
 
 private:
-    int _channels;
-    int _sampleRate;
-
     pin_size_t _pdmClockPin;
     pin_size_t _pdmDataPin;
 
@@ -88,7 +83,7 @@ private:
     cyhal_pdm_pcm_cfg_t _pdm_pcm_cfg;
 
     cyhal_clock_t _audioClock;
-    cyhal_clock_t _pllCLock;
+    cyhal_clock_t _pllClock;
 
     // DMA buffer for async reads (fixed size)
     int32_t _dmaBuffer[SIZEOF_DMA_BUFFER];

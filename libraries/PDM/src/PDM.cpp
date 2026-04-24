@@ -17,6 +17,8 @@ PDMClassPSOC::~PDMClassPSOC() {
 }
 
 int PDMClassPSOC::begin(int channels, int sampleRate) {
+    cy_rslt_t result = 0;
+
     if (!_bufferInitialized) {
         return -1;
     }
@@ -35,20 +37,29 @@ int PDMClassPSOC::begin(int channels, int sampleRate) {
 
     _clockInit();
 
-    cyhal_pdm_pcm_init(&_pdm_pcm, mapping_gpio_pin[_pdmDataPin], mapping_gpio_pin[_pdmClockPin], &_audioClock, &_pdm_pcm_cfg);
+    result = cyhal_pdm_pcm_init(&_pdm_pcm, mapping_gpio_pin[_pdmDataPin], mapping_gpio_pin[_pdmClockPin], &_audioClock, &_pdm_pcm_cfg);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
     cyhal_pdm_pcm_register_callback(&_pdm_pcm, _pdm_pcm_isr_handler, this);
     cyhal_pdm_pcm_enable_event(&_pdm_pcm, CYHAL_PDM_PCM_ASYNC_COMPLETE, CYHAL_ISR_PRIORITY_DEFAULT, true);
-    cyhal_pdm_pcm_start(&_pdm_pcm);
-    cyhal_pdm_pcm_read_async(&_pdm_pcm, _dmaBuffer, SIZEOF_DMA_BUFFER);
-
-    _ringHead = 0;
-    _ringTail = 0;
+    result = cyhal_pdm_pcm_start(&_pdm_pcm);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+    result = cyhal_pdm_pcm_read_async(&_pdm_pcm, _dmaBuffer, SIZEOF_DMA_BUFFER);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
 
     _initialized = true;
     return 1;
 }
 
 void PDMClassPSOC::end() {
+    if (!_initialized) {
+        return;
+    }
     cyhal_pdm_pcm_abort_async(&_pdm_pcm);
     cyhal_pdm_pcm_stop(&_pdm_pcm);
     cyhal_pdm_pcm_clear(&_pdm_pcm);
@@ -153,13 +164,13 @@ size_t PDMClassPSOC::_ringRead(int32_t *data, size_t count) {
 }
 
 void PDMClassPSOC::_clockInit(void) {
-    cyhal_clock_reserve(&_pllCLock, &CYHAL_CLOCK_PLL[0]);
-    cyhal_clock_set_frequency(&_pllCLock, AUDIO_SYS_CLOCK_HZ, NULL);
-    cyhal_clock_set_enabled(&_pllCLock, true, true);
+    cyhal_clock_reserve(&_pllClock, &CYHAL_CLOCK_PLL[0]);
+    cyhal_clock_set_frequency(&_pllClock, AUDIO_SYS_CLOCK_HZ, NULL);
+    cyhal_clock_set_enabled(&_pllClock, true, true);
 
     cyhal_clock_reserve(&_audioClock, &CYHAL_CLOCK_HF[1]);
 
-    cyhal_clock_set_source(&_audioClock, &_pllCLock);
+    cyhal_clock_set_source(&_audioClock, &_pllClock);
     cyhal_clock_set_enabled(&_audioClock, true, true);
 }
 

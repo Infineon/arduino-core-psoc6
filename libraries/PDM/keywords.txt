@@ -1,10 +1,12 @@
 #######################################
-# Syntax Coloring Map For SPI
+# Syntax Coloring Map For PDM
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
+
+PDMClassPSOC        KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

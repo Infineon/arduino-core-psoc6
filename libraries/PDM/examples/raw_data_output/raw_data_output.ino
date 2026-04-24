@@ -4,7 +4,7 @@
  * This sketch reads audio data from the PDM microphone and sends it
  * over serial as raw 16-bit samples for recording.
  * 
- * Use with pdm_to_wav.py Python script to record and save as WAV file.
+ * Use with pdm_to_wav_simple.py Python script to record and save as WAV file.
  * 
  * Configuration:
  * - Sample rate: 16000 Hz
@@ -14,7 +14,7 @@
  * - Frame size: 1024 samples
  * 
  * Note: This sketch only covers one of several possible configurations. Adjust parameters as needed,
- * but please aware that higher sample rates, longer word lengths, or bit depths may require faster baud rates and larger buffers to avoid data loss.
+ * but please be aware that higher sample rates, longer word lengths, or bit depths may require faster baud rates and larger buffers to avoid data loss.
  * Also, ensure that your serial terminal or recording software can handle the chosen baud rate and data format.
  */
 
