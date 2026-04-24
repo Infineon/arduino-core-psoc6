@@ -13,7 +13,7 @@ Usage:
 Where:
     COM3         = Serial port
     5            = Duration in seconds
-    recording.wav = Output filename
+    recording.wav = Output filename 
 """
 
 import os
