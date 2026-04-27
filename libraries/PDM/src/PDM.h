@@ -43,16 +43,16 @@ public:
     void end();
 
     /**
-     * @brief Check the number of bytes available for reading
-     * @return Number of bytes available
+     * @brief Check the number of samples available for reading
+     * @return Number of samples available
      */
     int available();
 
     /**
      * @brief Read audio samples from the PDM buffer
      * @param buffer Pointer to the buffer to store the samples
-     * @param size Number of bytes to read
-     * @return Number of bytes actually read
+     * @param size Number of samples to read
+     * @return Number of samples actually read
      */
     uint32_t read(void *buffer, size_t size);
 
@@ -124,8 +124,9 @@ private:
 
     /**
      * @brief Initialize the PLL and audio clocks for PDM operation
+     * @return 0 on success, -1 on failure
      */
-    void _clockInit(void);
+    int _clockInit(void);
 
     /**
      * @brief Static ISR callback for PDM/PCM async events

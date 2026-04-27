@@ -163,15 +163,46 @@ size_t PDMClassPSOC::_ringRead(int32_t *data, size_t count) {
     return count;
 }
 
-void PDMClassPSOC::_clockInit(void) {
-    cyhal_clock_reserve(&_pllClock, &CYHAL_CLOCK_PLL[0]);
-    cyhal_clock_set_frequency(&_pllClock, AUDIO_SYS_CLOCK_HZ, NULL);
-    cyhal_clock_set_enabled(&_pllClock, true, true);
+int PDMClassPSOC::_clockInit(void) {
+    cy_rslt_t result = 0;
 
-    cyhal_clock_reserve(&_audioClock, &CYHAL_CLOCK_HF[1]);
+    result = cyhal_clock_reserve(&_pllClock, &CYHAL_CLOCK_PLL[0]);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+    result = cyhal_clock_set_frequency(&_pllClock, AUDIO_SYS_CLOCK_HZ, NULL);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+    result = cyhal_clock_set_enabled(&_pllClock, true, true);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
 
-    cyhal_clock_set_source(&_audioClock, &_pllClock);
-    cyhal_clock_set_enabled(&_audioClock, true, true);
+    result = cyhal_clock_reserve(&_audioClock, &CYHAL_CLOCK_HF[1]);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+    result = cyhal_clock_set_enabled(&_pllClock, true, true);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+
+    result = cyhal_clock_reserve(&_audioClock, &CYHAL_CLOCK_HF[1]);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+
+    result = cyhal_clock_set_source(&_audioClock, &_pllClock);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+    result = cyhal_clock_set_enabled(&_audioClock, true, true);
+    if (result != CY_RSLT_SUCCESS) {
+        return -1;
+    }
+
+    return 0;
 }
 
 void PDMClassPSOC::_pdm_pcm_isr_handler(void *arg, cyhal_pdm_pcm_event_t event) {
