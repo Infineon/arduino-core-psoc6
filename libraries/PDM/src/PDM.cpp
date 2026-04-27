@@ -183,15 +183,6 @@ int PDMClassPSOC::_clockInit(void) {
     if (result != CY_RSLT_SUCCESS) {
         return -1;
     }
-    result = cyhal_clock_set_enabled(&_pllClock, true, true);
-    if (result != CY_RSLT_SUCCESS) {
-        return -1;
-    }
-
-    result = cyhal_clock_reserve(&_audioClock, &CYHAL_CLOCK_HF[1]);
-    if (result != CY_RSLT_SUCCESS) {
-        return -1;
-    }
 
     result = cyhal_clock_set_source(&_audioClock, &_pllClock);
     if (result != CY_RSLT_SUCCESS) {
