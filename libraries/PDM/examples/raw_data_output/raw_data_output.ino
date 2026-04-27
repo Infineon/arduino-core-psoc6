@@ -51,10 +51,10 @@ void loop() {
   if (dataReady) {
     dataReady = false;
 
-    int samplesRead = PDM.read(audioFrames, PDM.available());
+    uint32_t samplesRead = PDM.read(audioFrames, PDM.available());
     
     if (samplesRead > 0) {      
-      for (int i = 0; i < samplesRead; i++) {
+      for (uint32_t i = 0; i < samplesRead; i++) {
         int32_t sample = audioFrames[i];
         
         // Send as little-endian 16-bit
