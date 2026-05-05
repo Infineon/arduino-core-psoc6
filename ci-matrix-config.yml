@@ -5,3 +5,16 @@ include:
     - extras/arduino-examples/examples/02.Digital/toneMultiple/toneMultiple.ino
     - extras/arduino-examples/examples/06.Sensors/Memsic2125/Memsic2125.ino
     - extras/arduino-examples/examples/08.Strings/StringConstructors/StringConstructors.ino
+
+exclude:
+   - fqbn: infineon:psoc6:cy8cproto_063_ble
+     sketch:
+      - libraries/WiFi/examples/ConnectNoEncryption/ConnectNoEncryption.ino
+      - libraries/WiFi/examples/ConnectWithWPA/ConnectWithWPA.ino
+      - libraries/WiFi/examples/ScanNetworks/ScanNetworks.ino
+      - libraries/WiFi/examples/SimpleWebServerWiFi/SimpleWebServerWiFi.ino
+      - libraries/WiFi/examples/WiFiPing/WiFiPing.ino
+      - libraries/WiFi/examples/WiFiUdpNtpClient/WiFiUdpNtpClient.ino
+      - libraries/WiFi/examples/WiFiUdpReceiver/WiFiUdpReceiver.ino
+      - libraries/WiFi/examples/WiFiUdpSender/WiFiUdpSender.ino
+      - libraries/WiFi/examples/WiFiWebClient/WiFiWebClient.ino

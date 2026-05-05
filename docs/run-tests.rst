@@ -28,7 +28,10 @@ Board Setup
 
       .. include:: ../tests/cy8ckit-062s2-ai-hil-test-table.md
          :parser: myst_parser.sphinx_
+   CY8CPROTO-063-BLE:
 
+      .. include:: ../tests/cy8cproto-063-ble-hil-test-table.md
+         :parser: myst_parser.sphinx_
 Executing Test Cases Using `make`
 ---------------------------------
 

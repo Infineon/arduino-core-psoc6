@@ -4,10 +4,10 @@
  * Description:
  * Provides definitions of the SMIF-driver memory configuration.
  * This file was automatically generated and should not be modified.
- * QSPI Configurator 4.30.0.1865
+ * QSPI Configurator 4.60.0.2742
  *
  *******************************************************************************
- * Copyright 2024 Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2026 Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.
  * SPDX-License-Identifier: Apache-2.0
  *
