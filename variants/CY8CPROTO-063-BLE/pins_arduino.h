@@ -31,20 +31,20 @@
 /****** UART CORE DEFINES ******/
 
 #define SERIAL_HOWMANY		2
-#define UART1_TX_PIN      31  // UART_TX P5_1
-#define UART1_RX_PIN      30  // UART_RX P5_0
+#define UART1_TX_PIN      18  // UART_TX P5_1
+#define UART1_RX_PIN      19  // UART_RX P5_0
 #define UART1_CTS_PIN     NC  // NOT CONNECTED
 #define UART1_RTS_PIN     NC  // NOT CONNECTED
-#define UART2_TX_PIN      10  // UART_TX P10_1
-#define UART2_RX_PIN      11  // UART_RX P10_0
+#define UART2_TX_PIN      26  // UART_TX P10_1
+#define UART2_RX_PIN      25  // UART_RX P10_0
 #define UART2_CTS_PIN     NC  // NOT CONNECTED
 #define UART2_RTS_PIN     NC  // NOT CONNECTED
 
 #define I2C_HOWMANY     2
-#define I2C1_SDA_PIN    9 // I2C-SDA P6_5
-#define I2C1_SCL_PIN    8 // I2C-SCL P6_4
-#define I2C2_SDA_PIN    10 // I2C-SDA P10_1
-#define I2C2_SCL_PIN    11 // I2C-SCL P10_0
+#define I2C1_SDA_PIN    16 // I2C-SDA P6_5
+#define I2C1_SCL_PIN    17 // I2C-SCL P6_4
+#define I2C2_SDA_PIN    26 // I2C-SDA P10_1
+#define I2C2_SCL_PIN    25 // I2C-SCL P10_0
 
 static const uint8_t SDA = I2C1_SDA_PIN;
 static const uint8_t SCL = I2C1_SCL_PIN;
@@ -62,18 +62,18 @@ static const uint8_t SCK = PIN_SPI_SCK;
 
 #define ADC_HOWMANY             2
 #define ADC_RESOLUTION          12 // ADC resolution in bits, but the observed range is from 0-2^11. 
-#define PIN_A0                  21 // ADC P10.3
-#define PIN_A1                  20 // ADC P10.4
+#define PIN_A0                  28 // ADC P10.3
+#define PIN_A1                  29 // ADC P10.4
 
 static const uint8_t A0  = PIN_A0;
 static const uint8_t A1  = PIN_A1;
 
 #define PWM_HOWMANY             14 // Number of output pins that can be PWM channels
 
-#define LED1                    12 // Additional LED1
+#define LED1                    8 // Additional LED1
 #define LED_BUILTIN             LED1 // Standard Arduino LED: Uses LED1
-#define LED2                    13 // Additional LED2
-#define BUTTON1                 14 // Additional BUTTON1
+#define LED2                    9 // Additional LED2
+#define BUTTON1                 12 // Additional BUTTON1
 #define USER_BUTTON             BUTTON1 // Standard Arduino USER_BUTTON: Uses BUTTON1
 
 //****************************************************************************
@@ -93,44 +93,38 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
     /* 4   */ P9_4, // IO_1 / PWM            
     /* 5   */ P9_5, // IO_2 / PWM     
     /* 6   */ P9_6, // IO_3 / PWM     
-    /* 7   */ P6_2, // IO_4 / PWM            
-		   
-    /* 8   */ P6_4, // I2C-SCL / PWM         
-    /* 9   */ P6_5, // I2C-SDA / PWM         
-    /* 10  */ P10_1,// I2C-SCL / UART_TX / PWM    
-    /* 11  */ P10_0,// I2C-SDA / UART_RX / PWM    
+    /* 7   */ P6_2, // IO_4 / PWM
 
-    // on board LEDs and USER BUTTON
+		/* 8  */ P6_3, // LED1            
+    /* 9  */ P7_1, // LED2
 
-    /* 12  */ P6_3, // LED1            
-    /* 13  */ P7_1, // LED2            
-    /* 14  */ P0_4, // USER BUTTON     
+    /* 10  */ P7_2,//  IO / PWM         
+    /* 11  */ P7_7,//  IO / PWM                              
 
-    // Additional pins for expansion IO connector - J15 starting here
+    /* 12  */ P0_4, // USER BUTTON 
 
-    /* 15  */ P0_5, // PWM     
-    /* 16  */ P12_6,// PWM     
-    /* 17  */ P12_7,// PWM             
-    /* 18  */ P10_6,// PWM                         
-    /* 19  */ P10_5,// PWM                
-    /* 20  */ P10_4,// A0/ PWM                
-    /* 21  */ P10_3,// A1 / PWM                         
-    /* 22  */ P10_2,// IO / PWM                         
-    /* 23  */ P7_7,//  IO / PWM                              
-    /* 24  */ P7_2,//  IO / PWM         
-    /* 25  */ P5_6,//  IO / PWM         
-    /* 26  */ P5_5,//  IO / PWM                                        
-    /* 27  */ P5_4,//  IO / PWM                     
-    /* 28  */ P5_3,//  IO / PWM                     
-    /* 29  */ P5_2,//  IO / PWM                             
+    /* 13  */ P0_5, // PWM     
+    /* 14  */ P12_6,// PWM     
+    /* 15  */ P12_7,// PWM 
 
-    // Additional pins not available in external connector
+    /* 16   */ P6_5, // I2C-SDA / PWM         
+    /* 17   */ P6_4, // I2C-SCL / PWM
+    /* 18  */ P5_1, // DEBUG_UART_TX 
+    /* 19  */ P5_0, // DEBUG_UART_RX             
+    /* 20  */ P5_2,//  IO / PWM 
+    /* 21  */ P5_3,//  IO / PWM 
+    /* 22  */ P5_4,//  IO / PWM
+    /* 23  */ P5_5,//  IO / PWM
+    /* 24  */ P5_6,//  IO / PWM
 
-    // Debugger Serial UART pins 
-    
-    /* 30  */ P5_0, // DEBUG_UART_RX 
-    /* 31  */ P5_1, // DEBUG_UART_TX 
+    /* 25  */ P10_0,// I2C-SDA / UART_RX / PWM    
+    /* 26  */ P10_1,// I2C-SCL / UART_TX / PWM    
 
+    /* 27  */ P10_2,// IO / PWM 
+    /* 28  */ P10_3,// A1 / PWM                         
+    /* 29  */ P10_4,// A0/ PWM
+    /* 30  */ P10_5,// PWM                                
+    /* 31  */ P10_6,// PWM                         
 
 };
 
