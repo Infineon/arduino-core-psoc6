@@ -94,8 +94,8 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
     /* 5   */ P9_5, // IO_2 / PWM     
     /* 6   */ P9_6, // IO_3 / PWM     
     /* 7   */ P6_2, // IO_4 / PWM
-
-		/* 8   */ P6_3, // LED1            
+    
+    /* 8   */ P6_3, // LED1            
     /* 9   */ P7_1, // LED2
 
     /* 10  */ P7_2, //  IO / PWM         
