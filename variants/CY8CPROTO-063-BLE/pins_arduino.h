@@ -95,11 +95,11 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
     /* 6   */ P9_6, // IO_3 / PWM     
     /* 7   */ P6_2, // IO_4 / PWM
 
-		/* 8  */ P6_3, // LED1            
-    /* 9  */ P7_1, // LED2
+		/* 8   */ P6_3, // LED1            
+    /* 9   */ P7_1, // LED2
 
-    /* 10  */ P7_2,//  IO / PWM         
-    /* 11  */ P7_7,//  IO / PWM                              
+    /* 10  */ P7_2, //  IO / PWM         
+    /* 11  */ P7_7, //  IO / PWM                              
 
     /* 12  */ P0_4, // USER BUTTON 
 
@@ -107,15 +107,15 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
     /* 14  */ P12_6,// PWM     
     /* 15  */ P12_7,// PWM 
 
-    /* 16   */ P6_5, // I2C-SDA / PWM         
-    /* 17   */ P6_4, // I2C-SCL / PWM
+    /* 16   */ P6_5,// I2C-SDA / PWM         
+    /* 17   */ P6_4,// I2C-SCL / PWM
     /* 18  */ P5_1, // DEBUG_UART_TX 
     /* 19  */ P5_0, // DEBUG_UART_RX             
-    /* 20  */ P5_2,//  IO / PWM 
-    /* 21  */ P5_3,//  IO / PWM 
-    /* 22  */ P5_4,//  IO / PWM
-    /* 23  */ P5_5,//  IO / PWM
-    /* 24  */ P5_6,//  IO / PWM
+    /* 20  */ P5_2, //  IO / PWM 
+    /* 21  */ P5_3, //  IO / PWM 
+    /* 22  */ P5_4, //  IO / PWM
+    /* 23  */ P5_5, //  IO / PWM
+    /* 24  */ P5_6, //  IO / PWM
 
     /* 25  */ P10_0,// I2C-SDA / UART_RX / PWM    
     /* 26  */ P10_1,// I2C-SCL / UART_TX / PWM    
