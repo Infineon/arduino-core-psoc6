@@ -1,7 +1,24 @@
-Debugging (VS Code)
-===================
+Debugging
+=========
 
-Debugging support described here is for Visual Studio Code. The Arduino IDE already provides a built-in debugger for supported boards.
+Debugging in Arduino IDE 2
+--------------------------
+
+Arduino IDE 2 (2.2.0 or higher) includes a built-in debugger for boards that declare debug support in the core platform.
+The PSOC™ 6 core configures OpenOCD with KitProg3 as the debug server, so no extra extensions are needed.
+
+#. Build and upload your sketch at least once via *Sketch > Upload*.
+#. Click the **Debug** button (bug icon |:beetle:|) in the toolbar, or go to *Sketch > Start Debugging*.
+#. Arduino IDE will automatically start OpenOCD and attach GDB to the CM4 core.
+#. Use the **Debug** panel (breakpoints, step over/into, variable inspection) as usual.
+
+.. note::
+   Make sure the board is connected and the correct port is selected before starting a debug session.
+
+Debugging in VS Code
+--------------------
+
+Debugging support described here is for Visual Studio Code.
 
 #. Install the `Cortex-Debug` extension in VS Code.
 #. Copy the `task_psoc.json` file from `tools/vscode-profile` to the `.vscode` directory and rename it to `tasks.json` in your project root.
