@@ -122,7 +122,7 @@ const cyhal_gpio_t mapping_gpio_pin[] = {
 
     /* 27  */ P10_2,// IO / PWM 
     /* 28  */ P10_3,// A1 / PWM                         
-    /* 29  */ P10_4,// A0/ PWM
+    /* 29  */ P10_4,// A0 / PWM
     /* 30  */ P10_5,// PWM                                
     /* 31  */ P10_6,// PWM                         
 
