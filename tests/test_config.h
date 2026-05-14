@@ -46,6 +46,7 @@
 #define         TEST_ADC_RESOLUTION             11      
 #define         TEST_ADC_MAX_VALUE              2048    // 11-bit resolution
 #endif
+
 // Forward declarations for SPI instances
 extern SPIClassPSOC SPI1;
 
