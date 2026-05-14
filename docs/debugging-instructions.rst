@@ -8,7 +8,7 @@ Arduino IDE 2 (2.2.0 or higher) includes a built-in debugger for boards that dec
 The PSOC™ 6 core configures OpenOCD with KitProg3 as the debug server, so no extra extensions are needed.
 
 #. Build and upload your sketch at least once via *Sketch > Upload*.
-#. Click the **Debug** button (bug icon |:beetle:|) in the toolbar, or go to *Sketch > Start Debugging*.
+#. Click the **Debug** button (🐛) in the toolbar, or go to *Sketch > Start Debugging*.
 #. Arduino IDE will automatically start OpenOCD and attach GDB to the CM4 core.
 #. Use the **Debug** panel (breakpoints, step over/into, variable inspection) as usual.
 
@@ -21,7 +21,7 @@ Debugging in VS Code
 Debugging support described here is for Visual Studio Code.
 
 #. Install the `Cortex-Debug` extension in VS Code.
-#. Copy the `task_psoc.json` file from `tools/vscode-profile` to the `.vscode` directory and rename it to `tasks.json` in your project root.
+#. Copy the `task_psoc.json` file from `tools/vscode_profile` to the `.vscode` directory and rename it to `tasks.json` in your project root.
 #. In VS Code, run the task: **Generate launch.json for debug (PSoC6)**.
 #. Required parameters for this task:
    * **fqbn**: Fully Qualified Board Name (e.g., `infineon:psoc6:cy8ckit_062s2_ai`)
