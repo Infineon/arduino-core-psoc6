@@ -22,7 +22,7 @@ Debugging support described here is for Visual Studio Code.
 
 #. Install the `Cortex-Debug` extension in VS Code.
 #. Copy the `task_psoc.json` file from `tools/vscode_profile` to the `.vscode` directory and rename it to `tasks.json` in your project root.
-#. In VS Code, run the task: **Generate launch.json for debug (PSoC6)**.
+#. In VS Code, run the task: **Generate launch.json for debug (PSOC)**.
 #. Required parameters for this task:
    * **fqbn**: Fully Qualified Board Name (e.g., `infineon:psoc6:cy8ckit_062s2_ai`)
    * **build path**: Directory where the `.elf` file will be placed
