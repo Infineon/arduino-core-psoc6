@@ -16,4 +16,9 @@ cy8ckit_062s2_ai.upload.tool=openocd
 cy8ckit_062s2_ai.upload.protocol=openocd
 cy8ckit_062s2_ai.upload.maximum_size=2097152
 cy8ckit_062s2_ai.upload.target.cfg=psoc6_2m.cfg
+
+# Debug settings
+cy8ckit_062s2_ai.debug.tool=openocd
+cy8ckit_062s2_ai.debug.server.openocd.scripts.0=interface/kitprog3.cfg
+cy8ckit_062s2_ai.debug.server.openocd.scripts.1=target/psoc6_2m.cfg
 #####################################################
