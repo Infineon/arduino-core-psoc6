@@ -18,3 +18,4 @@ exclude:
       - libraries/WiFi/examples/WiFiUdpReceiver/WiFiUdpReceiver.ino
       - libraries/WiFi/examples/WiFiUdpSender/WiFiUdpSender.ino
       - libraries/WiFi/examples/WiFiWebClient/WiFiWebClient.ino
+      - libraries/PDM/examples/raw_data_output/raw_data_output.ino
