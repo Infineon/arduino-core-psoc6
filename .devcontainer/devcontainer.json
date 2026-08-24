@@ -1,0 +1,24 @@
+{
+  "name": "PSOC6 Arduino Core (makers-docker)",
+  "dockerFile": "../../makers-docker/Dockerfile.test",
+  "workspaceFolder": "/myLocalWorkingDir",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/myLocalWorkingDir,type=bind,consistency=cached",
+  "mounts": [
+    "source=/dev,target=/dev,type=bind",
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+  ],
+  "runArgs": [
+    "--init",
+    "--privileged"
+  ],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  }
+}
