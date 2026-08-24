@@ -3,9 +3,17 @@
   "dockerFile": "../../makers-docker/Dockerfile.test",
   "workspaceFolder": "/myLocalWorkingDir",
   "workspaceMount": "source=${localWorkspaceFolder},target=/myLocalWorkingDir,type=bind,consistency=cached",
+  "containerUser": "vscode",
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "vscode"
+    }
+  },
   "mounts": [
     "source=/dev,target=/dev,type=bind",
-    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
   ],
   "runArgs": [
     "--init",
