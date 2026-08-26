@@ -1,24 +1,16 @@
 #!/usr/bin/env bash
+# Set up the development environment: run repo setup, configure Arduino, and link PSoC6 core
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$repo_root"
 
+# Run the main repository setup script
 echo "[devcontainer] Running core setup..."
 bash tools/dev-setup.sh
 
-if command -v python3 >/dev/null 2>&1; then
-  python3 --version
-fi
-
-echo "[devcontainer] Checking Arduino CLI..."
-if ! command -v arduino-cli >/dev/null 2>&1; then
-  echo "[devcontainer] WARNING: arduino-cli is not installed in the container."
-  echo "[devcontainer] Install it inside the container to compile/upload sketches."
-  exit 0
-fi
-
 arduino-cli version
+# Link the repo into Arduino's hardware directory so it can be used as a local core
 sketchbook_dir="$(arduino-cli config get directories.user)"
 arduino_git_dir="${sketchbook_dir}/hardware/arduino-git"
 mkdir -p "$arduino_git_dir"
