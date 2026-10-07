@@ -22,4 +22,10 @@ exclude:
 
    - fqbn: infineon:psoc6:cy8ckit_062s2_ai
      sketch:
-      - libraries/BLE/examples/
+      - libraries/BLE/examples/BLEBeginEnd/BLEBeginEnd.ino
+      - libraries/BLE/examples/CentralScan/CentralScan.ino
+      - libraries/BLE/examples/CentralScanConnect/CentralScanConnect.ino
+      - libraries/BLE/examples/CentralConnect/CentralConnect.ino
+      - libraries/BLE/examples/PeripheralAdvertise/PeripheralAdvertise.ino
+      - libraries/BLE/examples/PeripheralConnect/PeripheralConnect.ino
+      - libraries/BLE/examples/PeripheralGATTServer/PeripheralGATTServer.ino
