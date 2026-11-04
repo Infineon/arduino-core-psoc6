@@ -2,6 +2,8 @@ name: Hil Checks
 
 on:
   push:
+    branches-ignore:
+      - 'hil-ottu-based'
     paths-ignore:
       - 'docs/**'
   schedule:
