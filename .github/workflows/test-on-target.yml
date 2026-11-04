@@ -1,0 +1,165 @@
+name: Test on-target
+
+on:
+  push:
+#   pull_request:
+#   workflow_call:
+#     inputs:
+#       ci-setup-script:
+#         required: false
+#         type: string
+#         default: null
+#         description: 'Any setup script to run before compiling the examples'
+#       core-setup-script:
+#         required: false
+#         type: string
+#         default: null
+#         description: 'Any setup script to run before building the Arduino core package'
+#       os:
+#         required: false
+#         type: string
+#         default: null
+#         description: | 
+#           'The operating system to use for the CI jobs. Default is "ubuntu-latest" for libraries
+#           and "ubuntu-latest", "windows-latest", and "macos-latest" for cores.'
+#       called-ref:
+#         required: false
+#         type: string
+#         default: 'latest'
+#         description: 'The ref to use for reusable workflow. The same version of the repository tool will be used if specified.'
+
+jobs:  
+  ci-setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v7
+        with:
+          submodules: true
+          fetch-tags: true
+          fetch-depth: 0
+
+      - name: Checkout arduino-devops 
+        uses: actions/checkout@v7
+        with:
+          repository: Infineon/arduino-devops
+        #   ref: ${{ inputs.called-ref }} 
+          path: arduino-devops
+
+      - name: Install python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r arduino-devops/requirements.txt
+
+      - name: Asset info
+        id: asset_info
+        run: |
+          asset_type=$(python ./arduino-devops/arduino-release.py info asset-type)
+          echo "asset_type="$asset_type"" >> $GITHUB_OUTPUT
+
+      - name: Set build matrix
+        id: set-matrix
+        run: |
+          matrix_fqbn=$(python ./arduino-devops/arduino-ci.py config --list fqbn)
+          
+          if [[ -n "${{ inputs.os }}" ]]; then
+            matrix_os='"os": ["${{ inputs.os }}"]'
+          else
+            if [ "${{ steps.asset_info.outputs.asset_type }}" = "core" ]; then
+              matrix_os='"os": ["ubuntu-latest", "windows-latest", "macos-latest"]'
+            elif [ "${{ steps.asset_info.outputs.asset_type }}" = "library" ]; then
+              matrix_os='"os": ["ubuntu-latest"]'
+            fi
+          fi
+
+          # Extend the JSON with the OS list
+          matrix_ci=$(echo "${matrix_fqbn}" | sed 's/}$/, '"${matrix_os}"'}/')
+
+          echo "${matrix_ci}"
+          echo "matrix=${matrix_ci}" >> $GITHUB_OUTPUT
+      
+      # Steps only relevant for Arduino core
+      - name: Core setup
+        # if: ${{ inputs.core-setup-script  }} != null
+        run: |
+          #${{ inputs.core-setup-script  }}
+          bash ./tools/dev-setup.sh
+
+      - name: Package core
+        if: ${{ steps.asset_info.outputs.asset_type == 'core' }}
+        run: |
+          python ./arduino-devops/arduino-packager.py --no-previous-releases
+
+      - name: Upload core assets
+        if: ${{ steps.asset_info.outputs.asset_type == 'core' }}
+        uses: actions/upload-artifact@v4
+        with: 
+          name: arduino-core-package
+          path: |
+            build/*.zip
+            build/*.json
+
+  compile-examples:
+    needs: ci-setup
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix: ${{fromJson(needs.ci-setup.outputs.matrix)}}
+
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v7
+
+      - name: Checkout arduino-devops
+        uses: actions/checkout@v4
+        with:
+          repository: Infineon/arduino-devops
+        #   ref: ${{ inputs.called-ref }}
+          path: arduino-devops
+          
+      - name: Install python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r arduino-devops/requirements.txt
+          pip install ottu
+
+      - name: Asset info
+        id: asset_info
+        shell: bash
+        run: |
+          asset_type=$(python ./arduino-devops/arduino-release.py info asset-type)
+          echo "asset_type="$asset_type"" >> $GITHUB_OUTPUT
+
+      - name: Compile setup
+        # if: ${{ inputs.ci-setup-script }} != null
+        run: |
+          #${{ inputs.ci-setup-script }}
+          git submodule update --init extras/arduino-core-tests
+          
+
+      - name: Install arduino-cli
+        run: |
+          python ./arduino-devops/arduino-cli-install.py 1.2.0
+
+      - name: Retrieve core package
+        if: ${{ steps.asset_info.outputs.asset_type == 'core' }}
+        uses: actions/download-artifact@v4
+  
+      - name: Install arduino core
+        if: ${{ steps.asset_info.outputs.asset_type == 'core' }}
+        run: |
+          # The package is downloaded in the directory arduino-core-package
+          python ./arduino-devops/pckg-install-local.py --pckg-dir arduino-core-package
+        
+      - name: Install library dependencies
+        if: ${{ steps.asset_info.outputs.asset_type == 'library' }}
+        run: |
+          python ./arduino-devops/arduino-ci.py core-install --fqbn ${{ matrix.fqbn }}
+          python ./arduino-devops/arduino-ci.py lib-deps-install
+  
+      - name: Run tests
+        run: |
+          ottu run --plan tests/plan.yml --dev-list tests/${{ runner.name }}-devs.yml
