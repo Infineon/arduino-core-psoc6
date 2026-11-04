@@ -132,7 +132,10 @@ jobs:
       - name: Retrieve core package
         if: ${{ steps.asset_info.outputs.asset_type == 'core' }}
         uses: actions/download-artifact@v8
-  
+        with:
+          name: arduino-core-package
+          path: arduino-core-package
+          
       - name: Install arduino core
         if: ${{ steps.asset_info.outputs.asset_type == 'core' }}
         run: |
