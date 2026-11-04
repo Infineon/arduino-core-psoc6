@@ -143,10 +143,12 @@ jobs:
           python ./arduino-devops/pckg-install-local.py --pckg-dir arduino-core-package
         
       - name: Install library dependencies
-        if: ${{ steps.asset_info.outputs.asset_type == 'library' }}
         run: |
-          python ./arduino-devops/arduino-ci.py core-install --fqbn ${{ matrix.fqbn }}
-          python ./arduino-devops/arduino-ci.py lib-deps-install
+          arduino-cli lib install ottu-target
+          if [ "${{ steps.asset_info.outputs.asset_type }}" = "library" ]; then
+            python ./arduino-devops/arduino-ci.py core-install --fqbn ${{ matrix.fqbn }}
+            python ./arduino-devops/arduino-ci.py lib-deps-install
+          fi
   
       - name: Run tests
         run: |
