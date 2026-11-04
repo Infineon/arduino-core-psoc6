@@ -152,5 +152,8 @@ jobs:
           fi
   
       - name: Run tests
+        env:
+          FORCE_COLOR: "1"
+          TERM: xterm-256color
         run: |
           ottu run --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml
