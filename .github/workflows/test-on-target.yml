@@ -107,6 +107,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r arduino-devops/requirements.txt
           pip install ottu
+          # User-level pip installs on self-hosted runners go to ~/.local/bin, which is not on PATH
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Asset info
         id: asset_info
