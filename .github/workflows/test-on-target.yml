@@ -144,6 +144,7 @@ jobs:
         
       - name: Install library dependencies
         run: |
+          arduino-cli lib update-index
           arduino-cli lib install ottu-target
           if [ "${{ steps.asset_info.outputs.asset_type }}" = "library" ]; then
             python ./arduino-devops/arduino-ci.py core-install --fqbn ${{ matrix.fqbn }}
