@@ -1,0 +1,43 @@
+version: 1
+
+suites:
+
+  - name: pin-interrupts
+    tests:
+      - digitalio
+      - interrupts
+    requires:
+      device:
+        - features:
+            - digitalio
+
+  - name: wifi-ap-sta
+    tests:
+      - role: ap
+        test: wifi/ap/ap.ino
+      - role: sta
+        test: wifi/sta/sta.ino
+    requires:
+      device:
+        - name: infineon:psoc6:cy8ckit_062s2_ai
+  
+  - name: wifi-server-client
+    tests:
+      - role: server
+        test: wifi/server/server.ino
+      - role: client
+        test: wifi/client/client.ino
+    requires:
+      device:
+        - name: infineon:psoc6:cy8ckit_062s2_ai
+
+  - name: wifi-udp
+    tests:
+     - role: server
+       test: wifi/udp_server/udp_server.ino
+     - role: client
+       test: wifi/udp_client/udp_client.ino
+    requires:
+      device:
+        - name: infineon:psoc6:cy8ckit_062s2_ai
+   
