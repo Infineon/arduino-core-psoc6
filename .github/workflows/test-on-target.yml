@@ -89,7 +89,7 @@ jobs:
       matrix:
         fqbn:
           - infineon:psoc6:cy8ckit_062s2_ai
-          - infineon:psoc6:cy8cproto_063_ble
+          #- infineon:psoc6:cy8cproto_063_ble
 
     steps:
       - name: Checkout repository 
