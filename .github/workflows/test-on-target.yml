@@ -153,7 +153,9 @@ jobs:
   
       - name: Run tests
         env:
-          FORCE_COLOR: "1"
+          # Keep colors but disable rich's live redraws, which show as one log line per spinner frame
+          TTY_COMPATIBLE: "1"
+          TTY_INTERACTIVE: "0"
           TERM: xterm-256color
         run: |
           ottu run --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml
