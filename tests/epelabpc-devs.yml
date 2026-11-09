@@ -12,3 +12,8 @@ devices:
 
   - name: infineon:psoc6:cy8ckit_062s2_ai
     uid: 1E0C075A012D2400
+
+  - name: infineon:psoc6:cy8cproto_063_ble
+    uid: 101219A4002A9400
+    features:
+      - digitalio
