@@ -158,4 +158,6 @@ jobs:
           TTY_INTERACTIVE: "0"
           TERM: xterm-256color
         run: |
-          ottu run --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml
+          set -o pipefail
+          # Strip the hide/show cursor escape codes that rich emits, which GitHub renders as "25l" / "25h"
+          ottu run --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml 2>&1 | sed -u 's/\x1b\[?25[lh]//g'
