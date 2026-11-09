@@ -88,13 +88,20 @@ jobs:
             build/*.zip
             build/*.json
 
-  setup-self-hosted-runner:
+  self-hosted-runner-setup:
     needs: ci-setup
     runs-on:
       group: EPE_BLR
-      labels: [self-hosted, linux, "hostname:epelabpc"]
+      labels: [self-hosted, linux]
+    outputs:
+      hostname: ${{ steps.host.outputs.hostname }}
 
     steps:
+      - name: Get runner hostname
+        id: host
+        run: |
+          echo "hostname=$(hostname)" >> $GITHUB_OUTPUT
+
       - name: Checkout repository 
         uses: actions/checkout@v7
 
@@ -149,10 +156,10 @@ jobs:
           arduino-cli lib install ottu-target
 
   on-target-tests:
-    needs: [ci-setup, setup-self-hosted-runner]
+    needs: [ci-setup, self-hosted-runner-setup]
     runs-on:
       group: EPE_BLR
-      labels: [self-hosted, linux, "hostname:epelabpc"]
+      labels: [self-hosted, linux, "hostname:${{ needs.self-hosted-runner-setup.outputs.hostname }}"]
 
     strategy:
       fail-fast: false
