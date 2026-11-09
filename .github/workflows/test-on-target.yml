@@ -166,4 +166,4 @@ jobs:
         run: |
           set -o pipefail
           # Strip the hide/show cursor escape codes that rich emits, which GitHub renders as "25l" / "25h"
-          ottu run pin-interrupts --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml 2>&1 | sed -u 's/\x1b\[?25[lh]//g'
+          ottu run pin-interrupts --device name=${{ matrix.fqbn}} --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml 2>&1 | sed -u 's/\x1b\[?25[lh]//g'
