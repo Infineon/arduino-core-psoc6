@@ -58,6 +58,13 @@ jobs:
           asset_type=$(python ./arduino-devops/arduino-release.py info asset-type)
           echo "asset_type="$asset_type"" >> $GITHUB_OUTPUT
 
+      - name: Set build matrix
+        id: set-matrix
+        run: |
+          matrix_fqbn=$(python ./arduino-devops/arduino-ci.py config --list fqbn)
+          echo "${matrix_fqbn}"
+          echo "matrix=${matrix_fqbn}" >> $GITHUB_OUTPUT
+
       # Steps only relevant for Arduino core
       - name: Core setup
         # if: ${{ inputs.core-setup-script  }} != null
@@ -79,7 +86,7 @@ jobs:
             build/*.zip
             build/*.json
 
-  compile-examples:
+  on-target-tests:
     needs: ci-setup
     runs-on:
       group: EPE_BLR
@@ -88,9 +95,7 @@ jobs:
     strategy:
       matrix:
         host: [epelabpc]
-        fqbn:
-          - infineon:psoc6:cy8ckit_062s2_ai
-          #- infineon:psoc6:cy8cproto_063_ble
+        fqbn: ${{fromJson(needs.ci-setup.outputs.matrix)}}
 
     steps:
       - name: Checkout repository 
@@ -160,4 +165,4 @@ jobs:
         run: |
           set -o pipefail
           # Strip the hide/show cursor escape codes that rich emits, which GitHub renders as "25l" / "25h"
-          ottu run --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml 2>&1 | sed -u 's/\x1b\[?25[lh]//g'
+          ottu run pin-interrupts --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml 2>&1 | sed -u 's/\x1b\[?25[lh]//g'
