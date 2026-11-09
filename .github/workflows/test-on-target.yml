@@ -31,6 +31,8 @@ on:
 jobs:  
   ci-setup:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
       - name: Checkout repository 
@@ -95,7 +97,7 @@ jobs:
     strategy:
       matrix:
         host: [epelabpc]
-        fqbn: ${{fromJson(needs.ci-setup.outputs.matrix)}}
+        fqbn: ${{ fromJson(needs.ci-setup.outputs.matrix).fqbn }}
 
     steps:
       - name: Checkout repository 
@@ -129,7 +131,6 @@ jobs:
           #${{ inputs.ci-setup-script }}
           git submodule update --init extras/arduino-core-tests
           
-
       - name: Install arduino-cli
         run: |
           python ./arduino-devops/arduino-cli-install.py 1.2.0
