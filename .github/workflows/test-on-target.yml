@@ -8,6 +8,7 @@ on:
 jobs:
   arduino-devops:
     uses: Infineon/arduino-devops/.github/workflows/test-on-target.yml@ottu-workflow
+    with:
       runner-group: EPE_BLR
       plan: tests/plan.yml
       core-setup-script: bash ./tools/dev-setup.sh
