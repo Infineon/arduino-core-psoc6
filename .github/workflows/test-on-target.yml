@@ -88,17 +88,11 @@ jobs:
             build/*.zip
             build/*.json
 
-  on-target-tests:
+  setup-self-hosted-runner:
     needs: ci-setup
     runs-on:
       group: EPE_BLR
-      labels: [self-hosted, linux, "hostname:${{ matrix.host }}"]
-
-    strategy:
-      fail-fast: false
-      matrix:
-        host: [epelabpc]
-        fqbn: ${{ fromJson(needs.ci-setup.outputs.matrix).fqbn }}
+      labels: [self-hosted, linux, "hostname:epelabpc"]
 
     steps:
       - name: Checkout repository 
@@ -153,11 +147,30 @@ jobs:
         run: |
           arduino-cli lib update-index
           arduino-cli lib install ottu-target
-          if [ "${{ steps.asset_info.outputs.asset_type }}" = "library" ]; then
-            python ./arduino-devops/arduino-ci.py core-install --fqbn ${{ matrix.fqbn }}
-            python ./arduino-devops/arduino-ci.py lib-deps-install
-          fi
-  
+
+  on-target-tests:
+    needs: [ci-setup, setup-self-hosted-runner]
+    runs-on:
+      group: EPE_BLR
+      labels: [self-hosted, linux, "hostname:epelabpc"]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        fqbn: ${{ fromJson(needs.ci-setup.outputs.matrix).fqbn }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Initialize test submodule
+        run: |
+          git submodule update --init extras/arduino-core-tests
+
+      - name: Add user-level pip scripts to PATH
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
       - name: Run tests
         env:
           # Keep colors but disable rich's live redraws, which show as one log line per spinner frame
@@ -167,4 +180,4 @@ jobs:
         run: |
           set -o pipefail
           # Strip the hide/show cursor escape codes that rich emits, which GitHub renders as "25l" / "25h"
-          ottu run pin-interrupts --device name=${{ matrix.fqbn}} --plan tests/plan.yml --dev-list tests/${{ matrix.host }}-devs.yml 2>&1 | sed -u 's/\x1b\[?25[lh]//g'
+          ottu run pin-interrupts --device name=${{ matrix.fqbn}} --plan tests/plan.yml --dev-list tests/$(hostname)-devs.yml 2>&1 | sed -u 's/\x1b\[?25[lh]//g'
