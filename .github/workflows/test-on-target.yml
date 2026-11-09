@@ -95,6 +95,7 @@ jobs:
       labels: [self-hosted, linux, "hostname:${{ matrix.host }}"]
 
     strategy:
+      fail-fast: false
       matrix:
         host: [epelabpc]
         fqbn: ${{ fromJson(needs.ci-setup.outputs.matrix).fqbn }}
