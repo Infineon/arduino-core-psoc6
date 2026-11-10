@@ -70,15 +70,9 @@
 [submodule "extras/arduino-examples"]
 	path = extras/arduino-examples
 	url = https://github.com/arduino/arduino-examples.git
-[submodule "extras/makers-devops"]
-	path = extras/makers-devops
-	url = https://github.com/Infineon/makers-devops.git
 [submodule "extras/arduino-core-tests"]
 	path = extras/arduino-core-tests
 	url = https://github.com/Infineon/arduino-core-tests.git
-[submodule "extras/arduino-devops"]
-	path = extras/arduino-devops
-	url = https://github.com/Infineon/arduino-devops.git
 [submodule "extras/mtb-libs/core-make"]
 	path = extras/mtb-libs/core-make
 	url = https://github.com/Infineon/core-make.git
