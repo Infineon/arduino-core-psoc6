@@ -17,3 +17,8 @@ devices:
     uid: 101219A4002A9400
     features:
       - digitalio
+  
+  - name: infineon:psoc6:cy8cproto_063_ble 
+    uid: 1D10159902152400
+    features:
+      - i2c-master
